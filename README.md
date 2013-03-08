@@ -1,2 +1,3 @@
-creating-processing-finding
-===========================
+Creating Systems, Processing Data, Finding Structure
+====================================================
+
