@@ -10,7 +10,7 @@ import quickhull3d.Point3d;
 import quickhull3d.QuickHull3D;
 
 
-public class SketchVoronoi
+public class SketchVoronoi3
         extends PApplet {
 
     private Vector3f[][] mRegions;
@@ -31,7 +31,7 @@ public class SketchVoronoi
 
 
     public void setup() {
-        size(800, 600, OPENGL);
+        size(1024, 768, OPENGL);
         frameRate(30);
         populatePointArray();
     }
@@ -150,6 +150,6 @@ public class SketchVoronoi
 
 
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchVoronoi.class.getName()});
+        PApplet.main(new String[] {SketchVoronoi3.class.getName()});
     }
 }

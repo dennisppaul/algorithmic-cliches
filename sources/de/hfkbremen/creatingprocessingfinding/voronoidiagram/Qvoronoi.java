@@ -8,6 +8,7 @@ import mathematik.Vector3f;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.Vector;
 
 
 public class Qvoronoi {
@@ -15,6 +16,8 @@ public class Qvoronoi {
     public static String QVORONOI_APP = "/opt/local/bin/qvoronoi";
 
     public static boolean VERBOSE = false;
+
+    private static final float VERTEX_AT_INFINITY = -10.101f;
 
 
     public String computeDiagram(int pDimensions, Vector3f[] pPoints) {
@@ -32,8 +35,13 @@ public class Qvoronoi {
             myOutputStream.write(String.valueOf(pPoints.length).getBytes());
             myOutputStream.write('\n');
             for (int i = 0; i < pPoints.length; i++) {
-                String myVectorString = (pPoints[i].x + " " + pPoints[i].y + " " + pPoints[i].z);
-                myOutputStream.write(myVectorString.getBytes());
+                if (pDimensions == 3) {
+                    String myVectorString = (pPoints[i].x + " " + pPoints[i].y + " " + pPoints[i].z);
+                    myOutputStream.write(myVectorString.getBytes());
+                } else if (pDimensions == 2) {
+                    String myVectorString = (pPoints[i].x + " " + pPoints[i].y);
+                    myOutputStream.write(myVectorString.getBytes());
+                }
                 myOutputStream.write('\n');
             }
             myOutputStream.close();
@@ -57,44 +65,92 @@ public class Qvoronoi {
     }
 
 
-    public Vector3f[][] parseRegions(String pRawResult) {
-        String[] myLines = pRawResult.split("\n");
-        final String[] mHeaderA = myLines[0].split(" ");
-        final String[] mHeaderB = myLines[1].split(" ");
-        int myDimensions = Integer.parseInt(mHeaderA[0]);
-        int myNumberOfVertices = Integer.parseInt(mHeaderB[0]);
-        int myNumberOfFaces = Integer.parseInt(mHeaderB[1]);
-        int myNumberOfRidges = Integer.parseInt(mHeaderB[2]);
-        Vector3f[] myVertices = new Vector3f[myNumberOfVertices];
-        Vector3f[][] myRegions = new Vector3f[myNumberOfFaces][];
-        int myVertexCounter = 0;
-        int myFacesCounter = 0;
+    public Vector3f[][] parseRegions(final String pRawResult, final int pDimesions) {
+//        if (pDimesions == 2) {
+//        System.out.println("---\n" + pRawResult);
+//        }
+
+        final String[] mResult = pRawResult.split("\n");
+        /* remove space */
+        for (int i = 0; i < mResult.length; i++) {
+            mResult[i] = mResult[i].trim().replaceAll(" +", " ");
+        }
+
+        /* header line 1 */
+        final int LINE_HEADER_A = 0;
+        final String[] mHeaderA = mResult[LINE_HEADER_A].split(" ");
+        if (mHeaderA.length == 0 || mHeaderA[0].isEmpty()) {
+            return null;
+        }
+        final int myDimensions = Integer.parseInt(mHeaderA[0]);
+
+        /* header line 2 */
+        final int LINE_HEADER_B = 1;
+        final String[] mHeaderB = mResult[LINE_HEADER_B].split(" ");
+        final int ELEMENT_NUMBER_OF_VERTICES = 0;
+        final int ELEMENT_NUMBER_OF_REGIONS = 1;
+        final int ELEMENT_NUMBER_OF_RIDGES = 2;
+        final int mNumberOfVertices = Integer.parseInt(mHeaderB[ELEMENT_NUMBER_OF_VERTICES]);
+        final int mNumberOfRegions = Integer.parseInt(mHeaderB[ELEMENT_NUMBER_OF_REGIONS]);
+        final int mNumberOfRidges = Integer.parseInt(mHeaderB[ELEMENT_NUMBER_OF_RIDGES]);
 
         /* vertices */
-        for (int i = 2; i < 2 + myNumberOfVertices; i++) {
-            String[] myWords = myLines[i].split(" ");
-            Vector3f myVertex = new Vector3f(Float.parseFloat(myWords[0]),
-                                             Float.parseFloat(myWords[1]),
-                                             Float.parseFloat(myWords[2]));
-            myVertices[myVertexCounter] = myVertex;
+        int myVertexCounter = 0;
+        int mVertexAtInfinityMarker = -1;
+        final int LINE_VERTEX_OFFSET = LINE_HEADER_B + 1;
+        final Vector3f[] myVertices = new Vector3f[mNumberOfVertices];
+        for (int i = LINE_VERTEX_OFFSET; i < mNumberOfVertices + LINE_VERTEX_OFFSET; i++) {
+            final String[] mVertexStr = mResult[i].split(" ");
+            final Vector3f mVertex = new Vector3f();
+            if (pDimesions == 3) {
+                mVertex.set(Float.parseFloat(mVertexStr[0]),
+                            Float.parseFloat(mVertexStr[1]),
+                            Float.parseFloat(mVertexStr[2]));
+                if (mVertex.x == VERTEX_AT_INFINITY
+                        && mVertex.y == VERTEX_AT_INFINITY
+                        && mVertex.z == VERTEX_AT_INFINITY) {
+                    mVertexAtInfinityMarker = myVertexCounter;
+                }
+            } else if (pDimesions == 2) {
+                mVertex.set(Float.parseFloat(mVertexStr[0]),
+                            Float.parseFloat(mVertexStr[1]),
+                            0);
+                if (mVertex.x == VERTEX_AT_INFINITY
+                        && mVertex.y == VERTEX_AT_INFINITY) {
+                    mVertexAtInfinityMarker = myVertexCounter;
+                }
+            }
+            myVertices[myVertexCounter] = mVertex;
             myVertexCounter++;
         }
 
         /* faces */
-        for (int i = 2 + myNumberOfVertices; i < myLines.length; i++) {
-            String[] myWords = myLines[i].split(" ");
-            myRegions[myFacesCounter] = new Vector3f[Integer.parseInt(myWords[0])];
-            for (int j = 1; j < myWords.length; j++) {
-                int myIndex = Integer.parseInt(myWords[j]);
-                if (myIndex == 0) {
-                    myIndex = Integer.parseInt(myWords[1]);
+        int mRegionsCounter = 0;
+        final int LINE_FACE_OFFSET = LINE_VERTEX_OFFSET + mNumberOfVertices;
+        final Vector<Vector3f[]> myRegions = new Vector<Vector3f[]>();
+        for (int i = LINE_FACE_OFFSET; i < LINE_FACE_OFFSET + mNumberOfRegions; i++) {
+            boolean mVertexAtInfinityMark = false;
+            final String[] mFaces = mResult[i].split(" ");
+            final int ENTRY_FACE_COUNT = 0;
+            final int mNumberOfFaces = Integer.parseInt(mFaces[ENTRY_FACE_COUNT]);
+            final Vector3f[] mRegion = new Vector3f[mNumberOfFaces];
+            for (int j = 0; j < mNumberOfFaces; j++) {
+                final int ENTRY_OFFSET = 1;
+                final int mIndex = Integer.parseInt(mFaces[j + ENTRY_OFFSET]);
+                if (mIndex == mVertexAtInfinityMarker) {
+                    mVertexAtInfinityMark = true;
                 }
-                myRegions[myFacesCounter][j - 1] = new Vector3f(myVertices[myIndex]);
+                mRegion[j] = new Vector3f(myVertices[mIndex]);
             }
-            myFacesCounter++;
+            if (!mVertexAtInfinityMark) {
+                myRegions.add(mRegion);
+                mRegionsCounter++;
+            }
         }
 
-        return myRegions;
+        final Vector3f[][] mRegionsArray = new Vector3f[myRegions.size()][];
+        myRegions.toArray(mRegionsArray);
+        return mRegionsArray;
     }
 
 
@@ -117,7 +173,8 @@ public class Qvoronoi {
         Vector3f[][] myCleanRegions = new Vector3f[myNonCulledCounter][];
         for (int i = 0; i < myNonCulledCounter; i++) {
             myCleanRegions[i] = new Vector3f[pRegions[myNonCulledRegions[i]].length];
-            System.arraycopy(pRegions[myNonCulledRegions[i]], 0, myCleanRegions[i], 0,
+            System.arraycopy(pRegions[myNonCulledRegions[i]], 0,
+                             myCleanRegions[i], 0,
                              pRegions[myNonCulledRegions[i]].length);
         }
         return myCleanRegions;
@@ -126,11 +183,11 @@ public class Qvoronoi {
 
     public boolean isWithInBox(Vector3f pVertex, Vector3f pBox) {
         if (pVertex.x > -pBox.x / 2
-                && pVertex.x < pBox.x / 2
-                && pVertex.y > -pBox.y / 2
-                && pVertex.y < pBox.y / 2
-                && pVertex.z > -pBox.z / 2
-                && pVertex.z < pBox.z / 2) {
+                && pVertex.x <= pBox.x / 2
+                && pVertex.y >= -pBox.y / 2
+                && pVertex.y <= pBox.y / 2
+                && pVertex.z >= -pBox.z / 2
+                && pVertex.z <= pBox.z / 2) {
             return true;
         }
         return false;
@@ -139,7 +196,13 @@ public class Qvoronoi {
 
     public Vector3f[][] calculate3(Vector3f[] pPoints) {
         final String mData = computeDiagram(3, pPoints);
-        return parseRegions(mData);
+        return parseRegions(mData, 3);
+    }
+
+
+    public Vector3f[][] calculate2(Vector3f[] pPoints) {
+        final String mData = computeDiagram(2, pPoints);
+        return parseRegions(mData, 2);
     }
 
 
@@ -158,6 +221,16 @@ public class Qvoronoi {
 
         Qvoronoi myQhull = new Qvoronoi();
         String myResult = myQhull.computeDiagram(3, myTestData);
+        Vector3f[][] mDiagram = myQhull.parseRegions(myResult, 3);
         System.out.println(myResult);
+
+        for (int i = 0; i < mDiagram.length; i++) {
+            Vector3f[] mRegions = mDiagram[i];
+            for (int j = 0; j < mRegions.length; j++) {
+                final Vector3f v = mRegions[j];
+                System.out.println(v);
+            }
+            System.out.println("---");
+        }
     }
 }
