@@ -10,39 +10,34 @@ import processing.core.PApplet;
 import java.util.Vector;
 
 
-public class SketchSimpleOctreeDemo
+public class SketchOctree
         extends PApplet {
 
-    // mOctree dimensions
-    private float DIM = 100;
+    private final int NUMBER_OF_PARTICLES_ADDED = 10000;
 
-    private float DIM2 = DIM / 2;
+    private MVisibleOctree mOctree;
+
+    private float mOctreeSize = 100;
 
     private float mSelectRadius = 20;
-
-    private int NUM = 100;
 
     private boolean showOctree = true;
 
     private boolean useSphere = true;
 
-    private float mRotationX = THIRD_PI;
-
     private float mRotationZ = 0.1f;
 
-    VisibleOctree mOctree;
+    private Vector3f mPosition = new Vector3f();
 
-    Vector3f mPosition = new Vector3f();
-
-    int numParticles = 1;
+    private int numParticles = 1;
 
 
     public void setup() {
         size(1024, 768, OPENGL);
         textFont(createFont("Courier", 11));
 
-        mOctree = new VisibleOctree(mathematik.Util.scale(new Vector3f(-1, -1, -1), DIM2), DIM);
-        mOctree.addPoint(new Vector3f());
+        mOctree = new MVisibleOctree(new Vector3f(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
+        mOctree.add(new MOctreeEntity());
     }
 
 
@@ -56,29 +51,33 @@ public class SketchSimpleOctreeDemo
         if (mousePressed) {
             mRotationZ += (mouseX * 0.01f - mRotationZ) * 0.05f;
         } else {
-            mPosition.x = -(width * 0.5f - mouseX) / (width / 2) * DIM2;
-            mPosition.y = -(height * 0.5f - mouseY) / (height / 2) * DIM2;
+            mPosition.x = -(width * 0.5f - mouseX) / (width / 2) * mOctreeSize / 2;
+            mPosition.y = -(height * 0.5f - mouseY) / (height / 2) * mOctreeSize / 2;
         }
-        rotateX(mRotationX);
+        rotateX(THIRD_PI);
         rotateZ(mRotationZ);
         scale(4);
 
-        /* get points from octree */
-        Vector<Vector3f> points;
+        /* get entities from octree */
+        Vector<OctreeEntity> mEntities;
         if (useSphere) {
-            points = mOctree.getPointsWithinSphere(mPosition, mSelectRadius);
+            mEntities = mOctree.getEntitesWithinSphere(mPosition, mSelectRadius);
         } else {
-            points = mOctree.getPointsWithinBox(mPosition, new Vector3f(mSelectRadius / 2, mSelectRadius / 2, mSelectRadius / 2));
+            mEntities = mOctree.getEntitiesWithinBox(mPosition, new Vector3f(mSelectRadius / 2,
+                                                                             mSelectRadius / 2,
+                                                                             mSelectRadius / 2));
         }
 
-        /* draw points */
+        /* draw entities */
         int mNumberOfPointsSelected = 0;
         stroke(0, 127, 255, 127);
         noFill();
-        if (points != null) {
-            mNumberOfPointsSelected = points.size();
-            for (Vector3f p : points) {
-                drawCross(p, 1.0f);
+        if (mEntities != null) {
+            mNumberOfPointsSelected = mEntities.size();
+            for (OctreeEntity mEntity : mEntities) {
+                MOctreeEntity m = (MOctreeEntity)mEntity;
+                stroke(m.color);
+                drawCross(mEntity.position(), 1.0f);
             }
         }
 
@@ -93,10 +92,10 @@ public class SketchSimpleOctreeDemo
         stroke(255, 0, 0, 63);
         noFill();
         beginShape(LINES);
-        vertex(mPosition.x, -DIM2, 0);
-        vertex(mPosition.x, DIM2, 0);
-        vertex(-DIM2, mPosition.y, 0);
-        vertex(DIM2, mPosition.y, 0);
+        vertex(mPosition.x, -mOctreeSize / 2, 0);
+        vertex(mPosition.x, mOctreeSize / 2, 0);
+        vertex(-mOctreeSize / 2, mPosition.y, 0);
+        vertex(mOctreeSize / 2, mPosition.y, 0);
         endShape();
 
         /* draw selection sphere */
@@ -124,33 +123,49 @@ public class SketchSimpleOctreeDemo
 
     public void keyPressed() {
         if (key == ' ') {
-            for (int i = 0; i < NUM; i++) {
-                final Vector3f v = new Vector3f();
-                v.x = random(-DIM2, DIM2);
-                v.y = random(-DIM2, DIM2);
-                v.z = random(-DIM2, DIM2);
-                mOctree.addPoint(v);
+            for (int i = 0; i < NUMBER_OF_PARTICLES_ADDED; i++) {
+                MOctreeEntity mEntity = new MOctreeEntity();
+                mEntity.position().x = random(-mOctreeSize / 2, mOctreeSize / 2);
+                mEntity.position().y = random(-mOctreeSize / 2, mOctreeSize / 2);
+                mEntity.position().z = random(-mOctreeSize / 2, mOctreeSize / 2);
+                mOctree.add(mEntity);
             }
-            numParticles += NUM;
+            numParticles += NUMBER_OF_PARTICLES_ADDED;
         } else if (key == 's') {
             useSphere = !useSphere;
         } else if (key == 'o') {
             showOctree = !showOctree;
         } else if (key == '-') {
             mSelectRadius = max(mSelectRadius - 1, 2);
-        } else if (key == '=') {
-            mSelectRadius = min(mSelectRadius + 1, DIM);
+        } else if (key == '+') {
+            mSelectRadius = min(mSelectRadius + 1, mOctreeSize);
         } else if (key == 'c') {
+            mOctree.auto_reduction(true);
             mOctree.removeAll();
+            mOctree.auto_reduction(false);
             numParticles = 0;
         }
     }
 
 
-    class VisibleOctree
+    class MOctreeEntity
+            implements OctreeEntity {
+
+        Vector3f position = new Vector3f();
+
+        int color = color(0, 127, random(0, 255), 127);
+
+
+        public Vector3f position() {
+            return position;
+        }
+    }
+
+
+    class MVisibleOctree
             extends Octree {
 
-        VisibleOctree(Vector3f o, float d) {
+        MVisibleOctree(Vector3f o, float d) {
             super(o, d);
         }
 
@@ -178,6 +193,6 @@ public class SketchSimpleOctreeDemo
 
 
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchSimpleOctreeDemo.class.getName()});
+        PApplet.main(new String[] {SketchOctree.class.getName()});
     }
 }

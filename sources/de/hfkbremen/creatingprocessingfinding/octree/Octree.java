@@ -59,7 +59,7 @@ public class Octree {
 
     private byte mNumberOfChildren;
 
-    private Vector<Vector3f> mPoints;
+    private Vector<OctreeEntity> mEntities;
 
     private float mSize;
 
@@ -73,7 +73,7 @@ public class Octree {
 
     private int mDepth = 0;
 
-    private boolean isAutoReducing = true;
+    private boolean isAutoReducing = false;
 
 
     private Octree(Octree pParentOctree,
@@ -98,9 +98,9 @@ public class Octree {
     }
 
 
-    public Octree(Vector3f o, float size) {
+    public Octree(Vector3f pOffset, float pSize) {
         /* Constructs a new Octree node within the cube volume. */
-        this(null, o, size * 0.5f);
+        this(null, pOffset, pSize * 0.5f);
     }
 
 
@@ -114,40 +114,40 @@ public class Octree {
     }
 
 
-    public boolean addAll(Collection<Vector3f> points) {
+    public boolean addAll(Collection<OctreeEntity> mEntities) {
         boolean addedAll = true;
-        for (Vector3f p : points) {
-            addedAll &= addPoint(p);
+        for (OctreeEntity p : mEntities) {
+            addedAll &= add(p);
         }
         return addedAll;
     }
 
 
-    public boolean addPoint(Vector3f p) {
-        if (isPointInBox(p, mOrigin, mScale)) {
-            // only add points to leaves for now
+    public boolean add(OctreeEntity pEntity) {
+        if (isPointInBox(pEntity.position(), mOrigin, mScale)) {
+            // only add entities to leaves for now
             if (mHalfSize <= mMinNodeSize) {
-                if (mPoints == null) {
-                    mPoints = new Vector<Vector3f>();
+                if (mEntities == null) {
+                    mEntities = new Vector<OctreeEntity>();
                 }
-                mPoints.add(p);
+                mEntities.add(pEntity);
                 return true;
             } else {
-                Vector3f plocal = mathematik.Util.sub(p, mOffset);
+                final Vector3f pLocalPosition = mathematik.Util.sub(pEntity.position(), mOffset);
                 if (mChildren == null) {
                     mChildren = new Octree[NUMBER_OF_CHILDREN];
                 }
-                int octant = getOctantID(plocal);
-                if (mChildren[octant] == null) {
+                final int mOctant = getOctantID(pLocalPosition);
+                if (mChildren[mOctant] == null) {
                     Vector3f off = mathematik.Util.add(mOffset,
-                                                       new Vector3f((octant & 1) != 0 ? mHalfSize : 0,
-                                                                    (octant & 2) != 0 ? mHalfSize : 0,
-                                                                    (octant & 4) != 0 ? mHalfSize : 0));
-                    mChildren[octant] = new Octree(this, off,
-                                                   mHalfSize * 0.5f);
+                                                       new Vector3f((mOctant & 1) != 0 ? mHalfSize : 0,
+                                                                    (mOctant & 2) != 0 ? mHalfSize : 0,
+                                                                    (mOctant & 4) != 0 ? mHalfSize : 0));
+                    mChildren[mOctant] = new Octree(this, off,
+                                                    mHalfSize * 0.5f);
                     mNumberOfChildren++;
                 }
-                return mChildren[octant].addPoint(p);
+                return mChildren[mOctant].add(pEntity);
             }
         }
         return false;
@@ -172,15 +172,15 @@ public class Octree {
     }
 
 
-    private Octree getLeafForPoint(Vector3f p) {
+    private Octree getLeafForEntity(OctreeEntity pEntity) {
         /* Finds the leaf node which spatially relates to the given point */
-        if (isPointInBox(p, mOrigin, mScale)) {
+        if (isPointInBox(pEntity.position(), mOrigin, mScale)) {
             if (mNumberOfChildren > 0) {
-                int octant = getOctantID(mathematik.Util.sub(p, mOffset));
+                int octant = getOctantID(mathematik.Util.sub(pEntity.position(), mOffset));
                 if (mChildren[octant] != null) {
-                    return mChildren[octant].getLeafForPoint(p);
+                    return mChildren[octant].getLeafForEntity(pEntity);
                 }
-            } else if (mPoints != null) {
+            } else if (mEntities != null) {
                 return this;
             }
         }
@@ -206,14 +206,7 @@ public class Octree {
     }
 
 
-    private void empty() {
-        mNumberOfChildren = 0;
-        mChildren = null;
-        mPoints = null;
-    }
-
-
-    private Vector3f offset() {
+    public Vector3f offset() {
         return mOffset;
     }
 
@@ -223,17 +216,22 @@ public class Octree {
     }
 
 
-    public Vector<Vector3f> points() {
-        Vector<Vector3f> results = null;
-        if (mPoints != null) {
-            results = new Vector<Vector3f>(mPoints);
+    public float size() {
+        return mSize;
+    }
+
+
+    public Vector<OctreeEntity> entities() {
+        Vector<OctreeEntity> results = null;
+        if (mEntities != null) {
+            results = new Vector<OctreeEntity>(mEntities);
         } else if (mNumberOfChildren > 0) {
             for (int i = 0; i < NUMBER_OF_CHILDREN; i++) {
                 if (mChildren[i] != null) {
-                    List<Vector3f> childPoints = mChildren[i].points();
+                    Vector<OctreeEntity> childPoints = mChildren[i].entities();
                     if (childPoints != null) {
                         if (results == null) {
-                            results = new Vector<Vector3f>();
+                            results = new Vector<OctreeEntity>();
                         }
                         results.addAll(childPoints);
                     }
@@ -244,30 +242,25 @@ public class Octree {
     }
 
 
-    public float size() {
-        return mSize;
-    }
-
-
-    public Vector<Vector3f> getPointsWithinBox(Vector3f pBoxOrigin, Vector3f pBoxScale) {
-        Vector<Vector3f> mResults = null;
+    public Vector<OctreeEntity> getEntitiesWithinBox(Vector3f pBoxOrigin, Vector3f pBoxScale) {
+        Vector<OctreeEntity> mResults = null;
         if (intersectsBox(origin(), scale(), pBoxOrigin, pBoxScale)) {
-            if (mPoints != null) {
-                for (Vector3f q : mPoints) {
-                    if (isPointInBox(q, origin(), scale())) {
+            if (mEntities != null) {
+                for (OctreeEntity mEntity : mEntities) {
+                    if (isPointInBox(mEntity.position(), origin(), scale())) {
                         if (mResults == null) {
-                            mResults = new Vector<Vector3f>();
+                            mResults = new Vector<OctreeEntity>();
                         }
-                        mResults.add(q);
+                        mResults.add(mEntity);
                     }
                 }
             } else if (mNumberOfChildren > 0) {
                 for (int i = 0; i < NUMBER_OF_CHILDREN; i++) {
                     if (mChildren[i] != null) {
-                        Vector<Vector3f> mChildrenPoints = mChildren[i].getPointsWithinBox(pBoxOrigin, pBoxScale);
+                        Vector<OctreeEntity> mChildrenPoints = mChildren[i].getEntitiesWithinBox(pBoxOrigin, pBoxScale);
                         if (mChildrenPoints != null) {
                             if (mResults == null) {
-                                mResults = new Vector<Vector3f>();
+                                mResults = new Vector<OctreeEntity>();
                             }
                             mResults.addAll(mChildrenPoints);
                         }
@@ -279,25 +272,25 @@ public class Octree {
     }
 
 
-    public Vector<Vector3f> getPointsWithinSphere(Vector3f pSphereOrigin, float pSphereRadius) {
-        Vector<Vector3f> results = null;
+    public Vector<OctreeEntity> getEntitesWithinSphere(Vector3f pSphereOrigin, float pSphereRadius) {
+        Vector<OctreeEntity> results = null;
         if (isBoxIntersectingSphere(origin(), scale(), pSphereOrigin, pSphereRadius)) {
-            if (mPoints != null) {
-                for (Vector3f q : mPoints) {
-                    if (isPointInSphere(q, pSphereOrigin, pSphereRadius)) {
+            if (mEntities != null) {
+                for (OctreeEntity mEntity : mEntities) {
+                    if (isPointInSphere(mEntity.position(), pSphereOrigin, pSphereRadius)) {
                         if (results == null) {
-                            results = new Vector<Vector3f>();
+                            results = new Vector<OctreeEntity>();
                         }
-                        results.add(q);
+                        results.add(mEntity);
                     }
                 }
             } else if (mNumberOfChildren > 0) {
                 for (int i = 0; i < NUMBER_OF_CHILDREN; i++) {
                     if (mChildren[i] != null) {
-                        Vector<Vector3f> mChildrenPoints = mChildren[i].getPointsWithinSphere(pSphereOrigin, pSphereRadius);
+                        Vector<OctreeEntity> mChildrenPoints = mChildren[i].getEntitesWithinSphere(pSphereOrigin, pSphereRadius);
                         if (mChildrenPoints != null) {
                             if (results == null) {
-                                results = new Vector<Vector3f>();
+                                results = new Vector<OctreeEntity>();
                             }
                             results.addAll(mChildrenPoints);
                         }
@@ -310,12 +303,12 @@ public class Octree {
 
 
     private void reduceBranch() {
-        if (mPoints != null && mPoints.isEmpty()) {
-            mPoints = null;
+        if (mEntities != null && mEntities.isEmpty()) {
+            mEntities = null;
         }
         if (mNumberOfChildren > 0) {
             for (int i = 0; i < NUMBER_OF_CHILDREN; i++) {
-                if (mChildren[i] != null && mChildren[i].mPoints == null) {
+                if (mChildren[i] != null && mChildren[i].mEntities == null) {
                     mChildren[i] = null;
                 }
             }
@@ -326,14 +319,14 @@ public class Octree {
     }
 
 
-    public boolean remove(Vector3f pPoint) {
+    public boolean remove(OctreeEntity pEntity) {
         /* Removes a point from the tree and (optionally) tries to release memory by reducing now empty sub-branches. */
         boolean mFoundPoint = false;
-        final Octree mLeaf = getLeafForPoint(pPoint);
+        final Octree mLeaf = getLeafForEntity(pEntity);
         if (mLeaf != null) {
-            if (mLeaf.mPoints.remove(pPoint)) {
+            if (mLeaf.mEntities.remove(pEntity)) {
                 mFoundPoint = true;
-                if (isAutoReducing && mLeaf.mPoints.isEmpty()) {
+                if (isAutoReducing && mLeaf.mEntities.isEmpty()) {
                     mLeaf.reduceBranch();
                 }
             }
@@ -342,25 +335,25 @@ public class Octree {
     }
 
 
-    public void remove(Collection<Vector3f> pPoints) {
-        for (Vector3f p : pPoints) {
+    public void remove(Collection<OctreeEntity> pEntities) {
+        for (OctreeEntity p : pEntities) {
             remove(p);
         }
     }
 
 
     public void removeAll() {
-        if (points() != null) {
-            for (Vector3f p : points()) {
+        if (entities() != null) {
+            for (OctreeEntity p : entities()) {
                 remove(p);
             }
         }
     }
 
 
-    public void setTreeAutoReduction(boolean state) {
-        /* Enables/disables auto reduction of branches after points have been deleted from the tree. Turned off by default. */
-        isAutoReducing = state;
+    public void auto_reduction(boolean pState) {
+        /* Enables/disables auto reduction of branches after entities have been deleted from the tree. Turned off by default. */
+        isAutoReducing = pState;
     }
 
 
