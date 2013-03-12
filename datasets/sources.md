@@ -12,6 +12,6 @@ Datasets and Sources
 | GPA-per-capita-population-1990-desc.csv | source unknown. probably [OECD iLibrary](http://stats.oecd.org/Index.aspx?DatasetCode=DECOMP). |
 | World_Nuclear_Power_Plants_in_Operation.xls | [World Nuclear Power Plants in Operation](http://www.nei.org/filefolder/World_Nuclear_Power_Plants_in_Operation.xls) |
 | german.txt.zip | [Free German Dictionary](http://germandict.sourceforge.net/) |
-| top1000de.csv | Liste der häufigsten Wörter der deutschen Sprache [Wortschatz Uni - Leipzig ](http://wortschatz.uni-leipzig.de/html/wliste.html) inspired by [Up Goer Five](http://xkcd.com/1133/) |
+| top1000de.txt + top1000en.txt| Liste der häufigsten Wörter der deutschen + englischen Sprache [Wortschatz Uni - Leipzig ](http://wortschatz.uni-leipzig.de/html/wliste.html) + inspired by [Up Goer Five](http://xkcd.com/1133/) |
 
 maybe also interesting [myfnetwork](http://apps.facebook.com/myfnetwork/) _Visualize your Facebook network!_ and download connections as JSON.
