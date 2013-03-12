@@ -106,6 +106,7 @@ public class SketchOctree
         sphere(mSelectRadius);
         popMatrix();
 
+        /* draw info */
         fill(0);
         noStroke();
         text("POINTS   : " + numParticles, 10, 12);

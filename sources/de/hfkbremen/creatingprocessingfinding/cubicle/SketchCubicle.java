@@ -153,24 +153,24 @@ public class SketchCubicle
 
         int color = color(0, 127, random(0, 255), 127);
 
-        private Vector3i _myCubiclePosition;
+        private Vector3i mCubicalPosition;
 
-        private final Vector3f _myPosition;
+        private final Vector3f mPosition;
 
 
         public MCubicleEntity() {
-            _myCubiclePosition = new Vector3i();
-            _myPosition = new Vector3f();
+            mCubicalPosition = new Vector3i();
+            mPosition = new Vector3f();
         }
 
 
         public Vector3i cubicle() {
-            return _myCubiclePosition;
+            return mCubicalPosition;
         }
 
 
         public Vector3f position() {
-            return _myPosition;
+            return mPosition;
         }
 
 
