@@ -12,8 +12,6 @@ import processing.core.PApplet;
 
 public class ArcBall {
 
-    public static boolean DONT_REGISTER = false;
-
     private final PApplet _myParent;
 
     private final Vector3f _myCenter;
@@ -33,12 +31,17 @@ public class ArcBall {
     private boolean _myLastActiveState = false;
 
 
-    public ArcBall(PApplet parent) {
+    public ArcBall(PApplet parent, boolean pDONT_REGISTER) {
         this(parent.g.width / 2.0f,
              parent.g.height / 2.0f,
              -Math.min(parent.g.width / 2.0f, parent.g.height / 2.0f),
              Math.min(parent.g.width / 2.0f, parent.g.height / 2.0f),
-             parent);
+             parent, pDONT_REGISTER);
+    }
+
+
+    public ArcBall(PApplet parent) {
+        this(parent, false);
     }
 
 
@@ -46,18 +49,20 @@ public class ArcBall {
                    float theCenterY,
                    float theCenterZ,
                    float theRadius,
-                   PApplet theParent) {
-        this(new Vector3f(theCenterX, theCenterY, theCenterZ), theRadius, theParent);
+                   PApplet theParent,
+                   boolean pDONT_REGISTER) {
+        this(new Vector3f(theCenterX, theCenterY, theCenterZ), theRadius, theParent, pDONT_REGISTER);
     }
 
 
     public ArcBall(final Vector3f theCenter,
                    final float theRadius,
-                   final PApplet theParent) {
+                   final PApplet theParent,
+                   boolean pDONT_REGISTER) {
 
         _myParent = theParent;
 
-        if (!DONT_REGISTER) {
+        if (!pDONT_REGISTER) {
             theParent.registerPre(this);
         }
 
@@ -98,7 +103,6 @@ public class ArcBall {
             mouseDragged(theX, theY);
         } else {
             if (_myLastActiveState) {
-                System.out.println("!");
             }
         }
         _myLastActiveState = theActiveState;

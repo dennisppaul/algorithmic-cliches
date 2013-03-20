@@ -1,6 +1,6 @@
 
 
-package de.hfkbremen.creatingprocessingfinding.fluid;
+package de.hfkbremen.creatingprocessingfinding.fluiddynamics;
 
 
 import processing.core.PApplet;
@@ -8,35 +8,35 @@ import processing.core.PApplet;
 
 public class SketchFluidDynamics2D
         extends PApplet {
-    
+
     private boolean showDensity = true;
-    
+
     private boolean showVelocity = true;
-    
+
     private FluidDynamics mFluid;
-    
-    
+
+
     public void setup() {
         size(1024, 768, OPENGL);
         noStroke();
         textFont(createFont("Courier", 11));
-        
+
         mFluid = new FluidDynamics(96, 72);
         mFluid.diffusion(0.0003f);
         mFluid.drag(0.995f);
     }
-    
-    
+
+
     public void draw() {
         background(255);
-        
+
         float mDeltaTime = 1.0f / frameRate;
         mFluid.update(mDeltaTime);
-        
+
         if (mousePressed) {
             int x = (mouseX * mFluid.width()) / (width) + 1;
             int y = (mouseY * mFluid.height()) / (height) + 1;
-            
+
             if (mouseButton == LEFT) {
                 final float vX = (mouseX - pmouseX) * 0.01f;
                 final float vY = (mouseY - pmouseY) * 0.01f;
@@ -46,7 +46,7 @@ public class SketchFluidDynamics2D
                 mFluid.setDensityArea(x, y, range(abs(m), 0, 1), 5);
             }
         }
-        
+
         if (showVelocity) {
             noFill();
             stroke(0, 127, 255, 63);
@@ -55,7 +55,7 @@ public class SketchFluidDynamics2D
             mFluid.drawVelocity(g);
             popMatrix();
         }
-        
+
         if (showDensity) {
             noStroke();
             pushMatrix();
@@ -63,29 +63,29 @@ public class SketchFluidDynamics2D
             mFluid.drawDensity(g, color(255, 127, 0, 225));
             popMatrix();
         }
-        
+
         noStroke();
         fill(127);
         text("VISCOSITY: " + mFluid.viscosity() * 100, 10, 12);
         text("DIFFUSION: " + mFluid.diffusion() * 100, 10, 24);
         text("FPS      : " + (int)frameRate, 10, 36);
     }
-    
-    
+
+
     public void keyPressed() {
-        
+
         if (key == 'v') {
             showVelocity = !showVelocity;
         }
-        
+
         if (key == 'd') {
             showDensity = !showDensity;
         }
-        
+
         if (key == 'r') {
             mFluid.reset();
         }
-        
+
         if (key == '+') {
             mFluid.viscosity(mFluid.viscosity() + 0.00001f);
         }
@@ -101,13 +101,13 @@ public class SketchFluidDynamics2D
         mFluid.viscosity(max(mFluid.viscosity(), 0.0f));
         mFluid.diffusion(max(mFluid.diffusion(), 0.0f));
     }
-    
-    
+
+
     private float range(float f, float minf, float maxf) {
         return Math.max(Math.min(f, maxf), minf);
     }
-    
-    
+
+
     public static void main(String[] args) {
         PApplet.main(new String[] {SketchFluidDynamics2D.class.getName()});
     }

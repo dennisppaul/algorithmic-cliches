@@ -25,7 +25,7 @@ public class SketchIsoSurface3
         size(1024, 768, OPENGL);
         textFont(createFont("Courier", 11));
 
-        new ArcBall(width * 0.5f, height * 0.5f, 0.0f, 400.0f, this);
+        new ArcBall(width * 0.5f, height * 0.5f, 0.0f, 400.0f, this, true);
 
         mMetaballManager = new MetaballManager();
         mMetaballManager.dimension.set(width, height, height);

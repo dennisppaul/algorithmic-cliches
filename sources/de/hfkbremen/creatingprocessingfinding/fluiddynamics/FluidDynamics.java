@@ -1,6 +1,6 @@
 
 
-package de.hfkbremen.creatingprocessingfinding.fluid;
+package de.hfkbremen.creatingprocessingfinding.fluiddynamics;
 
 
 import processing.core.PGraphics;

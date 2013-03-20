@@ -9,7 +9,7 @@ import mathematik.Vector3i;
 import processing.core.PApplet;
 import teilchen.cubicle.CubicleWorld;
 import teilchen.cubicle.ICubicleEntity;
-import teilchen.util.P5CubicleWorldView;
+import teilchen.util.CubicleWorldView;
 
 import java.util.Vector;
 
@@ -19,9 +19,13 @@ public class SketchCubicle
 
     private final int NUMBER_OF_PARTICLES_ADDED = 100;
 
-    private final int WORLD_NUMBER_OF_CUBICLES = 15;
+    private final int WORLD_NUMBER_OF_CUBICLES_X = 1024 / 64;
 
-    private final float WORLD_CUBICLE_SCALE = 20;
+    private final int WORLD_NUMBER_OF_CUBICLES_Y = 768 / 64;
+
+    private final int WORLD_NUMBER_OF_CUBICLES_Z = 768 / 64;
+
+    private final float WORLD_CUBICLE_SCALE = 32;
 
     private boolean showCubicles = true;
 
@@ -33,7 +37,7 @@ public class SketchCubicle
 
     private CubicleWorld mCubicleWorld;
 
-    private P5CubicleWorldView mCubicleWorldView;
+    private CubicleWorldView mCubicleWorldView;
 
 
     public void setup() {
@@ -43,13 +47,15 @@ public class SketchCubicle
         hint(DISABLE_DEPTH_TEST);
 
         /* setup world */
-        mCubicleWorld = new CubicleWorld(WORLD_NUMBER_OF_CUBICLES, WORLD_NUMBER_OF_CUBICLES, WORLD_NUMBER_OF_CUBICLES);
+        mCubicleWorld = new CubicleWorld(WORLD_NUMBER_OF_CUBICLES_X,
+                                         WORLD_NUMBER_OF_CUBICLES_Y,
+                                         WORLD_NUMBER_OF_CUBICLES_Z);
         mCubicleWorld.cellscale().set(WORLD_CUBICLE_SCALE, WORLD_CUBICLE_SCALE, WORLD_CUBICLE_SCALE);
-        mCubicleWorld.transform().translation.set(-WORLD_NUMBER_OF_CUBICLES * mCubicleWorld.cellscale().x / 2,
-                                                  -WORLD_NUMBER_OF_CUBICLES * mCubicleWorld.cellscale().y / 2,
-                                                  -WORLD_NUMBER_OF_CUBICLES * mCubicleWorld.cellscale().z / 2);
+        mCubicleWorld.transform().translation.set(-WORLD_NUMBER_OF_CUBICLES_X * mCubicleWorld.cellscale().x / 2,
+                                                  -WORLD_NUMBER_OF_CUBICLES_Y * mCubicleWorld.cellscale().y / 2,
+                                                  -WORLD_NUMBER_OF_CUBICLES_Z * mCubicleWorld.cellscale().z / 2);
 
-        mCubicleWorldView = new P5CubicleWorldView(mCubicleWorld);
+        mCubicleWorldView = new CubicleWorldView(mCubicleWorld);
         mCubicleWorldView.color_empty = color(0, 1);
         mCubicleWorldView.color_full = color(0, 4);
 
@@ -81,7 +87,7 @@ public class SketchCubicle
         if (showCubicles) {
             stroke(0, 127);
             noFill();
-            mCubicleWorldView.draw(this);
+            mCubicleWorldView.draw(g);
         }
 
         /* draw entities */
@@ -101,10 +107,10 @@ public class SketchCubicle
         stroke(255, 0, 0, 63);
         noFill();
         beginShape(LINES);
-        vertex(mPosition.x, -WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, 0);
-        vertex(mPosition.x, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, 0);
-        vertex(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, mPosition.y, 0);
-        vertex(WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, mPosition.y, 0);
+        vertex(mPosition.x, -WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2, 0);
+        vertex(mPosition.x, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2, 0);
+        vertex(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2, mPosition.y, 0);
+        vertex(WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2, mPosition.y, 0);
         endShape();
 
         /* draw selection sphere */
@@ -133,9 +139,9 @@ public class SketchCubicle
         if (key == ' ') {
             for (int i = 0; i < NUMBER_OF_PARTICLES_ADDED; i++) {
                 MCubicleEntity mEntity = new MCubicleEntity();
-                mEntity.position().x = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2);
-                mEntity.position().y = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2);
-                mEntity.position().z = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES / 2);
+                mEntity.position().x = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_X / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_X / 2);
+                mEntity.position().y = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2);
+                mEntity.position().z = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Z / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Z / 2);
                 mCubicleWorld.add(mEntity);
             }
             numParticles += NUMBER_OF_PARTICLES_ADDED;
