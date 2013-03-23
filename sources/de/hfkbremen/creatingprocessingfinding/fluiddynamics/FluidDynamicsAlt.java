@@ -1,17 +1,6 @@
-/*
- *
- * Quelle
- *
- * Copyright (C) 2009 The Product, Patrick Kochlik + Dennis Paul
- *
- */
 
 
 package de.hfkbremen.creatingprocessingfinding.fluiddynamics;
-
-
-import org.theproduct.vw.autostadt.nachhaltigkeit.quelle.sketches.watersurface.*;
-
 
 
 /*

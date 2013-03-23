@@ -6,7 +6,7 @@ package de.hfkbremen.creatingprocessingfinding.fluiddynamics;
 import processing.core.PApplet;
 
 
-public class SketchFluidDynamics2D
+public class SketchFluidDynamics2
         extends PApplet {
 
     private boolean showDensity = true;
@@ -109,6 +109,6 @@ public class SketchFluidDynamics2D
 
 
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchFluidDynamics2D.class.getName()});
+        PApplet.main(new String[] {SketchFluidDynamics2.class.getName()});
     }
 }
