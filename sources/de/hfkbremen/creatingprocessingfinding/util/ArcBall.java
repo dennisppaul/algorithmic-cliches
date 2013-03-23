@@ -12,23 +12,23 @@ import processing.core.PApplet;
 
 public class ArcBall {
 
-    private final PApplet _myParent;
+    private final PApplet mParent;
 
-    private final Vector3f _myCenter;
+    private final Vector3f mCenter;
 
-    private float _myRadius;
+    private float mRadius;
 
-    private final Vector3f _myDownPosition;
+    private final Vector3f mDownPosition;
 
-    private final Vector3f _myDragPosition;
+    private final Vector3f mDragPosition;
 
-    private Quaternion _myCurrentQuaternion;
+    private Quaternion mCurrentQuaternion;
 
-    private Quaternion _myDownQuaternion;
+    private Quaternion mDownQuaternion;
 
-    private Quaternion _myDragQuaternion;
+    private Quaternion mDragQuaternion;
 
-    private boolean _myLastActiveState = false;
+    private boolean mLastActiveState = false;
 
 
     public ArcBall(PApplet parent, boolean pDONT_REGISTER) {
@@ -60,72 +60,77 @@ public class ArcBall {
                    final PApplet theParent,
                    boolean pDONT_REGISTER) {
 
-        _myParent = theParent;
+        mParent = theParent;
 
         if (!pDONT_REGISTER) {
             theParent.registerPre(this);
         }
 
-        _myCenter = theCenter;
-        _myRadius = theRadius;
+        mCenter = theCenter;
+        mRadius = theRadius;
 
-        _myDownPosition = new Vector3f();
-        _myDragPosition = new Vector3f();
+        mDownPosition = new Vector3f();
+        mDragPosition = new Vector3f();
 
-        _myCurrentQuaternion = new Quaternion();
-        _myDownQuaternion = new Quaternion();
-        _myDragQuaternion = new Quaternion();
+        mCurrentQuaternion = new Quaternion();
+        mDownQuaternion = new Quaternion();
+        mDragQuaternion = new Quaternion();
     }
 
 
     public void mousePressed(float theX, float theY) {
-        _myDownPosition.set(mouse_to_sphere(theX, theY));
-        _myDownQuaternion.set(_myCurrentQuaternion);
-        _myDragQuaternion.reset();
+        mDownPosition.set(mouse_to_sphere(theX, theY));
+        mDownQuaternion.set(mCurrentQuaternion);
+        mDragQuaternion.reset();
     }
 
 
     public void mouseDragged(float theX, float theY) {
-        _myDragPosition.set(mouse_to_sphere(theX, theY));
-        _myDragQuaternion.set(_myDownPosition.dot(_myDragPosition), mathematik.Util.cross(_myDownPosition, _myDragPosition));
+        mDragPosition.set(mouse_to_sphere(theX, theY));
+        mDragQuaternion.set(mDownPosition.dot(mDragPosition), mathematik.Util.cross(mDownPosition, mDragPosition));
+    }
+
+
+    public void update() {
+        update(mParent.mousePressed, mParent.mouseX, mParent.mouseY);
     }
 
 
     public void update(boolean theActiveState, float theX, float theY) {
-        if (_myParent == null) {
+        if (mParent == null) {
             return;
         }
 
         if (theActiveState) {
-            if (!_myLastActiveState) {
+            if (!mLastActiveState) {
                 mousePressed(theX, theY);
             }
             mouseDragged(theX, theY);
         } else {
-            if (_myLastActiveState) {
+            if (mLastActiveState) {
             }
         }
-        _myLastActiveState = theActiveState;
+        mLastActiveState = theActiveState;
 
 
         /* apply transform */
-        _myParent.translate(_myCenter.x, _myCenter.y, _myCenter.z);
-        _myCurrentQuaternion.multiply(_myDragQuaternion, _myDownQuaternion);
-        final Vector4f myRotationAxisAngle = _myCurrentQuaternion.getVectorAndAngle();
+        mParent.translate(mCenter.x, mCenter.y, mCenter.z);
+        mCurrentQuaternion.multiply(mDragQuaternion, mDownQuaternion);
+        final Vector4f myRotationAxisAngle = mCurrentQuaternion.getVectorAndAngle();
         if (!myRotationAxisAngle.isNaN()) {
-            _myParent.rotate(myRotationAxisAngle.w,
-                             myRotationAxisAngle.x,
-                             myRotationAxisAngle.y,
-                             myRotationAxisAngle.z);
+            mParent.rotate(myRotationAxisAngle.w,
+                           myRotationAxisAngle.x,
+                           myRotationAxisAngle.y,
+                           myRotationAxisAngle.z);
         }
-        _myParent.translate(-_myCenter.x, -_myCenter.y, -_myCenter.z);
+        mParent.translate(-mCenter.x, -mCenter.y, -mCenter.z);
     }
 
 
     private Vector3f mouse_to_sphere(float x, float y) {
         final Vector3f v = new Vector3f();
-        v.x = (x - _myCenter.x) / _myRadius;
-        v.y = (y - _myCenter.y) / _myRadius;
+        v.x = (x - mCenter.x) / mRadius;
+        v.y = (y - mCenter.y) / mRadius;
 
         float myLengthSquared = v.x * v.x + v.y * v.y;
         if (myLengthSquared > 1.0f) {
@@ -139,6 +144,6 @@ public class ArcBall {
 
     /* processing callbacks */
     public void pre() {
-        update(_myParent.mousePressed, _myParent.mouseX, _myParent.mouseY);
+        update();
     }
 }

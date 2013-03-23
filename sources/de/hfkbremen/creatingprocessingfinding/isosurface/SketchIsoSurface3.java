@@ -20,12 +20,14 @@ public class SketchIsoSurface3
 
     private int mCurrentCircle = 0;
 
+    private ArcBall mArcBall;
+
 
     public void setup() {
         size(1024, 768, OPENGL);
         textFont(createFont("Courier", 11));
 
-        new ArcBall(width * 0.5f, height * 0.5f, 0.0f, 400.0f, this, true);
+        mArcBall = new ArcBall(width / 2, height / 2, 0, 400.0f, this, true);
 
         mMetaballManager = new MetaballManager();
         mMetaballManager.dimension.set(width, height, height);
@@ -40,6 +42,16 @@ public class SketchIsoSurface3
         background(255);
         directionalLight(126, 126, 126, 0, 0, -1);
         ambientLight(102, 102, 102);
+
+        /* draw extra info */
+        fill(0);
+        noStroke();
+        text("ISOVALUE : " + mMetaballManager.isovalue(), 10, 12);
+        text("SELECTED : " + mCurrentCircle, 10, 24);
+        text("FPS      : " + (int)frameRate, 10, 36);
+
+        /* darw isosurface */
+        mArcBall.update();
 
         if (!mMetaballManager.metaballs().isEmpty()) {
             mMetaballManager.metaballs().get(mCurrentCircle).position.x = mouseX - width / 2;
@@ -57,13 +69,6 @@ public class SketchIsoSurface3
             vertex(myData.get(i).x, myData.get(i).y, myData.get(i).z);
         }
         endShape();
-
-        /* draw extra info */
-        fill(0);
-        noStroke();
-        text("ISOVALUE : " + mMetaballManager.isovalue(), 10, 12);
-        text("SELECTED : " + mCurrentCircle, 10, 24);
-        text("FPS      : " + (int)frameRate, 10, 36);
     }
 
 
