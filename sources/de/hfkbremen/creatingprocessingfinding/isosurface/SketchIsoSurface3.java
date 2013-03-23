@@ -51,7 +51,6 @@ public class SketchIsoSurface3
         /* draw metaballs */
         translate(width / 2, height / 2);
         fill(255, 127, 0);
-        stroke(255, 140, 20);
         noStroke();
         beginShape(TRIANGLES);
         for (int i = 0; i < myData.size(); i++) {
