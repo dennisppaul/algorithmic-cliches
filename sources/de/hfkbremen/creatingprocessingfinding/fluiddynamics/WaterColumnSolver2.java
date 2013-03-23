@@ -30,9 +30,14 @@ public class WaterColumnSolver2 {
 
     private final float[][] mPipeRight; // Horizontcal connection pipes
 
-    private float mIdealTotalVolume = 100f; // Ideal volume of the water body
+    private float mIdealTotalVolume; // Ideal volume of the water body
 
     private float mTotalVolume;
+
+
+    public WaterColumnSolver2(int xsize, int ysize) {
+        this(xsize, ysize, 100);
+    }
 
     /*
      The ctor builds a water simulation object of the specified surface resolution (xsize, ysize),
@@ -40,7 +45,9 @@ public class WaterColumnSolver2 {
      hold the result after a simulation step.
      */
 
-    public WaterColumnSolver2(int xsize, int ysize) {
+    public WaterColumnSolver2(int xsize, int ysize, float pInitialVolume) {
+        mIdealTotalVolume = pInitialVolume;
+
         // Set the water surface dimensions and area
         GRID_X = xsize;
         GRID_Y = ysize;
@@ -144,13 +151,16 @@ public class WaterColumnSolver2 {
     }
 
 
-    /*
-     The public member function 'Simulate' will trigger a full simulation cycle for the set constant time step. It needs to be
-     called in regular intervals by the host application, in order to update the water simulation.
-     */
-    public void simulate(final float TIMESTEP) {
-        computePipeFlows(TIMESTEP);
-        updateVolumes(TIMESTEP);
+    public void step(final float pDeltaTime) {
+        computePipeFlows(pDeltaTime);
+        updateVolumes(pDeltaTime);
+    }
+
+
+    void step(float mScaledDeltaTime, int pIterations) {
+        for (int i = 0; i < 10; i++) {
+            step(mScaledDeltaTime / (float)pIterations);
+        }
     }
 
 

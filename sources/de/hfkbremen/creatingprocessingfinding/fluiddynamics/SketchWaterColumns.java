@@ -18,81 +18,46 @@ public class SketchWaterColumns
 
     private WaterColumnSolver2 mWater;
 
-    /* view */
     private Quad[][] mQuads = new Quad[X_SIZE][Y_SIZE];
-
-
-    private class Quad {
-
-        Vector3f a = new Vector3f();
-
-        Vector3f b = new Vector3f();
-
-        Vector3f c = new Vector3f();
-
-        Vector3f d = new Vector3f();
-
-
-        private Vector3f a() {
-            return a;
-        }
-
-
-        private Vector3f b() {
-            return b;
-        }
-
-
-        private Vector3f c() {
-            return c;
-        }
-
-
-        private Vector3f d() {
-            return d;
-        }
-    }
 
 
     public void setup() {
         size(1024, 768, OPENGL);
         new ArcBall(this);
 
-        mWater = new WaterColumnSolver2(X_SIZE, Y_SIZE);
+        mWater = new WaterColumnSolver2(X_SIZE, Y_SIZE, 300);
 
         /* create view */
-        final float CELL_SIZE = 32;
+        final float mCellSize = 32;
         for (int x = 0; x < mQuads.length; x++) {
             for (int y = 0; y < mQuads[x].length; y++) {
                 mQuads[x][y] = new Quad();
-                mQuads[x][y].a().set(x * CELL_SIZE, y * CELL_SIZE);
-                mQuads[x][y].b().set(x * CELL_SIZE + CELL_SIZE, y * CELL_SIZE);
-                mQuads[x][y].c().set(x * CELL_SIZE + CELL_SIZE, y * CELL_SIZE + CELL_SIZE);
-                mQuads[x][y].d().set(x * CELL_SIZE, y * CELL_SIZE + CELL_SIZE);
+                mQuads[x][y].a().set(x * mCellSize, y * mCellSize);
+                mQuads[x][y].b().set(x * mCellSize + mCellSize, y * mCellSize);
+                mQuads[x][y].c().set(x * mCellSize + mCellSize, y * mCellSize + mCellSize);
+                mQuads[x][y].d().set(x * mCellSize, y * mCellSize + mCellSize);
             }
         }
     }
 
 
     public void draw() {
-        final float theDeltaTime = 1.0f / frameRate;
+        final float mDeltaTime = 1.0f / frameRate;
 
-        /* simulate */
-        final int ITERATIONS = 20;
-        for (int i = 0; i < ITERATIONS; i++) {
-            mWater.simulate(theDeltaTime / 5);
-        }
+        /* step */
+        final float mScaledDeltaTime = mDeltaTime * 10.0f; /* artificially speeding up the simulation */
+        mWater.step(mScaledDeltaTime, 20);
 
         /* water interaction */
         final int mX = (int)(mouseX / (float)width * X_SIZE);
         final int mY = (int)(mouseY / (float)height * Y_SIZE);
-        mWater.applyForce(mX, mY, 500.0f, theDeltaTime);
+        mWater.applyForce(mX, mY, 500.0f, mDeltaTime);
         if (keyPressed) {
             if (key == '+') {
-                mWater.addVolume(mX, mY, 20.0f * theDeltaTime);
+                mWater.addVolume(mX, mY, 20.0f * mDeltaTime);
             }
             if (key == '-') {
-                mWater.addVolume(mX, mY, -20.0f * theDeltaTime);
+                mWater.addVolume(mX, mY, -20.0f * mDeltaTime);
             }
         }
 
@@ -100,9 +65,9 @@ public class SketchWaterColumns
         for (int x = 0; x < mQuads.length; x++) {
             for (int y = 0; y < mQuads[x].length; y++) {
                 mQuads[x][y].a().z = mWater.volumemap()[x][y];
-                mQuads[x][y].b().z = mWater.volumemap()[x(x + 1)][y];
-                mQuads[x][y].c().z = mWater.volumemap()[x(x + 1)][y(y + 1)];
-                mQuads[x][y].d().z = mWater.volumemap()[x][y(y + 1)];
+                mQuads[x][y].b().z = mWater.volumemap()[x_wrapped(x + 1)][y];
+                mQuads[x][y].c().z = mWater.volumemap()[x_wrapped(x + 1)][y_wrapped(y + 1)];
+                mQuads[x][y].d().z = mWater.volumemap()[x][y_wrapped(y + 1)];
             }
         }
 
@@ -143,13 +108,45 @@ public class SketchWaterColumns
     }
 
 
-    private int x(int x) {
+    private int x_wrapped(int x) {
         return (x + X_SIZE) % X_SIZE;
     }
 
 
-    private int y(int y) {
+    private int y_wrapped(int y) {
         return (y + Y_SIZE) % Y_SIZE;
+    }
+
+
+    private class Quad {
+
+        Vector3f a = new Vector3f();
+
+        Vector3f b = new Vector3f();
+
+        Vector3f c = new Vector3f();
+
+        Vector3f d = new Vector3f();
+
+
+        private Vector3f a() {
+            return a;
+        }
+
+
+        private Vector3f b() {
+            return b;
+        }
+
+
+        private Vector3f c() {
+            return c;
+        }
+
+
+        private Vector3f d() {
+            return d;
+        }
     }
 
 
