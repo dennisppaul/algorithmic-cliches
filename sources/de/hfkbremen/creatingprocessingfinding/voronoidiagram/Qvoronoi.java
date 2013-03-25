@@ -13,6 +13,11 @@ import java.util.Vector;
 
 public class Qvoronoi {
 
+    /*
+     * install qhull ( http://www.qhull.org/ ) via macports ( http://www.macports.org/ )
+     * 
+     */
+    
     public static String QVORONOI_APP = "/opt/local/bin/qvoronoi";
 
     public static boolean VERBOSE = false;

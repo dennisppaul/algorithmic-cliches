@@ -94,7 +94,6 @@ public class SketchConvexHull
         myHull.calculateHull(myNewVertices);
         float[] myVertices = myHull.getVerticesArray();
 
-
         mNoNoTriangle+= 0.01f;
         mNoNoTriangle %= myVertices.length / 9;
 

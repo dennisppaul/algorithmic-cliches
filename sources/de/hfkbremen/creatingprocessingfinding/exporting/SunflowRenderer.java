@@ -45,7 +45,7 @@ public class SunflowRenderer
         }
 
         setBounds(0, 0, pParent.width, pParent.height);
-        mApplet = new SunflowRendererApplet();
+        mApplet = new SunflowRendererApplet(this);
         add(mApplet);
         mApplet.init();
         setVisible(true);
@@ -64,6 +64,14 @@ public class SunflowRenderer
     public class SunflowRendererApplet
             extends PApplet {
 
+        private final SunflowRenderer mInnerParent;
+
+
+        public SunflowRendererApplet(SunflowRenderer pParent) {
+            mInnerParent = pParent;
+        }
+
+
         public void setup() {
             size(mParent.width, mParent.height, hipstersinc.P5Sunflow.class.getName());
             noLoop();
@@ -73,7 +81,7 @@ public class SunflowRenderer
 
         public void draw() {
             final P5Sunflow mSunflow = (P5Sunflow)g;
-            setup(mSunflow);
+            mInnerParent.setup(mSunflow);
 
             try {
                 mMethod.invoke(mParent, new Object[] {mSunflow});

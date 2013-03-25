@@ -3,7 +3,6 @@
 package de.hfkbremen.creatingprocessingfinding.fastfouriertransform;
 
 
-import ddf.minim.AudioInput;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import ddf.minim.analysis.FFT;
@@ -17,8 +16,6 @@ public class SketchSimpleFFT
     private Minim mMinim;
 
     private AudioPlayer mPlayer;
-
-    private AudioInput mLiveAudioInput;
 
     private FFT mFFT;
 
