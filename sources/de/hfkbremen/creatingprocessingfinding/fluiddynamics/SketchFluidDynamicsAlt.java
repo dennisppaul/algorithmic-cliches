@@ -1,7 +1,6 @@
 package de.hfkbremen.creatingprocessingfinding.fluiddynamics;
 
 
-import org.theproduct.vw.autostadt.nachhaltigkeit.quelle.sketches.watersurface.*;
 import processing.core.PApplet;
 
 
@@ -216,6 +215,6 @@ public class SketchFluidDynamicsAlt
 
 
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchFluidDynamics.class.getName()});
+        PApplet.main(new String[] {SketchFluidDynamicsAlt.class.getName()});
     }
 }

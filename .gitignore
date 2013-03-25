@@ -2,8 +2,8 @@
 .DS_Store
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
 libraries/toxiclibs/**
+tmp/**
