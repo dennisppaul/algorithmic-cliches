@@ -1,7 +1,4 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.isosurface;
-
 
 import mathematik.Vector3f;
 
@@ -12,16 +9,12 @@ import processing.core.PApplet;
 
 import java.util.Vector;
 
-
 public class SketchIsoSurface3
         extends PApplet {
 
     private MetaballManager mMetaballManager;
-
     private int mCurrentCircle = 0;
-
     private ArcBall mArcBall;
-
 
     public void setup() {
         size(1024, 768, OPENGL);
@@ -37,7 +30,6 @@ public class SketchIsoSurface3
         mMetaballManager.add(new Metaball(new Vector3f(0, 0, 0), 1, 100));
     }
 
-
     public void draw() {
         background(255);
         directionalLight(126, 126, 126, 0, 0, -1);
@@ -48,7 +40,7 @@ public class SketchIsoSurface3
         noStroke();
         text("ISOVALUE : " + mMetaballManager.isovalue(), 10, 12);
         text("SELECTED : " + mCurrentCircle, 10, 24);
-        text("FPS      : " + (int)frameRate, 10, 36);
+        text("FPS      : " + (int) frameRate, 10, 36);
 
         /* darw isosurface */
         mArcBall.update();
@@ -71,7 +63,6 @@ public class SketchIsoSurface3
         endShape();
     }
 
-
     public void keyPressed() {
         switch (key) {
             case '+':
@@ -86,14 +77,13 @@ public class SketchIsoSurface3
                 break;
             case 'c':
                 mMetaballManager.add(new Metaball(new Vector3f(mouseX - width / 2, mouseY - height / 2, random(-100, 100)),
-                                                  random(1, 2),
-                                                  random(50, 150)));
+                        random(1, 2),
+                        random(50, 150)));
                 break;
         }
     }
 
-
     public static void main(String args[]) {
-        PApplet.main(new String[] {SketchIsoSurface3.class.getName()});
+        PApplet.main(new String[]{SketchIsoSurface3.class.getName()});
     }
 }
