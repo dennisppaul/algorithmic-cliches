@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.fluiddynamics;
 
 
@@ -38,7 +36,6 @@ public class WaterColumnSolver2 {
 
     private float mTotalVolume;
 
-
     public WaterColumnSolver2(int pGridX, int pGridY) {
         this(pGridX, pGridY, 100);
     }
@@ -48,7 +45,6 @@ public class WaterColumnSolver2 {
      with an amplitude of (hscale). The user must specify a pointer to the volumemap, that will
      hold the result after a simulation step.
      */
-
     public WaterColumnSolver2(int pGridX, int pGridY, float pInitialVolume) {
         mIdealTotalVolume = pInitialVolume;
         mGridX = pGridX;
@@ -142,16 +138,14 @@ public class WaterColumnSolver2 {
         }
     }
 
-
     public void step(final float pDeltaTime) {
         computePipeFlows(pDeltaTime);
         updateVolumes(pDeltaTime);
     }
 
-
     void step(float pDeltaTime, int pIterations) {
         for (int i = 0; i < 10; i++) {
-            step(pDeltaTime / (float)pIterations);
+            step(pDeltaTime / (float) pIterations);
         }
     }
 
@@ -179,52 +173,42 @@ public class WaterColumnSolver2 {
         mPipeRightUp[X(x + 1)][Y(y + 1)] -= p;
     }
 
-
     public void addVolume(int x, int y, float pVolume) {
         mIdealTotalVolume += pVolume;
         mColumnVolumes[x][y] += pVolume;
     }
 
-
     public float totalvolume() {
         return mTotalVolume;
     }
-
 
     private int X(int x) {
         return (x + mGridX) % mGridX;
     }
 
-
     private int Y(int y) {
         return (y + mGridY) % mGridY;
     }
-
 
     public float[][] volumemap() {
         return mColumnVolumes;
     }
 
-
     public void fluid_density(float pFluidDensity) {
         mFluidDensity = pFluidDensity;
     }
-
 
     public void gravitation(float pGravitation) {
         mGravitation = pGravitation;
     }
 
-
     public void pipe_length(float pPipeLength) {
         mPipeLength = pPipeLength;
     }
 
-
     public void pipe_area(float pPipeArea) {
         this.pPipeArea = pPipeArea;
     }
-
 
     public void damping(float pDamping) {
         mDamping = pDamping;

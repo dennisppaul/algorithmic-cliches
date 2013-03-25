@@ -13,9 +13,8 @@
 // THIS SOFTWARE/DOCUMENTATION IS PROVIDED WITH NO WARRANTY, EXPRESS OR
 // IMPLIED, INCLUDING, WITHOUT LIMITATION, WARRANTY OF MERCHANTABILITY OR
 // FITNESS FOR A PARTICULAR PURPOSE.
-
-
 package de.hfkbremen.creatingprocessingfinding.convexhull;
+
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -56,12 +55,12 @@ public class HullTriangle
             return true;
         }
 
-        HullVertex t1A = (HullVertex)v1.firstElement();
-        HullVertex t1B = (HullVertex)v1.elementAt(1);
-        HullVertex t1C = (HullVertex)v1.lastElement();
-        HullVertex t2A = (HullVertex)v2.firstElement();
-        HullVertex t2B = (HullVertex)v2.elementAt(1);
-        HullVertex t2C = (HullVertex)v2.lastElement();
+        HullVertex t1A = (HullVertex) v1.firstElement();
+        HullVertex t1B = (HullVertex) v1.elementAt(1);
+        HullVertex t1C = (HullVertex) v1.lastElement();
+        HullVertex t2A = (HullVertex) v2.firstElement();
+        HullVertex t2B = (HullVertex) v2.elementAt(1);
+        HullVertex t2C = (HullVertex) v2.lastElement();
         return (HullVertex.sameVertex(t1A, t2A) || HullVertex.sameVertex(t1A, t2B)
                 || HullVertex.sameVertex(t1A, t2C))
                 && (HullVertex.sameVertex(t1B, t2A) || HullVertex.sameVertex(t1B, t2B)
@@ -78,7 +77,7 @@ public class HullTriangle
     public boolean matches(Vector vec) {
         for (Enumeration e = vec.elements();
                 e.hasMoreElements();) {
-            if (sameTriangle(this, (HullTriangle)e.nextElement())) {
+            if (sameTriangle(this, (HullTriangle) e.nextElement())) {
                 return true;
             }
         }
@@ -95,7 +94,7 @@ public class HullTriangle
         int i = 0;
         for (Enumeration e = vec.elements();
                 e.hasMoreElements();) {
-            if (sameTriangle(this, (HullTriangle)e.nextElement())) {
+            if (sameTriangle(this, (HullTriangle) e.nextElement())) {
                 return i;
             }
             i++;
@@ -107,14 +106,13 @@ public class HullTriangle
      * Returns the third vertex of a triangle given the other two.
      *
      * @param v1, v2 the other two vertices
-     * @return the third vertex or null if v1 and v2 are not
-     * vertices
+     * @return the third vertex or null if v1 and v2 are not vertices
      */
     public HullVertex thirdVertex(HullVertex v1, HullVertex v2) {
         Vector vertices = getVertices();
-        HullVertex vert1 = (HullVertex)vertices.elementAt(0);
-        HullVertex vert2 = (HullVertex)vertices.elementAt(1);
-        HullVertex vert3 = (HullVertex)vertices.elementAt(2);
+        HullVertex vert1 = (HullVertex) vertices.elementAt(0);
+        HullVertex vert2 = (HullVertex) vertices.elementAt(1);
+        HullVertex vert3 = (HullVertex) vertices.elementAt(2);
         if (v1 == vert1 && v2 == vert2
                 || v2 == vert1 && v1 == vert2) {
             return vert3;
@@ -133,14 +131,14 @@ public class HullTriangle
     /**
      * Returns the triangle that shares a particular edge.
      *
-     * @params tris the list of triangles to search
-     * v1 v2 the vertices that define the edge
+     * @params tris the list of triangles to search v1 v2 the vertices that
+     * define the edge
      * @return the neighbouring triangle or null if not found
      */
     public HullTriangle edgeNeighbour(Vector tris, HullVertex v1, HullVertex v2) {
         for (Enumeration e = tris.elements();
                 e.hasMoreElements();) {
-            HullTriangle t = (HullTriangle)e.nextElement();
+            HullTriangle t = (HullTriangle) e.nextElement();
             if (!sameTriangle(t, this)) {
                 Vector verts = t.getVertices();
                 if (verts.contains(v1) && verts.contains(v2)) {
@@ -152,22 +150,22 @@ public class HullTriangle
     }
 
     /**
-     * Returns the sign of the volume of the tetrahedron formed by a
-     * triangle and a vertex. VolumeSign is positive if the vertex is
-     * on the negative side of the triangle, where the positive side is
-     * determined by the rh-rule. So the volume is positive if the ccw
-     * normal to points outside the tetrahedron. The final
-     * fewer-multiplications form is due to Bob Williamson.
+     * Returns the sign of the volume of the tetrahedron formed by a triangle
+     * and a vertex. VolumeSign is positive if the vertex is on the negative
+     * side of the triangle, where the positive side is determined by the
+     * rh-rule. So the volume is positive if the ccw normal to points outside
+     * the tetrahedron. The final fewer-multiplications form is due to Bob
+     * Williamson.
      *
      * @param v vertex to test
-     * @return -1/0/1 if vertex is on the negative/coplanar/positive
-     * side of the triangle according to the rh-rule
+     * @return -1/0/1 if vertex is on the negative/coplanar/positive side of the
+     * triangle according to the rh-rule
      */
     public int volumeSign(HullVertex v) {
         Vector vertices = getVertices();
-        int[] v1 = ((HullVertex)vertices.firstElement()).getCoords();
-        int[] v2 = ((HullVertex)vertices.elementAt(1)).getCoords();
-        int[] v3 = ((HullVertex)vertices.lastElement()).getCoords();
+        int[] v1 = ((HullVertex) vertices.firstElement()).getCoords();
+        int[] v2 = ((HullVertex) vertices.elementAt(1)).getCoords();
+        int[] v3 = ((HullVertex) vertices.lastElement()).getCoords();
         int[] v4 = v.getCoords();
         long ax = v1[0] - v4[0];
         long ay = v1[1] - v4[1];
@@ -193,18 +191,17 @@ public class HullTriangle
     }
 
     /**
-     * Returns six times the volume of the tetrahedron formed by a
-     * triangle and vertex. The volume is positive iff the vertex is on
-     * the negative side of the triangle, where the positive side is
-     * determined by the rh-rule.
+     * Returns six times the volume of the tetrahedron formed by a triangle and
+     * vertex. The volume is positive iff the vertex is on the negative side of
+     * the triangle, where the positive side is determined by the rh-rule.
      *
      * @param v the vertex
      */
     public int volume6(HullVertex v) {
         Vector vertices = getVertices();
-        int[] v1 = ((HullVertex)vertices.firstElement()).getCoords();
-        int[] v2 = ((HullVertex)vertices.elementAt(1)).getCoords();
-        int[] v3 = ((HullVertex)vertices.lastElement()).getCoords();
+        int[] v1 = ((HullVertex) vertices.firstElement()).getCoords();
+        int[] v2 = ((HullVertex) vertices.elementAt(1)).getCoords();
+        int[] v3 = ((HullVertex) vertices.lastElement()).getCoords();
         int[] v4 = v.getCoords();
         int ax = v1[0];
         int ay = v1[1];

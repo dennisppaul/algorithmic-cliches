@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.cellularautomata;
 
 
@@ -11,7 +9,6 @@ public class SketchGameOfLife2
 
     private CellularAutomaton2 mCA;
 
-
     public void setup() {
         size(1024, 768, OPENGL);
         rectMode(CENTER);
@@ -20,7 +17,6 @@ public class SketchGameOfLife2
         mCA = new CellularAutomaton2(1024 / 8, 768 / 8);
         mCA.randomizeCells(0.6f);
     }
-
 
     public void draw() {
         lights();
@@ -48,13 +44,11 @@ public class SketchGameOfLife2
         text("FPS      : " + frameRate, 10, 24);
     }
 
-
     public void keyPressed() {
         mCA.randomizeCells(0.6f);
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchGameOfLife2.class.getName()});
+        PApplet.main(new String[]{SketchGameOfLife2.class.getName()});
     }
 }

@@ -13,9 +13,8 @@
 // THIS SOFTWARE/DOCUMENTATION IS PROVIDED WITH NO WARRANTY, EXPRESS OR
 // IMPLIED, INCLUDING, WITHOUT LIMITATION, WARRANTY OF MERCHANTABILITY OR
 // FITNESS FOR A PARTICULAR PURPOSE.
-
-
 package de.hfkbremen.creatingprocessingfinding.convexhull;
+
 
 /**
  * A class representing an edge.

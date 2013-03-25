@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.exporting;
 
 
@@ -14,18 +12,15 @@ public class SketchRenderWithSunflow
         size(1024, 768, OPENGL);
     }
 
-
     public void draw() {
         background(255);
         draw(g);
     }
 
-
     public void keyPressed() {
         SunflowRenderer.render(this, "draw");
         System.out.println("");
     }
-
 
     public void draw(PGraphics pG) {
         // Adjust perspective
@@ -56,8 +51,7 @@ public class SketchRenderWithSunflow
         }
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchRenderWithSunflow.class.getName()});
+        PApplet.main(new String[]{SketchRenderWithSunflow.class.getName()});
     }
 }

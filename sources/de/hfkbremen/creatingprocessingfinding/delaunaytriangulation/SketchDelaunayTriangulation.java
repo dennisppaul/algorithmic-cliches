@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.delaunaytriangulation;
 
 
@@ -19,13 +17,11 @@ public class SketchDelaunayTriangulation
 
     private Vector<Vector3f> mVertices;
 
-
     public void setup() {
         size(1024, 768, OPENGL);
         noFill();
         mVertices = new Vector<Vector3f>();
     }
-
 
     public void draw() {
         background(255);
@@ -59,13 +55,11 @@ public class SketchDelaunayTriangulation
         drawVertices(2);
     }
 
-
     public void keyPressed() {
         if (key == ' ') {
             mVertices.clear();
         }
     }
-
 
     private void addCrookedCircle(float pXOffset, float pYOffset, float pRadius, float pSteps) {
         final float mSteps = TWO_PI / pSteps;
@@ -77,7 +71,6 @@ public class SketchDelaunayTriangulation
             DelaunayTriangulation.addVertexSafely(mVertices, new Vector3f(x, y), 1.0f);
         }
     }
-
 
     private void drawVoronoi(Vector<Region> mVoronoiRegions) {
         /* draw voronoi diagrams */
@@ -92,7 +85,6 @@ public class SketchDelaunayTriangulation
         }
     }
 
-
     private void drawDelaunay(Vector<Triangle> mDelaunayTriangles) {
         /* draw delaunay trinangles */
         if (mDelaunayTriangles != null) {
@@ -100,13 +92,12 @@ public class SketchDelaunayTriangulation
             for (int i = 0; i < mDelaunayTriangles.size(); i++) {
                 for (int j = 0; j < 3; j++) {
                     vertex(mVertices.get(mDelaunayTriangles.get(i).p[j]).x,
-                           mVertices.get(mDelaunayTriangles.get(i).p[j]).y);
+                            mVertices.get(mDelaunayTriangles.get(i).p[j]).y);
                 }
             }
             endShape();
         }
     }
-
 
     private void drawVertices(float pRadius) {
         /* draw vertices */
@@ -115,16 +106,14 @@ public class SketchDelaunayTriangulation
         }
     }
 
-
     private void cross(float x, float y, float r) {
         line(x - r, y - r,
-             x + r, y + r);
+                x + r, y + r);
         line(x - r, y + r,
-             x + r, y - r);
+                x + r, y - r);
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchDelaunayTriangulation.class.getName()});
+        PApplet.main(new String[]{SketchDelaunayTriangulation.class.getName()});
     }
 }

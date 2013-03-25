@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.statemachine.state;
 
 
@@ -13,16 +11,13 @@ public class StateFollowMouse
 
     private static final float MIN_DISTANCE = 10.0f;
 
-
     public StateFollowMouse(Entity pParent, PApplet pPApplet) {
         super(pParent, pPApplet);
     }
 
-
     public void setup() {
         e.color = p.color(0, 127, 255, 127);
     }
-
 
     public void update(float pDelta) {
         Vector3f mDiff = mathematik.Util.sub(new Vector3f(p.mouseX, p.mouseY), e.position);
@@ -36,7 +31,6 @@ public class StateFollowMouse
             e.position.add(mDiff);
         }
     }
-
 
     public void done() {
         e.scale = Entity.IDEAL_SCALE;

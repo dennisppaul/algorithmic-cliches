@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.fluiddynamics;
 
 
@@ -15,7 +13,6 @@ public class SketchFluidDynamics2
 
     private FluidDynamics mFluid;
 
-
     public void setup() {
         size(1024, 768, OPENGL);
         noStroke();
@@ -25,7 +22,6 @@ public class SketchFluidDynamics2
         mFluid.diffusion(0.0003f);
         mFluid.drag(0.995f);
     }
-
 
     public void draw() {
         background(255);
@@ -51,7 +47,7 @@ public class SketchFluidDynamics2
             noFill();
             stroke(0, 127, 255, 63);
             pushMatrix();
-            scale((float)width / mFluid.width(), (float)height / mFluid.height());
+            scale((float) width / mFluid.width(), (float) height / mFluid.height());
             mFluid.drawVelocity(g);
             popMatrix();
         }
@@ -59,7 +55,7 @@ public class SketchFluidDynamics2
         if (showDensity) {
             noStroke();
             pushMatrix();
-            scale((float)width / mFluid.width(), (float)height / mFluid.height());
+            scale((float) width / mFluid.width(), (float) height / mFluid.height());
             mFluid.drawDensity(g, color(255, 127, 0, 225));
             popMatrix();
         }
@@ -68,9 +64,8 @@ public class SketchFluidDynamics2
         fill(127);
         text("VISCOSITY: " + mFluid.viscosity() * 100, 10, 12);
         text("DIFFUSION: " + mFluid.diffusion() * 100, 10, 24);
-        text("FPS      : " + (int)frameRate, 10, 36);
+        text("FPS      : " + (int) frameRate, 10, 36);
     }
-
 
     public void keyPressed() {
 
@@ -102,13 +97,11 @@ public class SketchFluidDynamics2
         mFluid.diffusion(max(mFluid.diffusion(), 0.0f));
     }
 
-
     private float range(float f, float minf, float maxf) {
         return Math.max(Math.min(f, maxf), minf);
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchFluidDynamics2.class.getName()});
+        PApplet.main(new String[]{SketchFluidDynamics2.class.getName()});
     }
 }

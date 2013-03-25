@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.fluiddynamics;
 
 
@@ -22,7 +20,6 @@ public class SketchWaterColumns
 
     private Quad[][] mQuads = new Quad[X_SIZE][Y_SIZE];
 
-
     public void setup() {
         size(1024, 768, OPENGL);
         textFont(createFont("Courier", 11));
@@ -42,7 +39,6 @@ public class SketchWaterColumns
         }
     }
 
-
     public void draw() {
         final float mDeltaTime = 1.0f / frameRate;
 
@@ -51,8 +47,8 @@ public class SketchWaterColumns
         mWater.step(mScaledDeltaTime, 20);
 
         /* water interaction */
-        final int mX = (int)(mouseX / (float)width * X_SIZE);
-        final int mY = (int)(mouseY / (float)height * Y_SIZE);
+        final int mX = (int) (mouseX / (float) width * X_SIZE);
+        final int mY = (int) (mouseY / (float) height * Y_SIZE);
         mWater.applyForce(mX, mY, 500.0f, mDeltaTime);
         final float mVolumePerSecond = 50.0f * mDeltaTime;
         if (keyPressed) {
@@ -82,7 +78,7 @@ public class SketchWaterColumns
         /* draw extra info */
         fill(0);
         noStroke();
-        text("FPS      : " + (int)frameRate, 10, 12);
+        text("FPS      : " + (int) frameRate, 10, 12);
         text("VOLUME   : " + mWater.totalvolume(), 10, 24);
 
         /* view */
@@ -114,21 +110,17 @@ public class SketchWaterColumns
         endShape();
     }
 
-
     private void vertex(Vector3f v) {
         vertex(v.x, v.y, v.z);
     }
-
 
     private int x_wrapped(int x) {
         return (x + X_SIZE) % X_SIZE;
     }
 
-
     private int y_wrapped(int y) {
         return (y + Y_SIZE) % Y_SIZE;
     }
-
 
     private class Quad {
 
@@ -142,8 +134,7 @@ public class SketchWaterColumns
 
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchWaterColumns.class.getName()});
+        PApplet.main(new String[]{SketchWaterColumns.class.getName()});
     }
 }

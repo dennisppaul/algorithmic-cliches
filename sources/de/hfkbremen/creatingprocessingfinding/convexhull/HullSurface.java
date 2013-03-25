@@ -13,9 +13,8 @@
 // THIS SOFTWARE/DOCUMENTATION IS PROVIDED WITH NO WARRANTY, EXPRESS OR
 // IMPLIED, INCLUDING, WITHOUT LIMITATION, WARRANTY OF MERCHANTABILITY OR
 // FITNESS FOR A PARTICULAR PURPOSE.
-
-
 package de.hfkbremen.creatingprocessingfinding.convexhull;
+
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -83,10 +82,10 @@ public class HullSurface {
         // Get the vertices of each face
         for (Enumeration e = faces.elements();
                 e.hasMoreElements();) {
-            Vector face_verts = ((HullPolygon)e.nextElement()).getVertices();
+            Vector face_verts = ((HullPolygon) e.nextElement()).getVertices();
             for (Enumeration f = face_verts.elements();
                     f.hasMoreElements();) {
-                HullVertex vertex = (HullVertex)f.nextElement();
+                HullVertex vertex = (HullVertex) f.nextElement();
                 if (vertices.indexOf(vertex) == -1) {
                     vertices.addElement(vertex);
                 }
@@ -96,8 +95,8 @@ public class HullSurface {
     }
 
     /**
-     * Write an OFF file that describes a surface. OFF files can be viewed
-     * using Geomview http://www.geom.umn.edu/software/download/geomview.html
+     * Write an OFF file that describes a surface. OFF files can be viewed using
+     * Geomview http://www.geom.umn.edu/software/download/geomview.html
      *
      * @param pw A PrintWriter for the file
      */
@@ -111,18 +110,18 @@ public class HullSurface {
         /* Write vertex list */
         for (Enumeration v = vertices.elements();
                 v.hasMoreElements();) {
-            int[] c = ((HullVertex)v.nextElement()).getCoords();
+            int[] c = ((HullVertex) v.nextElement()).getCoords();
             pw.println(c[0] + " " + c[1] + " " + c[2]);
         }
 
         /* Write polygon list */
         for (Enumeration f = faces.elements();
                 f.hasMoreElements();) {
-            Vector pV = ((HullPolygon)f.nextElement()).getVertices();
+            Vector pV = ((HullPolygon) f.nextElement()).getVertices();
             pw.print(pV.size());
             for (Enumeration v = pV.elements();
                     v.hasMoreElements();) {
-                pw.print(" " + vertices.indexOf((HullVertex)v.nextElement()));
+                pw.print(" " + vertices.indexOf((HullVertex) v.nextElement()));
             }
             pw.println();
         }
@@ -136,7 +135,7 @@ public class HullSurface {
 
         for (Enumeration e = faces.elements();
                 e.hasMoreElements();) {
-            s += (HullPolygon)e.nextElement() + "\n";
+            s += (HullPolygon) e.nextElement() + "\n";
         }
         return s;
     }

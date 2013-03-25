@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.octree;
 
 
@@ -75,16 +73,15 @@ public class Octree {
 
     private boolean isAutoReducing = false;
 
-
     private Octree(Octree pParentOctree,
-                   Vector3f pOffset,
-                   float pHalfSize) {
+            Vector3f pOffset,
+            float pHalfSize) {
         mOrigin = mathematik.Util.add(pOffset, new Vector3f(pHalfSize,
-                                                            pHalfSize,
-                                                            pHalfSize));
+                pHalfSize,
+                pHalfSize));
         mScale = new Vector3f(pHalfSize,
-                              pHalfSize,
-                              pHalfSize);
+                pHalfSize,
+                pHalfSize);
 
         mParent = pParentOctree;
         mHalfSize = pHalfSize;
@@ -97,22 +94,18 @@ public class Octree {
         }
     }
 
-
     public Octree(Vector3f pOffset, float pSize) {
         /* Constructs a new Octree node within the cube volume. */
         this(null, pOffset, pSize * 0.5f);
     }
 
-
     public Vector3f origin() {
         return mOrigin;
     }
 
-
     public Vector3f scale() {
         return mScale;
     }
-
 
     public boolean addAll(Collection<OctreeEntity> mEntities) {
         boolean addedAll = true;
@@ -121,7 +114,6 @@ public class Octree {
         }
         return addedAll;
     }
-
 
     public boolean add(OctreeEntity pEntity) {
         if (isPointInBox(pEntity.position(), mOrigin, mScale)) {
@@ -140,11 +132,11 @@ public class Octree {
                 final int mOctant = getOctantID(pLocalPosition);
                 if (mChildren[mOctant] == null) {
                     Vector3f off = mathematik.Util.add(mOffset,
-                                                       new Vector3f((mOctant & 1) != 0 ? mHalfSize : 0,
-                                                                    (mOctant & 2) != 0 ? mHalfSize : 0,
-                                                                    (mOctant & 4) != 0 ? mHalfSize : 0));
+                            new Vector3f((mOctant & 1) != 0 ? mHalfSize : 0,
+                            (mOctant & 2) != 0 ? mHalfSize : 0,
+                            (mOctant & 4) != 0 ? mHalfSize : 0));
                     mChildren[mOctant] = new Octree(this, off,
-                                                    mHalfSize * 0.5f);
+                            mHalfSize * 0.5f);
                     mNumberOfChildren++;
                 }
                 return mChildren[mOctant].add(pEntity);
@@ -152,7 +144,6 @@ public class Octree {
         }
         return false;
     }
-
 
     public Octree[] getChildren() {
         if (mChildren != null) {
@@ -163,14 +154,12 @@ public class Octree {
         return null;
     }
 
-
     /**
      * @return the depth
      */
     public int getDepth() {
         return mDepth;
     }
-
 
     private Octree getLeafForEntity(OctreeEntity pEntity) {
         /* Finds the leaf node which spatially relates to the given point */
@@ -187,16 +176,13 @@ public class Octree {
         return null;
     }
 
-
     public float getNodeSize() {
         return mSize;
     }
 
-
     public int getNumChildren() {
         return mNumberOfChildren;
     }
-
 
     private int getOctantID(Vector3f pPoint) {
         /* Computes the local child octant/cube index for the given point */
@@ -205,21 +191,17 @@ public class Octree {
                 + (pPoint.z >= mHalfSize ? 4 : 0);
     }
 
-
     public Vector3f offset() {
         return mOffset;
     }
-
 
     private Octree parent() {
         return mParent;
     }
 
-
     public float size() {
         return mSize;
     }
-
 
     public Vector<OctreeEntity> entities() {
         Vector<OctreeEntity> results = null;
@@ -240,7 +222,6 @@ public class Octree {
         }
         return results;
     }
-
 
     public Vector<OctreeEntity> getEntitiesWithinBox(Vector3f pBoxOrigin, Vector3f pBoxScale) {
         Vector<OctreeEntity> mResults = null;
@@ -271,7 +252,6 @@ public class Octree {
         return mResults;
     }
 
-
     public Vector<OctreeEntity> getEntitesWithinSphere(Vector3f pSphereOrigin, float pSphereRadius) {
         Vector<OctreeEntity> results = null;
         if (isBoxIntersectingSphere(origin(), scale(), pSphereOrigin, pSphereRadius)) {
@@ -301,7 +281,6 @@ public class Octree {
         return results;
     }
 
-
     private void reduceBranch() {
         if (mEntities != null && mEntities.isEmpty()) {
             mEntities = null;
@@ -318,7 +297,6 @@ public class Octree {
         }
     }
 
-
     public boolean remove(OctreeEntity pEntity) {
         /* Removes a point from the tree and (optionally) tries to release memory by reducing now empty sub-branches. */
         boolean mFoundPoint = false;
@@ -334,13 +312,11 @@ public class Octree {
         return mFoundPoint;
     }
 
-
     public void remove(Collection<OctreeEntity> pEntities) {
         for (OctreeEntity p : pEntities) {
             remove(p);
         }
     }
-
 
     public void removeAll() {
         if (entities() != null) {
@@ -350,12 +326,10 @@ public class Octree {
         }
     }
 
-
     public void auto_reduction(boolean pState) {
         /* Enables/disables auto reduction of branches after entities have been deleted from the tree. Turned off by default. */
         isAutoReducing = pState;
     }
-
 
     public float getMinNodeSize() {
         /*
@@ -366,23 +340,20 @@ public class Octree {
         return mMinNodeSize;
     }
 
-
     public void setMinNodeSize(float pMinNodeSize) {
         mMinNodeSize = pMinNodeSize;
     }
 
-
     private static boolean intersectsBox(Vector3f pBoxAOrigin, Vector3f pBoxAScale,
-                                         Vector3f pBoxBOrigin, Vector3f pBoxBScale) {
+            Vector3f pBoxBOrigin, Vector3f pBoxBScale) {
         Vector3f t = mathematik.Util.sub(pBoxBOrigin, pBoxAOrigin);
         return Math.abs(t.x) <= (pBoxAScale.x + pBoxBScale.x)
                 && Math.abs(t.y) <= (pBoxAScale.y + pBoxBScale.y)
                 && Math.abs(t.z) <= (pBoxAScale.z + pBoxBScale.z);
     }
 
-
     private static boolean isBoxIntersectingSphere(Vector3f pBoxOrigin, Vector3f pBoxScale,
-                                                   Vector3f pSphereCenter, float pSphereRadius) {
+            Vector3f pSphereCenter, float pSphereRadius) {
         Vector3f mMin = mathematik.Util.sub(pBoxOrigin, pBoxScale);
         Vector3f mMax = mathematik.Util.add(pBoxOrigin, pBoxScale);
         float s;
@@ -415,12 +386,10 @@ public class Octree {
         return d <= pSphereRadius * pSphereRadius;
     }
 
-
     private static boolean isPointInSphere(Vector3f pPoint, Vector3f pSphereOrigin, float pSphereRadius) {
         float d = pSphereOrigin.distanceSquared(pPoint);
         return (d <= pSphereRadius * pSphereRadius);
     }
-
 
     private static boolean isPointInBox(Vector3f pPoint, Vector3f pBoxOrigin, Vector3f pBoxScale) {
         float w = pBoxScale.x;

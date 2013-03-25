@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.isosurface.marchingcubes;
 
 
@@ -31,36 +29,29 @@ public class MetaballManager {
 
     protected float[][][] _myForceField;
 
-
     public float isovalue() {
         return mIsoValue;
     }
-
 
     public void isovalue(float pIsoValue) {
         mIsoValue = pIsoValue;
     }
 
-
     public Vector<Metaball> metaballs() {
         return _myMetaballs;
     }
-
 
     public float[][][] forcefield() {
         return _myForceField;
     }
 
-
     public void add(Metaball myMetaball) {
         _myMetaballs.add(myMetaball);
     }
 
-
     public void remove(Metaball myMetaball) {
         _myMetaballs.remove(myMetaball);
     }
-
 
     public void updateLevels() {
         if (_myForceField == null
@@ -78,7 +69,6 @@ public class MetaballManager {
         /* update field */
         updateGrid(_myForceField, myDimension);
     }
-
 
     public Vector<Vector3f> createSurface() {
         if (_myForceField == null
@@ -109,7 +99,6 @@ public class MetaballManager {
         return myTrianglesVertices;
     }
 
-
     protected void updateGrid(float[][][] theForceField, Vector3f dimension) {
         for (int x = 0; x < theForceField.length - 1; x++) {
             for (int y = 0; y < theForceField[x].length - 1; y++) {
@@ -134,7 +123,6 @@ public class MetaballManager {
             }
         }
     }
-
 
     protected float getForceFieldValue(Vector3f thePosition) {
         float f = 0;

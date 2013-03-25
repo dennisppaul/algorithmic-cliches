@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.statemachine.state;
 
 
@@ -13,15 +11,12 @@ public class StateChangeRandomly
 
     private static final float STATE_DURATION = 1.5f;
 
-
     public StateChangeRandomly(Entity pParent, PApplet pPApplet) {
         super(pParent, pPApplet);
     }
 
-
     public void setup() {
     }
-
 
     public void update(float pDelta) {
         mStateTime += pDelta;
@@ -32,7 +27,6 @@ public class StateChangeRandomly
             e.scale = p.random(50, 100);
         }
     }
-
 
     public void done() {
     }

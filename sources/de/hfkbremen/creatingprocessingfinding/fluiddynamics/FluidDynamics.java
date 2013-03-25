@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.fluiddynamics;
 
 
@@ -46,7 +44,6 @@ public class FluidDynamics {
 
     private float[][] mPrevVelocityMapV;
 
-
     public FluidDynamics(int pWidth, int pHeight) {
         mX = pWidth;
         mY = pHeight;
@@ -56,16 +53,13 @@ public class FluidDynamics {
         resetDensity();
     }
 
-
     public int width() {
         return mX;
     }
 
-
     public int height() {
         return mY;
     }
-
 
     public void drawVelocity(PGraphics g) {
         for (int y = 1; y <= mY; y++) {
@@ -73,13 +67,12 @@ public class FluidDynamics {
                 float vu = 50 * mVelocityMapU[x][y];
                 float vv = 50 * mVelocityMapV[x][y];
                 g.line((x - 1),
-                       (y - 1),
-                       (x - 1) + vu,
-                       (y - 1) + vv);
+                        (y - 1),
+                        (x - 1) + vu,
+                        (y - 1) + vv);
             }
         }
     }
-
 
     public void drawDensity(PGraphics g, int c) {
         for (int y = 1; y <= mY; y++) {
@@ -103,31 +96,25 @@ public class FluidDynamics {
         }
     }
 
-
     public float diffusion() {
         return mDiffusion;
     }
-
 
     public void diffusion(float pDiffusion) {
         mDiffusion = pDiffusion;
     }
 
-
     public void drag(float pDrag) {
         mDrag = pDrag;
     }
-
 
     public float viscosity() {
         return mViscosity;
     }
 
-
     public void viscosity(float pViscosity) {
         mViscosity = pViscosity;
     }
-
 
     private void fill(PGraphics g, int pColor, float pAlphaRatio) {
         pAlphaRatio = max(0.0f, min(pAlphaRatio, 1.0f));
@@ -142,20 +129,18 @@ public class FluidDynamics {
         calculateDensity(mDeltaTime);
     }
 
-
     public void reset() {
         resetVelocity();
         resetDensity();
     }
 
-
     private void setForceArea(float[][] pMap,
-                              int pX, int pY,
-                              float pStrength,
-                              float pRadius) {
-        for (int x = (int)(range(pX - pRadius, 1, mX)); x <= (int)(range(pX + pRadius, 1, mX)); x++) {
+            int pX, int pY,
+            float pStrength,
+            float pRadius) {
+        for (int x = (int) (range(pX - pRadius, 1, mX)); x <= (int) (range(pX + pRadius, 1, mX)); x++) {
             int dx = pX - x;
-            for (int y = (int)(range(pY - pRadius, 1, mY)); y <= (int)(range(pY + pRadius, 1, mY)); y++) {
+            for (int y = (int) (range(pY - pRadius, 1, mY)); y <= (int) (range(pY + pRadius, 1, mY)); y++) {
                 int dy = pY - y;
                 float f = 1 - (sqrt(dx * dx + dy * dy) / pRadius);
                 pMap[x][y] += range(f, 0, 1) * pStrength;
@@ -163,26 +148,22 @@ public class FluidDynamics {
         }
     }
 
-
     public void setDensityArea(int x, int y,
-                               float pStrength,
-                               int pRadius) {
+            float pStrength,
+            int pRadius) {
         setForceArea(mDensityMap, x, y, pStrength, pRadius);
     }
 
-
     public void setVelocityArea(int x, int y,
-                                float vX, float vY,
-                                int pRadius) {
+            float vX, float vY,
+            int pRadius) {
         setForceArea(mVelocityMapU, x, y, vX, pRadius);
         setForceArea(mVelocityMapV, x, y, vY, pRadius);
     }
 
-
     private float range(float f, float minf, float maxf) {
         return Math.max(Math.min(f, maxf), minf);
     }
-
 
     private void resetVelocity() {
         mVelocityMapU = new float[mGridX][mGridY];
@@ -191,12 +172,10 @@ public class FluidDynamics {
         mPrevVelocityMapV = new float[mGridX][mGridY];
     }
 
-
     private void resetDensity() {
         mDensityMap = new float[mGridX][mGridY];
         mPrevDensityMap = new float[mGridX][mGridY];
     }
-
 
     private void addSource(float[][] x, float[][] s, float dt) {
         for (int i = 0; i < mGridX; i++) {
@@ -206,7 +185,6 @@ public class FluidDynamics {
         }
     }
 
-
     private void removeEnergy(float[][] x, float s) {
         for (int i = 0; i < mGridX; i++) {
             for (int j = 0; j < mGridY; j++) {
@@ -214,7 +192,6 @@ public class FluidDynamics {
             }
         }
     }
-
 
     private void diffuse(float[][] x, float[][] x0, float diff, float dt) {
         int i, j, k;
@@ -227,7 +204,6 @@ public class FluidDynamics {
             }
         }
     }
-
 
     private void project() {
         int i, j, k;
@@ -256,7 +232,6 @@ public class FluidDynamics {
             }
         }
     }
-
 
     private void advect(float[][] d, float[][] d0, float[][] u, float[][] v, float dt) {
 
@@ -292,7 +267,6 @@ public class FluidDynamics {
             }
         }
     }
-
 
     private void calculateVelocity(float pDeltaTime) {
         float[][] mTemp;
@@ -330,7 +304,6 @@ public class FluidDynamics {
         project();
     }
 
-
     private void calculateDensity(float pDeltaTime) {
         float[][] mTemp;
 
@@ -348,7 +321,6 @@ public class FluidDynamics {
 
         advect(mDensityMap, mPrevDensityMap, mVelocityMapU, mVelocityMapV, pDeltaTime);
     }
-
 
     private void initPrevMaps() {
         mPrevVelocityMapU = new float[mGridX][mGridY];

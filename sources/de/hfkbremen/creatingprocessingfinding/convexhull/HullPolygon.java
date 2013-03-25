@@ -13,9 +13,8 @@
 // THIS SOFTWARE/DOCUMENTATION IS PROVIDED WITH NO WARRANTY, EXPRESS OR
 // IMPLIED, INCLUDING, WITHOUT LIMITATION, WARRANTY OF MERCHANTABILITY OR
 // FITNESS FOR A PARTICULAR PURPOSE.
-
-
 package de.hfkbremen.creatingprocessingfinding.convexhull;
+
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -30,10 +29,10 @@ import java.util.Vector;
 public class HullPolygon {
 
     /**
-     * The set of vertices representing the polygon. The vertices must
-     * be stored in the vector in the order in which they define polygon
-     * perimeter. For planar polygons this should be clockwise with
-     * respect to the outwards pointing normal.
+     * The set of vertices representing the polygon. The vertices must be stored
+     * in the vector in the order in which they define polygon perimeter. For
+     * planar polygons this should be clockwise with respect to the outwards
+     * pointing normal.
      */
     private Vector vertices;	// Polygon vertices
 
@@ -86,7 +85,7 @@ public class HullPolygon {
      */
     public HullVertex nextVertex(HullVertex v) {
         int ind = vertices.indexOf(v);
-        return (HullVertex)(ind == -1
+        return (HullVertex) (ind == -1
                 ? null : vertices.elementAt((ind + 1) % vertices.size()));
     }
 

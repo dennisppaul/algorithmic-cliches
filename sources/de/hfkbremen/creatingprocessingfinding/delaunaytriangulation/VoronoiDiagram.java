@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.delaunaytriangulation;
 
 
@@ -23,10 +21,9 @@ public class VoronoiDiagram {
     /* utility functions */
     private static float oLastAngle;
 
-
     public static VoronoiDiagram.Region getRegion(final Vector<Vector3f> pVertices,
-                                                  final Vector<Triangle> pDelaunayTriangles,
-                                                  final int pCenterVertexIndex) {
+            final Vector<Triangle> pDelaunayTriangles,
+            final int pCenterVertexIndex) {
 
         final VoronoiDiagram.Region myVoronoiRegion = new VoronoiDiagram.Region();
 
@@ -47,9 +44,8 @@ public class VoronoiDiagram {
         return myVoronoiRegion;
     }
 
-
     public static Vector<VoronoiDiagram.Region> getRegions(final Vector<Vector3f> pVertices,
-                                                           final Vector<Triangle> pDelaunayTriangles) {
+            final Vector<Triangle> pDelaunayTriangles) {
         final Vector<VoronoiDiagram.Region> myRegions = new Vector<VoronoiDiagram.Region>();
         for (int i = 0; i < pVertices.size(); i++) {
             final VoronoiDiagram.Region myRegionPoints = getRegion(pVertices, pDelaunayTriangles, i);
@@ -58,9 +54,8 @@ public class VoronoiDiagram {
         return myRegions;
     }
 
-
     private static Vector<Triangle> getConnectedTriangles(final Vector<Triangle> pTriangles,
-                                                          final int pVertexIndex) {
+            final int pVertexIndex) {
         final Vector<Triangle> myTriangles = new Vector<Triangle>();
         for (int i = 0; i < pTriangles.size(); i++) {
             if (pTriangles.get(i).p[0] == pVertexIndex
@@ -71,7 +66,6 @@ public class VoronoiDiagram {
         }
         return myTriangles;
     }
-
 
     public static Vector<Vector3f> sort(Vector<Vector3f> thePoints) {
 
@@ -106,16 +100,15 @@ public class VoronoiDiagram {
         return mySortedPoints;
     }
 
-
     private static Vector3f getNode(Vector3f theRefPoint,
-                                    Vector<Vector3f> thePoints,
-                                    Vector<Vector3f> theSortedPoins) {
+            Vector<Vector3f> thePoints,
+            Vector<Vector3f> theSortedPoins) {
         float myMinAngle = 10;
         Vector3f myNextPoint = new Vector3f(theRefPoint);
         for (int i = 0; i < thePoints.size(); i++) {
             Vector3f myNode = thePoints.get(i);
             if (!isAlreadySorted(myNode, theSortedPoins)) {
-                float myAngle = (float)Math.atan2(myNode.y - theRefPoint.y, myNode.x - theRefPoint.x);
+                float myAngle = (float) Math.atan2(myNode.y - theRefPoint.y, myNode.x - theRefPoint.x);
                 myAngle += Math.PI;
                 if (myAngle < myMinAngle && myAngle >= oLastAngle) {
                     myMinAngle = myAngle;
@@ -126,7 +119,6 @@ public class VoronoiDiagram {
         oLastAngle = myMinAngle;
         return myNextPoint;
     }
-
 
     private static boolean isAlreadySorted(Vector3f theRefPoint, Vector<Vector3f> thePoints) {
         for (int i = 0; i < thePoints.size(); i++) {

@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.fastfouriertransform;
 
 
@@ -21,7 +19,6 @@ public class SketchSimpleFFT
 
     private static float mCurrentTime = 0.0f;
 
-
     public void setup() {
         size(1024, 768, OPENGL);
 
@@ -32,10 +29,9 @@ public class SketchSimpleFFT
         mFFT.logAverages(55, 4);
     }
 
-
     public void draw() {
         mFFT.forward(mPlayer.left);
-        mCurrentTime = (float)mPlayer.position() / (float)mPlayer.length();
+        mCurrentTime = (float) mPlayer.position() / (float) mPlayer.length();
 
         Vector<Float> mBands = new Vector<Float>(mFFT.avgSize());
         for (int i = 0; i < mFFT.avgSize(); i++) {
@@ -45,15 +41,14 @@ public class SketchSimpleFFT
         /* draw bands */
         background(255);
         for (int i = 0; i < mFFT.avgSize(); i++) {
-            final float x = width * (float)i / mFFT.avgSize();
+            final float x = width * (float) i / mFFT.avgSize();
             final float myHeight = mFFT.getAvg(i) * 16;
             fill(0);
             stroke(0);
             rect(x, height, width / mFFT.avgSize(), -myHeight);
         }
-        line(0, height / 2, (float)mCurrentTime * width, height / 2);
+        line(0, height / 2, (float) mCurrentTime * width, height / 2);
     }
-
 
     public void stop() {
         mPlayer.pause();
@@ -61,8 +56,7 @@ public class SketchSimpleFFT
         super.stop();
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchSimpleFFT.class.getName()});
+        PApplet.main(new String[]{SketchSimpleFFT.class.getName()});
     }
 }

@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.statemachine;
 
 
@@ -14,7 +12,6 @@ public class SketchStateMachineWithObjects
 
     private Vector<Entity> mEntities = new Vector<Entity>();
 
-
     public void setup() {
         size(1024, 768);
         rectMode(CENTER);
@@ -24,7 +21,6 @@ public class SketchStateMachineWithObjects
             mEntities.add(new Entity(this));
         }
     }
-
 
     public void draw() {
         final float mDelta = 1.0f / frameRate;
@@ -37,8 +33,7 @@ public class SketchStateMachineWithObjects
         }
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchStateMachineWithObjects.class.getName()});
+        PApplet.main(new String[]{SketchStateMachineWithObjects.class.getName()});
     }
 }

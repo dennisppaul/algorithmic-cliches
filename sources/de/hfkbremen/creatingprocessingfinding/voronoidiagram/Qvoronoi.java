@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.voronoidiagram;
 
 
@@ -17,19 +15,17 @@ public class Qvoronoi {
      * install qhull ( http://www.qhull.org/ ) via macports ( http://www.macports.org/ )
      * 
      */
-    
     public static String QVORONOI_APP = "/opt/local/bin/qvoronoi";
 
     public static boolean VERBOSE = false;
 
     private static final float VERTEX_AT_INFINITY = -10.101f;
 
-
     public String computeDiagram(int pDimensions, Vector3f[] pPoints) {
         try {
             /* assemble shell command */
             String myParameter = "cat - | " + QVORONOI_APP + " o";
-            String[] myExecString = new String[] {"sh", "-c", myParameter};
+            String[] myExecString = new String[]{"sh", "-c", myParameter};
             Process myProcess = Runtime.getRuntime().exec(myExecString);
             BufferedReader br = new BufferedReader(new InputStreamReader(myProcess.getInputStream()));
 
@@ -68,7 +64,6 @@ public class Qvoronoi {
             return null;
         }
     }
-
 
     public Vector3f[][] parseRegions(final String pRawResult, final int pDimesions) {
 //        if (pDimesions == 2) {
@@ -109,8 +104,8 @@ public class Qvoronoi {
             final Vector3f mVertex = new Vector3f();
             if (pDimesions == 3) {
                 mVertex.set(Float.parseFloat(mVertexStr[0]),
-                            Float.parseFloat(mVertexStr[1]),
-                            Float.parseFloat(mVertexStr[2]));
+                        Float.parseFloat(mVertexStr[1]),
+                        Float.parseFloat(mVertexStr[2]));
                 if (mVertex.x == VERTEX_AT_INFINITY
                         && mVertex.y == VERTEX_AT_INFINITY
                         && mVertex.z == VERTEX_AT_INFINITY) {
@@ -118,8 +113,8 @@ public class Qvoronoi {
                 }
             } else if (pDimesions == 2) {
                 mVertex.set(Float.parseFloat(mVertexStr[0]),
-                            Float.parseFloat(mVertexStr[1]),
-                            0);
+                        Float.parseFloat(mVertexStr[1]),
+                        0);
                 if (mVertex.x == VERTEX_AT_INFINITY
                         && mVertex.y == VERTEX_AT_INFINITY) {
                     mVertexAtInfinityMarker = myVertexCounter;
@@ -158,7 +153,6 @@ public class Qvoronoi {
         return mRegionsArray;
     }
 
-
     public Vector3f[][] cullReagions(Vector3f[][] pRegions, Vector3f pBox) {
         int[] myNonCulledRegions = new int[pRegions.length];
         int myNonCulledCounter = 0;
@@ -179,12 +173,11 @@ public class Qvoronoi {
         for (int i = 0; i < myNonCulledCounter; i++) {
             myCleanRegions[i] = new Vector3f[pRegions[myNonCulledRegions[i]].length];
             System.arraycopy(pRegions[myNonCulledRegions[i]], 0,
-                             myCleanRegions[i], 0,
-                             pRegions[myNonCulledRegions[i]].length);
+                    myCleanRegions[i], 0,
+                    pRegions[myNonCulledRegions[i]].length);
         }
         return myCleanRegions;
     }
-
 
     public boolean isWithInBox(Vector3f pVertex, Vector3f pBox) {
         if (pVertex.x > -pBox.x / 2
@@ -198,21 +191,18 @@ public class Qvoronoi {
         return false;
     }
 
-
     public Vector3f[][] calculate3(Vector3f[] pPoints) {
         final String mData = computeDiagram(3, pPoints);
         return parseRegions(mData, 3);
     }
-
 
     public Vector3f[][] calculate2(Vector3f[] pPoints) {
         final String mData = computeDiagram(2, pPoints);
         return parseRegions(mData, 2);
     }
 
-
     public static void main(String[] args) {
-        Vector3f[] myTestData = new Vector3f[] {
+        Vector3f[] myTestData = new Vector3f[]{
             new Vector3f(-0.3871359948170853f, 0.2713311749239735f, 0.1628039158968905f),
             new Vector3f(0.3411034895376994f, -0.3402090239048531f, -0.1338141602331819f),
             new Vector3f(-0.1911684421170798f, 0.3928607867327655f, 0.2431358241523477f),

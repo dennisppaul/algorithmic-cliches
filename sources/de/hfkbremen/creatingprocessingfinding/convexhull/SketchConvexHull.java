@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.convexhull;
 
 
@@ -21,13 +19,11 @@ public class SketchConvexHull
 
     private float mNoNoTriangle = 0;
 
-
     public void setup() {
         size(800, 600, OPENGL);
         frameRate(30);
         populatePointArray();
     }
-
 
     private void populatePointArray() {
         /* populate array with almost random points */
@@ -37,14 +33,13 @@ public class SketchConvexHull
                 for (int z = 0; z < GRID_SIZE; z++) {
                     final float mRandomOffset = 1.5f;
                     mGridPoints[i] = new Vector3f(x * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
-                                                  y * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
-                                                  z * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset));
+                            y * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
+                            z * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset));
                     i++;
                 }
             }
         }
     }
-
 
     public void draw() {
 
@@ -55,11 +50,11 @@ public class SketchConvexHull
 
         /* rotate object */
         translate(width / 2, height / 2);
-        rotateY(TWO_PI * (float)mouseX / width);
-        rotateX(TWO_PI * (float)mouseY / height);
+        rotateY(TWO_PI * (float) mouseX / width);
+        rotateX(TWO_PI * (float) mouseY / height);
         translate(-(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
-                  -(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
-                  -(GRID_SIZE - 1) * GRID_SPACE / 2.0f);
+                -(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
+                -(GRID_SIZE - 1) * GRID_SPACE / 2.0f);
 
         /* draw hull */
         noStroke();
@@ -74,7 +69,6 @@ public class SketchConvexHull
         }
     }
 
-
     private void drawCross(Vector3f v) {
         final float o = 2.0f;
         line(v.x - o, v.y, v.z, v.x + o, v.y, v.z);
@@ -82,37 +76,34 @@ public class SketchConvexHull
         line(v.x, v.y, v.z - o, v.x, v.y, v.z + o);
     }
 
-
     private void drawHull(Vector3f[] pVertex) {
         final ConvexHull myHull = new ConvexHull();
         final Vector<HullVertex> myNewVertices = new Vector<HullVertex>();
         for (int i = 0; i < pVertex.length; i++) {
             myNewVertices.add(new HullVertex(pVertex[i].x,
-                                             pVertex[i].y,
-                                             pVertex[i].z));
+                    pVertex[i].y,
+                    pVertex[i].z));
         }
         myHull.calculateHull(myNewVertices);
         float[] myVertices = myHull.getVerticesArray();
 
-        mNoNoTriangle+= 0.01f;
+        mNoNoTriangle += 0.01f;
         mNoNoTriangle %= myVertices.length / 9;
 
         beginShape(TRIANGLES);
         for (int i = 0; i < myVertices.length; i += 3) {
-            if ((int)mNoNoTriangle != i / 9) {
+            if ((int) mNoNoTriangle != i / 9) {
                 vertex(myVertices[i], myVertices[i + 1], myVertices[i + 2]);
             }
         }
         endShape();
     }
 
-
     public void keyPressed() {
         populatePointArray();
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchConvexHull.class.getName()});
+        PApplet.main(new String[]{SketchConvexHull.class.getName()});
     }
 }

@@ -1,5 +1,6 @@
-/** data structure for a metaball */
-
+/**
+ * data structure for a metaball
+ */
 package de.hfkbremen.creatingprocessingfinding.isosurface.marchingcubes;
 
 

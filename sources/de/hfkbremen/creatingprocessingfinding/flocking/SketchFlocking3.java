@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.flocking;
 
 
@@ -28,7 +26,6 @@ public class SketchFlocking3
 
     private Vector<SwarmEntity> mSwarmEntities;
 
-
     public void setup() {
         size(1024, 768, OPENGL);
         frameRate(60);
@@ -54,13 +51,12 @@ public class SketchFlocking3
         for (int i = 0; i < 80; i++) {
             SwarmEntity mSwarmEntity = new SwarmEntity();
             mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
-                                        random(mTeleporter.min().y, mTeleporter.max().y),
-                                        random(mTeleporter.min().z, mTeleporter.max().z));
+                    random(mTeleporter.min().y, mTeleporter.max().y),
+                    random(mTeleporter.min().z, mTeleporter.max().z));
             mSwarmEntities.add(mSwarmEntity);
             mPhysics.add(mSwarmEntity);
         }
     }
-
 
     public void draw() {
         final float mDeltaTime = 1.0f / frameRate;
@@ -83,9 +79,8 @@ public class SketchFlocking3
         fill(0);
         noStroke();
         text("ENTITIES : " + mSwarmEntities.size(), 10, 12);
-        text("FPS      : " + (int)frameRate, 10, 24);
+        text("FPS      : " + (int) frameRate, 10, 24);
     }
-
 
     private class SwarmEntity
             extends BehaviorParticle {
@@ -99,7 +94,6 @@ public class SketchFlocking3
         private Wander wander;
 
         private Motor motor;
-
 
         public SwarmEntity() {
             maximumInnerForce(random(100.0f, 1000.0f));
@@ -129,13 +123,11 @@ public class SketchFlocking3
             behaviors().add(motor);
         }
 
-
         public void update(float theDeltaTime) {
             separation.neighbors(mSwarmEntities);
             alignment.neighbors(mSwarmEntities);
             cohesion.neighbors(mSwarmEntities);
         }
-
 
         private void draw(PGraphics g) {
             pushMatrix();
@@ -176,8 +168,7 @@ public class SketchFlocking3
         }
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchFlocking3.class.getName()});
+        PApplet.main(new String[]{SketchFlocking3.class.getName()});
     }
 }

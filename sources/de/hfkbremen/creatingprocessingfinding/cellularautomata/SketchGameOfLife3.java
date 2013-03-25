@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.cellularautomata;
 
 
@@ -30,7 +28,6 @@ public class SketchGameOfLife3
 
     private ArcBall mArcBall;
 
-
     public void setup() {
         size(1024, 768, OPENGL);
         rectMode(CENTER);
@@ -40,7 +37,6 @@ public class SketchGameOfLife3
         mCells = new boolean[GRID_X][GRID_Y][GRID_Z][2];
         randomizeCells();
     }
-
 
     public void draw() {
         lights();
@@ -67,7 +63,6 @@ public class SketchGameOfLife3
 
     }
 
-
     private void randomizeCells() {
         for (int x = 0; x < GRID_X; x++) {
             for (int y = 0; y < GRID_Y; y++) {
@@ -79,17 +74,15 @@ public class SketchGameOfLife3
         }
     }
 
-
     private void randomizeCells(int pCells) {
         for (int i = 0; i < pCells; i++) {
-            int x = (int)random(0, GRID_X);
-            int y = (int)random(0, GRID_Y);
-            int z = (int)random(0, GRID_Z);
+            int x = (int) random(0, GRID_X);
+            int y = (int) random(0, GRID_Y);
+            int z = (int) random(0, GRID_Z);
             mCells[x][y][z][GRID_READ] = true;
             mCells[x][y][z][GRID_WRITE] = true;
         }
     }
-
 
     private void drawCells() {
         pushMatrix();
@@ -111,10 +104,9 @@ public class SketchGameOfLife3
         popMatrix();
     }
 
-
     private void evaluateCells(int pBirth,
-                               int pMinSurvive,
-                               int pMaxSurvive) {
+            int pMinSurvive,
+            int pMaxSurvive) {
         for (int x = 0; x < GRID_X; x++) {
             for (int y = 0; y < GRID_Y; y++) {
                 for (int z = 0; z < GRID_Z; z++) {
@@ -134,7 +126,6 @@ public class SketchGameOfLife3
         }
     }
 
-
     private void copyCellStates() {
         for (int x = 0; x < GRID_X; x++) {
             for (int y = 0; y < GRID_Y; y++) {
@@ -144,7 +135,6 @@ public class SketchGameOfLife3
             }
         }
     }
-
 
     private int getNeighbors(int pX, int pY, int pZ) {
         int mNeighbors = 0;
@@ -166,11 +156,10 @@ public class SketchGameOfLife3
         return mNeighbors;
     }
 
-
     public void keyPressed() {
         switch (key) {
             case ' ': {
-                randomizeCells(128*4);
+                randomizeCells(128 * 4);
             }
             break;
             case '+': {
@@ -200,8 +189,7 @@ public class SketchGameOfLife3
         }
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchGameOfLife3.class.getName()});
+        PApplet.main(new String[]{SketchGameOfLife3.class.getName()});
     }
 }

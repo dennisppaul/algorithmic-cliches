@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.cubicle;
 
 
@@ -39,7 +37,6 @@ public class SketchCubicle
 
     private CubicleWorldView mCubicleWorldView;
 
-
     public void setup() {
         size(1024, 768, OPENGL);
         textFont(createFont("Courier", 11));
@@ -48,12 +45,12 @@ public class SketchCubicle
 
         /* setup world */
         mCubicleWorld = new CubicleWorld(WORLD_NUMBER_OF_CUBICLES_X,
-                                         WORLD_NUMBER_OF_CUBICLES_Y,
-                                         WORLD_NUMBER_OF_CUBICLES_Z);
+                WORLD_NUMBER_OF_CUBICLES_Y,
+                WORLD_NUMBER_OF_CUBICLES_Z);
         mCubicleWorld.cellscale().set(WORLD_CUBICLE_SCALE, WORLD_CUBICLE_SCALE, WORLD_CUBICLE_SCALE);
         mCubicleWorld.transform().translation.set(-WORLD_NUMBER_OF_CUBICLES_X * mCubicleWorld.cellscale().x / 2,
-                                                  -WORLD_NUMBER_OF_CUBICLES_Y * mCubicleWorld.cellscale().y / 2,
-                                                  -WORLD_NUMBER_OF_CUBICLES_Z * mCubicleWorld.cellscale().z / 2);
+                -WORLD_NUMBER_OF_CUBICLES_Y * mCubicleWorld.cellscale().y / 2,
+                -WORLD_NUMBER_OF_CUBICLES_Z * mCubicleWorld.cellscale().z / 2);
 
         mCubicleWorldView = new CubicleWorldView(mCubicleWorld);
         mCubicleWorldView.color_empty = color(0, 1);
@@ -61,7 +58,6 @@ public class SketchCubicle
 
         mCubicleWorld.add(new MCubicleEntity());
     }
-
 
     public void draw() {
         /* get entities from cubicle world */
@@ -97,7 +93,7 @@ public class SketchCubicle
         if (mEntities != null) {
             mNumberOfPointsSelected = mEntities.size();
             for (ICubicleEntity mEntity : mEntities) {
-                MCubicleEntity m = (MCubicleEntity)mEntity;
+                MCubicleEntity m = (MCubicleEntity) mEntity;
                 stroke(m.color);
                 drawCross(mEntity.position(), 5.0f);
             }
@@ -127,13 +123,11 @@ public class SketchCubicle
         text("FPS      : " + frameRate, 10, 36);
     }
 
-
     private void drawCross(Vector3f v, float pRadius) {
         line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
         line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
         line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
     }
-
 
     public void keyPressed() {
         if (key == ' ') {
@@ -153,7 +147,6 @@ public class SketchCubicle
         }
     }
 
-
     class MCubicleEntity
             implements ICubicleEntity {
 
@@ -163,22 +156,18 @@ public class SketchCubicle
 
         private final Vector3f mPosition;
 
-
         public MCubicleEntity() {
             mCubicalPosition = new Vector3i();
             mPosition = new Vector3f();
         }
 
-
         public Vector3i cubicle() {
             return mCubicalPosition;
         }
 
-
         public Vector3f position() {
             return mPosition;
         }
-
 
         public boolean leaving(int theX, int theY, int theZ) {
             if (theX == cubicle().x
@@ -189,14 +178,12 @@ public class SketchCubicle
             return true;
         }
 
-
         public boolean isActive() {
             return true;
         }
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchCubicle.class.getName()});
+        PApplet.main(new String[]{SketchCubicle.class.getName()});
     }
 }

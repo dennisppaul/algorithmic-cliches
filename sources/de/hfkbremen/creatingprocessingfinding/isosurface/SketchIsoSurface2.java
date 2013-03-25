@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.isosurface;
 
 
@@ -27,7 +25,6 @@ public class SketchIsoSurface2
 
     private int mCurrentCircle = 0;
 
-
     public void setup() {
         size(1024, 768, OPENGL);
         textFont(createFont("Courier", 11));
@@ -40,7 +37,6 @@ public class SketchIsoSurface2
             mMetaCircles[i].strength(random(5000, 50000));
         }
     }
-
 
     public void draw() {
         background(255);
@@ -89,9 +85,8 @@ public class SketchIsoSurface2
         noStroke();
         text("ISOVALUE : " + mIsoValue, 10, 12);
         text("SELECTED : " + mCurrentCircle, 10, 24);
-        text("FPS      : " + (int)frameRate, 10, 36);
+        text("FPS      : " + (int) frameRate, 10, 36);
     }
-
 
     public void keyPressed() {
         switch (key) {
@@ -114,7 +109,6 @@ public class SketchIsoSurface2
         }
     }
 
-
     private void drawGrid(int RES_X, int RES_Y) {
         final int SQUARES_NX = width / RES_X;
         final int SQUARES_NY = height / RES_X;
@@ -131,7 +125,6 @@ public class SketchIsoSurface2
         }
     }
 
-
     private void drawMetaCenter() {
         stroke(0);
         beginShape(LINES);
@@ -146,8 +139,7 @@ public class SketchIsoSurface2
         endShape();
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchIsoSurface2.class.getName()});
+        PApplet.main(new String[]{SketchIsoSurface2.class.getName()});
     }
 }

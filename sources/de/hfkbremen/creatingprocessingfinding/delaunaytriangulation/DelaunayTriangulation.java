@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.delaunaytriangulation;
 
 
@@ -25,12 +23,10 @@ public class DelaunayTriangulation {
      */
     public static boolean VERBOSE = false;
 
-
     public static Vector<Triangle> triangulate(Vector<Vector3f> theVertices) {
         sort(theVertices);
         return triangulateSortedVertices(theVertices);
     }
-
 
     public static Vector<Triangle> triangulateSortedVertices(Vector<Vector3f> theVertices) {
 
@@ -243,12 +239,11 @@ public class DelaunayTriangulation {
         return mDelaunayTriangles;
     }
 
-
     private static boolean getCircumCircle(float xp, float yp,
-                                           float x1, float y1,
-                                           float x2, float y2,
-                                           float x3, float y3,
-                                           Vector3f circle) {
+            float x1, float y1,
+            float x2, float y2,
+            float x3, float y3,
+            Vector3f circle) {
         /*
          * Return TRUE if a point (xp,yp) is inside the circumcircle made up
          * of the points (x1, y1), (x2, y2), (x3, y3)
@@ -294,7 +289,7 @@ public class DelaunayTriangulation {
         dx = x2 - xc;
         dy = y2 - yc;
         rsqr = dx * dx + dy * dy;
-        r = (float)Math.sqrt(rsqr);
+        r = (float) Math.sqrt(rsqr);
 
         dx = xp - xc;
         dy = yp - yc;
@@ -307,9 +302,8 @@ public class DelaunayTriangulation {
         return (drsqr <= rsqr ? true : false);
     }
 
-
     static Vector3f getCenter(final Vector<Vector3f> theVertices,
-                              final Triangle theTriangle) {
+            final Triangle theTriangle) {
         final Vector3f myCenter = new Vector3f();
         final Vector3f v0 = theVertices.get(theTriangle.p[0]);
         final Vector3f v1 = theVertices.get(theTriangle.p[1]);
@@ -336,7 +330,6 @@ public class DelaunayTriangulation {
         return myCenter;
     }
 
-
     public static void sort(Vector<Vector3f> theConvexHullVertices) {
         int myCOMPARE_TYPE = Vector3f.COMPARE_TYPE;
         Vector3f.COMPARE_TYPE = Vector3f.X;
@@ -344,10 +337,9 @@ public class DelaunayTriangulation {
         Vector3f.COMPARE_TYPE = myCOMPARE_TYPE;
     }
 
-
     public static boolean addVertexSafely(Vector<Vector3f> pVertices,
-                                          Vector3f pNewVertex,
-                                          float mMinimumApproxDistance) {
+            Vector3f pNewVertex,
+            float mMinimumApproxDistance) {
         /* check if vertex is redundant */
         for (Vector3f myVertex : pVertices) {
             if (almost(myVertex, pNewVertex, mMinimumApproxDistance)) {
@@ -361,10 +353,9 @@ public class DelaunayTriangulation {
         return true;
     }
 
-
     private static boolean almost(final Vector3f v0,
-                                  final Vector3f v1,
-                                  float ALMOST_THRESHOLD) {
+            final Vector3f v1,
+            float ALMOST_THRESHOLD) {
         if (Math.abs(v1.x - v0.x) < ALMOST_THRESHOLD
                 && Math.abs(v1.y - v0.y) < ALMOST_THRESHOLD
                 && Math.abs(v1.z - v0.z) < ALMOST_THRESHOLD) {
@@ -374,18 +365,15 @@ public class DelaunayTriangulation {
         }
     }
 
-
     public static class TriangleEdge {
 
         public int[] p = new int[2];
-
 
         public TriangleEdge() {
             p[0] = -1;
             p[1] = -1;
         }
     }
-
 
     public static class Triangle {
 

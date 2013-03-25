@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.statemachine;
 
 
@@ -16,7 +14,6 @@ public class SketchSimpleStateMachine
 
     private Vector<MEntity> mEntities = new Vector<MEntity>();
 
-
     public void setup() {
         size(1024, 768);
         rectMode(CENTER);
@@ -26,7 +23,6 @@ public class SketchSimpleStateMachine
             mEntities.add(new MEntity());
         }
     }
-
 
     public void draw() {
         final float mDelta = 1.0f / frameRate;
@@ -38,7 +34,6 @@ public class SketchSimpleStateMachine
             m.draw(g);
         }
     }
-
 
     public class MEntity {
 
@@ -62,7 +57,6 @@ public class SketchSimpleStateMachine
 
         private final float IDEAL_SCALE = 20.0f;
 
-
         public MEntity() {
             state = STATE_FOLLOW_MOUSE;
             position.set(random(width), random(height));
@@ -70,7 +64,6 @@ public class SketchSimpleStateMachine
             color = color(0, 127);
             scale = IDEAL_SCALE;
         }
-
 
         public void update(final float pDelta) {
             state_time += pDelta;
@@ -87,7 +80,6 @@ public class SketchSimpleStateMachine
             }
         }
 
-
         public void draw(PGraphics g) {
             noStroke();
             fill(color);
@@ -96,7 +88,6 @@ public class SketchSimpleStateMachine
             ellipse(0, 0, scale, scale);
             popMatrix();
         }
-
 
         private void update_brownian_motion(final float pDelta) {
             final float STATE_DURATION = 4.0f;
@@ -107,10 +98,9 @@ public class SketchSimpleStateMachine
                 color = color(255, 127, 0, 127);
                 final float BROWNIAN_SPEED = 15.0f;
                 position.add(random(-BROWNIAN_SPEED, BROWNIAN_SPEED),
-                             random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
+                        random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
             }
         }
-
 
         private void update_change_randomly(final float pDelta) {
             final float STATE_DURATION = 1.5f;
@@ -122,7 +112,6 @@ public class SketchSimpleStateMachine
                 scale = random(50, 100);
             }
         }
-
 
         private void update_follow_mouse(final float pDelta) {
             Vector3f mDiff = mathematik.Util.sub(new Vector3f(mouseX, mouseY), position);
@@ -142,8 +131,7 @@ public class SketchSimpleStateMachine
         }
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchSimpleStateMachine.class.getName()});
+        PApplet.main(new String[]{SketchSimpleStateMachine.class.getName()});
     }
 }

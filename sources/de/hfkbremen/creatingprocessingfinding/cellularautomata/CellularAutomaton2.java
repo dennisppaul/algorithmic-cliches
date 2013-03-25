@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.cellularautomata;
 
 
@@ -18,13 +16,11 @@ public class CellularAutomaton2 {
 
     private static final int GRID_READ = 1;
 
-
     public CellularAutomaton2(int pGridX, int pGridY) {
         mGridX = pGridX;
         mGridY = pGridY;
         mCells = new boolean[mGridX][mGridY][2];
     }
-
 
     public void randomizeCells(float pDistribution) {
         for (int x = 0; x < mGridX; x++) {
@@ -34,7 +30,6 @@ public class CellularAutomaton2 {
             }
         }
     }
-
 
     void draw(PGraphics g) {
         g.pushMatrix();
@@ -52,19 +47,16 @@ public class CellularAutomaton2 {
         g.popMatrix();
     }
 
-
     public void update() {
         /* this is a classic 'working' parameter-set: B3/S23
          * birth with 3 neighbors, die with less then 2 or more than 3 neighbors */
         update(3, 2, 3);
     }
 
-
     public void update(int pBirth, int pMinSurvive, int pMaxSurvive) {
         evaluateCells(pBirth, pMinSurvive, pMaxSurvive);
         copyCellStates();
     }
-
 
     private void evaluateCells(int pBirth, int pMinSurvive, int pMaxSurvive) {
         for (int x = 0; x < mGridX; x++) {
@@ -84,7 +76,6 @@ public class CellularAutomaton2 {
         }
     }
 
-
     private void copyCellStates() {
         for (int x = 0; x < mGridX; x++) {
             for (int y = 0; y < mGridY; y++) {
@@ -92,7 +83,6 @@ public class CellularAutomaton2 {
             }
         }
     }
-
 
     private int getNeighbors(int pX, int pY) {
         int mNeighbors = 0;

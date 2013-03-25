@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.flocking;
 
 
@@ -25,7 +23,6 @@ public class SketchFlocking2
     private Physics mPhysics;
 
     private Vector<SwarmEntity> mSwarmEntities;
-
 
     public void setup() {
         size(1024, 768, OPENGL);
@@ -58,7 +55,6 @@ public class SketchFlocking2
         mSwarmEntities = new Vector<SwarmEntity>();
     }
 
-
     public void draw() {
         final float mDeltaTime = 1.0f / frameRate;
 
@@ -84,9 +80,8 @@ public class SketchFlocking2
         fill(0);
         noStroke();
         text("ENTITIES : " + mSwarmEntities.size(), 10, 12);
-        text("FPS      : " + (int)frameRate, 10, 24);
+        text("FPS      : " + (int) frameRate, 10, 24);
     }
-
 
     private void spawnEntity() {
         SwarmEntity mSwarmEntity = new SwarmEntity();
@@ -94,7 +89,6 @@ public class SketchFlocking2
         mSwarmEntities.add(mSwarmEntity);
         mPhysics.add(mSwarmEntity);
     }
-
 
     private class SwarmEntity
             extends BehaviorParticle {
@@ -108,7 +102,6 @@ public class SketchFlocking2
         private Wander wander;
 
         private Motor motor;
-
 
         public SwarmEntity() {
             maximumInnerForce(random(100.0f, 1000.0f));
@@ -138,13 +131,11 @@ public class SketchFlocking2
             behaviors().add(motor);
         }
 
-
         public void update(float theDeltaTime) {
             separation.neighbors(mSwarmEntities);
             alignment.neighbors(mSwarmEntities);
             cohesion.neighbors(mSwarmEntities);
         }
-
 
         private void draw(PGraphics g) {
             pushMatrix();
@@ -166,8 +157,7 @@ public class SketchFlocking2
         }
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchFlocking2.class.getName()});
+        PApplet.main(new String[]{SketchFlocking2.class.getName()});
     }
 }

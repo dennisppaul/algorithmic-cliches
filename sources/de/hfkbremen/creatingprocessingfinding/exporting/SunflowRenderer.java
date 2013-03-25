@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.exporting;
 
 
@@ -27,11 +25,9 @@ public class SunflowRenderer
 
     private final SunflowRendererApplet mApplet;
 
-
     public static SunflowRenderer render(PApplet pApplet, String pDrawMethodName) {
         return new SunflowRenderer(pApplet, pDrawMethodName);
     }
-
 
     public SunflowRenderer(PApplet pParent, String pMethodName) {
         mParent = pParent;
@@ -39,7 +35,7 @@ public class SunflowRenderer
 
         final Class mClass = SketchRenderWithSunflow.class;
         try {
-            mMethod = mClass.getMethod(pMethodName, new Class[] {PGraphics.class});
+            mMethod = mClass.getMethod(pMethodName, new Class[]{PGraphics.class});
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -54,23 +50,19 @@ public class SunflowRenderer
 
     }
 
-
     public void setup(P5Sunflow pSunflow) {
         pSunflow.camera.setType(SunflowCamera.PINHOLE);
         pSunflow.scene.setAaSamples(1);
     }
-
 
     public class SunflowRendererApplet
             extends PApplet {
 
         private final SunflowRenderer mInnerParent;
 
-
         public SunflowRendererApplet(SunflowRenderer pParent) {
             mInnerParent = pParent;
         }
-
 
         public void setup() {
             size(mParent.width, mParent.height, hipstersinc.P5Sunflow.class.getName());
@@ -78,13 +70,12 @@ public class SunflowRenderer
             background(255);
         }
 
-
         public void draw() {
-            final P5Sunflow mSunflow = (P5Sunflow)g;
+            final P5Sunflow mSunflow = (P5Sunflow) g;
             mInnerParent.setup(mSunflow);
 
             try {
-                mMethod.invoke(mParent, new Object[] {mSunflow});
+                mMethod.invoke(mParent, new Object[]{mSunflow});
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

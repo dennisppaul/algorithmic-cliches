@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.statemachine.state;
 
 
@@ -25,7 +23,6 @@ public class Entity {
 
     private final PApplet p;
 
-
     public Entity(PApplet pPApplet) {
         p = pPApplet;
         switchState(new StateFollowMouse(this, p));
@@ -34,11 +31,9 @@ public class Entity {
         scale = IDEAL_SCALE;
     }
 
-
     public void update(final float pDelta) {
         mState.update(pDelta);
     }
-
 
     public void draw(PGraphics g) {
         g.noStroke();
@@ -53,7 +48,6 @@ public class Entity {
         }
         g.popMatrix();
     }
-
 
     public final void switchState(State pState) {
         if (mState != null) {

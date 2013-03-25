@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.perlinnoise;
 
 
@@ -30,7 +28,6 @@ public class SketchPerlinNoise
 
     final float mNoiseScale = 0.024f;
 
-
     public void setup() {
         size(1024, 768, OPENGL);
         smooth();
@@ -53,12 +50,11 @@ public class SketchPerlinNoise
         }
     }
 
-
     private void populateField(float mOffset) {
         for (int x = 0; x < mVectorField.length; x++) {
             for (int y = 0; y < mVectorField[x].length; y++) {
                 float mNoise = noise((x * mNoiseScale) + mOffset,
-                                     (y * mNoiseScale) + mOffset);
+                        (y * mNoiseScale) + mOffset);
                 mNoise *= TWO_PI * 2;
                 final Vector3f v = mVectorField[x][y];
                 v.x = sin(mNoise);
@@ -66,7 +62,6 @@ public class SketchPerlinNoise
             }
         }
     }
-
 
     public void draw() {
         background(255);
@@ -107,7 +102,6 @@ public class SketchPerlinNoise
         }
     }
 
-
     class MEntity {
 
         Vector3f position = new Vector3f();
@@ -120,7 +114,6 @@ public class SketchPerlinNoise
 
         float force = random(600, 900);
 
-
         void draw(PGraphics g) {
             pushMatrix();
             translate(position.x, position.y, position.z);
@@ -128,7 +121,6 @@ public class SketchPerlinNoise
             rect(0, 0, 15, 5);
             popMatrix();
         }
-
 
         void update() {
             /* teleport */
@@ -146,8 +138,8 @@ public class SketchPerlinNoise
             }
 
             /* set acceleration from forcefield */
-            final int mCellX = (int)(position.x / GRID_SIZE);
-            final int mCellY = (int)(position.y / GRID_SIZE);
+            final int mCellX = (int) (position.x / GRID_SIZE);
+            final int mCellY = (int) (position.y / GRID_SIZE);
             if (withinBounds(mCellX, mCellY)) {
                 Vector3f v = mVectorField[mCellX][mCellY];
                 acceleration.set(v);
@@ -166,12 +158,10 @@ public class SketchPerlinNoise
             position.add(mVel);
         }
 
-
         boolean withinBounds(int pCellX, int pCellY) {
             return !(pCellX < 0 || pCellY < 0 || pCellX >= mCellsX || pCellY >= mCellsY);
         }
     }
-
 
     public void keyPressed() {
         if (key == ' ') {
@@ -183,8 +173,7 @@ public class SketchPerlinNoise
         }
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchPerlinNoise.class.getName()});
+        PApplet.main(new String[]{SketchPerlinNoise.class.getName()});
     }
 }

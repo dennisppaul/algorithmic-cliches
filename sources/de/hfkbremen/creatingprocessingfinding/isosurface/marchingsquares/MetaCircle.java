@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.isosurface.marchingsquares;
 
 
@@ -12,21 +10,17 @@ public class MetaCircle {
 
     private float mStrength = 30000;
 
-
     public Vector3f position() {
         return mPosition;
     }
-
 
     public void strength(float pStrength) {
         mStrength = pStrength;
     }
 
-
     public float strength() {
         return mStrength;
     }
-
 
     public float getStrengthAt(float x, float y, float z) {
         float dx;
@@ -37,7 +31,6 @@ public class MetaCircle {
         dz = mPosition.z - z;
         return mStrength / (dx * dx + dy * dy + dz * dz);
     }
-
 
     public float getStrengthAt(float x, float y) {
         float dx;

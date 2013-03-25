@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.packing;
 
 
@@ -19,14 +17,12 @@ public class SketchSpherePackingAroundCenter
 
     private Vector3f mCenter = new Vector3f();
 
-
     public void setup() {
         size(1024, 768);
         smooth();
         mEntities = createRandomEntites(50);
         mCenter.set(width / 2, height / 2, 0);
     }
-
 
     public void draw() {
         background(255);
@@ -43,10 +39,9 @@ public class SketchSpherePackingAroundCenter
         final int ITERATIONS = 50;
         for (int i = 1; i < ITERATIONS; i++) {
             attachToMouse();
-            Packing.pack(mEntities, mCenter, 1.0f / (float)frameRate * 0.0251f);
+            Packing.pack(mEntities, mCenter, 1.0f / (float) frameRate * 0.0251f);
         }
     }
-
 
     private Vector<PackingEntity> createRandomEntites(int pNumberOfShapes) {
         Vector<PackingEntity> mRandomEntities = new Vector<PackingEntity>();
@@ -59,22 +54,18 @@ public class SketchSpherePackingAroundCenter
         return mRandomEntities;
     }
 
-
     public void mousePressed() {
         mCenter.set(mouseX, mouseY, 0);
     }
-
 
     public void keyPressed() {
         mEntities = createRandomEntites(50);
     }
 
-
     private boolean contains(PackingEntity c, Vector3f pPosition) {
         float d = c.position().distance(pPosition);
         return d <= c.radius();
     }
-
 
     private void attachToMouse() {
         for (int j = 0; j < mEntities.size(); j++) {
@@ -85,8 +76,7 @@ public class SketchSpherePackingAroundCenter
         }
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchSpherePackingAroundCenter.class.getName()});
+        PApplet.main(new String[]{SketchSpherePackingAroundCenter.class.getName()});
     }
 }

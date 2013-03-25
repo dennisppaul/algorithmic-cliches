@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.octree;
 
 
@@ -31,7 +29,6 @@ public class SketchOctree
 
     private int numParticles = 1;
 
-
     public void setup() {
         size(1024, 768, OPENGL);
         textFont(createFont("Courier", 11));
@@ -39,7 +36,6 @@ public class SketchOctree
         mOctree = new MVisibleOctree(new Vector3f(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
         mOctree.add(new MOctreeEntity());
     }
-
 
     public void draw() {
         background(255);
@@ -64,8 +60,8 @@ public class SketchOctree
             mEntities = mOctree.getEntitesWithinSphere(mPosition, mSelectRadius);
         } else {
             mEntities = mOctree.getEntitiesWithinBox(mPosition, new Vector3f(mSelectRadius / 2,
-                                                                             mSelectRadius / 2,
-                                                                             mSelectRadius / 2));
+                    mSelectRadius / 2,
+                    mSelectRadius / 2));
         }
 
         /* draw entities */
@@ -75,7 +71,7 @@ public class SketchOctree
         if (mEntities != null) {
             mNumberOfPointsSelected = mEntities.size();
             for (OctreeEntity mEntity : mEntities) {
-                MOctreeEntity m = (MOctreeEntity)mEntity;
+                MOctreeEntity m = (MOctreeEntity) mEntity;
                 stroke(m.color);
                 drawCross(mEntity.position(), 1.0f);
             }
@@ -114,13 +110,11 @@ public class SketchOctree
         text("FPS      : " + frameRate, 10, 36);
     }
 
-
     private void drawCross(Vector3f v, float pRadius) {
         line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
         line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
         line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
     }
-
 
     public void keyPressed() {
         if (key == ' ') {
@@ -148,7 +142,6 @@ public class SketchOctree
         }
     }
 
-
     class MOctreeEntity
             implements OctreeEntity {
 
@@ -156,12 +149,10 @@ public class SketchOctree
 
         int color = color(0, 127, random(0, 255), 127);
 
-
         public Vector3f position() {
             return position;
         }
     }
-
 
     class MVisibleOctree
             extends Octree {
@@ -170,11 +161,9 @@ public class SketchOctree
             super(o, d);
         }
 
-
         void draw() {
             drawNode(this);
         }
-
 
         void drawNode(Octree pOctree) {
             if (pOctree.getNumChildren() > 0) {
@@ -192,8 +181,7 @@ public class SketchOctree
         }
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchOctree.class.getName()});
+        PApplet.main(new String[]{SketchOctree.class.getName()});
     }
 }

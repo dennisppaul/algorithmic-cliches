@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding;
 
 
@@ -13,12 +11,10 @@ public class AppStub
         size(1024, 768);
     }
 
-
     public void draw() {
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {AppStub.class.getName()});
+        PApplet.main(new String[]{AppStub.class.getName()});
     }
 }

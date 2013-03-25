@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.octree;
 
 

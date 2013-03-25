@@ -13,9 +13,8 @@
 // THIS SOFTWARE/DOCUMENTATION IS PROVIDED WITH NO WARRANTY, EXPRESS OR
 // IMPLIED, INCLUDING, WITHOUT LIMITATION, WARRANTY OF MERCHANTABILITY OR
 // FITNESS FOR A PARTICULAR PURPOSE.
-
-
 package de.hfkbremen.creatingprocessingfinding.convexhull;
+
 
 import java.util.Enumeration;
 import java.util.Vector;
@@ -47,7 +46,7 @@ public class DSurface
     public void addFaces(Vector v) {
         for (Enumeration e = v.elements();
                 e.hasMoreElements();) {
-            addFace((HullPolygon)e.nextElement());
+            addFace((HullPolygon) e.nextElement());
         }
     }
 

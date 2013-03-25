@@ -1,5 +1,6 @@
 package de.hfkbremen.creatingprocessingfinding.isosurface;
 
+
 import mathematik.Vector3f;
 
 import de.hfkbremen.creatingprocessingfinding.isosurface.marchingcubes.Metaball;
@@ -9,11 +10,14 @@ import processing.core.PApplet;
 
 import java.util.Vector;
 
+
 public class SketchIsoSurface3
         extends PApplet {
 
     private MetaballManager mMetaballManager;
+
     private int mCurrentCircle = 0;
+
     private ArcBall mArcBall;
 
     public void setup() {

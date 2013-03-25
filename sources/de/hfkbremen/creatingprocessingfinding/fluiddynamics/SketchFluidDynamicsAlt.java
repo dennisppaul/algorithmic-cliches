@@ -9,10 +9,10 @@ import processing.core.PApplet;
  *
  * @author Alexander McKenzie
  * @version 1.0
- **/
-
+ *
+ */
 public class SketchFluidDynamicsAlt
-    extends PApplet {
+        extends PApplet {
 
     // frame dimensions (dxd pixels)
     private int d = 60 * 10;
@@ -47,7 +47,6 @@ public class SketchFluidDynamicsAlt
         frameRate(240);
     }
 
-
     public void reset() {
         // calculate cell deimensions
         dg = d / n;
@@ -56,11 +55,10 @@ public class SketchFluidDynamicsAlt
         fs.setup(n, dt);
     }
 
-
     public void draw() {
 
         println(frameRate);
-        
+
         background(255);
         noStroke();
 
@@ -76,14 +74,14 @@ public class SketchFluidDynamicsAlt
 
         for (int i = 1; i <= n; i++) {
             // x position of current cell
-            dx = (int) ( (i - 0.5f) * dg);
+            dx = (int) ((i - 0.5f) * dg);
             for (int j = 1; j <= n; j++) {
                 // y position of current cell
-                dy = (int) ( (j - 0.5f) * dg);
+                dy = (int) ((j - 0.5f) * dg);
 
                 // draw density
                 if (fs.d[I(i, j)] > 0) {
-                    c = (int) ( (1.0 - fs.d[I(i, j)]) * 255);
+                    c = (int) ((1.0 - fs.d[I(i, j)]) * 255);
                     if (c < 0) {
                         c = 0;
                     }
@@ -102,7 +100,6 @@ public class SketchFluidDynamicsAlt
             }
         }
     }
-
 
     public void keyPressed() {
         // set flag for drawing velocity field
@@ -178,11 +175,10 @@ public class SketchFluidDynamicsAlt
         }
     }
 
-
     public void updateLocation() {
         // get index for fluid cell under mouse position
-        i = (int) ( (mouseX / (float) d) * n + 1);
-        j = (int) ( (mouseY / (float) d) * n + 1);
+        i = (int) ((mouseX / (float) d) * n + 1);
+        j = (int) ((mouseY / (float) d) * n + 1);
 
         // set boundries
         if (i > n) {
@@ -207,14 +203,12 @@ public class SketchFluidDynamicsAlt
         }
     }
 
-
     // util function for indexing
     private int I(int i, int j) {
         return i + (n + 2) * j;
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchFluidDynamicsAlt.class.getName()});
+        PApplet.main(new String[]{SketchFluidDynamicsAlt.class.getName()});
     }
 }

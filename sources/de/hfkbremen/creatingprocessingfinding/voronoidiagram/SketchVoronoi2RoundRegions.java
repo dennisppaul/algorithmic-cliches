@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.voronoidiagram;
 
 
@@ -23,26 +21,25 @@ public class SketchVoronoi2RoundRegions
 
     private int mCurrentRegion;
 
-
     public void setup() {
         size(1024, 768, OPENGL);
         smooth();
 
         final int NUMBER_OF_POINTS_ON_CIRLCE = 20;
         for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRLCE; i++) {
-            final float r = (float)i / NUMBER_OF_POINTS_ON_CIRLCE * TWO_PI;
+            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRLCE * TWO_PI;
             final float x = sin(r) * 50 + width / 2;
             final float y = cos(r) * 50 + height / 2;
             addPoint(x, y);
         }
         for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRLCE; i++) {
-            final float r = (float)i / NUMBER_OF_POINTS_ON_CIRLCE * TWO_PI + 0.3f;
+            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRLCE * TWO_PI + 0.3f;
             final float x = sin(r) * 100 + width / 2;
             final float y = cos(r) * 100 + height / 2;
             addPoint(x, y);
         }
         for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRLCE; i++) {
-            final float r = (float)i / NUMBER_OF_POINTS_ON_CIRLCE * TWO_PI + 1.1f;
+            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRLCE * TWO_PI + 1.1f;
             final float x = sin(r) * 150 + width / 2;
             final float y = cos(r) * 150 + height / 2;
             addPoint(x, y);
@@ -51,12 +48,10 @@ public class SketchVoronoi2RoundRegions
         addPoint(width / 2, height / 2);
     }
 
-
     private void addPoint(float x, float y) {
         mCurrentRegion = 0;
         mPoints.add(new Vector3f(x, y));
     }
-
 
     public void draw() {
         Vector3f[] mGridPointsArray = new Vector3f[mPoints.size()];
@@ -96,14 +91,12 @@ public class SketchVoronoi2RoundRegions
         }
     }
 
-
     private void drawCross(Vector3f v) {
         final float o = 2.0f;
         line(v.x - o, v.y, v.z, v.x + o, v.y, v.z);
         line(v.x, v.y - o, v.z, v.x, v.y + o, v.z);
         line(v.x, v.y, v.z - o, v.x, v.y, v.z + o);
     }
-
 
     private void drawRegion(Vector3f[] pVertex) {
         Vector<Vector3f> mRegion = new Vector<Vector3f>(Arrays.asList(pVertex));
@@ -116,19 +109,16 @@ public class SketchVoronoi2RoundRegions
         endShape(CLOSE);
     }
 
-
     public void keyPressed() {
         mCurrentRegion++;
         mCurrentRegion %= mRegions.length;
     }
 
-
     public void mousePressed() {
         addPoint(mouseX, mouseY);
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchVoronoi2RoundRegions.class.getName()});
+        PApplet.main(new String[]{SketchVoronoi2RoundRegions.class.getName()});
     }
 }

@@ -1,5 +1,3 @@
-
-
 package de.hfkbremen.creatingprocessingfinding.fastfouriertransform;
 
 
@@ -30,7 +28,6 @@ public class SketchFFTLandscape
 
     private static final float BAND_SCALE = 8.0f;
 
-
     public void setup() {
         size(1024, 768, OPENGL);
         new ArcBall(this);
@@ -45,7 +42,6 @@ public class SketchFFTLandscape
             mBands[i] = new MBands();
         }
     }
-
 
     public void draw() {
         mCurrentTime += 1.0f / frameRate;
@@ -69,13 +65,11 @@ public class SketchFFTLandscape
         mBandsPointer %= mBands.length;
     }
 
-
     public void stop() {
         mLiveAudioInput.close();
         mMinim.stop();
         super.stop();
     }
-
 
     private void handleFFT() {
         mFFT.forward(mLiveAudioInput.left);
@@ -87,15 +81,13 @@ public class SketchFFTLandscape
         mBands[mBandsPointer] = mCurrentBands;
     }
 
-
     private void drawBands(MBands b) {
         for (int i = 0; i < b.bands.size(); i++) {
-            final float x = width * (float)i / b.bands.size();
+            final float x = width * (float) i / b.bands.size();
             final float myHeight = b.bands.get(i) * BAND_SCALE;
             rect(x, height, width / b.bands.size(), -myHeight);
         }
     }
-
 
     private void drawFFTLandscape() {
         beginShape(TRIANGLES);
@@ -112,14 +104,14 @@ public class SketchFFTLandscape
 
                 for (int j = 0; j < b.bands.size(); j++) {
                     int mJ = (j + 1) % b.bands.size();
-                    final float x0 = width * (float)j / b.bands.size();
+                    final float x0 = width * (float) j / b.bands.size();
                     final float y0 = height - b.bands.get(j) * BAND_SCALE;
-                    final float x1 = width * (float)(j + 1) / b.bands.size();
+                    final float x1 = width * (float) (j + 1) / b.bands.size();
                     final float y1 = height - b.bands.get(mJ) * BAND_SCALE;
 
-                    final float x2 = width * (float)(j + 1) / bP.bands.size();
+                    final float x2 = width * (float) (j + 1) / bP.bands.size();
                     final float y2 = height - bP.bands.get(mJ) * BAND_SCALE;
-                    final float x3 = width * (float)j / bP.bands.size();
+                    final float x3 = width * (float) j / bP.bands.size();
                     final float y3 = height - bP.bands.get(j) * BAND_SCALE;
 
                     vertex(x0, y0, z * i);
@@ -135,7 +127,6 @@ public class SketchFFTLandscape
         endShape();
     }
 
-
     class MBands {
 
         Vector<Float> bands = new Vector<Float>();
@@ -144,8 +135,7 @@ public class SketchFFTLandscape
 
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchFFTLandscape.class.getName()});
+        PApplet.main(new String[]{SketchFFTLandscape.class.getName()});
     }
 }
