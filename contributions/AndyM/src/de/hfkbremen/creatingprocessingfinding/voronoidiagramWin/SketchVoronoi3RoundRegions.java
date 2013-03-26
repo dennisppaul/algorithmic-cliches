@@ -1,6 +1,8 @@
 package de.hfkbremen.creatingprocessingfinding.voronoidiagramWin;
 
 
+import java.util.Vector;
+import mathematik.BSpline;
 import mathematik.Vector3f;
 
 import processing.core.PApplet;
@@ -8,7 +10,7 @@ import quickhull3d.Point3d;
 import quickhull3d.QuickHull3D;
 
 
-public class SketchVoronoi3
+public class SketchVoronoi3RoundRegions
         extends PApplet {
 
     private Vector3f[][] mRegions;
@@ -28,7 +30,7 @@ public class SketchVoronoi3
     private int mCurrentRegion;
 
     public void setup() {
-        size(1024, 600, OPENGL);
+        size(1024, 600, P3D);
         frameRate(30);
         populatePointArray();
     }
@@ -103,7 +105,7 @@ public class SketchVoronoi3
     }
 
     private void drawHull(Vector3f[] pVertex) {
-        final QuickHull3D hull = new QuickHull3D();
+        QuickHull3D hull = new QuickHull3D();
 
         final Point3d[] myNewVertices = new Point3d[pVertex.length];
         for (int i = 0; i < pVertex.length; i++) {
@@ -113,8 +115,20 @@ public class SketchVoronoi3
         }
 
         hull.build(myNewVertices);
+        Point3d[] hullverts = hull.getVertices();  //get vertices
+        Vector<Vector3f> asdf = new Vector<Vector3f>();
+        for(int i = 0; i < hullverts.length; ++i){
+            asdf.add(new Vector3f(hullverts[i].x,hullverts[i].y,hullverts[i].z));
+        }
+        final Vector<Vector3f> interpolated = BSpline.curve(BSpline.closeCurve(asdf), 100);
+        hullverts = new Point3d[interpolated.size()];
+        for(int i = 0; i < hullverts.length; ++i){
+            hullverts[i] = new Point3d(interpolated.get(i).x,interpolated.get(i).y,interpolated.get(i).z);
+        }
+        hull = new QuickHull3D();
+        hull.build(hullverts);
         hull.triangulate();
-        Point3d[] vertices = hull.getVertices();  //get vertices
+        Point3d[] vertices = hull.getVertices();
 
         beginShape(TRIANGLE_STRIP);
         int[][] faceIndices = hull.getFaces();
@@ -140,6 +154,6 @@ public class SketchVoronoi3
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchVoronoi3.class.getName()});
+        PApplet.main(new String[]{SketchVoronoi3RoundRegions.class.getName()});
     }
 }
