@@ -1,14 +1,16 @@
-package voronoidiagramWin;
+package de.hfkbremen.creatingprocessingfinding.voronoidiagramWin;
 
 
+import mathematik.BSpline;
 import mathematik.Vector3f;
 
 import processing.core.PApplet;
 
+import java.util.Arrays;
 import java.util.Vector;
 
 
-public class SketchVoronoi2
+public class SketchVoronoi2RoundRegions
         extends PApplet {
 
     private Vector3f[][] mRegions;
@@ -97,9 +99,11 @@ public class SketchVoronoi2
     }
 
     private void drawRegion(Vector3f[] pVertex) {
+        Vector<Vector3f> mRegion = new Vector<Vector3f>(Arrays.asList(pVertex));
+        final Vector<Vector3f> mRoundRegion = BSpline.curve(BSpline.closeCurve(mRegion), 10);
+
         beginShape();
-        for (int i = 0; i < pVertex.length; i++) {
-            Vector3f v = pVertex[i];
+        for (Vector3f v : mRoundRegion) {
             vertex(v.x, v.y, v.z);
         }
         endShape(CLOSE);
@@ -115,6 +119,6 @@ public class SketchVoronoi2
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchVoronoi2.class.getName()});
+        PApplet.main(new String[]{SketchVoronoi2RoundRegions.class.getName()});
     }
 }

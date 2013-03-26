@@ -1,4 +1,4 @@
-package voronoidiagramWin;
+package de.hfkbremen.creatingprocessingfinding.voronoidiagramWin;
 
 
 import mathematik.Vector3f;

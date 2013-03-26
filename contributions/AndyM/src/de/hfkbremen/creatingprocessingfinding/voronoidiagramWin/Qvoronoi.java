@@ -1,6 +1,8 @@
-package voronoidiagram_Win;
+package de.hfkbremen.creatingprocessingfinding.voronoidiagramWin;
 
 
+import static de.hfkbremen.creatingprocessingfinding.voronoidiagram.Qvoronoi.QVORONOI_APP;
+import static de.hfkbremen.creatingprocessingfinding.voronoidiagram.Qvoronoi.VERBOSE;
 import mathematik.Vector3f;
 
 import java.io.BufferedReader;
@@ -15,7 +17,7 @@ public class Qvoronoi {
      * install qhull ( http://www.qhull.org/ ) via macports ( http://www.macports.org/ )
      * 
      */
-    public static String QVORONOI_APP = "/opt/local/bin/qvoronoi";
+    public static String QVORONOI_APP = "qvoronoi.exe";
 
     public static boolean VERBOSE = false;
 
@@ -24,8 +26,8 @@ public class Qvoronoi {
     public String computeDiagram(int pDimensions, Vector3f[] pPoints) {
         try {
             /* assemble shell command */
-            String myParameter = "cat - | " + QVORONOI_APP + " o";
-            String[] myExecString = new String[]{"sh", "-c", myParameter};
+            String myParameter = QVORONOI_APP + " o";
+            String[] myExecString = new String[]{"cmd", "/C", myParameter};
             Process myProcess = Runtime.getRuntime().exec(myExecString);
             BufferedReader br = new BufferedReader(new InputStreamReader(myProcess.getInputStream()));
 
