@@ -1,17 +1,18 @@
-package de.peterb.algorithmicclichees;
+package de.peterb.algorithmicclichees.sketches;
+
 
 import processing.core.PApplet;
+
 
 public class MeinErsterProcessingSketch extends PApplet {
 
     public void setup() {
         size(640, 480, OPENGL);
         println("test");
-        
+
     }
 
     public static void main(String[] args) {
         PApplet.main(new String[]{MeinErsterProcessingSketch.class.getName()});
     }
 }
-
