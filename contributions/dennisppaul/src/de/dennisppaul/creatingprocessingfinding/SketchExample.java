@@ -1,5 +1,3 @@
-
-
 package de.dennisppaul.creatingprocessingfinding;
 
 
@@ -11,14 +9,13 @@ public class SketchExample
 
     public void setup() {
         size(1024, 768);
+        System.out.println(sketchPath);
     }
-
 
     public void draw() {
     }
 
-
     public static void main(String[] args) {
-        PApplet.main(new String[] {SketchExample.class.getName()});
+        PApplet.main(new String[]{SketchExample.class.getName()});
     }
 }

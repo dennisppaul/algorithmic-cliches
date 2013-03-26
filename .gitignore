@@ -6,5 +6,4 @@
 *.ear
 
 libraries/toxiclibs/**
-libraries/quickhull3d/**
 tmp/**
