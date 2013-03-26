@@ -8,6 +8,9 @@ import processing.core.PApplet;
 import java.util.Vector;
 
 
+/**
+ * http://en.wikipedia.org/wiki/Convex_hull
+ */
 public class SketchConvexHull
         extends PApplet {
 
@@ -59,7 +62,7 @@ public class SketchConvexHull
         /* draw hull */
         noStroke();
         fill(255, 127, 0);
-        drawHull(mGridPoints);
+        computeAndDrawHull(mGridPoints);
 
         /* draw points */
         stroke(255, 0, 0, 127);
@@ -76,16 +79,16 @@ public class SketchConvexHull
         line(v.x, v.y, v.z - o, v.x, v.y, v.z + o);
     }
 
-    private void drawHull(Vector3f[] pVertex) {
-        final ConvexHull myHull = new ConvexHull();
-        final Vector<HullVertex> myNewVertices = new Vector<HullVertex>();
+    private void computeAndDrawHull(Vector3f[] pVertex) {
+        final ConvexHull mHull = new ConvexHull();
+        final Vector<HullVertex> mNewVertices = new Vector<HullVertex>();
         for (int i = 0; i < pVertex.length; i++) {
-            myNewVertices.add(new HullVertex(pVertex[i].x,
+            mNewVertices.add(new HullVertex(pVertex[i].x,
                     pVertex[i].y,
                     pVertex[i].z));
         }
-        myHull.calculateHull(myNewVertices);
-        float[] myVertices = myHull.getVerticesArray();
+        mHull.calculateHull(mNewVertices);
+        float[] myVertices = mHull.getVerticesArray();
 
         mNoNoTriangle += 0.01f;
         mNoNoTriangle %= myVertices.length / 9;

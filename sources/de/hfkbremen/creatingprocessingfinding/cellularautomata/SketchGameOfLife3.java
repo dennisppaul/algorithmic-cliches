@@ -4,6 +4,9 @@ package de.hfkbremen.creatingprocessingfinding.cellularautomata;
 import de.hfkbremen.creatingprocessingfinding.util.ArcBall;
 import processing.core.PApplet;
 
+/**
+ * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+ */
 
 public class SketchGameOfLife3
         extends PApplet {

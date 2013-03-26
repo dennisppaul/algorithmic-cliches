@@ -5,6 +5,10 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 
 
+/**
+ * http://sunflow.sourceforge.net/
+ * http://en.wikipedia.org/wiki/Global_illumination
+ */
 public class SketchRenderWithSunflow
         extends PApplet {
 

@@ -8,6 +8,9 @@ import processing.core.PApplet;
 import java.util.Vector;
 
 
+/**
+ * http://en.wikipedia.org/wiki/Octree
+ */
 public class SketchOctree
         extends PApplet {
 

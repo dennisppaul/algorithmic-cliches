@@ -9,6 +9,9 @@ import processing.core.PGraphics;
 import java.util.Vector;
 
 
+/**
+ * http://en.wikipedia.org/wiki/Perlin_noise
+ */
 public class SketchPerlinNoise
         extends PApplet {
 

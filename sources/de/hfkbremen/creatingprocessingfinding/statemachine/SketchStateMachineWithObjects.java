@@ -7,6 +7,9 @@ import processing.core.PApplet;
 import java.util.Vector;
 
 
+/**
+ * http://en.wikipedia.org/wiki/State_machine
+ */
 public class SketchStateMachineWithObjects
         extends PApplet {
 

@@ -3,6 +3,9 @@ package de.hfkbremen.creatingprocessingfinding.cellularautomata;
 
 import processing.core.PApplet;
 
+/**
+ * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+ */
 
 public class SketchGameOfLife2
         extends PApplet {
@@ -13,7 +16,7 @@ public class SketchGameOfLife2
         size(1024, 768, OPENGL);
         rectMode(CENTER);
         textFont(createFont("Courier", 11));
-
+        
         mCA = new CellularAutomaton2(1024 / 8, 768 / 8);
         mCA.randomizeCells(0.6f);
     }

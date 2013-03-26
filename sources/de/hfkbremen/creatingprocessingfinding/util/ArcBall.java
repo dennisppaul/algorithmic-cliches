@@ -8,6 +8,9 @@ import mathematik.Vector4f;
 import processing.core.PApplet;
 
 
+/**
+ * http://de.wikipedia.org/wiki/Rolling-Ball-Rotation
+ */
 public class ArcBall {
 
     private final PApplet mParent;

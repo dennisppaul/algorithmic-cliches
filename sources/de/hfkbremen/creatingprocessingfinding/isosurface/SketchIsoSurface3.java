@@ -11,6 +11,9 @@ import processing.core.PApplet;
 import java.util.Vector;
 
 
+/**
+ * http://en.wikipedia.org/wiki/Marching_cubes
+ */
 public class SketchIsoSurface3
         extends PApplet {
 

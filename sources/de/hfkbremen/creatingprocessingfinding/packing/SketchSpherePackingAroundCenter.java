@@ -10,6 +10,9 @@ import teilchen.util.Packing.PackingEntity;
 import java.util.Vector;
 
 
+/**
+ * http://en.wikipedia.org/wiki/Circle_packing_theorem
+ */
 public class SketchSpherePackingAroundCenter
         extends PApplet {
 

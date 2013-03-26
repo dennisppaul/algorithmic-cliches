@@ -12,6 +12,9 @@ import processing.core.PApplet;
 import java.util.Vector;
 
 
+/**
+ * http://en.wikipedia.org/wiki/Marching_squares
+ */
 public class SketchIsoSurface2
         extends PApplet {
 

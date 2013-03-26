@@ -8,6 +8,9 @@ import processing.core.PApplet;
 import java.util.Vector;
 
 
+/**
+ * http://en.wikipedia.org/wiki/Voronoi_diagram
+ */
 public class SketchVoronoi2
         extends PApplet {
 

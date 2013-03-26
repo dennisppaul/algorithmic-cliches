@@ -12,10 +12,13 @@ import java.util.Vector;
 import static processing.core.PConstants.TRIANGLES;
 
 
+/**
+ * http://en.wikipedia.org/wiki/Delaunay_Triangulation
+ */
 public class SketchDelaunayTriangulation
         extends PApplet {
 
-    private Vector<Vector3f> mVertices;
+    public Vector<Vector3f> mVertices;
 
     public void setup() {
         size(1024, 768, OPENGL);

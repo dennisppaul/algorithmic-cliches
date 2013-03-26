@@ -8,6 +8,9 @@ import java.util.Vector;
 import processing.core.PApplet;
 
 
+/**
+ * http://en.wikipedia.org/wiki/Fft
+ */
 public class SketchSimpleFFT
         extends PApplet {
 

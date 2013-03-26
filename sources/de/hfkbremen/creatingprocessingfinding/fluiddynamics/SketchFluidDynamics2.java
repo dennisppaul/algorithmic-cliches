@@ -4,6 +4,9 @@ package de.hfkbremen.creatingprocessingfinding.fluiddynamics;
 import processing.core.PApplet;
 
 
+/**
+ * http://en.wikipedia.org/wiki/Fluid_Dynamics
+ */
 public class SketchFluidDynamics2
         extends PApplet {
 
