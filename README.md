@@ -12,3 +12,4 @@ if you are participating, consider forking the repository and place your contrib
 * [Teilchen](https://github.com/d3p/teilchen) on GitHub
 * [Sunflow](http://sunflow.sourceforge.net/)
 * [Qhull](http://www.qhull.org/) for ( 2D + ) 3D voronoi diagrams
+* [QuickHull3D](http://www.cs.ubc.ca/~lloyd/java/quickhull3d.html) for 3D convex hulls in 3D voronoi
