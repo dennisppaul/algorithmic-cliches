@@ -57,7 +57,7 @@ public class SketchPerlinNoise
         for (int x = 0; x < mVectorField.length; x++) {
             for (int y = 0; y < mVectorField[x].length; y++) {
                 float mNoise = noise((x * mNoiseScale) + mOffset,
-                        (y * mNoiseScale) + mOffset);
+                                     (y * mNoiseScale) + mOffset);
                 mNoise *= TWO_PI * 2;
                 final Vector3f v = mVectorField[x][y];
                 v.x = sin(mNoise);

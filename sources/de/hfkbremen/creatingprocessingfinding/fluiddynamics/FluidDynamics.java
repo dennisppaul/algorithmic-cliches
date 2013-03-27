@@ -67,9 +67,9 @@ public class FluidDynamics {
                 float vu = 50 * mVelocityMapU[x][y];
                 float vv = 50 * mVelocityMapV[x][y];
                 g.line((x - 1),
-                        (y - 1),
-                        (x - 1) + vu,
-                        (y - 1) + vv);
+                       (y - 1),
+                       (x - 1) + vu,
+                       (y - 1) + vv);
             }
         }
     }
@@ -135,9 +135,9 @@ public class FluidDynamics {
     }
 
     private void setForceArea(float[][] pMap,
-            int pX, int pY,
-            float pStrength,
-            float pRadius) {
+                              int pX, int pY,
+                              float pStrength,
+                              float pRadius) {
         for (int x = (int) (range(pX - pRadius, 1, mX)); x <= (int) (range(pX + pRadius, 1, mX)); x++) {
             int dx = pX - x;
             for (int y = (int) (range(pY - pRadius, 1, mY)); y <= (int) (range(pY + pRadius, 1, mY)); y++) {
@@ -149,14 +149,14 @@ public class FluidDynamics {
     }
 
     public void setDensityArea(int x, int y,
-            float pStrength,
-            int pRadius) {
+                               float pStrength,
+                               int pRadius) {
         setForceArea(mDensityMap, x, y, pStrength, pRadius);
     }
 
     public void setVelocityArea(int x, int y,
-            float vX, float vY,
-            int pRadius) {
+                                float vX, float vY,
+                                int pRadius) {
         setForceArea(mVelocityMapU, x, y, vX, pRadius);
         setForceArea(mVelocityMapV, x, y, vY, pRadius);
     }

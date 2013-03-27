@@ -1,10 +1,10 @@
-package de.hfkbremen.creatingprocessingfinding;
+package de.hfkbremen.creatingprocessingfinding.util;
 
 
 import processing.core.PApplet;
 
 
-public class AppStub
+public class SketchStub
         extends PApplet {
 
     public void setup() {
@@ -15,6 +15,6 @@ public class AppStub
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{AppStub.class.getName()});
+        PApplet.main(new String[]{SketchStub.class.getName()});
     }
 }

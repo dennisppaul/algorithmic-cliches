@@ -95,7 +95,7 @@ public class SketchDelaunayTriangulation
             for (int i = 0; i < mDelaunayTriangles.size(); i++) {
                 for (int j = 0; j < 3; j++) {
                     vertex(mVertices.get(mDelaunayTriangles.get(i).p[j]).x,
-                            mVertices.get(mDelaunayTriangles.get(i).p[j]).y);
+                           mVertices.get(mDelaunayTriangles.get(i).p[j]).y);
                 }
             }
             endShape();
@@ -111,9 +111,9 @@ public class SketchDelaunayTriangulation
 
     private void cross(float x, float y, float r) {
         line(x - r, y - r,
-                x + r, y + r);
+             x + r, y + r);
         line(x - r, y + r,
-                x + r, y - r);
+             x + r, y - r);
     }
 
     public static void main(String[] args) {

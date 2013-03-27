@@ -13,7 +13,7 @@ public class Qvoronoi {
 
     /*
      * install qhull ( http://www.qhull.org/ ) via macports ( http://www.macports.org/ )
-     * 
+     *
      */
     public static String QVORONOI_APP = "/opt/local/bin/qvoronoi";
 
@@ -104,8 +104,8 @@ public class Qvoronoi {
             final Vector3f mVertex = new Vector3f();
             if (pDimesions == 3) {
                 mVertex.set(Float.parseFloat(mVertexStr[0]),
-                        Float.parseFloat(mVertexStr[1]),
-                        Float.parseFloat(mVertexStr[2]));
+                            Float.parseFloat(mVertexStr[1]),
+                            Float.parseFloat(mVertexStr[2]));
                 if (mVertex.x == VERTEX_AT_INFINITY
                         && mVertex.y == VERTEX_AT_INFINITY
                         && mVertex.z == VERTEX_AT_INFINITY) {
@@ -113,8 +113,8 @@ public class Qvoronoi {
                 }
             } else if (pDimesions == 2) {
                 mVertex.set(Float.parseFloat(mVertexStr[0]),
-                        Float.parseFloat(mVertexStr[1]),
-                        0);
+                            Float.parseFloat(mVertexStr[1]),
+                            0);
                 if (mVertex.x == VERTEX_AT_INFINITY
                         && mVertex.y == VERTEX_AT_INFINITY) {
                     mVertexAtInfinityMarker = myVertexCounter;
@@ -173,8 +173,8 @@ public class Qvoronoi {
         for (int i = 0; i < myNonCulledCounter; i++) {
             myCleanRegions[i] = new Vector3f[pRegions[myNonCulledRegions[i]].length];
             System.arraycopy(pRegions[myNonCulledRegions[i]], 0,
-                    myCleanRegions[i], 0,
-                    pRegions[myNonCulledRegions[i]].length);
+                             myCleanRegions[i], 0,
+                             pRegions[myNonCulledRegions[i]].length);
         }
         return myCleanRegions;
     }

@@ -27,7 +27,7 @@ public class StateBrownianMotion
             e.switchState(new StateChangeRandomly(e, p));
         } else {
             e.position.add(p.random(-BROWNIAN_SPEED, BROWNIAN_SPEED),
-                    p.random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
+                           p.random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
         }
     }
 

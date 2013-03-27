@@ -4,10 +4,10 @@ package de.hfkbremen.creatingprocessingfinding.cellularautomata;
 import de.hfkbremen.creatingprocessingfinding.util.ArcBall;
 import processing.core.PApplet;
 
+
 /**
  * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
  */
-
 public class SketchGameOfLife3
         extends PApplet {
 
@@ -108,8 +108,8 @@ public class SketchGameOfLife3
     }
 
     private void evaluateCells(int pBirth,
-            int pMinSurvive,
-            int pMaxSurvive) {
+                               int pMinSurvive,
+                               int pMaxSurvive) {
         for (int x = 0; x < GRID_X; x++) {
             for (int y = 0; y < GRID_Y; y++) {
                 for (int z = 0; z < GRID_Z; z++) {

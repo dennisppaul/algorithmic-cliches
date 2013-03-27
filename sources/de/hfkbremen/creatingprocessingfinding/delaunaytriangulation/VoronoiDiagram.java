@@ -22,8 +22,8 @@ public class VoronoiDiagram {
     private static float oLastAngle;
 
     public static VoronoiDiagram.Region getRegion(final Vector<Vector3f> pVertices,
-            final Vector<Triangle> pDelaunayTriangles,
-            final int pCenterVertexIndex) {
+                                                  final Vector<Triangle> pDelaunayTriangles,
+                                                  final int pCenterVertexIndex) {
 
         final VoronoiDiagram.Region myVoronoiRegion = new VoronoiDiagram.Region();
 
@@ -45,7 +45,7 @@ public class VoronoiDiagram {
     }
 
     public static Vector<VoronoiDiagram.Region> getRegions(final Vector<Vector3f> pVertices,
-            final Vector<Triangle> pDelaunayTriangles) {
+                                                           final Vector<Triangle> pDelaunayTriangles) {
         final Vector<VoronoiDiagram.Region> myRegions = new Vector<VoronoiDiagram.Region>();
         for (int i = 0; i < pVertices.size(); i++) {
             final VoronoiDiagram.Region myRegionPoints = getRegion(pVertices, pDelaunayTriangles, i);
@@ -55,7 +55,7 @@ public class VoronoiDiagram {
     }
 
     private static Vector<Triangle> getConnectedTriangles(final Vector<Triangle> pTriangles,
-            final int pVertexIndex) {
+                                                          final int pVertexIndex) {
         final Vector<Triangle> myTriangles = new Vector<Triangle>();
         for (int i = 0; i < pTriangles.size(); i++) {
             if (pTriangles.get(i).p[0] == pVertexIndex
@@ -101,8 +101,8 @@ public class VoronoiDiagram {
     }
 
     private static Vector3f getNode(Vector3f theRefPoint,
-            Vector<Vector3f> thePoints,
-            Vector<Vector3f> theSortedPoins) {
+                                    Vector<Vector3f> thePoints,
+                                    Vector<Vector3f> theSortedPoins) {
         float myMinAngle = 10;
         Vector3f myNextPoint = new Vector3f(theRefPoint);
         for (int i = 0; i < thePoints.size(); i++) {

@@ -101,7 +101,7 @@ public class SketchSimpleStateMachine
                 color = color(255, 127, 0, 127);
                 final float BROWNIAN_SPEED = 15.0f;
                 position.add(random(-BROWNIAN_SPEED, BROWNIAN_SPEED),
-                        random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
+                             random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
             }
         }
 

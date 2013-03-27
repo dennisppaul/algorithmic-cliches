@@ -68,14 +68,14 @@ public class Step05_MovingAtConstantSpeed extends PApplet {
             ellipse(position.x, position.y, radius * 2, radius * 2);
             stroke(255, 0, 0);
             line(position.x,
-                    position.y,
-                    position.x + velocity.x,
-                    position.y + velocity.y);
+                 position.y,
+                 position.x + velocity.x,
+                 position.y + velocity.y);
             stroke(0, 255, 0);
             line(position.x + velocity.x,
-                    position.y + velocity.y,
-                    position.x + velocity.x + acceleration.x,
-                    position.y + velocity.y + acceleration.y);
+                 position.y + velocity.y,
+                 position.x + velocity.x + acceleration.x,
+                 position.y + velocity.y + acceleration.y);
         }
     }
 

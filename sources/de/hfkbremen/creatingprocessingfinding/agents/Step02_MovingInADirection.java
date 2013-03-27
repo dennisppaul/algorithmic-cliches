@@ -52,9 +52,9 @@ public class Step02_MovingInADirection extends PApplet {
             ellipse(position.x, position.y, radius * 2, radius * 2);
             stroke(255, 0, 0);
             line(position.x,
-                    position.y,
-                    position.x + velocity.x,
-                    position.y + velocity.y);
+                 position.y,
+                 position.x + velocity.x,
+                 position.y + velocity.y);
         }
     }
 

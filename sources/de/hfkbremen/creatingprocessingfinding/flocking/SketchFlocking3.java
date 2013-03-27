@@ -55,8 +55,8 @@ public class SketchFlocking3
         for (int i = 0; i < 80; i++) {
             SwarmEntity mSwarmEntity = new SwarmEntity();
             mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
-                    random(mTeleporter.min().y, mTeleporter.max().y),
-                    random(mTeleporter.min().z, mTeleporter.max().z));
+                                        random(mTeleporter.min().y, mTeleporter.max().y),
+                                        random(mTeleporter.min().z, mTeleporter.max().z));
             mSwarmEntities.add(mSwarmEntity);
             mPhysics.add(mSwarmEntity);
         }

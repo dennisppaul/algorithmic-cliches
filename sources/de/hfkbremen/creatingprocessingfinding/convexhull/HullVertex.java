@@ -165,7 +165,7 @@ public class HullVertex {
      * @return the distance squared between them
      */
     public static long distanceSquared(HullVertex v1,
-            HullVertex v2) {
+                                       HullVertex v2) {
         long x1 = v1.x, y1 = v1.y, z1 = v1.z;
         long x2 = v2.x, y2 = v2.y, z2 = v2.z;
         return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)
@@ -192,7 +192,7 @@ public class HullVertex {
      * @return v1.v2
      */
     public static long dotProduct(HullVertex v1,
-            HullVertex v2) {
+                                  HullVertex v2) {
         long x1 = v1.x, y1 = v1.y, z1 = v1.z;
         long x2 = v2.x, y2 = v2.y, z2 = v2.z;
         return x1 * x2 + y1 * y2 + z1 * z2;
@@ -205,10 +205,10 @@ public class HullVertex {
      * @return v1 - v2
      */
     public static HullVertex vectorDiff(HullVertex v1,
-            HullVertex v2) {
+                                        HullVertex v2) {
         return new HullVertex(v1.x - v2.x,
-                v1.y - v2.y,
-                v1.z - v2.z);
+                              v1.y - v2.y,
+                              v1.z - v2.z);
     }
 
     /**
@@ -218,10 +218,10 @@ public class HullVertex {
      * @return v1 x v2
      */
     public static HullVertex crossProduct(HullVertex v1,
-            HullVertex v2) {
+                                          HullVertex v2) {
         return new HullVertex(v1.y * v2.z - v1.z * v2.y,
-                v1.z * v2.x - v1.x * v2.z,
-                v1.x * v2.y - v1.y * v2.x);
+                              v1.z * v2.x - v1.x * v2.z,
+                              v1.x * v2.y - v1.y * v2.x);
     }
 
     /**

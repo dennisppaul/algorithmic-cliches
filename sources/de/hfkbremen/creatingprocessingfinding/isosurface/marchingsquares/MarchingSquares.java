@@ -89,9 +89,9 @@ public abstract class MarchingSquares {
     }
 
     private static void getPoint(float[][] theArray, float theIsoValue,
-            int x, int y,
-            Vector2f thePoint,
-            int theEdgeIDx) {
+                                 int x, int y,
+                                 Vector2f thePoint,
+                                 int theEdgeIDx) {
         final int P1_idx = _mySquareEdge[theEdgeIDx][0];
         final int P2_idx = _mySquareEdge[theEdgeIDx][1];
 

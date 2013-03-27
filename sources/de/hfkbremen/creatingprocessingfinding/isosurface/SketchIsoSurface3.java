@@ -84,8 +84,8 @@ public class SketchIsoSurface3
                 break;
             case 'c':
                 mMetaballManager.add(new Metaball(new Vector3f(mouseX - width / 2, mouseY - height / 2, random(-100, 100)),
-                        random(1, 2),
-                        random(50, 150)));
+                                                  random(1, 2),
+                                                  random(50, 150)));
                 break;
         }
     }

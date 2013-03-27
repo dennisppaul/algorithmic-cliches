@@ -25,8 +25,8 @@ public class SketchVoronoi3
     private Vector3f[] mGridPoints = new Vector3f[GRID_SIZE * GRID_SIZE * GRID_SIZE];
 
     private Vector3f mAcceptableRegion = new Vector3f(GRID_SIZE * GRID_SPACE * 1.5f,
-            GRID_SIZE * GRID_SPACE * 1.5f,
-            GRID_SIZE * GRID_SPACE * 1.5f);
+                                                      GRID_SIZE * GRID_SPACE * 1.5f,
+                                                      GRID_SIZE * GRID_SPACE * 1.5f);
 
     private int mCurrentRegion;
 
@@ -45,8 +45,8 @@ public class SketchVoronoi3
                 for (int z = 0; z < GRID_SIZE; z++) {
                     final float mRandomOffset = 0.5f;
                     mGridPoints[i] = new Vector3f(x * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
-                            y * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
-                            z * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset));
+                                                  y * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
+                                                  z * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset));
                     i++;
                 }
             }
@@ -67,8 +67,8 @@ public class SketchVoronoi3
         rotateY(TWO_PI * (float) mouseX / width);
         rotateX(TWO_PI * (float) mouseY / height);
         translate(-(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
-                -(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
-                -(GRID_SIZE - 1) * GRID_SPACE / 2.0f);
+                  -(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
+                  -(GRID_SIZE - 1) * GRID_SPACE / 2.0f);
 
         /* draw regions */
         for (int i = 0; i < mRegions.length; i++) {
@@ -77,8 +77,8 @@ public class SketchVoronoi3
             pushMatrix();
             final float JITTER = (float) mouseX / width * 4.0f;
             translate(random(-JITTER, JITTER),
-                    random(-JITTER, JITTER),
-                    random(-JITTER, JITTER));
+                      random(-JITTER, JITTER),
+                      random(-JITTER, JITTER));
             if (mCurrentRegion != i) {
                 drawHull(mRegions[i]);
             }
@@ -111,8 +111,8 @@ public class SketchVoronoi3
         final Point3d[] myNewVertices = new Point3d[pVertex.length];
         for (int i = 0; i < pVertex.length; i++) {
             myNewVertices[i] = new Point3d(pVertex[i].x,
-                    pVertex[i].y,
-                    pVertex[i].z);
+                                           pVertex[i].y,
+                                           pVertex[i].z);
         }
 
         hull.build(myNewVertices);

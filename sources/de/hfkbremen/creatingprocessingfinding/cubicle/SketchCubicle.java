@@ -45,12 +45,12 @@ public class SketchCubicle
 
         /* setup world */
         mCubicleWorld = new CubicleWorld(WORLD_NUMBER_OF_CUBICLES_X,
-                WORLD_NUMBER_OF_CUBICLES_Y,
-                WORLD_NUMBER_OF_CUBICLES_Z);
+                                         WORLD_NUMBER_OF_CUBICLES_Y,
+                                         WORLD_NUMBER_OF_CUBICLES_Z);
         mCubicleWorld.cellscale().set(WORLD_CUBICLE_SCALE, WORLD_CUBICLE_SCALE, WORLD_CUBICLE_SCALE);
         mCubicleWorld.transform().translation.set(-WORLD_NUMBER_OF_CUBICLES_X * mCubicleWorld.cellscale().x / 2,
-                -WORLD_NUMBER_OF_CUBICLES_Y * mCubicleWorld.cellscale().y / 2,
-                -WORLD_NUMBER_OF_CUBICLES_Z * mCubicleWorld.cellscale().z / 2);
+                                                  -WORLD_NUMBER_OF_CUBICLES_Y * mCubicleWorld.cellscale().y / 2,
+                                                  -WORLD_NUMBER_OF_CUBICLES_Z * mCubicleWorld.cellscale().z / 2);
 
         mCubicleWorldView = new CubicleWorldView(mCubicleWorld);
         mCubicleWorldView.color_empty = color(0, 1);

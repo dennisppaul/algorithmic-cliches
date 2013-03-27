@@ -13,27 +13,27 @@ public class Octree {
     /* modified version of toxi's */
 
     /*
-     *   __               .__       .__  ._____.           
+     *   __               .__       .__  ._____.
      * _/  |_  _______  __|__| ____ |  | |__\_ |__   ______
      * \   __\/  _ \  \/  /  |/ ___\|  | |  || __ \ /  ___/
-     *  |  | (  <_> >    <|  \  \___|  |_|  || \_\ \\___ \ 
+     *  |  | (  <_> >    <|  \  \___|  |_|  || \_\ \\___ \
      *  |__|  \____/__/\_ \__|\___  >____/__||___  /____  >
-     *                   \/       \/             \/     \/ 
+     *                   \/       \/             \/     \/
      *
      * Copyright (c) 2006-2011 Karsten Schmidt
-     * 
+     *
      * This library is free software; you can redistribute it and/or
      * modify it under the terms of the GNU Lesser General Public
      * License as published by the Free Software Foundation; either
      * version 2.1 of the License, or (at your option) any later version.
-     * 
+     *
      * http://creativecommons.org/licenses/LGPL/2.1/
-     * 
+     *
      * This library is distributed in the hope that it will be useful,
      * but WITHOUT ANY WARRANTY; without even the implied warranty of
      * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
      * Lesser General Public License for more details.
-     * 
+     *
      * You should have received a copy of the GNU Lesser General Public
      * License along with this library; if not, write to the Free Software
      * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
@@ -74,14 +74,14 @@ public class Octree {
     private boolean isAutoReducing = false;
 
     private Octree(Octree pParentOctree,
-            Vector3f pOffset,
-            float pHalfSize) {
+                   Vector3f pOffset,
+                   float pHalfSize) {
         mOrigin = mathematik.Util.add(pOffset, new Vector3f(pHalfSize,
-                pHalfSize,
-                pHalfSize));
+                                                            pHalfSize,
+                                                            pHalfSize));
         mScale = new Vector3f(pHalfSize,
-                pHalfSize,
-                pHalfSize);
+                              pHalfSize,
+                              pHalfSize);
 
         mParent = pParentOctree;
         mHalfSize = pHalfSize;
@@ -132,11 +132,11 @@ public class Octree {
                 final int mOctant = getOctantID(pLocalPosition);
                 if (mChildren[mOctant] == null) {
                     Vector3f off = mathematik.Util.add(mOffset,
-                            new Vector3f((mOctant & 1) != 0 ? mHalfSize : 0,
-                            (mOctant & 2) != 0 ? mHalfSize : 0,
-                            (mOctant & 4) != 0 ? mHalfSize : 0));
+                                                       new Vector3f((mOctant & 1) != 0 ? mHalfSize : 0,
+                                                                    (mOctant & 2) != 0 ? mHalfSize : 0,
+                                                                    (mOctant & 4) != 0 ? mHalfSize : 0));
                     mChildren[mOctant] = new Octree(this, off,
-                            mHalfSize * 0.5f);
+                                                    mHalfSize * 0.5f);
                     mNumberOfChildren++;
                 }
                 return mChildren[mOctant].add(pEntity);
@@ -345,7 +345,7 @@ public class Octree {
     }
 
     private static boolean intersectsBox(Vector3f pBoxAOrigin, Vector3f pBoxAScale,
-            Vector3f pBoxBOrigin, Vector3f pBoxBScale) {
+                                         Vector3f pBoxBOrigin, Vector3f pBoxBScale) {
         Vector3f t = mathematik.Util.sub(pBoxBOrigin, pBoxAOrigin);
         return Math.abs(t.x) <= (pBoxAScale.x + pBoxBScale.x)
                 && Math.abs(t.y) <= (pBoxAScale.y + pBoxBScale.y)
@@ -353,7 +353,7 @@ public class Octree {
     }
 
     private static boolean isBoxIntersectingSphere(Vector3f pBoxOrigin, Vector3f pBoxScale,
-            Vector3f pSphereCenter, float pSphereRadius) {
+                                                   Vector3f pSphereCenter, float pSphereRadius) {
         Vector3f mMin = mathematik.Util.sub(pBoxOrigin, pBoxScale);
         Vector3f mMax = mathematik.Util.add(pBoxOrigin, pBoxScale);
         float s;

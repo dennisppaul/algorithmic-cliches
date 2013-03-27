@@ -63,8 +63,8 @@ public class SketchOctree
             mEntities = mOctree.getEntitesWithinSphere(mPosition, mSelectRadius);
         } else {
             mEntities = mOctree.getEntitiesWithinBox(mPosition, new Vector3f(mSelectRadius / 2,
-                    mSelectRadius / 2,
-                    mSelectRadius / 2));
+                                                                             mSelectRadius / 2,
+                                                                             mSelectRadius / 2));
         }
 
         /* draw entities */

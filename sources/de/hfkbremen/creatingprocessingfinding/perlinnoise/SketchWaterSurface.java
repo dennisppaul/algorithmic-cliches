@@ -67,14 +67,6 @@ public class SketchWaterSurface
                 vertex(1, 1, mWaterSurface[x + 1][y + 1]);
                 vertex(0, 1, mWaterSurface[x][y + 1]);
                 endShape();
-//                beginShape(TRIANGLES);
-//                vertex(0, 0, mWaterSurface[x][y]);
-//                vertex(1, 0, mWaterSurface[x + 1][y]);
-//                vertex(1, 1, mWaterSurface[x + 1][y + 1]);
-//                vertex(0, 0, mWaterSurface[x][y]);
-//                vertex(1, 1, mWaterSurface[x + 1][y + 1]);
-//                vertex(0, 1, mWaterSurface[x][y + 1]);
-//                endShape();
                 popMatrix();
             }
         }

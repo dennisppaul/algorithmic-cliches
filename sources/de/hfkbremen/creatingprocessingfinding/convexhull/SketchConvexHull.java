@@ -36,8 +36,8 @@ public class SketchConvexHull
                 for (int z = 0; z < GRID_SIZE; z++) {
                     final float mRandomOffset = 1.5f;
                     mGridPoints[i] = new Vector3f(x * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
-                            y * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
-                            z * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset));
+                                                  y * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
+                                                  z * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset));
                     i++;
                 }
             }
@@ -56,8 +56,8 @@ public class SketchConvexHull
         rotateY(TWO_PI * (float) mouseX / width);
         rotateX(TWO_PI * (float) mouseY / height);
         translate(-(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
-                -(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
-                -(GRID_SIZE - 1) * GRID_SPACE / 2.0f);
+                  -(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
+                  -(GRID_SIZE - 1) * GRID_SPACE / 2.0f);
 
         /* draw hull */
         noStroke();
@@ -84,8 +84,8 @@ public class SketchConvexHull
         final Vector<HullVertex> mNewVertices = new Vector<HullVertex>();
         for (int i = 0; i < pVertex.length; i++) {
             mNewVertices.add(new HullVertex(pVertex[i].x,
-                    pVertex[i].y,
-                    pVertex[i].z));
+                                            pVertex[i].y,
+                                            pVertex[i].z));
         }
         mHull.calculateHull(mNewVertices);
         float[] myVertices = mHull.getVerticesArray();

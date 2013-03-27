@@ -240,10 +240,10 @@ public class DelaunayTriangulation {
     }
 
     private static boolean getCircumCircle(float xp, float yp,
-            float x1, float y1,
-            float x2, float y2,
-            float x3, float y3,
-            Vector3f circle) {
+                                           float x1, float y1,
+                                           float x2, float y2,
+                                           float x3, float y3,
+                                           Vector3f circle) {
         /*
          * Return TRUE if a point (xp,yp) is inside the circumcircle made up
          * of the points (x1, y1), (x2, y2), (x3, y3)
@@ -303,7 +303,7 @@ public class DelaunayTriangulation {
     }
 
     static Vector3f getCenter(final Vector<Vector3f> theVertices,
-            final Triangle theTriangle) {
+                              final Triangle theTriangle) {
         final Vector3f myCenter = new Vector3f();
         final Vector3f v0 = theVertices.get(theTriangle.p[0]);
         final Vector3f v1 = theVertices.get(theTriangle.p[1]);
@@ -338,8 +338,8 @@ public class DelaunayTriangulation {
     }
 
     public static boolean addVertexSafely(Vector<Vector3f> pVertices,
-            Vector3f pNewVertex,
-            float mMinimumApproxDistance) {
+                                          Vector3f pNewVertex,
+                                          float mMinimumApproxDistance) {
         /* check if vertex is redundant */
         for (Vector3f myVertex : pVertices) {
             if (almost(myVertex, pNewVertex, mMinimumApproxDistance)) {
@@ -354,8 +354,8 @@ public class DelaunayTriangulation {
     }
 
     private static boolean almost(final Vector3f v0,
-            final Vector3f v1,
-            float ALMOST_THRESHOLD) {
+                                  final Vector3f v1,
+                                  float ALMOST_THRESHOLD) {
         if (Math.abs(v1.x - v0.x) < ALMOST_THRESHOLD
                 && Math.abs(v1.y - v0.y) < ALMOST_THRESHOLD
                 && Math.abs(v1.z - v0.z) < ALMOST_THRESHOLD) {
