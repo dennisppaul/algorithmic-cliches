@@ -25,6 +25,12 @@ public class Vector2f extends PApplet {
 
     }
 
+    public void set(float x_, float y_) {
+        x = x_;
+        y = y_;
+
+    }
+
     /* magnitude(länge) rausfinden*/
     public float mag() {
         return (float) Math.sqrt(x * x + y * y);
@@ -32,16 +38,16 @@ public class Vector2f extends PApplet {
 
 //addieren
     public void add(Vector2f v) {
-        x = v.x;
-        y = v.y;
+        x += v.x;
+        y += v.y;
     }
 
     public void add(float x_, float y_) {
-        x = x_;
-        y = y_;
+        x += x_;
+        y += y_;
     }
 
-    //subtrahieren
+//subtrahieren
     public void sub(Vector2f v) {
         x -= v.x;
         y -= v.y;
@@ -52,13 +58,13 @@ public class Vector2f extends PApplet {
         y -= y_;
     }
 
-    //multiplizieren mit einem skalar
+//multiplizieren mit einem skalar
     public void mult(float s_) {
         x *= s_;
         y *= s_;
     }
 
-    //dividieren
+//dividieren
     public void div(float d_) {
         x /= d_;
         y /= d_;

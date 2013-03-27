@@ -12,8 +12,7 @@ import processing.core.PApplet;
  *
  * @author Sammy Guergachi <sguergachi at gmail.com>
  */
-public class Ball
-        extends PApplet {
+public class Ball {
 
     float xpos;
 
@@ -41,8 +40,8 @@ public class Ball
         ypos += speed;
 
         //speed += gravity;
-        
-        
+
+
         if (ypos > p.height || ypos < 0) {
             //ypos = height;
             speed *= (-1);
