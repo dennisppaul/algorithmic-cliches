@@ -14,9 +14,17 @@ public class Vector2f extends PApplet {
 
     float y;
 
+    public Vector2f() {
+    }
+
     public Vector2f(float x_, float y_) {
         x = x_;
         y = y_;
+    }
+
+    public Vector2f(Vector2f v) {
+        x = v.x;
+        y = v.y;
     }
 
     public void set(Vector2f v) {

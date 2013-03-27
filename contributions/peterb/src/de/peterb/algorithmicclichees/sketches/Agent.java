@@ -1,84 +1,119 @@
 package de.peterb.algorithmicclichees.sketches;
 
 
+import java.util.Vector;
+
 import processing.core.PApplet;
+//import de.peterb.algorithmicclichees.sketches.Vector2f;
 
 
 public class Agent {
 
-    float radius;
+    private float mRadius;
 
-    Vector2f position;
+    private Vector2f mPosition;
 
-    Vector2f velocity;
+    private Vector2f mVelocity;
+
+    private Vector2f mAcceleration;
 //Konstruktor 1
 
     public Agent() {
     }
-//Konstruktor 2
+//Konstruktor 2 2Vectors and a radius
 
-    public Agent(Vector2f p_, Vector2f v_, float r_) {
+    public Agent(Vector2f p_, Vector2f v_, Vector2f a_, float r_) {
 
-        position = p_;
-        velocity = v_;
-        radius = r_;
+        mPosition = p_;
+        mVelocity = v_;
+        mAcceleration = a_;
+        mRadius = r_;
 
     }
-//Konstruktor 3
+//Konstruktor 2 1Vectors and a radius
 
+    public Agent(Vector2f p_, float r_) {
+
+        mPosition = p_;
+        mVelocity = new Vector2f();
+        mAcceleration = new Vector2f();
+        mRadius = r_;
+
+    }
+
+//Konstruktor 3 only radius
     public Agent(float r_) {
-
-        position = new Vector2f(320, 240);
-        velocity = new Vector2f(0, 0);
-
-        radius = r_;
+        mPosition = new Vector2f(640, 400);
+        mVelocity = new Vector2f(0, 0);
+        mRadius = r_;
     }
 
-    //SETTER
-    public void setV(Vector2f v_) {
-        velocity.x = v_.x;
-        velocity.y = v_.y;
-
+    /* SETTER */
+    public void setVelocity(Vector2f v_) {
+        mVelocity = v_;
     }
 
-    public void setP(Vector2f p_) {
-        position.x = p_.x;
-        position.y = p_.y;
+    public void setVelocity(float x_, float y_) {
+        mVelocity.x = x_;
+        mVelocity.y = y_;
     }
 
-    public void setR(float r_) {
-        radius = r_;
+    public void setPosition(Vector2f p_) {
+        mPosition.x = p_.x;
+        mPosition.y = p_.y;
     }
 
+    public void setPosition(float x_, float y_) {
+        mPosition.x = x_;
+        mPosition.y = y_;
+    }
+
+    public void setRadius(float r_) {
+        mRadius = r_;
+    }
+
+    public void setAcceleration(float x_, float y_) {
+        mAcceleration.x = x_;
+        mAcceleration.y = y_;
+    }
+
+    /*DISPLAY*/
     public void display(PApplet p) {
 
         p.stroke(225, 0, 0);
-        p.strokeWeight(2);
-        p.line(position.x, position.y, velocity.x * 10 + position.x, velocity.y * 10 + position.y);
-        p.stroke(0);
-        p.noFill();
         p.strokeWeight(1);
-        p.ellipse(position.x, position.y, radius * 2, radius * 2);
+//        p.line(mPosition.x, mPosition.y, mVelocity.x * 5 + mPosition.x, mVelocity.y * 5 + mPosition.y);
+//        p.stroke(0);
+        p.fill(0, 20);
+        p.noStroke();
+        p.ellipse(mPosition.x, mPosition.y, mRadius * 2, mRadius * 2);
 
     }
 
     public void move(PApplet p) {
 
         checkWall(p);
-//        velocity.set(p.random(-2, 2), p.random(-2, 2));
-        velocity.set(1, -2);
-        position.add(velocity);
 
+        mVelocity.add(mAcceleration);
+        mPosition.add(mVelocity);
     }
 
-    public void checkWall(PApplet p) {
-        if (position.x < radius || position.x > (p.width - radius)) {
-            velocity.x *= -1;
+    private void checkWall(PApplet p) {
+        if (mPosition.x > p.width) {
+//            mVelocity.x *= -1;
+            setPosition(0, mPosition.y);
+        } else if (mPosition.x < 0) {
+            setPosition(p.width, mPosition.y);
         }
 
-        if (position.y < radius || position.y > (p.height - radius)) {
-            velocity.y *= -1;
-
+        if (mPosition.y > p.height) {
+//            mVelocity.y *= -1;
+            setPosition(mPosition.x, 0);
+        } else if (mPosition.y < 0) {
+            setPosition(mPosition.x, p.height);
         }
+    }
+
+    public void agentArray(float x_) {
     }
 }

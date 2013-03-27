@@ -1,54 +1,81 @@
 package de.peterb.algorithmicclichees.sketches;
 
 
+import java.util.ArrayList;
 import processing.core.PApplet;
 //import processing.core.PVector;
 
 
 public class Run extends PApplet {
 
-    Ball ball_one;
+    private ArrayList<Agent> agents;
 
-    Agent agent1;
+    private Agent agent1;
 
-    Agent agent2;
+    private Agent agent2;
 
-    Vector2f position;
-
-    Vector2f velocity;
-
-    int radius = 5;
+    private Agent agent3;
 
     public void setup() {
-        size(640, 480, OPENGL);
+
+        size(1280, 800, OPENGL);
+        background(255);
         //  direction = new PVector();
-        position = new Vector2f(100, 200);
-        velocity = new Vector2f(0, 0);
-        agent1 = new Agent(10);
-        agent2 = new Agent(random(20));
+        Vector2f position = new Vector2f(320, 240);
+        Vector2f velocity = new Vector2f(2, 1);
+//        agent1 = new Agent(new Vector2f(position), new Vector2f(velocity), 10);
+//        agent2 = new Agent(new Vector2f(position), new Vector2f(2, 4), 5);
+//        agent3 = new Agent(new Vector2f(position), new Vector2f(velocity), 5);
+
+
+        agents = new ArrayList<Agent>();
+
+
+//        agent1.setRadius(10);
+
+//        agent1.setVelocity(2, 1);
+//        agent2.setVelocity(-5, 5);
     }
 
     public void draw() {
 
         frameRate(60);
-        background(255);
+        // background(255);
 
-        agent1.display(this);
-        agent1.move(this);
+        if (mousePressed) {
 
-        agent2.display(this);
-        agent2.move(this);
+            for (int i = 0; i < 100; i++) {
 
-//        velocity.set(random(-2, 2), random(-2, 2));
-//        position.add(velocity);
+                agents.add(new Agent(new Vector2f(mouseX, mouseY), 10));
+            }
 
-
+        }
 
 
+        for (Agent a : agents) {
+//            a.setVelocity(random(-10, 10), random(-10, 10));
+            a.setVelocity(1, 1);
+            a.setAcceleration(random(-10, 10), random(-10, 10));
+            a.setRadius(2);
+            a.move(this);
+            a.display(this);
 
+        }
 
-//        ball_one.display(this);
-//        ball_one.move(this);
+//        agent1.setRadius(random(10));
+//        agent1.setRadius(random(10));
+
+//        agent1.setVelocity(random(-10, 10), random(-10, 10));
+//        agent2.setVelocity(random(-10, 10), random(-10, 10));
+//        agent3.setVelocity(random(-1, 1), random(-1, 1));
+
+//        agent1.move(this);
+//       agent2.move(this);
+//        agent3.move(this);
+//        agent1.display(this);
+//        agent2.display(this);
+//        agent3.display(this);
+
 
 
     }
