@@ -8,7 +8,7 @@ public class AppStub
         extends PApplet {
 
     public void setup() {
-        size(1024, 768);
+        size(1024, 768, OPENGL);
     }
 
     public void draw() {

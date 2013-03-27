@@ -33,10 +33,10 @@ public class ArcBall {
 
     public ArcBall(PApplet parent, boolean pDONT_REGISTER) {
         this(parent.g.width / 2.0f,
-                parent.g.height / 2.0f,
-                -Math.min(parent.g.width / 2.0f, parent.g.height / 2.0f),
-                Math.min(parent.g.width / 2.0f, parent.g.height / 2.0f),
-                parent, pDONT_REGISTER);
+             parent.g.height / 2.0f,
+             -Math.min(parent.g.width / 2.0f, parent.g.height / 2.0f),
+             Math.min(parent.g.width / 2.0f, parent.g.height / 2.0f),
+             parent, pDONT_REGISTER);
     }
 
     public ArcBall(PApplet parent) {
@@ -44,18 +44,18 @@ public class ArcBall {
     }
 
     public ArcBall(float theCenterX,
-            float theCenterY,
-            float theCenterZ,
-            float theRadius,
-            PApplet theParent,
-            boolean pDONT_REGISTER) {
+                   float theCenterY,
+                   float theCenterZ,
+                   float theRadius,
+                   PApplet theParent,
+                   boolean pDONT_REGISTER) {
         this(new Vector3f(theCenterX, theCenterY, theCenterZ), theRadius, theParent, pDONT_REGISTER);
     }
 
     public ArcBall(final Vector3f theCenter,
-            final float theRadius,
-            final PApplet theParent,
-            boolean pDONT_REGISTER) {
+                   final float theRadius,
+                   final PApplet theParent,
+                   boolean pDONT_REGISTER) {
 
         mParent = theParent;
 
@@ -112,9 +112,9 @@ public class ArcBall {
         final Vector4f myRotationAxisAngle = mCurrentQuaternion.getVectorAndAngle();
         if (!myRotationAxisAngle.isNaN()) {
             mParent.rotate(myRotationAxisAngle.w,
-                    myRotationAxisAngle.x,
-                    myRotationAxisAngle.y,
-                    myRotationAxisAngle.z);
+                           myRotationAxisAngle.x,
+                           myRotationAxisAngle.y,
+                           myRotationAxisAngle.z);
         }
         mParent.translate(-mCenter.x, -mCenter.y, -mCenter.z);
     }
