@@ -2,7 +2,7 @@ package de.hfkbremen.creatingprocessingfinding.exporting;
 
 
 import processing.core.PApplet;
-import processing.core.PGraphics;
+import processing.dxf.RawDXF;
 
 
 public class SketchRenderAsDXF
@@ -12,23 +12,34 @@ public class SketchRenderAsDXF
 
     public void setup() {
         size(1024, 768, OPENGL);
+        mRecord = false;
     }
 
     public void draw() {
         if (mRecord) {
-            beginRaw(DXF, "output.dxf");
+            beginRaw(RawDXF.class.getName(), "output.dxf");
         }
 
-        draw(g);
+        background(255);
+        noStroke();
+        fill(255, 0, 0);
+        translate(width / 2, height / 2);
+        sphere(100);
+
+        stroke(0);
+        noFill();
+        for (int i = 0; i < 100; i++) {
+            line(0, 0, 0,
+                 random(width / -2, width / 2),
+                 random(height / -2, height / 2),
+                 random(height / -2, height / 2));
+        }
+
 
         if (mRecord) {
             endRaw();
             mRecord = false;
         }
-    }
-
-    private void draw(PGraphics pG) {
-        pG.sphere(100);
     }
 
     public void keyPressed() {

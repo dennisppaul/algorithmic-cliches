@@ -45,7 +45,6 @@ public class SketchConvexHull
     }
 
     public void draw() {
-
         /* setup scene */
         background(255);
         directionalLight(126, 126, 126, 0, 0, -1);
