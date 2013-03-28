@@ -16,10 +16,12 @@ public class Agent {
 
     private Vector2f mNormalizeAcceleration;
 
+    private static final float MIN_DISTANCE = 10.0f;
+
     public Agent(float r_) {
-        mPosition = new Vector2f(320, 240);
-        mVelocity = new Vector2f(0.2f, 0.2f);
-        mAcceleration = new Vector2f(2, 2);
+        mPosition = new Vector2f(320f, 240f);
+        mVelocity = new Vector2f(1f, 1f);
+        mAcceleration = new Vector2f(2f, 2f);
         mRadius = r_;
     }
 
@@ -33,8 +35,9 @@ public class Agent {
     }
 
     public void constrainVelocity() {
-        if (mVelocity.magnitude() > 1) {
+        if (mVelocity.magnitude() > 5) {
             mVelocity.normalize();
+            mVelocity.multiply(5);
         }
     }
 
@@ -49,12 +52,20 @@ public class Agent {
 
     public void move(PApplet p) {
         mVelocity.add(mAcceleration);
+        constrainVelocity();
         mPosition.add(mVelocity);
         checkBound(p);
     }
 
+    public void follow(float x_, float y_) {
+        Vector2f mMouse = new Vector2f(x_, y_);
+        mMouse.sub(mPosition);
+        mMouse.normalize();
+        mAcceleration.set(mMouse);
+    }
+
     public void display(PApplet p) {
-        p.fill(0, 0, 0, 180);
+        p.fill(0, 0, 0, 127);
         p.noStroke();
         p.ellipse(mPosition.x, mPosition.y, mRadius, mRadius);
     }
