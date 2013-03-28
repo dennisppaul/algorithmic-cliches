@@ -32,6 +32,12 @@ public class Agent {
         mVelocity = v_;
     }
 
+    public void constrainVelocity() {
+        if (mVelocity.magnitude() > 1) {
+            mVelocity.normalize();
+        }
+    }
+
     public void setAcceleration(Vector2f a_) {
         mAcceleration = a_;
         mAcceleration.normalize();

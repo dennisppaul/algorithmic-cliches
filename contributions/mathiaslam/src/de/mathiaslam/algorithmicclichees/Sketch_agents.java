@@ -2,6 +2,7 @@ package de.mathiaslam.algorithmicclichees;
 
 
 import processing.core.*;
+import static processing.core.PApplet.print;
 
 
 public class Sketch_agents extends PApplet {
@@ -20,14 +21,13 @@ public class Sketch_agents extends PApplet {
 
     public void draw() {
         background(255);
-        acceleration = new Vector2f(random(0.001f, 0.001f), random(0.001f, 0.001f));
+        acceleration = new Vector2f(random(-2, 2), random(-2, 2));
         for (int i = 0; i < agents.length; i++) {
+            print(acceleration);
+            agents[i].constrainVelocity();
             agents[i].setAcceleration(acceleration);
-            //agent2.setAcceleration(acceleration);
             agents[i].move(this);
-            //agent2.move(this);
             agents[i].display(this);
-            //agent2.display(this);
         }
     }
 
