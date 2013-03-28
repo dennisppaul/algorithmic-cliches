@@ -2,7 +2,7 @@ package de.hfkbremen.creatingprocessingfinding.algorithmicExtrusion;
 
 
 import de.hfkbremen.creatingprocessingfinding.delaunaytriangulation.DelaunayTriangulation;
-import de.hfkbremen.creatingprocessingfinding.algorithmicExtrusion.CannyEdgeDetector;
+import de.hfkbremen.creatingprocessingfinding.util.ArcBall;
 import de.hfkbremen.creatingprocessingfinding.voronoidiagramWin.Qvoronoi;
 import java.awt.image.BufferedImage;
 import java.util.Collections;
@@ -10,8 +10,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mathematik.Vector3f;
 import processing.core.PApplet;
 import static processing.core.PApplet.max;
@@ -28,10 +26,12 @@ public class Main
     final private int takeNavg = 3;
     final private float maxZ = 250;
     
+    private PImage src;
     private PImage edgeresult;
     private PImage vertexresult;
 
     private Vector<Vector3f> vertices;
+    private Vector<Vector3f> oldvertices;
     private Vector<DelaunayTriangulation.Triangle> triangles;
     private TreeSet<Vector3fExt> qvovertsExt;
     
@@ -39,7 +39,8 @@ public class Main
     private boolean showv = true;
 
     public void setup() {
-        PImage src = loadImage("Horizont.jpg");
+        src = loadImage("Horizont.jpg");
+        new ArcBall(this);
         src.resize(500, 500);
         size(1000, 500, OPENGL);
         //frameRate(1);
@@ -143,6 +144,7 @@ public class Main
         }
         
         //Add to other vertices and re-triangulate
+        oldvertices = (Vector<Vector3f>)vertices.clone();
         vertices.addAll(qvovertsExt);
         triangles = DelaunayTriangulation.triangulate(vertices);
     }
@@ -158,29 +160,35 @@ public class Main
 
     public void draw() {
         background(0);
+        directionalLight(500, 500, 200, 0, -1, -1);
+        ambientLight(102, 102, 102);
         
-        strokeWeight(1);
-        stroke(255, 127, 0, 54);
-        fill(255, 127, 0, 42);
-        
-        //image(edgeresult, 0, 0);
-        
-            rotateX(TWO_PI * (float) -mouseY / width);
-
-        
-        if(showv) image(vertexresult, 500, 0);
         translate(x,y);
         scale(scale);
-        if(showt) drawDelaunay(vertices, triangles);
         
-        stroke(0, 200, 0, 54);
+        image(src, 0, 0);
+      
+        //if(showv) image(vertexresult, 0, 0);
+ 
+        stroke(255,255,255,50);
+        for(Vector3f v : oldvertices) {
+            drawCross(v);
+        }
+        
+        stroke(0, 255, 0,50);
         for(Vector3f v : qvovertsExt) {
             drawCross(v);
         }
+        
+                
+        strokeWeight(1);
+        //stroke(255, 127, 0, 54);
+        fill(200, 200, 200, 150);     
+        if(showt) drawDelaunay(vertices, triangles);
     }
     
-    private int x = 500, y = 0;
-    private float scale = 0.2f;
+    private int x = 0, y = 0;
+    private float scale = 1.0f;
     
     public void keyPressed() {
         if(key == 't') showt = !showt;
@@ -190,8 +198,8 @@ public class Main
         if(key == 'a') x-=10;
         if(key == 's') y+=10;
         if(key == 'd') x+=10;
-        if(key == '+') scale+=0.1;
-        if(key == '-') scale-=0.1;
+        if(key == '+') scale+=0.05;
+        if(key == '-') scale-=0.05;
     }
     
     private void drawCross(Vector3f v) {
