@@ -36,6 +36,13 @@ class Vector2f {
         return (float) Math.sqrt(x * x + y * y);
     }
 
+    public void normalize() {
+        float mMagnitude;
+        mMagnitude = magnitude();
+        x /= mMagnitude;
+        y /= mMagnitude;
+    }
+
     public void set(Vector2f theVector) {
         x = theVector.x;
         y = theVector.y;

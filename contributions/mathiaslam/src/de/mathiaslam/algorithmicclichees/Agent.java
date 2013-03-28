@@ -14,6 +14,8 @@ public class Agent {
 
     private Vector2f mAcceleration;
 
+    private Vector2f mNormalizeAcceleration;
+
     public Agent(float r_) {
         mPosition = new Vector2f(320, 240);
         mVelocity = new Vector2f(0.2f, 0.2f);
@@ -32,6 +34,7 @@ public class Agent {
 
     public void setAcceleration(Vector2f a_) {
         mAcceleration = a_;
+        mAcceleration.normalize();
     }
 
     public void setRadius(float r_) {
@@ -56,14 +59,12 @@ public class Agent {
         }
         if (mPosition.y > p.height) {
             mPosition.y = 0;
-        }
-        if (mPosition.y < 0) {
+        } else if (mPosition.y < 0) {
             mPosition.y = p.height;
         }
         if (mPosition.x < 0) {
             mPosition.x = p.width;
-        }
-        if (mPosition.x > p.width) {
+        } else if (mPosition.x > p.width) {
             mPosition.x = 0;
         }
     }

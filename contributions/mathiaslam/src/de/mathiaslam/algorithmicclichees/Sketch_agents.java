@@ -6,10 +6,6 @@ import processing.core.*;
 
 public class Sketch_agents extends PApplet {
 
-    private Agent agent1;
-
-    private Agent agent2;
-
     Agent[] agents = new Agent[1];
 
     Vector2f acceleration;
@@ -24,7 +20,7 @@ public class Sketch_agents extends PApplet {
 
     public void draw() {
         background(255);
-        acceleration = new Vector2f(random(-0.1f, 0.1f), random(-0.1f, 0.1f));
+        acceleration = new Vector2f(random(0.001f, 0.001f), random(0.001f, 0.001f));
         for (int i = 0; i < agents.length; i++) {
             agents[i].setAcceleration(acceleration);
             //agent2.setAcceleration(acceleration);
