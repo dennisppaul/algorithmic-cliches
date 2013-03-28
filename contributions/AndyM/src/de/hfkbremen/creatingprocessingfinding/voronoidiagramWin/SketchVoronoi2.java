@@ -20,7 +20,7 @@ public class SketchVoronoi2
     private int mCurrentRegion;
 
     public void setup() {
-        size(1024, 768, OPENGL);
+        size(1024, 600, OPENGL);
         smooth();
 
         final int NUMBER_OF_POINTS_ON_CIRLCE = 20;
@@ -42,7 +42,6 @@ public class SketchVoronoi2
             final float y = cos(r) * 150 + height / 2;
             addPoint(x, y);
         }
-
         addPoint(width / 2, height / 2);
     }
 
