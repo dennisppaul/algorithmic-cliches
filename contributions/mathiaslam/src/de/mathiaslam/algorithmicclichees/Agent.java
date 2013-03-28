@@ -19,7 +19,7 @@ public class Agent {
     public Agent(float r_) {
         mPosition = new Vector2f(320, 240);
         mVelocity = new Vector2f(0.2f, 0.2f);
-        mAcceleration = new Vector2f(1, 1);
+        mAcceleration = new Vector2f(2, 2);
         mRadius = r_;
     }
 
@@ -60,9 +60,6 @@ public class Agent {
     }
 
     private void checkBound(PApplet p) {
-        if (mPosition.x > p.width) {
-            //mPosition.x = 0;
-        }
         if (mPosition.y > p.height) {
             mPosition.y = 0;
         } else if (mPosition.y < 0) {
