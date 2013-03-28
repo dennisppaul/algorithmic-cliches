@@ -56,9 +56,6 @@ public class Home extends PApplet {
         mField2 = new SimpleVectorField( width, height, gridSize);
         mField2.setNoiseScale(0.001f);
         mField2.setForceScale(60.0f);
-        attra
-        
-        
         
         mPhysics.add(mField);
         mPhysics.add(mField2);
