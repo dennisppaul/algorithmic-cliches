@@ -14,35 +14,28 @@ public class Agent {
     private Vector2f mVelocity;
 
     private Vector2f mAcceleration;
+
+    public static int ArrivedAtMouse = 1;
+
+    public static int NotArrivedAtMouse = 2;
+
 //Konstruktor 1
+    private float mMaxVelocity;
+
+    private float myInterval;
 
     public Agent() {
-    }
-//Konstruktor 2 2Vectors and a radius
-
-    public Agent(Vector2f p_, Vector2f v_, Vector2f a_, float r_) {
-
-        mPosition = p_;
-        mVelocity = v_;
-        mAcceleration = a_;
-        mRadius = r_;
-
-    }
-//Konstruktor 2 1Vectors and a radius
-
-    public Agent(Vector2f p_, float r_) {
-
-        mPosition = p_;
+        mPosition = new Vector2f();
         mVelocity = new Vector2f();
         mAcceleration = new Vector2f();
-        mRadius = r_;
-
+        mMaxVelocity = 4.0f;
+        mRadius = 1.0f;
     }
 
-//Konstruktor 3 only radius
-    public Agent(float r_) {
-        mPosition = new Vector2f(640, 400);
-        mVelocity = new Vector2f(0, 0);
+//Konstruktor 2 1Vectors and a radius
+    public Agent(Vector2f p_, float r_) {
+        this();
+        mPosition.set(p_);
         mRadius = r_;
     }
 
@@ -70,37 +63,58 @@ public class Agent {
         mRadius = r_;
     }
 
-    public void setAcceleration(float x_, float y_) {
-        mAcceleration.x = x_ - mPosition.x;
-        mAcceleration.y = y_ - mPosition.y;
+    public void setAccelerationToMouse(PApplet p) {
+        mAcceleration.x = p.mouseX - mPosition.x;
+        mAcceleration.y = p.mouseY - mPosition.y;
         mAcceleration.normalize();
+    }
 
+    public void setAcceleration(float x_, float y_) {
+        mAcceleration.x = x_;
+        mAcceleration.y = y_;
+        mAcceleration.normalize();
+    }
+
+    private float setmyInterval(float i_) {
+        return myInterval;
     }
 
     /*DISPLAY*/
     public void display(PApplet p) {
 
-        p.stroke(225, 0, 0);
-        p.strokeWeight(1);
-//        p.line(mPosition.x, mPosition.y, mVelocity.x * 5 + mPosition.x, mVelocity.y * 5 + mPosition.y);
-//        p.stroke(0);
-        p.fill(0, 20);
-        p.noStroke();
-        p.ellipse(mPosition.x, mPosition.y, mRadius * 2, mRadius * 2);
+        if (checkMouse(p) == NotArrivedAtMouse) {
+
+            p.strokeWeight(mRadius);
+            p.stroke(0);
+            p.point(mPosition.x, mPosition.y);
+            setAccelerationToMouse(p);
+
+        } else if (checkMouse(p) == ArrivedAtMouse) {
+            // p.strokeWeight(mRadius);
+            p.stroke(255, 0, 0);
+            p.ellipse(mPosition.x, mPosition.y, mRadius * 5, mRadius * 5);
+            setAcceleration(p.random(-2, 2), p.random(-2, 2));
+
+
+        }
 
     }
 
-    public void move(PApplet p) {
+    /*MOVE*/
+    public void update(PApplet p, float pDeltaTime) {
+
+        myInterval += pDeltaTime;
 
         checkWall(p);
+        checkMouse(p);
 
         mVelocity.add(mAcceleration);
         mPosition.add(mVelocity);
+        constrainVelocity();
     }
 
     private void checkWall(PApplet p) {
         if (mPosition.x > p.width) {
-//            mVelocity.x *= -1;
             setPosition(0, mPosition.y);
         } else if (mPosition.x < 0) {
             setPosition(p.width, mPosition.y);
@@ -112,8 +126,40 @@ public class Agent {
         } else if (mPosition.y < 0) {
             setPosition(mPosition.x, p.height);
         }
+
     }
 
-    public void agentArray(float x_) {
+    private int checkMouse(PApplet p) {
+        float mScaledRadius = (mRadius / mRadius) * 20;
+        Vector2f mAB = new Vector2f(p.mouseX - mPosition.x, p.mouseY - mPosition.y);
+        float mDistance = mAB.mag();
+
+        if (mDistance < mScaledRadius) {
+            return ArrivedAtMouse;
+        } else {
+
+            if (myInterval > 2) {
+//                myInterval = 0;
+                return NotArrivedAtMouse;
+            } else {
+                return ArrivedAtMouse;
+            }
+        }
+    }
+
+    public Vector2f getPosition() {
+        return mPosition;
+    }
+
+    public void setMaxAcceleration(float f) {
+        mMaxVelocity = f;
+    }
+
+    private void constrainVelocity() {
+        if (mVelocity.mag() > mMaxVelocity) {
+            mVelocity.normalize();
+            mVelocity.mult(mMaxVelocity);
+        }
+
     }
 }

@@ -1,14 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package de.peterb.algorithmicclichees.sketches;
 
 
-import processing.core.PApplet;
-
-
-public class Vector2f extends PApplet {
+public class Vector2f {
 
     float x;
 
@@ -46,13 +39,13 @@ public class Vector2f extends PApplet {
 
     /*NORMALIZE*/
     public void normalize() {
-
         float mMagnitude;
         mMagnitude = mag();
 
-        x /= mMagnitude;
-        y /= mMagnitude;
-
+        if (mMagnitude > 0.0f) {
+            x /= mMagnitude;
+            y /= mMagnitude;
+        }
     }
 
 //addieren
@@ -87,5 +80,9 @@ public class Vector2f extends PApplet {
     public void div(float d_) {
         x /= d_;
         y /= d_;
+    }
+
+    public String toString() {
+        return "(" + x + ", " + y + ")";
     }
 }

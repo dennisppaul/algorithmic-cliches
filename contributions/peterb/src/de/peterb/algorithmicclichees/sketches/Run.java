@@ -3,68 +3,52 @@ package de.peterb.algorithmicclichees.sketches;
 
 import java.util.ArrayList;
 import processing.core.PApplet;
-//import processing.core.PVector;
 
 
 public class Run extends PApplet {
 
     private ArrayList<Agent> agents;
 
-    private Agent agent1;
-
-    private Agent agent2;
-
-    private Agent agent3;
-
     public void setup() {
-
         size(1280, 800, OPENGL);
+        frameRate(60);
+
 //        background(255);
-        //  direction = new PVector();
+
         Vector2f position = new Vector2f(320, 240);
         Vector2f velocity = new Vector2f(2, 1);
-
-//        agent1 = new Agent(new Vector2f(position), new Vector2f(velocity), 10);
-//        agent2 = new Agent(new Vector2f(position), new Vector2f(2, 4), 5);
-//        agent3 = new Agent(new Vector2f(position), new Vector2f(velocity), 5);
-
-
         agents = new ArrayList<Agent>();
 
 
-//        agent1.setRadius(10);
+    }
 
-//        agent1.setVelocity(2, 1);
-//        agent2.setVelocity(-5, 5);
+    public void mousePressed() {
+        for (int i = 0; i < 100; i++) {
+            Agent a;
+            a = new Agent(new Vector2f(random(0, width), random(0, height)), 2);
+            a.setMaxAcceleration(random(1, 10));
+            agents.add(a);
+        }
     }
 
     public void draw() {
 
-        frameRate(60);
+        float deltaTime = 1.0f / frameRate;
         background(255);
 
-        if (mousePressed) {
 
-            for (int i = 0; i < 100; i++) {
-
-                agents.add(new Agent(new Vector2f(mouseX, mouseY), 10));
-            }
-
-        }
-
-
+//        if (mousePressed) {
+//            for (int i = 0; i < 10; i++) {
+//                Agent a;
+//                a = new Agent(new Vector2f(width / 2, height / 2), random(1, 10));
+//                a.setMaxAcceleration(random(1, 10));
+//                agents.add(a);
+//            }
+//        }
         for (Agent a : agents) {
-//            a.setVelocity(random(-10, 10), random(-10, 10));
-//            a.setVelocity(1, 1);
-//            a.setAcceleration(random(-10, 10), random(-10, 10));
-            a.setAcceleration(mouseX * random(-0.1f, 0.1f), mouseY);
-//            a.setAcceleration(1, 1);
-            a.setRadius(2);
-            a.move(this);
+            a.update(this, deltaTime);
             a.display(this);
-
         }
-
     }
 
     public static void main(String[] args) {
