@@ -6,9 +6,10 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 
 
-public class SketchRenderAsCUSTOM
+public class SketchRenderAsDXFCustom
         extends PApplet {
 
+    // http://java.net/projects/povwriter/downloads
     private boolean mRecord;
 
     public static final int ARRIVED_AT_POSITION = 1;
@@ -27,8 +28,7 @@ public class SketchRenderAsCUSTOM
     public void draw() {
 
         if (mRecord) {
-            beginRaw(CustomExporter.class.getName(), "output-2.dxf");
-        } else {
+            beginRaw(DXFExporter.class.getName(), "output-2.dxf");
         }
 
         draw(g);
@@ -46,36 +46,35 @@ public class SketchRenderAsCUSTOM
     }
 
     private void draw(PGraphics pG) {
+        pG.background(255);
+
         for (int i = 0; i < 10; i++) {
-            pG.noFill();
-            pG.stroke(0);
-            pG.line(0, i * 30, 0, width, i * 30, 0);
+            strokeWeight(i * 3);
+            pG.line(0, i * height / 10.0f, 0,
+                    width, i * height / 10.0f, 0);
         }
 
-//        pG.beginShape(TRIANGLES);
-//        pG.vertex(0, 0, 0);
-//        pG.vertex(width, height, 0);
-//        pG.vertex(0, height, 0);
-//        pG.endShape();
+        pG.translate(width / 2, height / 2);
 
-//        pG.background(255);
-//        pG.translate(width / 2, height / 2);
-//
-//        pG.fill(0);
-//        pG.noStroke();
-//        pG.sphere(100);
-//
-//        pG.stroke(0);
-//        pG.noFill();
-//        for (int i = 0; i < 100; i++) {
-//            pG.line(0, 0, 0,
-//                    random(width / -2, width / 2),
-//                    random(height / -2, height / 2),
-//                    random(height / -2, height / 2));
-//        }
+        pG.fill(0);
+        pG.noStroke();
+        pG.sphere(50);
+
+        pG.stroke(0);
+        pG.noFill();
+        final float mRadius = 400;
+        for (int i = 0; i < 2500; i++) {
+            pG.noFill();
+            pG.stroke(0);
+            Vector3f v = new Vector3f();
+            v.randomize();
+            v.scale(mRadius);
+            strokeWeight(random(0.1f, 2.0f));
+            pG.line(0, 0, 0, v.x, v.y, v.z);
+        }
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchRenderAsCUSTOM.class.getName()});
+        PApplet.main(new String[]{SketchRenderAsDXFCustom.class.getName()});
     }
 }

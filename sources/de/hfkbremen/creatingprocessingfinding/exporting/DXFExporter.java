@@ -112,7 +112,7 @@ import static processing.core.PConstants.Z;
  * February 2006. Updated again for inclusion as a core library in March 2006.
  * Constructor modifications in September 2008 as we approach 1.0.
  */
-public class CustomExporter extends PGraphics {
+public class DXFExporter extends PGraphics {
 
     private File file;
 
@@ -226,61 +226,147 @@ public class CustomExporter extends PGraphics {
     }
 
     protected void writeLine(int index1, int index2) {
-//        writer.println("0");
-//        writer.println("LINE");
-//
-//        // write out the layer
-//        writer.println("8");
-//        writer.println(String.valueOf(currentLayer));
-//
-//        write("10", vertices[index1][X]);
-//        write("20", vertices[index1][Y]);
-//        write("30", vertices[index1][Z]);
-//
-//        write("11", vertices[index2][X]);
-//        write("21", vertices[index2][Y]);
-//        write("31", vertices[index2][Z]);
+        /* write line as 3D shape by using triangle emitter */
 
-        /* write line as 3D shape */
-
-//        writer.println("0");
-//        writer.println("3DFACE");
-
-//        // write out the layer
-//        writer.println("8");
-//        writer.println(String.valueOf(currentLayer));
-
-        PVector v1 = new PVector(vertices[index1][X], vertices[index1][Y], vertices[index1][Z]);
-        PVector v2 = new PVector(vertices[index2][X], vertices[index2][Y], vertices[index2][Z]);
+        PVector vA = new PVector(vertices[index1][X], vertices[index1][Y], vertices[index1][Z]);
+        PVector vB = new PVector(vertices[index2][X], vertices[index2][Y], vertices[index2][Z]);
         vertexCount = 0;
 
-        PVector v12 = new PVector(v2.x, v2.y, v2.z);
-        v12.sub(v1);
-        v12.normalize();
+        PVector vAB = new PVector();
+        vAB.set(vB);
+        vAB.sub(vA);
+        vAB.normalize();
 
-        PVector vP = findPerpVec(v12);
-        PVector vPC = vP.cross(v12);
+        PVector vUp = findPerpVec(vAB);
+        PVector vSi = vUp.cross(vAB);
 
-        vertices[0][X] = v1.x;
-        vertices[0][Y] = v1.y;
-        vertices[0][Z] = v1.z;
+        vUp.mult(strokeWeight / 2.0f);
+        vSi.mult(strokeWeight / 2.0f);
 
-        vertices[1][X] = v2.x;
-        vertices[1][Y] = v2.y;
-        vertices[1][Z] = v2.z;
+        /* 0 */
 
-        vertices[2][X] = v2.x + vP.x;
-        vertices[2][Y] = v2.y + vP.y;
-        vertices[2][Z] = v2.z + vP.z;
+        vertices[0][X] = vA.x + vUp.x;
+        vertices[0][Y] = vA.y + vUp.y;
+        vertices[0][Z] = vA.z + vUp.z;
+
+        vertices[1][X] = vB.x + vSi.x;
+        vertices[1][Y] = vB.y + vSi.y;
+        vertices[1][Z] = vB.z + vSi.z;
+
+        vertices[2][X] = vB.x + vUp.x;
+        vertices[2][Y] = vB.y + vUp.y;
+        vertices[2][Z] = vB.z + vUp.z;
+
+        writeTriangle();
+
+        vertices[0][X] = vA.x + vUp.x;
+        vertices[0][Y] = vA.y + vUp.y;
+        vertices[0][Z] = vA.z + vUp.z;
+
+        vertices[1][X] = vA.x + vSi.x;
+        vertices[1][Y] = vA.y + vSi.y;
+        vertices[1][Z] = vA.z + vSi.z;
+
+        vertices[2][X] = vB.x + vSi.x;
+        vertices[2][Y] = vB.y + vSi.y;
+        vertices[2][Z] = vB.z + vSi.z;
+
+        writeTriangle();
+
+        /* 1 */
+
+        vertices[0][X] = vA.x - vSi.x;
+        vertices[0][Y] = vA.y - vSi.y;
+        vertices[0][Z] = vA.z - vSi.z;
+
+        vertices[1][X] = vA.x + vUp.x;
+        vertices[1][Y] = vA.y + vUp.y;
+        vertices[1][Z] = vA.z + vUp.z;
+
+        vertices[2][X] = vB.x + vUp.x;
+        vertices[2][Y] = vB.y + vUp.y;
+        vertices[2][Z] = vB.z + vUp.z;
+
+        writeTriangle();
+
+        vertices[0][X] = vA.x - vSi.x;
+        vertices[0][Y] = vA.y - vSi.y;
+        vertices[0][Z] = vA.z - vSi.z;
+
+        vertices[1][X] = vB.x + vUp.x;
+        vertices[1][Y] = vB.y + vUp.y;
+        vertices[1][Z] = vB.z + vUp.z;
+
+        vertices[2][X] = vB.x - vSi.x;
+        vertices[2][Y] = vB.y - vSi.y;
+        vertices[2][Z] = vB.z - vSi.z;
+
+        writeTriangle();
+
+        /* 2 */
+
+        vertices[0][X] = vA.x + vSi.x;
+        vertices[0][Y] = vA.y + vSi.y;
+        vertices[0][Z] = vA.z + vSi.z;
+
+        vertices[1][X] = vA.x - vUp.x;
+        vertices[1][Y] = vA.y - vUp.y;
+        vertices[1][Z] = vA.z - vUp.z;
+
+        vertices[2][X] = vB.x - vUp.x;
+        vertices[2][Y] = vB.y - vUp.y;
+        vertices[2][Z] = vB.z - vUp.z;
+
+        writeTriangle();
+
+        vertices[0][X] = vA.x + vSi.x;
+        vertices[0][Y] = vA.y + vSi.y;
+        vertices[0][Z] = vA.z + vSi.z;
+
+        vertices[1][X] = vB.x - vUp.x;
+        vertices[1][Y] = vB.y - vUp.y;
+        vertices[1][Z] = vB.z - vUp.z;
+
+        vertices[2][X] = vB.x + vSi.x;
+        vertices[2][Y] = vB.y + vSi.y;
+        vertices[2][Z] = vB.z + vSi.z;
+
+        writeTriangle();
+
+        /* 3 */
+
+        vertices[0][X] = vA.x - vUp.x;
+        vertices[0][Y] = vA.y - vUp.y;
+        vertices[0][Z] = vA.z - vUp.z;
+
+        vertices[1][X] = vA.x - vSi.x;
+        vertices[1][Y] = vA.y - vSi.y;
+        vertices[1][Z] = vA.z - vSi.z;
+
+        vertices[2][X] = vB.x - vSi.x;
+        vertices[2][Y] = vB.y - vSi.y;
+        vertices[2][Z] = vB.z - vSi.z;
+
+        writeTriangle();
+
+        vertices[0][X] = vA.x - vUp.x;
+        vertices[0][Y] = vA.y - vUp.y;
+        vertices[0][Z] = vA.z - vUp.z;
+
+        vertices[1][X] = vB.x - vSi.x;
+        vertices[1][Y] = vB.y - vSi.y;
+        vertices[1][Z] = vB.z - vSi.z;
+
+        vertices[2][X] = vB.x - vUp.x;
+        vertices[2][Y] = vB.y - vUp.y;
+        vertices[2][Z] = vB.z - vUp.z;
 
         writeTriangle();
     }
 
     private PVector findPerpVec(PVector v) {
-        PVector vP = new PVector();
+        /* find a non-parallel vector */
         PVector mUp = new PVector();
-
-        /* x axis */
         if (v.x == 0.0f && v.y == 0.0f && v.z == 0.0f) {
             mUp.set(1.0f, 0.0f, 0.0f);
         } else if (v.x == 1.0f && v.y == 0.0f && v.z == 0.0f) {
@@ -291,9 +377,13 @@ public class CustomExporter extends PGraphics {
             mUp.set(1.0f, 0.0f, 0.0f);
         }
 
-        PVector.cross(v, mUp, vP);
-
-        System.out.println(v.dot(vP));
+        PVector vP = new PVector(0, 0, 1.0f);
+        final float mDot = v.dot(mUp);
+        if (mDot < 1.0f && mDot > -1.0f) {
+            PVector.cross(v, mUp, vP);
+        } else {
+            System.out.println("### " + DXFExporter.class.getName() + " / problem finding perp vector. ");
+        }
 
         return vP;
     }

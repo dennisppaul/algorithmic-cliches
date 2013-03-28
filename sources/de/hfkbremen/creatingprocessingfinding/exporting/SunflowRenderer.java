@@ -71,14 +71,14 @@ public class SunflowRenderer
         }
 
         public void draw() {
-            final P5Sunflow mSunflow = (P5Sunflow) g;
-            mInnerParent.setup(mSunflow);
-
-            try {
-                mMethod.invoke(mParent, new Object[]{mSunflow});
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
+//            final P5Sunflow mSunflow = (P5Sunflow) g;
+//            mInnerParent.setup(mSunflow);
+//
+//            try {
+//                mMethod.invoke(mParent, new Object[]{mSunflow});
+//            } catch (Exception ex) {
+//                ex.printStackTrace();
+//            }
 
             saveFrame("export-" + nf(mFrameNumber, 4) + ".png");
 
