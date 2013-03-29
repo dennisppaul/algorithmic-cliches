@@ -24,11 +24,17 @@ public class Agent {
 
     private float myInterval;
 
+    private boolean wait = false;
+
+    private float count = 0;
+
+    private int state = 0;
+
     public Agent() {
         mPosition = new Vector2f();
         mVelocity = new Vector2f();
         mAcceleration = new Vector2f();
-        mMaxVelocity = 4.0f;
+        mMaxVelocity = 2.0f;
         mRadius = 1.0f;
     }
 
@@ -69,44 +75,68 @@ public class Agent {
         mAcceleration.normalize();
     }
 
+    public void setAccelerationToPoint(float x_, float y_) {
+        mAcceleration.x = x_ - mPosition.x;
+        mAcceleration.y = y_ - mPosition.y;
+        mAcceleration.normalize();
+    }
+
     public void setAcceleration(float x_, float y_) {
         mAcceleration.x = x_;
         mAcceleration.y = y_;
         mAcceleration.normalize();
     }
 
-    private float setmyInterval(float i_) {
-        return myInterval;
-    }
 
     /*DISPLAY*/
     public void display(PApplet p) {
+//        myInterval += pDeltaTime;
 
         if (checkMouse(p) == NotArrivedAtMouse) {
-
-            p.strokeWeight(mRadius);
-            p.stroke(0);
-            p.point(mPosition.x, mPosition.y);
-            setAccelerationToMouse(p);
-
         } else if (checkMouse(p) == ArrivedAtMouse) {
             // p.strokeWeight(mRadius);
-            p.stroke(255, 0, 0);
-            p.ellipse(mPosition.x, mPosition.y, mRadius * 5, mRadius * 5);
-            setAcceleration(p.random(-2, 2), p.random(-2, 2));
-
-
         }
 
+
+    }
+    /*STATES*/
+
+    private void wiggle(PApplet p) {
+        //p.stroke(255, 0, 0);
+        p.noStroke();
+        p.fill(0, 30);
+        p.ellipse(mPosition.x, mPosition.y, mRadius * 5, mRadius * 5);
+        setAcceleration(p.random(-2, 2), p.random(-2, 2));
     }
 
+    private void follow(PApplet p) {
+        p.strokeWeight(mRadius);
+        p.stroke(0);
+        p.point(mPosition.x, mPosition.y);
+        setAccelerationToPoint(p.random(0, p.width), p.random(0, p.height));
+    }
     /*MOVE*/
+
     public void update(PApplet p, float pDeltaTime) {
 
-        myInterval += pDeltaTime;
 
         checkWall(p);
-        checkMouse(p);
+        state = checkMouse(p);
+        if (state == 1) {
+            wait = true;
+        }
+        if (wait) {
+            if (myInterval <= 10.0f) {
+                myInterval += pDeltaTime;
+                wiggle(p);
+            } else {
+                myInterval = 0;
+                wait = false;
+                state = 2;
+            }
+        } else {
+            follow(p);
+        }
 
         mVelocity.add(mAcceleration);
         mPosition.add(mVelocity);
@@ -121,7 +151,6 @@ public class Agent {
         }
 
         if (mPosition.y > p.height) {
-//            mVelocity.y *= -1;
             setPosition(mPosition.x, 0);
         } else if (mPosition.y < 0) {
             setPosition(mPosition.x, p.height);
@@ -130,7 +159,7 @@ public class Agent {
     }
 
     private int checkMouse(PApplet p) {
-        float mScaledRadius = (mRadius / mRadius) * 20;
+        float mScaledRadius = (mRadius / mRadius) * 50;
         Vector2f mAB = new Vector2f(p.mouseX - mPosition.x, p.mouseY - mPosition.y);
         float mDistance = mAB.mag();
 
@@ -138,12 +167,8 @@ public class Agent {
             return ArrivedAtMouse;
         } else {
 
-            if (myInterval > 2) {
-//                myInterval = 0;
-                return NotArrivedAtMouse;
-            } else {
-                return ArrivedAtMouse;
-            }
+
+            return NotArrivedAtMouse;
         }
     }
 
@@ -161,5 +186,9 @@ public class Agent {
             mVelocity.mult(mMaxVelocity);
         }
 
+    }
+
+    private void setMyInterval(int x_) {
+        myInterval = x_;
     }
 }
