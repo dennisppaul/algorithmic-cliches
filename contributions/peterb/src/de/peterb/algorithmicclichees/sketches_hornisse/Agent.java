@@ -1,9 +1,8 @@
-package de.peterb.algorithmicclichees.sketches;
+package de.peterb.algorithmicclichees.sketches_hornisse;
 
 
 import de.peterb.algorithmicclichees.Vector2f;
 import processing.core.PApplet;
-//import de.peterb.algorithmicclichees.sketches.Vector2f;
 
 
 public class Agent {
@@ -16,11 +15,10 @@ public class Agent {
 
     private Vector2f mAcceleration;
 
-    public static int ArrivedAtPoint = 1;
+    public static int ArrivedAtMouse = 1;
 
-    public static int NotArrivedAtPoint = 2;
+    public static int NotArrivedAtMouse = 2;
 
-//Konstruktor 1
     private float mMaxVelocity;
 
     private float myInterval;
@@ -31,20 +29,16 @@ public class Agent {
 
     private int state = 0;
 
-    private Nest mNest;
-
     public Agent() {
         mPosition = new Vector2f();
         mVelocity = new Vector2f();
         mAcceleration = new Vector2f();
         mMaxVelocity = 2.0f;
         mRadius = 1.0f;
-        mNest = new Nest();
     }
 
-    public Agent(Vector2f p_, float r_, Nest n_) {
+    public Agent(Vector2f p_, float r_) {
         this();
-        mNest = n_;
         mPosition.set(p_);
         mRadius = r_;
     }
@@ -95,12 +89,9 @@ public class Agent {
     /*DISPLAY*/
     public void display(PApplet p) {
 //        myInterval += pDeltaTime;
-        p.noFill();
-        p.noStroke();
-        p.triangle(mNest.position.x, mNest.position.y - 10, mNest.position.x - 10,
-                   mNest.position.y + 10, mNest.position.x + 10, mNest.position.y + 10);
-        if (checkNest(p) == NotArrivedAtPoint) {
-        } else if (checkNest(p) == ArrivedAtPoint) {
+
+        if (checkMouse(p) == NotArrivedAtMouse) {
+        } else if (checkMouse(p) == ArrivedAtMouse) {
             // p.strokeWeight(mRadius);
         }
 
@@ -113,7 +104,6 @@ public class Agent {
         p.noStroke();
         p.fill(0, 30);
         p.ellipse(mPosition.x, mPosition.y, mRadius * 5, mRadius * 5);
-
         setAcceleration(p.random(-2, 2), p.random(-2, 2));
     }
 
@@ -121,21 +111,20 @@ public class Agent {
         p.strokeWeight(mRadius);
         p.stroke(0);
         p.point(mPosition.x, mPosition.y);
-        setAccelerationToPoint(mNest.position.x, mNest.position.y);
+        setAccelerationToPoint(p.random(0, p.width), p.random(0, p.height));
     }
     /*MOVE*/
 
     public void update(PApplet p, float pDeltaTime) {
 
 
-
         checkWall(p);
-        state = checkNest(p);
+        state = checkMouse(p);
         if (state == 1) {
             wait = true;
         }
         if (wait) {
-            if (myInterval <= p.random(10.0f, 20.0f)) {
+            if (myInterval <= 10.0f) {
                 myInterval += pDeltaTime;
                 wiggle(p);
             } else {
@@ -173,22 +162,11 @@ public class Agent {
         float mDistance = mAB.mag();
 
         if (mDistance < mScaledRadius) {
-            return ArrivedAtPoint;
+            return ArrivedAtMouse;
         } else {
-            return NotArrivedAtPoint;
-        }
-    }
 
-    private int checkNest(PApplet p) {
-        float mScaledRadius = (mRadius / mRadius) * 50;
-        Vector2f mAB = new Vector2f(mNest.position.x - mPosition.x,
-                                    mNest.position.y - mPosition.y);
-        float mDistance = mAB.mag();
 
-        if (mDistance < mScaledRadius) {
-            return ArrivedAtPoint;
-        } else {
-            return NotArrivedAtPoint;
+            return NotArrivedAtMouse;
         }
     }
 
@@ -206,5 +184,9 @@ public class Agent {
             mVelocity.mult(mMaxVelocity);
         }
 
+    }
+
+    private void setMyInterval(int x_) {
+        myInterval = x_;
     }
 }

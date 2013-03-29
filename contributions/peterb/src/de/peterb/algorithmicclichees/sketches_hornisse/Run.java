@@ -1,4 +1,4 @@
-package de.peterb.algorithmicclichees.sketches;
+package de.peterb.algorithmicclichees.sketches_hornisse;
 
 
 import de.peterb.algorithmicclichees.Vector2f;
@@ -10,14 +10,9 @@ public class Run extends PApplet {
 
     private ArrayList<Agent> agents;
 
-    private Nest nest;
-
-    private float nestTimer;
-
     public void setup() {
-        size(1200, 720, OPENGL);
-        nest = new Nest();
-        nest.position().set(random(0, width), random(0, height));
+        size(1280, 800, OPENGL);
+
         frameRate(60);
 //        noCursor();
 
@@ -43,18 +38,12 @@ public class Run extends PApplet {
 
 
         if (mousePressed) {
-            for (int i = 0; i < 1000; i++) {
+            for (int i = 0; i < 10; i++) {
                 Agent a;
-                a = new Agent(new Vector2f(random(0, width), random(0, height)), random(1, 4), nest);
+                a = new Agent(new Vector2f(width / 2, height / 2), random(1, 4));
                 a.setMaxAcceleration(random(1, 10));
                 agents.add(a);
             }
-        }
-        if (nestTimer < 1) {
-            nestTimer += deltaTime;
-        } else {
-            nestTimer = 0;
-            nest.position().set(random(0, height), random(0, width));
         }
         for (Agent a : agents) {
             a.update(this, deltaTime);
