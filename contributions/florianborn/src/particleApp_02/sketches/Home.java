@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import mathematik.Vector3f;
 import processing.core.PApplet;
 import teilchen.BehaviorParticle;
+import teilchen.CheckPointParticle;
 import teilchen.Particle;
 import teilchen.Physics;
 import teilchen.behavior.Seek;
@@ -15,12 +16,14 @@ import teilchen.force.simplevectorfield.SimpleVectorField;
 
 public class Home extends PApplet {
 
-    private int particleNumber = 10000;
+    private int particleNumber = 20000;
 
     private int gridSize = 20;
 
     private float mNoiseScale = 0.024f;
 
+    private float forceScaleField = 60.0f;
+    
     private float mOffset = 0.0f;
 
     private Physics mPhysics;
@@ -33,13 +36,13 @@ public class Home extends PApplet {
 
     private Seek s;
 
-    private ArrayList<BehaviorParticle> particles;
+    private ArrayList<CheckPointParticle> particles;
 
     private ArrayList<Attractor> attractor;
 
     private ArrayList<Attractor> deflector;
 
-    private ArrayList<Seek> seeks;
+    private ArrayList<Vector3f> seekPoints;
 
     /*Controls*/
     private Util util;
@@ -64,23 +67,20 @@ public class Home extends PApplet {
         mPhysics = new Physics();
         util = new Util(this);
 
-        particles = new ArrayList<BehaviorParticle>();
+        particles = new ArrayList<CheckPointParticle>();
         attractor = new ArrayList<Attractor>();
         deflector = new ArrayList<Attractor>();
-        seeks = new ArrayList<Seek>();
-        
-        for (int i = 0; i < 20; i++) {
-            seeks.add(new Seek(i));
-        }
+        seekPoints = new ArrayList<Vector3f>();
         float step = 0;
-        for(Seek e : seeks){
-            e.setPositionRef(new Vector3f(width/2 + sin(step)*300, height/2 + cos(step)*300));
-            e.scale(100);
-            step++;
+
+        for (int i = 0; i < 360; i += 20) {
+            float x = sin(radians((i)))* (300) ;
+            float y = cos(radians((i)))* (300) ;
+            seekPoints.add(new Vector3f((width / 2) + x , (height / 2) + y ));
         }
-        
+
         for (int i = 0; i < particleNumber; i++) {
-            particles.add(new BehaviorParticle());
+            particles.add(new CheckPointParticle(seekPoints));
         }
 
         /*Forces*/
@@ -94,26 +94,31 @@ public class Home extends PApplet {
         attractor1.setPositionRef(new Vector3f(width / 2, height / 2, 0.0f));
         attractor1.radius(100);
         attractor1.strength(-500);
-        
-
-        s = new Seek();
-        s.setPositionRef(new Vector3f(width / 2, height / 2, 0.0f));
-        s.scale(120.0f);
-        for (BehaviorParticle p : particles) {
-            p.setPositionRef(new Vector3f(random(0, width), random(0, height), 0));
-            p.mass(random(0.4f, 5.0f));
-            p.behaviors().add(s);
+//        s = new Seek();
+//        s.setPositionRef(new Vector3f(width / 2, height / 2, 0.0f));
+//        s.scale(120.0f);
+        for (CheckPointParticle p : particles) {
+//            p.setPositionRef(new Vector3f(random(0, width), random(0, height), 0));
+            p.setPositionRef(new Vector3f(random(width/2 - 200, width/2+200), random(height/2 - 200, height/2+200), 0));
+            p.mass(random(0.1f, 10.0f));
+            p.setMinDistance(60.0f);
             p.maximumInnerForce(1000.0f);
         }
         //mPhysics.add(mField);
         mPhysics.add(mField2);
-        mPhysics.add(attractor1);
+        //mPhysics.add(attractor1);
         mPhysics.add(particles);
+        for (CheckPointParticle p : particles) {
+            Seek s = (Seek) p.behaviors().firstElement();
+            s.scale(120.0f);
+            
+        }
+        
         mPhysics.add(new ViscousDrag());
     }
 
     public void draw() {
-        background(0);
+        background(0.0f);
         update();
         beginShape(POINTS);
         for (Particle p : mPhysics.particles()) {
@@ -131,25 +136,31 @@ public class Home extends PApplet {
             for (Attractor d : deflector) {
                 drawAttractor(d);
             }
+            for (Vector3f v : seekPoints) {
+                drawSeekPoint(v);
+            }
         }
 
     }
 
     public void update() {
+        text(Float.toString(frameRate),20.0f,height-40);
         final float mDeltaTime = 1.0f / frameRate;
-        for (Particle p : mPhysics.particles()) {
-            if (p.position().x < 0) {
-                p.position().x = width;
-            }
-            if (p.position().x > width) {
-                p.position().x = 0;
-            }
-            if (p.position().y < 0) {
-                p.position().y = height;
-            }
-            if (p.position().y > height) {
-                p.position().y = 0;
-            }
+
+        for (CheckPointParticle p : particles) {
+            p.update(mDeltaTime);
+//            if (p.position().x < 0) {
+//                p.position().x = width;
+//            }
+//            if (p.position().x > width) {
+//                p.position().x = 0;
+//            }
+//            if (p.position().y < 0) {
+//                p.position().y = height;
+//            }
+//            if (p.position().y > height) {
+//                p.position().y = 0;
+//            }
 
         }
 
@@ -157,7 +168,7 @@ public class Home extends PApplet {
         mField.setOffset(mOffset);
         mField2.setOffset(mOffset);
         mField2.setNoiseScale(mNoiseScale);
-        s.scale(seekScale);
+        mField2.setForceScale(forceScaleField);
         mField.update();
         mField2.update();
         mPhysics.step(mDeltaTime);
@@ -219,6 +230,13 @@ public class Home extends PApplet {
                 popMatrix();
             }
         }
+        popStyle();
+    }
+
+    public void drawSeekPoint(Vector3f v) {
+        pushStyle();
+        fill(0, 0, 150, 50);
+        ellipse(v.x, v.y, 10, 10);
         popStyle();
     }
 
