@@ -5,7 +5,7 @@ import processing.core.PApplet;
 import processing.dxf.RawDXF;
 
 
-public class SketchRenderAsDXF
+public class SketchExportAsDXF
         extends PApplet {
 
     boolean mRecord;
@@ -49,6 +49,6 @@ public class SketchRenderAsDXF
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchRenderAsDXF.class.getName()});
+        PApplet.main(new String[]{SketchExportAsDXF.class.getName()});
     }
 }

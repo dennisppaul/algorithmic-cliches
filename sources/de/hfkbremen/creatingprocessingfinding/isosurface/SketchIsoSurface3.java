@@ -49,7 +49,7 @@ public class SketchIsoSurface3
         text("SELECTED : " + mCurrentCircle, 10, 24);
         text("FPS      : " + (int) frameRate, 10, 36);
 
-        /* darw isosurface */
+        /* draw isosurface */
         mArcBall.update();
 
         if (!mMetaballManager.metaballs().isEmpty()) {

@@ -1,124 +1,75 @@
 package de.hfkbremen.creatingprocessingfinding.exporting;
-/* -*- mode: java; c-basic-offset: 2; indent-tabs-mode: nil -*- */
 
-/*
- * RawDXF - Code to write DXF files with beginRaw/endRaw
- * An extension for the Processing project - http://processing.org
- * <p/>
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- * <p/>
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * <p/>
- * You should have received a copy of the GNU Lesser General
- * Public License along with the Processing project; if not,
- * write to the Free Software Foundation, Inc., 59 Temple Place,
- * Suite 330, Boston, MA  02111-1307  USA
- */
 
-import java.io.*;
-
-import processing.core.*;
-import static processing.core.PConstants.EPSILON;
-import static processing.core.PConstants.X;
-import static processing.core.PConstants.Y;
-import static processing.core.PConstants.Z;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import processing.core.PGraphics;
+import processing.core.PVector;
 
 
 /**
- * A simple library to write DXF files with Processing. Because this is used
- * with beginRaw() and endRaw(), only individual triangles and (discontinuous)
- * line segments will be written to the file.
- * <P/>
- * Use something like a keyPressed() in PApplet to trigger it, to avoid writing
- * a bazillion .dxf files.
- * <P/>
- * Usually, the file will be saved to the sketch's folder. Use Sketch &rarr;
- * Show Sketch Folder to see it from the PDE.
- * <p/>
- * A simple example of how to use:
- * <PRE>
- * import processing.dxf.*;
- *
- * boolean record;
- *
- * void setup() {
- *   size(500, 500, P3D);
- * }
- *
- * void keyPressed() {
- *   // use a key press so that it doesn't make a million files
- *   if (key == 'r') record = true;
- * }
- *
- * void draw() {
- *   if (record) {
- *     beginRaw(DXF, "output.dxf");
- *   }
- *
- *   // do all your drawing here
- *
- *   if (record) {
- *     endRaw();
- *     record = false;
- *   }
- * }
- * </PRE> or to use it and be able to control the current layer:
- * <PRE>
- * import processing.dxf.*;
- *
- * boolean record;
- * RawDXF dxf;
- *
- * void setup() {
- *   size(500, 500, P3D);
- * }
- *
- * void keyPressed() {
- *   // use a key press so that it doesn't make a million files
- *   if (key == 'r') record = true;
- * }
- *
- * void draw() {
- *   if (record) {
- *     dxf = (RawDXF) createGraphics(width, height, DXF, "output.dxf");
- *     beginRaw(dxf);
- *   }
- *
- *   // do all your drawing here, and to set the layer, call:
- *   // if (record) {
- *   //   dxf.setLayer(num);
- *   // }
- *   // where 'num' is an integer.
- *   // the default is zero, or you can set it to whatever.
- *
- *   if (record) {
- *     endRaw();
- *     record = false;
- *     dxf = null;
- *   }
- * }
- * </PRE> Note that even though this class is a subclass of PGraphics, it only
- * implements the parts of the API that are necessary for beginRaw/endRaw.
- * <P/>
- * Based on the original DXF writer from Simon Greenwold, February 2004. Updated
- * for Processing 0070 by Ben Fry in September 2004, and again for Processing
- * beta in April 2005. Rewritten to support beginRaw/endRaw by Ben Fry in
- * February 2006. Updated again for inclusion as a core library in March 2006.
- * Constructor modifications in September 2008 as we approach 1.0.
+ * very simple PLY exporter, based on the DXF exporter.<br/>
+ * - converts lines into rectangular tubes<br/>
+ * - supports vertex coloring<br/>
+ * - does not support texturing<br/>
+ * - only supports triangles ( and what is what is made out of it ) and
+ * lines<br/>
  */
-public class DXFExporter extends PGraphics {
+public class PLYExporter extends PGraphics {
 
+    /*
+     * RawDXF - Code to write DXF files with beginRaw/endRaw
+     * An extension for the Processing project - http://processing.org
+     * <p/>
+     * This library is free software; you can redistribute it and/or
+     * modify it under the terms of the GNU Lesser General Public
+     * License as published by the Free Software Foundation; either
+     * version 2.1 of the License, or (at your option) any later version.
+     * <p/>
+     * This library is distributed in the hope that it will be useful,
+     * but WITHOUT ANY WARRANTY; without even the implied warranty of
+     * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+     * Lesser General Public License for more details.
+     * <p/>
+     * You should have received a copy of the GNU Lesser General
+     * Public License along with the Processing project; if not,
+     * write to the Free Software Foundation, Inc., 59 Temple Place,
+     * Suite 330, Boston, MA  02111-1307  USA
+     */
+    /* a very simple PLY file for testing purposes
+     *
+     ply
+     format ascii 1.0           { ascii/binary, format version number }
+     element vertex 3           { define "vertex" element, 3 of them in file }
+     property float x           { vertex contains float "x" coordinate }
+     property float y           { y coordinate is also a vertex property }
+     property float z           { z coordinate, too }
+     property uchar red         { start of vertex color }
+     property uchar green
+     property uchar blue
+     property uchar alpha
+     element face 1             { there is 1 "face" elements in the file }
+     property list uchar int vertex_index { "vertex_indices" is a list of ints }
+     end_header                 { delimits the end of the header }
+     0 0 0 255 0 0 255              { start of vertex list }
+     0 0 1 0 255 0 127
+     0 1 1 0 0 255 0
+     3 0 1 2                    { start of face list }
+     *
+     */
     private File file;
 
     private PrintWriter writer;
 
-    private int currentLayer;
+    private StringBuffer mVertices = new StringBuffer();
+
+    private StringBuffer mFaces = new StringBuffer();
+
+    private int mVertexCounterPLY = 0;
+
+    public static float VERTEX_SCALE = 1.0f;
 
     public void setPath(String path) {
         this.path = path;
@@ -129,23 +80,15 @@ public class DXFExporter extends PGraphics {
             }
         }
         if (file == null) {
-            throw new RuntimeException("PGraphicsPDF requires an absolute path "
+            throw new RuntimeException(PLYExporter.class.getSimpleName()
+                    + " requires an absolute path "
                     + "for the location of the output file.");
         }
     }
 
-    // ..............................................................
-    protected void allocate() {
-        /*
-         for (int i = 0; i < MAX_TRI_LAYERS; i++) {
-         layerList[i] = NO_LAYER;
-         }
-         */
-        setLayer(0);
-    }
-
     public void dispose() {
-        writeFooter();
+        writeHeader();
+        writeData();
 
         writer.flush();
         writer.close();
@@ -153,7 +96,7 @@ public class DXFExporter extends PGraphics {
     }
 
     public boolean displayable() {
-        return false;  // just in case someone wants to use this on its own
+        return false;
     }
 
     public boolean is2D() {
@@ -164,17 +107,13 @@ public class DXFExporter extends PGraphics {
         return true;
     }
 
-    // ..............................................................
     public void beginDraw() {
-        // have to create file object here, because the name isn't yet
-        // available in allocate()
         if (writer == null) {
             try {
                 writer = new PrintWriter(new FileWriter(file));
             } catch (IOException e) {
                 throw new RuntimeException(e);  // java 1.4+
             }
-            writeHeader();
         }
     }
 
@@ -182,47 +121,20 @@ public class DXFExporter extends PGraphics {
         writer.flush();
     }
 
-    // ..............................................................
-    /**
-     * Set the current layer being used in the DXF file. The default is zero.
-     */
-    public void setLayer(int layer) {
-        currentLayer = layer;
-    }
-
-    // ..............................................................
     private void writeHeader() {
-        writer.println("0");
-        writer.println("SECTION");
-        writer.println("2");
-        writer.println("ENTITIES");
-    }
-
-    private void writeFooter() {
-        writer.println("0");
-        writer.println("ENDSEC");
-        writer.println("0");
-        writer.println("EOF");
-    }
-
-    /**
-     * Write a command on one line (as a String), then start a new line and
-     * write out a formatted float. Available for anyone who wants to insert
-     * additional commands into the DXF stream.
-     */
-    public void write(String cmd, float val) {
-        writer.println(cmd);
-        // don't format, will cause trouble on systems that aren't en-us
-        // http://dev.processing.org/bugs/show_bug.cgi?id=495
-        writer.println(val);
-    }
-
-    /**
-     * Write a line to the dxf file. Available for anyone who wants to insert
-     * additional commands into the DXF stream.
-     */
-    public void println(String what) {
-        writer.println(what);
+        writer.println("ply");
+        writer.println("format ascii 1.0");
+        writer.println("element vertex " + mVertexCounterPLY);
+        writer.println("property float x");
+        writer.println("property float y");
+        writer.println("property float z");
+        writer.println("property uchar red");
+        writer.println("property uchar green");
+        writer.println("property uchar blue");
+        writer.println("property uchar alpha");
+        writer.println("element face " + mVertexCounterPLY / 3);
+        writer.println("property list uchar int vertex_index");
+        writer.println("end_header");
     }
 
     protected void writeLine(int index1, int index2) {
@@ -257,7 +169,7 @@ public class DXFExporter extends PGraphics {
         vertices[2][Y] = vB.y + vUp.y * mStrokeWeightB;
         vertices[2][Z] = vB.z + vUp.z * mStrokeWeightB;
 
-        writeTriangle();
+        writeLineSegment();
 
         vertices[0][X] = vA.x + vUp.x * mStrokeWeightA;
         vertices[0][Y] = vA.y + vUp.y * mStrokeWeightA;
@@ -271,7 +183,7 @@ public class DXFExporter extends PGraphics {
         vertices[2][Y] = vB.y + vSi.y * mStrokeWeightB;
         vertices[2][Z] = vB.z + vSi.z * mStrokeWeightB;
 
-        writeTriangle();
+        writeLineSegment();
 
         /* 1 */
 
@@ -287,7 +199,7 @@ public class DXFExporter extends PGraphics {
         vertices[2][Y] = vB.y + vUp.y * mStrokeWeightB;
         vertices[2][Z] = vB.z + vUp.z * mStrokeWeightB;
 
-        writeTriangle();
+        writeLineSegment();
 
         vertices[0][X] = vA.x - vSi.x * mStrokeWeightA;
         vertices[0][Y] = vA.y - vSi.y * mStrokeWeightA;
@@ -301,7 +213,7 @@ public class DXFExporter extends PGraphics {
         vertices[2][Y] = vB.y - vSi.y * mStrokeWeightB;
         vertices[2][Z] = vB.z - vSi.z * mStrokeWeightB;
 
-        writeTriangle();
+        writeLineSegment();
 
         /* 2 */
 
@@ -317,7 +229,7 @@ public class DXFExporter extends PGraphics {
         vertices[2][Y] = vB.y - vUp.y * mStrokeWeightB;
         vertices[2][Z] = vB.z - vUp.z * mStrokeWeightB;
 
-        writeTriangle();
+        writeLineSegment();
 
         vertices[0][X] = vA.x + vSi.x * mStrokeWeightA;
         vertices[0][Y] = vA.y + vSi.y * mStrokeWeightA;
@@ -331,7 +243,7 @@ public class DXFExporter extends PGraphics {
         vertices[2][Y] = vB.y + vSi.y * mStrokeWeightB;
         vertices[2][Z] = vB.z + vSi.z * mStrokeWeightB;
 
-        writeTriangle();
+        writeLineSegment();
 
         /* 3 */
 
@@ -347,7 +259,7 @@ public class DXFExporter extends PGraphics {
         vertices[2][Y] = vB.y - vSi.y * mStrokeWeightB;
         vertices[2][Z] = vB.z - vSi.z * mStrokeWeightB;
 
-        writeTriangle();
+        writeLineSegment();
 
         vertices[0][X] = vA.x - vUp.x * mStrokeWeightA;
         vertices[0][Y] = vA.y - vUp.y * mStrokeWeightA;
@@ -361,7 +273,7 @@ public class DXFExporter extends PGraphics {
         vertices[2][Y] = vB.y - vUp.y * mStrokeWeightB;
         vertices[2][Z] = vB.z - vUp.z * mStrokeWeightB;
 
-        writeTriangle();
+        writeLineSegment();
     }
 
     private static PVector findPerpVec(PVector v) {
@@ -382,58 +294,63 @@ public class DXFExporter extends PGraphics {
         if (mDot < 1.0f && mDot > -1.0f) {
             PVector.cross(v, mUp, vP);
         } else {
-            System.out.println("### " + DXFExporter.class.getName() + " / problem finding perp vector. ");
+            System.out.println("### " + PLYExporter.class.getSimpleName() + " / problem finding perp vector. ");
         }
 
         return vP;
     }
 
-    /*
-     protected void writeLineStrip() {
-     writeLine();
-     // shift the last vertex to be the first vertex
-     System.arraycopy(vertices[1], 0, vertices[0], 0, vertices[1].length);
-     vertexCount = 1;
-     }
-     */
-    protected void writeTriangle() {
-        writer.println("0");
-        writer.println("3DFACE");
+    private void writeTriangle() {
+        writeFace(false);
+    }
 
-        // write out the layer
-        writer.println("8");
-        /*
-         if (i < MAX_TRI_LAYERS) {
-         if (layerList[i] >= 0) {
-         currentLayer = layerList[i];
-         }
-         }
-         */
-        writer.println(String.valueOf(currentLayer));
+    private void writeLineSegment() {
+        writeFace(true);
+    }
 
-        write("10", vertices[0][X]);
-        write("20", vertices[0][Y]);
-        write("30", vertices[0][Z]);
+    private void writeFace(boolean pStrokeColor) {
+        appendVertex(vertices[0], pStrokeColor);
+        appendVertex(vertices[1], pStrokeColor);
+        appendVertex(vertices[2], pStrokeColor);
+        appendFace();
 
-        write("11", vertices[1][X]);
-        write("21", vertices[1][Y]);
-        write("31", vertices[1][Z]);
-
-        write("12", vertices[2][X]);
-        write("22", vertices[2][Y]);
-        write("32", vertices[2][Z]);
-
-        // without adding EPSILON, rhino kinda freaks out
-        // a face is actually a quad, not a triangle,
-        // so instead kinda fudging the final point here.
-        write("13", vertices[2][X] + EPSILON);
-        write("23", vertices[2][Y] + EPSILON);
-        write("33", vertices[2][Z] + EPSILON);
-
+        mVertexCounterPLY += 3;
         vertexCount = 0;
     }
 
-    // ..............................................................
+    private void appendFace() {
+        mFaces.append("3");
+        mFaces.append(" ");
+        mFaces.append(mVertexCounterPLY + 0);
+        mFaces.append(" ");
+        mFaces.append(mVertexCounterPLY + 1);
+        mFaces.append(" ");
+        mFaces.append(mVertexCounterPLY + 2);
+        mFaces.append("\n");
+    }
+
+    private void appendVertex(float[] v, boolean useStrokeColor) {
+        mVertices.append(v[X] * VERTEX_SCALE);
+        mVertices.append(" ");
+        mVertices.append(v[Y] * VERTEX_SCALE);
+        mVertices.append(" ");
+        mVertices.append(v[Z] * VERTEX_SCALE);
+        mVertices.append(" ");
+        mVertices.append((int) (v[useStrokeColor ? SR : R] * 255));
+        mVertices.append(" ");
+        mVertices.append((int) (v[useStrokeColor ? SG : G] * 255));
+        mVertices.append(" ");
+        mVertices.append((int) (v[useStrokeColor ? SB : B] * 255));
+        mVertices.append(" ");
+        mVertices.append((int) (v[useStrokeColor ? SA : A] * 255));
+        mVertices.append("\n");
+    }
+
+    private void writeData() {
+        writer.print(mVertices.toString());
+        writer.print(mFaces.toString());
+    }
+
     public void beginShape(int kind) {
         shape = kind;
 
@@ -441,13 +358,13 @@ public class DXFExporter extends PGraphics {
                 && (shape != TRIANGLES)
                 && (shape != POLYGON)) {
             String err =
-                    "RawDXF can only be used with beginRaw(), "
+                    PLYExporter.class.getSimpleName() + "can only be used with beginRaw(), "
                     + "because it only supports lines and triangles";
             throw new RuntimeException(err);
         }
 
         if ((shape == POLYGON) && fill) {
-            throw new RuntimeException("RawDXF only supports non-filled shapes.");
+            throw new RuntimeException(PLYExporter.class.getSimpleName() + "only supports non-filled shapes.");
         }
 
         vertexCount = 0;
@@ -460,7 +377,7 @@ public class DXFExporter extends PGraphics {
     public void vertex(float x, float y, float z) {
         float[] vertex = vertices[vertexCount];
 
-        vertex[X] = x;  // note: not mx, my, mz like PGraphics3
+        vertex[X] = x;
         vertex[Y] = y;
         vertex[Z] = z;
 
@@ -479,7 +396,7 @@ public class DXFExporter extends PGraphics {
             vertex[SW] = strokeWeight;
         }
 
-        if (textureImage != null) {  // for the future?
+        if (textureImage != null) {
             vertex[U] = textureU;
             vertex[V] = textureV;
         }
@@ -488,12 +405,6 @@ public class DXFExporter extends PGraphics {
         if ((shape == LINES) && (vertexCount == 2)) {
             writeLine(0, 1);
             vertexCount = 0;
-
-            /*
-             } else if ((shape == LINE_STRIP) && (vertexCount == 2)) {
-             writeLineStrip();
-             */
-
         } else if ((shape == TRIANGLES) && (vertexCount == 3)) {
             writeTriangle();
         }
@@ -508,11 +419,5 @@ public class DXFExporter extends PGraphics {
                 writeLine(vertexCount - 1, 0);
             }
         }
-        /*
-         if ((vertexCount != 0) &&
-         ((shape != LINE_STRIP) && (vertexCount != 1))) {
-         System.err.println("Extra vertex boogers found.");
-         }
-         */
     }
 }

@@ -8,7 +8,7 @@ import processing.pdf.PGraphicsPDF;
 import static processing.core.PConstants.OPENGL;
 
 
-public class SketchRenderAsPDF
+public class SketchExportAsPDF
         extends PApplet {
 
     PGraphicsPDF pdf;
@@ -38,6 +38,6 @@ public class SketchRenderAsPDF
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchRenderAsPDF.class.getName()});
+        PApplet.main(new String[]{SketchExportAsPDF.class.getName()});
     }
 }

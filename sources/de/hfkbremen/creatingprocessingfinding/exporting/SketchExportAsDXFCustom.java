@@ -6,10 +6,9 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 
 
-public class SketchRenderAsDXFCustom
+public class SketchExportAsDXFCustom
         extends PApplet {
 
-    // http://java.net/projects/povwriter/downloads
     private boolean mRecord;
 
     public static final int ARRIVED_AT_POSITION = 1;
@@ -26,9 +25,8 @@ public class SketchRenderAsDXFCustom
     }
 
     public void draw() {
-
         if (mRecord) {
-            beginRaw(DXFExporter.class.getName(), "output-2.dxf");
+            beginRaw(DXFExporter.class.getName(), "output.dxf");
         }
 
         draw(g);
@@ -49,7 +47,7 @@ public class SketchRenderAsDXFCustom
         pG.background(255);
 
         for (int i = 0; i < 10; i++) {
-            strokeWeight(i * 3);
+            pG.strokeWeight(i * 3);
             pG.line(0, i * height / 10.0f, 0,
                     width, i * height / 10.0f, 0);
         }
@@ -64,17 +62,15 @@ public class SketchRenderAsDXFCustom
         pG.noFill();
         final float mRadius = 400;
         for (int i = 0; i < 2500; i++) {
-            pG.noFill();
-            pG.stroke(0);
             Vector3f v = new Vector3f();
             v.randomize();
             v.scale(mRadius);
-            strokeWeight(random(0.1f, 2.0f));
+            pG.strokeWeight(random(0.1f, 2.0f));
             pG.line(0, 0, 0, v.x, v.y, v.z);
         }
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchRenderAsDXFCustom.class.getName()});
+        PApplet.main(new String[]{SketchExportAsDXFCustom.class.getName()});
     }
 }
