@@ -36,6 +36,12 @@ class Vector2f {
         return (float) Math.sqrt(x * x + y * y);
     }
 
+    static public float distance(Vector2f v1, Vector2f v2) {
+        float dx = v1.x - v2.x;
+        float dy = v1.y - v2.y;
+        return (float) Math.sqrt(dx * dx + dy * dy);
+    }
+
     public void normalize() {
         float mMagnitude;
         mMagnitude = magnitude();

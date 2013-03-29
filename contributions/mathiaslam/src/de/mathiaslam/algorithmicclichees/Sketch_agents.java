@@ -12,26 +12,28 @@ public class Sketch_agents extends PApplet {
     Vector2f acceleration;
 
     public void setup() {
-        size(640, 480);
+        size(1024, 786);
         smooth();
         frameRate(60);
         agents = new Vector<Agent>();
+        background(255);
     }
 
     public void draw() {
-        background(255);
+        //background(255);
         for (Agent a : agents) {
             acceleration = new Vector2f(random(-1.0f, 1.0f), random(-1.0f, 1.0f));
-            a.follow(mouseX + random(20), mouseY + random(20));
-            //.setAcceleration(acceleration);
+            //a.follow(mouseX + random(20), mouseY + random(20));
+            a.getNeighbours(agents);
+            a.setAcceleration(acceleration);
             a.move(this);
             a.display(this);
         }
     }
 
     public void mousePressed() {
-        for (int i = 0; i < 1000; i++) {
-            agents.add(new Agent(3));
+        for (int i = 0; i < 100; i++) {
+            agents.add(new Agent(1));
         }
     }
 
