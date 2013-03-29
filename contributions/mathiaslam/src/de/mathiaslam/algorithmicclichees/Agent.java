@@ -3,6 +3,7 @@ package de.mathiaslam.algorithmicclichees;
 
 import java.util.Vector;
 import processing.core.PApplet;
+import static processing.core.PConstants.POINTS;
 
 
 public class Agent {
@@ -17,8 +18,7 @@ public class Agent {
 
     private Vector2f mNormalizeAcceleration;
 
-    private Vector2f steer;
-
+private Vector<Vector2f> mVertices;
     private Vector2f start;
 
     private int infected;
@@ -27,12 +27,17 @@ public class Agent {
 
     private static final float MIN_DISTANCE = 10.0f;
 
-    public Agent(float r_) {
-        mPosition = new Vector2f(512, 384f);
+    private static final int AGENT_INFECTED = 0;
+
+    private static final int AGENT_NOT_INFECTED = 1;
+
+    public Agent(PApplet p, float r_) {
+        mPosition = new Vector2f(p.width / 2, p.height / 2);
         mVelocity = new Vector2f(1f, 1f);
         mAcceleration = new Vector2f(2f, 2f);
         start = new Vector2f(160f, 240f);
         diff = new Vector2f(0, 0);
+        mVertices = new Vector<Vector2f>();
         infected = 0;
         mRadius = r_;
     }
@@ -76,24 +81,36 @@ public class Agent {
         mAcceleration.set(mMouse);
     }
 
-    public void getNeighbours(Vector<Agent> agents) {
-        float desiredseparation = 3.0f;
-        steer = new Vector2f(0, 0);
+    public void getNeighbours(PApplet p ,Vector<Agent> agents) {
+        float desiredseparation = 50.0f;
+
         int count = 0;
         for (Agent other : agents) {
+         
             float d = Vector2f.distance(mPosition, other.mPosition);
             if ((d > 0) && (d < desiredseparation)) {
-                // agents.add(new Agent(5));
-                if (infected == 0) {
-                    infected = 1;
-                    mPosition.sub(mVelocity);
-                } else if (infected == 1) {
-                    infected = 0;
-                    mPosition.sub(mVelocity);
+              
+
+                if (infected == AGENT_INFECTED) {
+                    infected = AGENT_NOT_INFECTED;
+                   // mAcceleration.sub(other.mPosition);
+                    
+                     p.stroke(0,100,255,128);
+               p.strokeWeight(0.01f);
+             // p.line(mPosition.x,mPosition.y,other.mPosition.x,other.mPosition.y);
+
+                } else if (infected == AGENT_NOT_INFECTED) {
+                    infected = AGENT_INFECTED;
+                  
+                    // mPosition.sub(mVelocity);
+                     p.stroke(128,128,128,128);
+               p.strokeWeight(0.01f);
+            //  p.line(mPosition.x,mPosition.y,other.mPosition.x,other.mPosition.y);
                 }
             }
         }
     }
+
 
     public void display(PApplet p) {
         if (infected == 0) {
@@ -104,6 +121,7 @@ public class Agent {
             p.fill(0, 100, 255, 127);
             p.noStroke();
             p.ellipse(mPosition.x, mPosition.y, mRadius, mRadius);
+
         }
     }
 
