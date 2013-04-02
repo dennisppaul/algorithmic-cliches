@@ -33,7 +33,7 @@ public class SketchVoronoi3RoundRegionsAndCurvesSunflowRender
     private PGraphics pG;
 
     public void setup() {
-        size(1024, 600, OPENGL);
+        size(1920, 1080, OPENGL);
         frameRate(30);
         populatePointArray();
     }
@@ -171,6 +171,8 @@ public class SketchVoronoi3RoundRegionsAndCurvesSunflowRender
 
     public void keyPressed() {
         if(key == 'p') populatePointArray();
+        if(key == '-') frameRate(0.3f);
+        if(key == '+') frameRate(60);
         else if(key == 's') {
             noLoop();
             de.hfkbremen.creatingprocessingfinding.exportingMod.SunflowRenderer.render(this, "draw", this.getClass());
