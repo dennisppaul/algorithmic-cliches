@@ -1,6 +1,7 @@
 package particleApp_02.sketches;
 
 
+import geomerative.*;
 import java.util.ArrayList;
 import mathematik.Vector3f;
 import processing.core.PApplet;
@@ -16,9 +17,11 @@ import teilchen.force.simplevectorfield.SimpleVectorField;
 
 public class Home extends PApplet {
 
+    private RFont font;
+
     private int particleNumber = 20000;
 
-    private int gridSize = 20;
+    private int gridSize = 5;
 
     private float mNoiseScale = 0.024f;
 
@@ -58,9 +61,29 @@ public class Home extends PApplet {
     private float seekScale;
 
     private boolean addForces;
+    
+    private RPoint[] pnts;
 
     public void setup() {
         size(1024, 768, OPENGL);
+
+        pushMatrix();
+        translate(width / 2, height / 2);
+        RG.init(this);
+        System.out.println(this.sketchPath);
+        font = new RFont(this.sketchPath + "/lucon.ttf", 400, RFont.CENTER);
+        RGroup grp = font.toGroup("LISA");
+        RCommand.setSegmentStep(2);
+        RCommand.setSegmentator(RCommand.UNIFORMSTEP);
+        grp = grp.toPolygonGroup();
+        pnts = grp.getPoints();
+        for(RPoint p : pnts){
+            p.x += width/2;
+            p.y += height/2 +100;
+        }
+        System.out.println(pnts.length);
+        popMatrix();
+
         background(80);
         strokeWeight(1);
         stroke(255);
@@ -72,11 +95,16 @@ public class Home extends PApplet {
         attractor = new ArrayList<Attractor>();
         deflector = new ArrayList<Attractor>();
         seekPoints = new ArrayList<Vector3f>();
-        for (int i = 0; i < 360; i += 20) {
-            float x = sin(radians((i))) * (300);
-            float y = cos(radians((i))) * (300);
-            seekPoints.add(new Vector3f((width / 2) + x, (height / 2) + y));
+        
+        for(RPoint p : pnts){
+            seekPoints.add(new Vector3f(p.x,p.y));
         }
+        
+//        for (int i = 0; i < 360; i += 20) {
+//            float x = sin(radians((i))) * (300);
+//            float y = cos(radians((i))) * (300);
+//            seekPoints.add(new Vector3f((width / 2) + x, (height / 2) + y));
+//        }
         for (int i = 0; i < particleNumber; i++) {
             particles.add(new CheckPointParticle(seekPoints));
         }
@@ -106,6 +134,15 @@ public class Home extends PApplet {
 
     public void draw() {
         background(0.0f);
+//        pushMatrix();
+//        //translate(width/2,height/2+100);
+//        ellipse(pnts[0].x, pnts[0].y, 5, 5);
+//        for (int i = 1; i < pnts.length; i++) {
+//            line(pnts[i - 1].x, pnts[i - 1].y, pnts[i].x, pnts[i].y);
+//            ellipse(pnts[i].x, pnts[i].y, 5, 5);
+//        }
+//        popMatrix();
+
         update();
         if (mRecord) {
             toDXF();
@@ -164,7 +201,7 @@ public class Home extends PApplet {
     }
 
     private void toDXF() {
-        beginRaw(RawDXF.class.getName(), "output.dxf");
+        beginRaw(RawDXF.class.getName(), "output"+ hour() + minute() + second() +".dxf");
         pushStyle();
         sphereDetail(4);
         background(0);
