@@ -20,7 +20,6 @@ public class Agent {
 
     public static int NotArrivedAtPoint = 2;
 
-//Konstruktor 1
     private float mMaxVelocity;
 
     private float myInterval;
@@ -110,16 +109,18 @@ public class Agent {
 
     private void wiggle(PApplet p) {
         //p.stroke(255, 0, 0);
-        p.noStroke();
-        p.fill(0, 30);
-        p.ellipse(mPosition.x, mPosition.y, mRadius * 5, mRadius * 5);
+        //p.noStroke();
+        //p.fill(0);
+        p.stroke(255);
+        // p.ellipse(mPosition.x, mPosition.y, mRadius, mRadius);
+        p.point(mPosition.x, mPosition.y);
 
-        setAcceleration(p.random(-2, 2), p.random(-2, 2));
+        setAcceleration(p.random(-1, 1), p.random(-1, 1));
     }
 
     private void follow(PApplet p) {
         p.strokeWeight(mRadius);
-        p.stroke(0);
+        p.stroke(0, 10);
         p.point(mPosition.x, mPosition.y);
         setAccelerationToPoint(mNest.position.x, mNest.position.y);
     }
@@ -135,7 +136,8 @@ public class Agent {
             wait = true;
         }
         if (wait) {
-            if (myInterval <= p.random(10.0f, 20.0f)) {
+            // if (myInterval <= p.random(1, 1.3f)) {
+            if (myInterval <= 1.0f) {
                 myInterval += pDeltaTime;
                 wiggle(p);
             } else {
@@ -168,7 +170,7 @@ public class Agent {
     }
 
     private int checkMouse(PApplet p) {
-        float mScaledRadius = (mRadius / mRadius) * 50;
+        float mScaledRadius = (mRadius / mRadius) * 2;
         Vector2f mAB = new Vector2f(p.mouseX - mPosition.x, p.mouseY - mPosition.y);
         float mDistance = mAB.mag();
 
@@ -180,7 +182,7 @@ public class Agent {
     }
 
     private int checkNest(PApplet p) {
-        float mScaledRadius = (mRadius / mRadius) * 50;
+        float mScaledRadius = (mRadius / mRadius) * 2;
         Vector2f mAB = new Vector2f(mNest.position.x - mPosition.x,
                                     mNest.position.y - mPosition.y);
         float mDistance = mAB.mag();

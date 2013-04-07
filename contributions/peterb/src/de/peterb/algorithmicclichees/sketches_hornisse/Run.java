@@ -4,14 +4,19 @@ package de.peterb.algorithmicclichees.sketches_hornisse;
 import de.peterb.algorithmicclichees.Vector2f;
 import java.util.ArrayList;
 import processing.core.PApplet;
+import static processing.core.PConstants.PDF;
 
 
 public class Run extends PApplet {
 
     private ArrayList<Agent> agents;
 
+    boolean record;
+
     public void setup() {
         size(1280, 800, OPENGL);
+//        background(255);
+
 
         frameRate(60);
 //        noCursor();
@@ -32,9 +37,13 @@ public class Run extends PApplet {
 //        }
 //    }
     public void draw() {
-
+        if (record) {
+            // Note that #### will be replaced with the frame number. Fancy!
+            beginRecord(PDF, "frame-####.pdf");
+        }
+        background(0);
         float deltaTime = 1.0f / frameRate;
-        background(255);
+
 
 
         if (mousePressed) {
@@ -49,6 +58,19 @@ public class Run extends PApplet {
             a.update(this, deltaTime);
             a.display(this);
         }
+
+
+        if (record) {
+            endRecord();
+            record = false;
+        }
+
+        if (keyPressed == true) {
+
+
+            record = true;
+        }
+
     }
 
     public static void main(String[] args) {

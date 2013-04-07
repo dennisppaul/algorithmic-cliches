@@ -102,14 +102,15 @@ public class Agent {
     private void wiggle(PApplet p) {
         //p.stroke(255, 0, 0);
         p.noStroke();
-        p.fill(0, 30);
+        p.fill(200, 100, 40, 30);
         p.ellipse(mPosition.x, mPosition.y, mRadius * 5, mRadius * 5);
         setAcceleration(p.random(-2, 2), p.random(-2, 2));
     }
 
     private void follow(PApplet p) {
         p.strokeWeight(mRadius);
-        p.stroke(0);
+        p.stroke(231, 206, 129);
+        //p.fill(100, 255, 0);
         p.point(mPosition.x, mPosition.y);
         setAccelerationToPoint(p.random(0, p.width), p.random(0, p.height));
     }
@@ -184,9 +185,5 @@ public class Agent {
             mVelocity.mult(mMaxVelocity);
         }
 
-    }
-
-    private void setMyInterval(int x_) {
-        myInterval = x_;
     }
 }
