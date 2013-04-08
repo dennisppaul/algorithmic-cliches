@@ -21,7 +21,7 @@ public class Home extends PApplet {
 
     private int particleNumber = 20000;
 
-    private int gridSize = 5;
+    private int gridSize = 8;
 
     private float mNoiseScale = 0.024f;
 
@@ -61,8 +61,12 @@ public class Home extends PApplet {
     private float seekScale;
 
     private boolean addForces;
-    
+
     private RPoint[] pnts;
+
+    private boolean drawFrameRate = true;
+
+    ;
 
     public void setup() {
         size(1024, 768, OPENGL);
@@ -72,14 +76,14 @@ public class Home extends PApplet {
         RG.init(this);
         System.out.println(this.sketchPath);
         font = new RFont(this.sketchPath + "/lucon.ttf", 400, RFont.CENTER);
-        RGroup grp = font.toGroup("LISA");
+        RGroup grp = font.toGroup("CODE");
         RCommand.setSegmentStep(2);
         RCommand.setSegmentator(RCommand.UNIFORMSTEP);
         grp = grp.toPolygonGroup();
         pnts = grp.getPoints();
-        for(RPoint p : pnts){
-            p.x += width/2;
-            p.y += height/2 +100;
+        for (RPoint p : pnts) {
+            p.x += width / 2;
+            p.y += height / 2 + 100;
         }
         System.out.println(pnts.length);
         popMatrix();
@@ -95,11 +99,11 @@ public class Home extends PApplet {
         attractor = new ArrayList<Attractor>();
         deflector = new ArrayList<Attractor>();
         seekPoints = new ArrayList<Vector3f>();
-        
-        for(RPoint p : pnts){
-            seekPoints.add(new Vector3f(p.x,p.y));
+
+        for (RPoint p : pnts) {
+            seekPoints.add(new Vector3f(p.x, p.y));
         }
-        
+        // Create Circle Seekpoints
 //        for (int i = 0; i < 360; i += 20) {
 //            float x = sin(radians((i))) * (300);
 //            float y = cos(radians((i))) * (300);
@@ -119,30 +123,23 @@ public class Home extends PApplet {
         for (CheckPointParticle p : particles) {
             p.setPositionRef(new Vector3f(random(width / 2 - 200, width / 2 + 200), random(height / 2 - 200, height / 2 + 200), 0));
             p.mass(random(0.1f, 10.0f));
+            System.out.println(p.maximumInnerForce());
+            p.maximumInnerForce(100.0f);
+            // p.mass(random(5.0f));
             p.setMinDistance(60.0f);
             p.maximumInnerForce(1000.0f);
         }
         mPhysics.add(mField2);
-        //mPhysics.add(attractor1);
         mPhysics.add(particles);
         for (CheckPointParticle p : particles) {
             Seek s = (Seek) p.behaviors().firstElement();
-            s.scale(120.0f);
+            s.scale(20.0f);
         }
         mPhysics.add(new ViscousDrag());
     }
 
     public void draw() {
         background(0.0f);
-//        pushMatrix();
-//        //translate(width/2,height/2+100);
-//        ellipse(pnts[0].x, pnts[0].y, 5, 5);
-//        for (int i = 1; i < pnts.length; i++) {
-//            line(pnts[i - 1].x, pnts[i - 1].y, pnts[i].x, pnts[i].y);
-//            ellipse(pnts[i].x, pnts[i].y, 5, 5);
-//        }
-//        popMatrix();
-
         update();
         if (mRecord) {
             toDXF();
@@ -187,7 +184,9 @@ public class Home extends PApplet {
     }
 
     private void update() {
-        text(Float.toString(frameRate), 20.0f, height - 40);
+        if (drawFrameRate) {
+            text(Float.toString(frameRate), 20.0f, height - 40);
+        }
         final float mDeltaTime = 1.0f / frameRate;
         for (CheckPointParticle p : particles) {
             p.update(mDeltaTime);
@@ -201,7 +200,7 @@ public class Home extends PApplet {
     }
 
     private void toDXF() {
-        beginRaw(RawDXF.class.getName(), "output"+ hour() + minute() + second() +".dxf");
+        beginRaw(RawDXF.class.getName(), "output" + hour() + minute() + second() + ".dxf");
         pushStyle();
         sphereDetail(4);
         background(0);
@@ -279,6 +278,7 @@ public class Home extends PApplet {
     public void keyPressed() {
         if (key == 'h') {
             util.toggleHide();
+            drawFrameRate = !drawFrameRate;
         }
 
         if (key == 'r') {
