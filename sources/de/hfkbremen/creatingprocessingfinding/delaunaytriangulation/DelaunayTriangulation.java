@@ -29,7 +29,6 @@ public class DelaunayTriangulation {
     }
 
     public static Vector<Triangle> triangulateSortedVertices(Vector<Vector3f> theVertices) {
-
         /*
          * Triangulation subroutine
          * Takes as input NV vertices in array pxyz
@@ -63,10 +62,10 @@ public class DelaunayTriangulation {
          */
         float xmin = theVertices.get(0).x;
         float ymin = theVertices.get(0).y;
-        float zmin = theVertices.get(0).z;
+//        float zmin = theVertices.get(0).z;
         float xmax = xmin;
         float ymax = ymin;
-        float zmax = zmin;
+//        float zmax = zmin;
         for (int i = 1; i < nv; i++) {
             if (theVertices.get(i).x < xmin) {
                 xmin = theVertices.get(i).x;
@@ -80,21 +79,21 @@ public class DelaunayTriangulation {
             if (theVertices.get(i).y > ymax) {
                 ymax = theVertices.get(i).y;
             }
-            if (theVertices.get(i).z < zmin) {
-                zmin = theVertices.get(i).z;
-            }
-            if (theVertices.get(i).z > zmax) {
-                zmax = theVertices.get(i).z;
-            }
+//            if (theVertices.get(i).z < zmin) {
+//                zmin = theVertices.get(i).z;
+//            }
+//            if (theVertices.get(i).z > zmax) {
+//                zmax = theVertices.get(i).z;
+//            }
         }
 
         final float dx = xmax - xmin;
         final float dy = ymax - ymin;
-        final float dz = zmax - zmin;
+//        final float dz = zmax - zmin;
         final float dmax = (dx > dy) ? dx : dy;
         float xmid = (xmax + xmin) / 2.0f;
         float ymid = (ymax + ymin) / 2.0f;
-        float zmid = (zmax + zmin) / 2.0f;
+//        float zmid = (zmax + zmin) / 2.0f;
 
         /*
          * Set up the supertriangle
@@ -310,7 +309,7 @@ public class DelaunayTriangulation {
         final Vector3f v2 = theVertices.get(theTriangle.p[2]);
         final Vector3f myNormal = new Vector3f(0, 0, 1);
 
-        final Vector3f pA = mathematik.Util.sub(v2, v0);
+        final Vector3f pA = mathematik.Util.sub(new Vector3f(v2.x, v2.y), new Vector3f(v0.x, v0.y));
         pA.scale(0.5f);
         Vector3f pAc = new Vector3f();
         pAc.cross(pA, myNormal);
@@ -318,7 +317,7 @@ public class DelaunayTriangulation {
         pAc.add(pA);
         pA.add(v0);
 
-        final Vector3f pB = mathematik.Util.sub(v2, v1);
+        final Vector3f pB = mathematik.Util.sub(new Vector3f(v2.x, v2.y), new Vector3f(v1.x, v1.y));
         pB.scale(0.5f);
         Vector3f pBc = new Vector3f(pB);
         pBc.cross(pB, myNormal);
@@ -357,8 +356,8 @@ public class DelaunayTriangulation {
                                   final Vector3f v1,
                                   float ALMOST_THRESHOLD) {
         if (Math.abs(v1.x - v0.x) < ALMOST_THRESHOLD
-                && Math.abs(v1.y - v0.y) < ALMOST_THRESHOLD
-                && Math.abs(v1.z - v0.z) < ALMOST_THRESHOLD) {
+                && Math.abs(v1.y - v0.y) < ALMOST_THRESHOLD //                && Math.abs(v1.z - v0.z) < ALMOST_THRESHOLD
+                ) {
             return true;
         } else {
             return false;

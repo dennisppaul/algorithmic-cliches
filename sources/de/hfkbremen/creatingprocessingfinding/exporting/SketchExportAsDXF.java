@@ -8,7 +8,7 @@ import processing.dxf.RawDXF;
 public class SketchExportAsDXF
         extends PApplet {
 
-    boolean mRecord;
+    private boolean mRecord;
 
     public void setup() {
         size(1024, 768, OPENGL);
