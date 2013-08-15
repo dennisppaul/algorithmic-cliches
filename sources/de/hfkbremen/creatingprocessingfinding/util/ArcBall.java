@@ -13,6 +13,11 @@ import processing.core.PApplet;
  */
 public class ArcBall {
 
+    public static ArcBall setupRotateAroundCenter(PApplet pApplet) {
+        return new ArcBall(pApplet.width / 2, pApplet.height / 2, 0,
+                           Math.min(pApplet.g.width / 2.0f, pApplet.g.height / 2.0f),
+                           pApplet, false);
+    }
     private final PApplet mParent;
 
     private final Vector3f mCenter;
@@ -31,12 +36,12 @@ public class ArcBall {
 
     private boolean mLastActiveState = false;
 
-    public ArcBall(PApplet parent, boolean pDONT_REGISTER) {
-        this(parent.g.width / 2.0f,
-             parent.g.height / 2.0f,
-             -Math.min(parent.g.width / 2.0f, parent.g.height / 2.0f),
-             Math.min(parent.g.width / 2.0f, parent.g.height / 2.0f),
-             parent, pDONT_REGISTER);
+    public ArcBall(PApplet pApplet, boolean pDONT_REGISTER) {
+        this(pApplet.g.width / 2.0f,
+             pApplet.g.height / 2.0f,
+             -Math.min(pApplet.g.width / 2.0f, pApplet.g.height / 2.0f),
+             Math.min(pApplet.g.width / 2.0f, pApplet.g.height / 2.0f),
+             pApplet, pDONT_REGISTER);
     }
 
     public ArcBall(PApplet parent) {
@@ -47,20 +52,20 @@ public class ArcBall {
                    float theCenterY,
                    float theCenterZ,
                    float theRadius,
-                   PApplet theParent,
+                   PApplet pApplet,
                    boolean pDONT_REGISTER) {
-        this(new Vector3f(theCenterX, theCenterY, theCenterZ), theRadius, theParent, pDONT_REGISTER);
+        this(new Vector3f(theCenterX, theCenterY, theCenterZ), theRadius, pApplet, pDONT_REGISTER);
     }
 
     public ArcBall(final Vector3f theCenter,
                    final float theRadius,
-                   final PApplet theParent,
+                   final PApplet pApplet,
                    boolean pDONT_REGISTER) {
 
-        mParent = theParent;
+        mParent = pApplet;
 
         if (!pDONT_REGISTER) {
-            theParent.registerPre(this);
+            pApplet.registerPre(this);
         }
 
         mCenter = theCenter;
@@ -117,6 +122,14 @@ public class ArcBall {
                            myRotationAxisAngle.z);
         }
         mParent.translate(-mCenter.x, -mCenter.y, -mCenter.z);
+    }
+
+    public void radius(float pRadius) {
+        mRadius = pRadius;
+    }
+
+    public Vector3f center() {
+        return mCenter;
     }
 
     private Vector3f mouse_to_sphere(float x, float y) {
