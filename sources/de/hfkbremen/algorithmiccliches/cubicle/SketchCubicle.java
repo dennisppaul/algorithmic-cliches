@@ -29,7 +29,7 @@ public class SketchCubicle
 
     private float mRotationZ = 0.1f;
 
-    private Vector3f mPosition = new Vector3f();
+    private final Vector3f mPosition = new Vector3f();
 
     private int numParticles = 1;
 
@@ -152,7 +152,7 @@ public class SketchCubicle
 
         int color = color(0, 127, random(0, 255), 127);
 
-        private Vector3i mCubicalPosition;
+        private final Vector3i mCubicalPosition;
 
         private final Vector3f mPosition;
 
@@ -170,12 +170,7 @@ public class SketchCubicle
         }
 
         public boolean leaving(int theX, int theY, int theZ) {
-            if (theX == cubicle().x
-                    && theY == cubicle().y
-                    && theZ == cubicle().z) {
-                return false;
-            }
-            return true;
+            return theX != cubicle().x || theY != cubicle().y || theZ != cubicle().z;
         }
 
         public boolean isActive() {

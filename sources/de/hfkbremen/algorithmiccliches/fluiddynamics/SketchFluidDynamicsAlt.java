@@ -15,14 +15,14 @@ public class SketchFluidDynamicsAlt
         extends PApplet {
 
     // frame dimensions (dxd pixels)
-    private int d = 60 * 10;
+    private final int d = 60 * 10;
 
     // solver variables
     private int n = 60;
 
     private float dt = 0.2f;
 
-    private FluidDynamicsAlt fs = new FluidDynamicsAlt();
+    private final FluidDynamicsAlt fs = new FluidDynamicsAlt();
 
     // flag to display velocity field
     private boolean vkey = false;
@@ -72,16 +72,16 @@ public class SketchFluidDynamicsAlt
         fs.densitySolver();
 //        }
 
-        for (int i = 1; i <= n; i++) {
+        for (int k = 1; k <= n; k++) {
             // x position of current cell
-            dx = (int) ((i - 0.5f) * dg);
-            for (int j = 1; j <= n; j++) {
+            dx = (int) ((k - 0.5f) * dg);
+            for (int l = 1; l <= n; l++) {
                 // y position of current cell
-                dy = (int) ((j - 0.5f) * dg);
+                dy = (int) ((l - 0.5f) * dg);
 
                 // draw density
-                if (fs.d[I(i, j)] > 0) {
-                    c = (int) ((1.0 - fs.d[I(i, j)]) * 255);
+                if (fs.d[I(k, l)] > 0) {
+                    c = (int) ((1.0 - fs.d[I(k, l)]) * 255);
                     if (c < 0) {
                         c = 0;
                     }
@@ -92,8 +92,8 @@ public class SketchFluidDynamicsAlt
 
                 // draw velocity field
                 if (vkey) { // && i % 5 == 1 && j % 5 == 1) {
-                    u = (int) (50.0f * fs.u[I(i, j)]);
-                    v = (int) (50.0f * fs.v[I(i, j)]);
+                    u = (int) (50.0f * fs.u[I(k, l)]);
+                    v = (int) (50.0f * fs.v[I(k, l)]);
                     stroke(255, 0, 0);
                     line(dx, dy, dx + u, dy + v);
                 }
@@ -119,11 +119,11 @@ public class SketchFluidDynamicsAlt
             }
 
             // calculate next ideal grid size
-            int i = n + 1;
-            while (d % i != 0) {
-                i++;
+            int k = n + 1;
+            while (d % k != 0) {
+                k++;
             }
-            n = i;
+            n = k;
 
             reset();
         }
@@ -135,11 +135,11 @@ public class SketchFluidDynamicsAlt
             }
 
             // calculate previous ideal grid size
-            int i = n - 1;
-            while (d % i != 0) {
-                i--;
+            int k = n - 1;
+            while (d % k != 0) {
+                k--;
             }
-            n = i;
+            n = k;
 
             reset();
         }

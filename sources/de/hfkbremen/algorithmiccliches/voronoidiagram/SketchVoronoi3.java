@@ -16,17 +16,17 @@ public class SketchVoronoi3
 
     private Vector3f[][] mRegions;
 
-    private Qvoronoi mQvoronoi = new Qvoronoi();
+    private final Qvoronoi mQvoronoi = new Qvoronoi();
 
     private final static int GRID_SIZE = 4;
 
     private final static float GRID_SPACE = 50;
 
-    private Vector3f[] mGridPoints = new Vector3f[GRID_SIZE * GRID_SIZE * GRID_SIZE];
+    private final Vector3f[] mGridPoints = new Vector3f[GRID_SIZE * GRID_SIZE * GRID_SIZE];
 
-    private Vector3f mAcceptableRegion = new Vector3f(GRID_SIZE * GRID_SPACE * 1.5f,
-                                                      GRID_SIZE * GRID_SPACE * 1.5f,
-                                                      GRID_SIZE * GRID_SPACE * 1.5f);
+    private final Vector3f mAcceptableRegion = new Vector3f(GRID_SIZE * GRID_SPACE * 1.5f,
+                                                            GRID_SIZE * GRID_SPACE * 1.5f,
+                                                            GRID_SIZE * GRID_SPACE * 1.5f);
 
     private int mCurrentRegion;
 
@@ -92,8 +92,7 @@ public class SketchVoronoi3
 
         /* draw points */
         stroke(255, 0, 0, 127);
-        for (int i = 0; i < mGridPoints.length; i++) {
-            Vector3f v = mGridPoints[i];
+        for (Vector3f v : mGridPoints) {
             drawCross(v);
         }
     }
@@ -121,9 +120,9 @@ public class SketchVoronoi3
 
         beginShape(TRIANGLE_STRIP);
         int[][] faceIndices = hull.getFaces();
-        for (int i = 0; i < faceIndices.length; i++) {
-            for (int k = 0; k < faceIndices[i].length; k++) {
-                Point3d p = vertices[faceIndices[i][k]];
+        for (int[] faceIndice : faceIndices) {
+            for (int k = 0; k < faceIndice.length; k++) {
+                Point3d p = vertices[faceIndice[k]];
                 float x = (float) p.x;
                 float y = (float) p.y;
                 float z = (float) p.z;

@@ -18,8 +18,7 @@ import java.util.Vector;
 
 
 /**
- * http://en.wikipedia.org/wiki/Flocking_(behavior)
- * http://de.wikipedia.org/wiki/Craig_Reynolds
+ * http://en.wikipedia.org/wiki/Flocking_(behavior) http://de.wikipedia.org/wiki/Craig_Reynolds
  */
 public class SketchFlocking2
         extends PApplet {
@@ -97,15 +96,15 @@ public class SketchFlocking2
     private class SwarmEntity
             extends BehaviorParticle {
 
-        private Separation separation;
+        private final Separation separation;
 
-        private Alignment alignment;
+        private final Alignment alignment;
 
-        private Cohesion cohesion;
+        private final Cohesion cohesion;
 
-        private Wander wander;
+        private final Wander wander;
 
-        private Motor motor;
+        private final Motor motor;
 
         public SwarmEntity() {
             maximumInnerForce(random(100.0f, 1000.0f));
@@ -151,7 +150,6 @@ public class SketchFlocking2
             line(0, 0, velocity().x, velocity().y);
 
             /* body */
-
             rotate(atan2(velocity().y, velocity().x));
             noStroke();
             fill(0, 127, 255, 255);

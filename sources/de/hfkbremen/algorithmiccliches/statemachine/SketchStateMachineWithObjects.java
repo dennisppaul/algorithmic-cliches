@@ -13,7 +13,7 @@ import java.util.Vector;
 public class SketchStateMachineWithObjects
         extends PApplet {
 
-    private Vector<Entity> mEntities = new Vector<Entity>();
+    private final Vector<Entity> mEntities = new Vector<Entity>();
 
     public void setup() {
         size(1024, 768);

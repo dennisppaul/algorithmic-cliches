@@ -26,7 +26,7 @@ public class SketchSimpleFFT
         size(1024, 768, OPENGL);
 
         mMinim = new Minim(this);
-        mPlayer = mMinim.loadFile("file.mp3", 1024);
+        mPlayer = mMinim.loadFile("file.mp3", 1024); // make sure the sketch can find the audio
         mPlayer.play();
         mFFT = new FFT(mPlayer.bufferSize(), mPlayer.sampleRate());
         mFFT.logAverages(55, 4);

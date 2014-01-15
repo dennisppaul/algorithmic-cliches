@@ -18,7 +18,7 @@ public class SketchSpherePackingAroundCenter
 
     private Vector<PackingEntity> mEntities;
 
-    private Vector3f mCenter = new Vector3f();
+    private final Vector3f mCenter = new Vector3f();
 
     public void setup() {
         size(1024, 768);

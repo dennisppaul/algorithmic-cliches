@@ -18,7 +18,7 @@ public class SketchWaterColumns
 
     private WaterColumnSolver2 mWater;
 
-    private Quad[][] mQuads = new Quad[X_SIZE][Y_SIZE];
+    private final Quad[][] mQuads = new Quad[X_SIZE][Y_SIZE];
 
     public void setup() {
         size(1024, 768, OPENGL);
@@ -44,6 +44,7 @@ public class SketchWaterColumns
 
         /* step */
         final float mScaledDeltaTime = mDeltaTime * 10.0f; /* artificially speeding up the simulation */
+
         mWater.step(mScaledDeltaTime, 20);
 
         /* water interaction */
@@ -95,9 +96,8 @@ public class SketchWaterColumns
         stroke(31, 191, 255, 31);
         beginShape(TRIANGLES);
         scale(1, 1, 200);
-        for (int x = 0; x < mQuads.length; x++) {
-            for (int y = 0; y < mQuads[x].length; y++) {
-                Quad q = mQuads[x][y];
+        for (Quad[] mQuad : mQuads) {
+            for (Quad q : mQuad) {
                 vertex(q.a);
                 vertex(q.b);
                 vertex(q.c);
@@ -105,7 +105,6 @@ public class SketchWaterColumns
                 vertex(q.c);
                 vertex(q.d);
             }
-
         }
         endShape();
     }

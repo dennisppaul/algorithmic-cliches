@@ -18,7 +18,7 @@ public class SketchOctree
 
     private MVisibleOctree mOctree;
 
-    private float mOctreeSize = 100;
+    private final float mOctreeSize = 100;
 
     private float mSelectRadius = 20;
 
@@ -28,7 +28,7 @@ public class SketchOctree
 
     private float mRotationZ = 0.1f;
 
-    private Vector3f mPosition = new Vector3f();
+    private final Vector3f mPosition = new Vector3f();
 
     private int numParticles = 1;
 

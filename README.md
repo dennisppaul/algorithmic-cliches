@@ -17,8 +17,26 @@ this repository contains a collection of _algorithmic clichés_ and according si
 
 ### Agents
 
-![](./images/sketches/Step07_IntroducingTime.png)
+[![](./images/sketches/Step07_IntroducingTime.png)
+](https://github.com/d3p/algorithmic-cliches/blob/thereafter/sources/de/hfkbremen/algorithmiccliches/agents/Step07_IntroducingTime.java)
 
 ### Cellular Automaton, Game of Life
 
-![](./images/sketches/SketchGameOfLife2.png)
+[![](./images/sketches/SketchGameOfLife2.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/sources/de/hfkbremen/algorithmiccliches/cellularautomata/SketchGameOfLife2.java)
+
+[![](./images/sketches/SketchGameOfLife3.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/sources/de/hfkbremen/algorithmiccliches/cellularautomata/SketchGameOfLife3.java)
+
+### Convex Hull
+
+![](./images/sketches/SketchConvexHull.png)
+
+### Cubicle
+
+![](./images/sketches/SketchCubicle.png)
+### Delaunay Triangulation![](./images/sketches/SketchDelaunayTriangulation.png)### Fast Fourier Transform![](./images/sketches/SketchSimpleFFT.png)
+
+![](./images/sketches/SketchFFTLandscape.png)
+### Flocking![](./images/sketches/SketchFlocking2.png)![](./images/sketches/SketchFlocking3.png)### Fluid Dynamics![](./images/sketches/SketchFluidDynamics2.png)
+![](./images/sketches/SketchWaterColumns.png)### Iso-Surface
+![](./images/sketches/SketchIsoSurface2.png)![](./images/sketches/SketchIsoSurface3.png)### Octree![](./images/sketches/SketchOctree.png)### Packing![](./images/sketches/SketchSpherePackingAroundCenter.png)### Perlin Noise![](./images/sketches/SketchPerlinNoise.png)![](./images/sketches/SketchWaterSurface.png)### State Machine![](./images/sketches/SketchSimpleStateMachine.png)![](./images/sketches/SketchStateMachineWithObjects.png)### Voronoi Diagram
+![](./images/sketches/SketchVoronoi2.png)![](./images/sketches/SketchVoronoi2RoundRegions.png)![](./images/sketches/SketchVoronoi3.png)

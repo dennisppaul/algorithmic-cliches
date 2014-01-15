@@ -23,7 +23,7 @@ public class SketchPerlinNoise
 
     private Vector3f[][] mVectorField;
 
-    private Vector<MEntity> mEntities = new Vector<MEntity>();
+    private final Vector<MEntity> mEntities = new Vector<MEntity>();
 
     private float mOffset = 0.0f;
 
@@ -40,10 +40,9 @@ public class SketchPerlinNoise
         mCellsY = height / GRID_SIZE;
 
         mVectorField = new Vector3f[mCellsX][mCellsY];
-
-        for (int x = 0; x < mVectorField.length; x++) {
-            for (int y = 0; y < mVectorField[x].length; y++) {
-                mVectorField[x][y] = new Vector3f();
+        for (Vector3f[] mVectorField1 : mVectorField) {
+            for (int y = 0; y < mVectorField1.length; y++) {
+                mVectorField1[y] = new Vector3f();
             }
         }
         populateField(mOffset);

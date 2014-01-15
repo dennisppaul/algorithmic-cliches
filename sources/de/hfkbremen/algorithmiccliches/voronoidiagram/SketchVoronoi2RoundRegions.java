@@ -18,9 +18,9 @@ public class SketchVoronoi2RoundRegions
 
     private Vector3f[][] mRegions;
 
-    private Qvoronoi mQvoronoi = new Qvoronoi();
+    private final Qvoronoi mQvoronoi = new Qvoronoi();
 
-    private Vector<Vector3f> mPoints = new Vector<Vector3f>();
+    private final Vector<Vector3f> mPoints = new Vector<Vector3f>();
 
     private int mCurrentRegion;
 
@@ -72,10 +72,10 @@ public class SketchVoronoi2RoundRegions
 
         /* draw regions */
         if (mRegions != null) {
-            for (int i = 0; i < mRegions.length; i++) {
+            for (Vector3f[] mRegion : mRegions) {
                 stroke(255, 223, 192);
                 noFill();
-                drawRegion(mRegions[i]);
+                drawRegion(mRegion);
             }
 
             /* draw selected region */

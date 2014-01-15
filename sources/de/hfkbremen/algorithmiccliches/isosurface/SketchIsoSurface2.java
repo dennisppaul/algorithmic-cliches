@@ -57,9 +57,8 @@ public class SketchIsoSurface2
         for (int x = 0; x < mEnergyGrid.length; x++) {
             for (int y = 0; y < mEnergyGrid[x].length; y++) {
                 mEnergyGrid[x][y] = 0;
-                /* collect levels from all metaballs */
-                for (int i = 0; i < mMetaCircles.length; i++) {
-                    mEnergyGrid[x][y] += mMetaCircles[i].getStrengthAt(mSquareSizeX * x, mSquareSizeY * y);
+                for (MetaCircle mMetaCircle : mMetaCircles) {
+                    mEnergyGrid[x][y] += mMetaCircle.getStrengthAt(mSquareSizeX * x, mSquareSizeY * y);
                 }
             }
         }
@@ -131,9 +130,9 @@ public class SketchIsoSurface2
     private void drawMetaCenter() {
         stroke(0);
         beginShape(LINES);
-        for (int n = 0; n < mMetaCircles.length; n++) {
+        for (MetaCircle mMetaCircle : mMetaCircles) {
             final float mLength = 2.0f;
-            final Vector3f p = mMetaCircles[n].position();
+            final Vector3f p = mMetaCircle.position();
             vertex(p.x, p.y - mLength);
             vertex(p.x, p.y + mLength);
             vertex(p.x - mLength, p.y);
