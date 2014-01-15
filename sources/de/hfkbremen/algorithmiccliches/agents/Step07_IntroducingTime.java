@@ -1,7 +1,6 @@
 package de.hfkbremen.algorithmiccliches.agents;
 
 
-import de.hfkbremen.algorithmiccliches.agents.Vector2f;
 import processing.core.PApplet;
 
 
