@@ -23,7 +23,7 @@ public class SketchConvexHull
     private float mNoNoTriangle = 0;
 
     public void setup() {
-        size(800, 600, OPENGL);
+        size(1024, 768, OPENGL);
         frameRate(30);
         populatePointArray();
     }

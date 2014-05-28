@@ -6,14 +6,13 @@ import processing.core.PGraphics;
 
 
 /**
- * http://sunflow.sourceforge.net/
- * http://en.wikipedia.org/wiki/Global_illumination
+ * http://sunflow.sourceforge.net/ http://en.wikipedia.org/wiki/Global_illumination
  */
 public class SketchRenderWithSunflow
         extends PApplet {
 
     public void setup() {
-        size(1024, 768, OPENGL);
+        size(1024, 768, P3D);
     }
 
     public void draw() {

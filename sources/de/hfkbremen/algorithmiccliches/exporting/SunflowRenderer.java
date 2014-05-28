@@ -71,6 +71,7 @@ public class SunflowRenderer
         }
 
         public void draw() {
+            /* TODO only works with up to Processing 1.5 as of now */
 //            final P5Sunflow mSunflow = (P5Sunflow) g;
 //            mInnerParent.setup(mSunflow);
 //
