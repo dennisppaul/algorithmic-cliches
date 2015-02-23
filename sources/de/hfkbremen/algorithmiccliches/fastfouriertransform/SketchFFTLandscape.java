@@ -25,7 +25,7 @@ public class SketchFFTLandscape
 
     private static float mCurrentTime = 0.0f;
 
-    private MBands[] mBands = new MBands[200];
+    private final MBands[] mBands = new MBands[200];
 
     private int mBandsPointer = 0;
 

@@ -6,7 +6,7 @@ this repository contains a collection of _algorithmic clichés_ and according si
 ## Used Libraries
 
 * [Processing.org](http://www.processing.org/) (preferably version 1.5) including _OpenGL_, _PDF_, _DXF_, and _Minim_ libraries
-* [Mathematik](https://github.com/TheProduct/Gestalt) as part of _Gestalt_ on GitHub
+* [Mathematik](https://github.com/d3p/mathematik) a lightweight linear algebra library on GitHub
 * [Teilchen](https://github.com/d3p/teilchen) on GitHub
 * [Sunflow](http://sunflow.sourceforge.net/)
 * [Qhull](http://www.qhull.org/) for ( 2D + ) 3D voronoi diagrams

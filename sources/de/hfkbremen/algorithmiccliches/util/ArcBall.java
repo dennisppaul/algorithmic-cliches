@@ -1,12 +1,10 @@
 package de.hfkbremen.algorithmiccliches.util;
 
-
 import mathematik.Quaternion;
 import mathematik.Vector3f;
 import mathematik.Vector4f;
 
 import processing.core.PApplet;
-
 
 /**
  * http://de.wikipedia.org/wiki/Rolling-Ball-Rotation
