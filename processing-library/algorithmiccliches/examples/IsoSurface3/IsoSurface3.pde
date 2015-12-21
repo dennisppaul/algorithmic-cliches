@@ -1,38 +1,62 @@
 import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import java.util.Vector;
+import mathematik.Vector3f;
+
+import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.Metaball;
+import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.MetaballManager;
+import de.hfkbremen.algorithmiccliches.util.ArcBall;
+import java.util.Vector;
+
+/**
+ * http://en.wikipedia.org/wiki/Marching_cubes
+ */
 MetaballManager mMetaballManager;
+
 int mCurrentCircle = 0;
+
 ArcBall mArcBall;
+
 void settings() {
     size(1024, 768, P3D);
 }
+
 void setup() {
     textFont(createFont("Courier", 11));
+
     mArcBall = new ArcBall(width / 2, height / 2, 0, 400.0f, this, true);
+
     mMetaballManager = new MetaballManager();
     mMetaballManager.dimension.set(width, height, height);
     mMetaballManager.resolution.set(30, 30, 30);
     mMetaballManager.position.set(width / -2, height / -2, height / -2);
+
     mMetaballManager.add(new Metaball(new Vector3f(0, 0, 0), 1, 100));
 }
+
 void draw() {
     background(255);
     directionalLight(126, 126, 126, 0, 0, -1);
     ambientLight(102, 102, 102);
+
     /* draw extra info */
     fill(0);
     noStroke();
     text("ISOVALUE : " + mMetaballManager.isovalue(), 10, 12);
     text("SELECTED : " + mCurrentCircle, 10, 24);
     text("FPS      : " + (int) frameRate, 10, 36);
+
     /* draw isosurface */
     mArcBall.update();
+
     if (!mMetaballManager.metaballs().isEmpty()) {
         mMetaballManager.metaballs().get(mCurrentCircle).position.x = mouseX - width / 2;
         mMetaballManager.metaballs().get(mCurrentCircle).position.y = mouseY - height / 2;
     }
+
     final Vector<Vector3f> myData = mMetaballManager.createSurface();
+
     /* draw metaballs */
     translate(width / 2, height / 2);
     fill(255, 127, 0);
@@ -43,6 +67,7 @@ void draw() {
     }
     endShape();
 }
+
 void keyPressed() {
     switch (key) {
         case '+':

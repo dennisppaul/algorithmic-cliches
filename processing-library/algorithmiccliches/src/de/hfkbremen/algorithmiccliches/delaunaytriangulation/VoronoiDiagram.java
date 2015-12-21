@@ -2,8 +2,6 @@ package de.hfkbremen.algorithmiccliches.delaunaytriangulation;
 
 import mathematik.Vector3f;
 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation.DelaunayTriangulation.Triangle;
-
 import java.util.Vector;
 
 public class VoronoiDiagram {
@@ -20,16 +18,16 @@ public class VoronoiDiagram {
     private static float oLastAngle;
 
     public static VoronoiDiagram.Region getRegion(final Vector<Vector3f> pVertices,
-                                                  final Vector<Triangle> pDelaunayTriangles,
-                                                  final int pCenterVertexIndex) {
+            final Vector<DelaunayTriangle> pDelaunayTriangles,
+            final int pCenterVertexIndex) {
 
         final VoronoiDiagram.Region myVoronoiRegion = new VoronoiDiagram.Region();
 
         if (pDelaunayTriangles != null && pVertices != null) {
             /* get connected triangles */
-            final Vector<Triangle> myTriangles = getConnectedTriangles(pDelaunayTriangles, pCenterVertexIndex);
+            final Vector<DelaunayTriangle> myTriangles = getConnectedTriangles(pDelaunayTriangles, pCenterVertexIndex);
             /* get umkreis */
-            for (Triangle myTriangle : myTriangles) {
+            for (DelaunayTriangle myTriangle : myTriangles) {
                 /* get region points */
                 final Vector3f myCenter = DelaunayTriangulation.getCenter(pVertices, myTriangle);
                 myVoronoiRegion.hull.add(myCenter);
@@ -43,7 +41,7 @@ public class VoronoiDiagram {
     }
 
     public static Vector<VoronoiDiagram.Region> getRegions(final Vector<Vector3f> pVertices,
-                                                           final Vector<Triangle> pDelaunayTriangles) {
+            final Vector<DelaunayTriangle> pDelaunayTriangles) {
         final Vector<VoronoiDiagram.Region> myRegions = new Vector<VoronoiDiagram.Region>();
         for (int i = 0; i < pVertices.size(); i++) {
             final VoronoiDiagram.Region myRegionPoints = getRegion(pVertices, pDelaunayTriangles, i);
@@ -52,13 +50,13 @@ public class VoronoiDiagram {
         return myRegions;
     }
 
-    private static Vector<Triangle> getConnectedTriangles(final Vector<Triangle> pTriangles,
-                                                          final int pVertexIndex) {
-        final Vector<Triangle> myTriangles = new Vector<Triangle>();
+    private static Vector<DelaunayTriangle> getConnectedTriangles(final Vector<DelaunayTriangle> pTriangles,
+            final int pVertexIndex) {
+        final Vector<DelaunayTriangle> myTriangles = new Vector<DelaunayTriangle>();
         for (int i = 0; i < pTriangles.size(); i++) {
             if (pTriangles.get(i).p[0] == pVertexIndex
-                || pTriangles.get(i).p[1] == pVertexIndex
-                || pTriangles.get(i).p[2] == pVertexIndex) {
+                    || pTriangles.get(i).p[1] == pVertexIndex
+                    || pTriangles.get(i).p[2] == pVertexIndex) {
                 myTriangles.add(pTriangles.get(i));
             }
         }
@@ -99,8 +97,8 @@ public class VoronoiDiagram {
     }
 
     private static Vector3f getNode(Vector3f theRefPoint,
-                                    Vector<Vector3f> thePoints,
-                                    Vector<Vector3f> theSortedPoins) {
+            Vector<Vector3f> thePoints,
+            Vector<Vector3f> theSortedPoins) {
         float myMinAngle = 10;
         Vector3f myNextPoint = new Vector3f(theRefPoint);
         for (int i = 0; i < thePoints.size(); i++) {

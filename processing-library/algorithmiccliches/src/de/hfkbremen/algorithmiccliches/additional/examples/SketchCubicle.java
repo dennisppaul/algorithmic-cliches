@@ -81,9 +81,11 @@ public class SketchCubicle extends PApplet {
 
         /* draw cubicle world */
         if (showCubicles) {
+            strokeWeight(0.05f);
             stroke(0, 127);
             noFill();
             mCubicleWorldView.draw(g);
+            strokeWeight(1.0f);
         }
 
         /* draw entities */
@@ -94,7 +96,7 @@ public class SketchCubicle extends PApplet {
             mNumberOfPointsSelected = mEntities.size();
             for (ICubicleEntity mEntity : mEntities) {
                 MCubicleEntity m = (MCubicleEntity) mEntity;
-                stroke(m.color);
+                stroke(m.entity_color);
                 drawCross(mEntity.position(), 5.0f);
             }
         }
@@ -130,27 +132,33 @@ public class SketchCubicle extends PApplet {
     }
 
     public void keyPressed() {
-        if (key == ' ') {
-            for (int i = 0; i < NUMBER_OF_PARTICLES_ADDED; i++) {
-                MCubicleEntity mEntity = new MCubicleEntity();
-                mEntity.position().x = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_X / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_X / 2);
-                mEntity.position().y = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2);
-                mEntity.position().z = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Z / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Z / 2);
-                mCubicleWorld.add(mEntity);
-            }
-            numParticles += NUMBER_OF_PARTICLES_ADDED;
-        } else if (key == 'o') {
-            showCubicles = !showCubicles;
-        } else if (key == 'c') {
-            mCubicleWorld.removeAll();
-            numParticles = 0;
+        switch (key) {
+            case ' ':
+                for (int i = 0; i < NUMBER_OF_PARTICLES_ADDED; i++) {
+                    MCubicleEntity mEntity = new MCubicleEntity();
+                    mEntity.position().x = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_X / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_X / 2);
+                    mEntity.position().y = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2);
+                    mEntity.position().z = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Z / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Z / 2);
+                    mCubicleWorld.add(mEntity);
+                }
+                numParticles += NUMBER_OF_PARTICLES_ADDED;
+                break;
+            case 'o':
+                showCubicles = !showCubicles;
+                break;
+            case 'c':
+                mCubicleWorld.removeAll();
+                numParticles = 0;
+                break;
+            default:
+                break;
         }
     }
 
     class MCubicleEntity
             implements ICubicleEntity {
 
-        int color = color(0, 127, random(0, 255), 127);
+        int entity_color = color(0, 127, random(0, 255), 127);
 
         private final Vector3i mCubicalPosition;
 

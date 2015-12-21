@@ -2,7 +2,7 @@ package de.hfkbremen.algorithmiccliches.fluiddynamics;
 
 
 /*
- * FluidDynamicsAlt.java
+ * FluidDynamicsBuoyancyVorticity.java
  * Alexander McKenzie
  * 12 March, 2004
  *
@@ -14,7 +14,7 @@ package de.hfkbremen.algorithmiccliches.fluiddynamics;
  * @version 1.0
  *
  */
-public class FluidDynamicsAlt {
+public class FluidDynamicsBuoyancyVorticity {
 
     private int n, size;
 

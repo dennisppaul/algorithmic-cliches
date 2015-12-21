@@ -38,13 +38,16 @@ public class SketchFluidDynamicsWaterColumns extends PApplet {
                 mQuads[x][y].d.set(x * mCellSize, y * mCellSize + mCellSize);
             }
         }
+
+        strokeWeight(0.1f);
     }
 
     public void draw() {
         final float mDeltaTime = 1.0f / frameRate;
 
         /* step */
-        final float mScaledDeltaTime = mDeltaTime * 10.0f; /* artificially speeding up the simulation */
+        final float mScaledDeltaTime = mDeltaTime * 10.0f;
+        /* artificially speeding up the simulation */
 
         mWater.step(mScaledDeltaTime, 20);
 

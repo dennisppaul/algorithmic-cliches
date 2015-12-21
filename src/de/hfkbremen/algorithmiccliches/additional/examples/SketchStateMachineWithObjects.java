@@ -41,7 +41,7 @@ public class SketchStateMachineWithObjects extends PApplet {
 
         Vector3f position = new Vector3f();
 
-        int color;
+        int entity_color;
 
         float speed;
 
@@ -67,12 +67,12 @@ public class SketchStateMachineWithObjects extends PApplet {
 
         public void draw(PGraphics g) {
             g.noStroke();
-            g.fill(color);
+            g.fill(entity_color);
             g.pushMatrix();
             g.translate(position.x, position.y);
             g.ellipse(0, 0, scale, scale);
             if (mState instanceof StateBrownianMotion) {
-                g.stroke(color);
+                g.stroke(entity_color);
                 g.line(scale, scale, -scale, -scale);
                 g.line(-scale, scale, scale, -scale);
             }
@@ -120,7 +120,7 @@ public class SketchStateMachineWithObjects extends PApplet {
         }
 
         public void setup() {
-            e.color = p.color(255, 127, 0, 127);
+            e.entity_color = p.color(255, 127, 0, 127);
         }
 
         public void update(final float pDelta) {
@@ -156,7 +156,7 @@ public class SketchStateMachineWithObjects extends PApplet {
             if (mStateTime > STATE_DURATION) {
                 e.switchState(new StateFollowMouse(e, p));
             } else {
-                e.color = p.color(p.random(127, 255), p.random(127, 255), 0, 127);
+                e.entity_color = p.color(p.random(127, 255), p.random(127, 255), 0, 127);
                 e.scale = p.random(50, 100);
             }
         }
@@ -175,7 +175,7 @@ public class SketchStateMachineWithObjects extends PApplet {
         }
 
         public void setup() {
-            e.color = p.color(0, 127, 255, 127);
+            e.entity_color = p.color(0, 127, 255, 127);
         }
 
         public void update(float pDelta) {

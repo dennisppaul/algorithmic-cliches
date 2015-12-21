@@ -1,12 +1,11 @@
 #!/bin/sh
 
-#
-#!/bin/sh
-
 # for further hints on `sed` read this: http://www.grymoire.com/Unix/Sed.html
 LIB_NAME=$1
-SRC_PATH="../src/de/hfkbremen/$LIB_NAME/additional/examples"
-OUTPUT_DIR="../processing-library/$LIB_NAME/examples"
+ROOT=$(pwd)
+
+SRC_PATH=$ROOT/"../src/de/hfkbremen/$LIB_NAME/additional/examples"
+OUTPUT_DIR=$ROOT/"../processing-library/$LIB_NAME/examples"
 
 if [ -d "$OUTPUT_DIR" ]; then
 	rm -rf "$OUTPUT_DIR"
@@ -27,12 +26,14 @@ do
 
 	cat $file | \
 	sed '
-			# only consider the lines in 'PApplet'
-			/extends PApplet/,/^}$/ !d
+			# remove package
+			s/package.*//
+			# remove processing imports
+			s/import processing.core.*//
+			# remove class defintion 
+			s/.*extends PApplet {//
 			# remove all tabs from line start
 			s/[ ^I]*$//
-			# remove empty lines
-			/^$/ d
 			# remove 'private' + 'protected' + 'public'
 			s/private //
 			s/protected //
@@ -41,8 +42,7 @@ do
 			/static void main/,/}$/ {
 				D
 			}
-			# remove first and last line
-			/^class/ d
+			# remove last line
 			/^}/ d
 			# remove trailing space
 			s/    //
@@ -54,7 +54,8 @@ do
 			1 i\
 			 import mathematik.*;\
 			 import oscP5.*;\
-			 import netP5.*;
+			 import netP5.*;\
+			 import java.util.Vector;
 			# remove empty lines
 			#/^$/ d
 			/^$/{N;/^\n$/d;}

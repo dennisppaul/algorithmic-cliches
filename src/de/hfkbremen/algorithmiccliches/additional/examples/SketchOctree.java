@@ -40,6 +40,8 @@ public class SketchOctree extends PApplet {
 
         mOctree = new MVisibleOctree(new Vector3f(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
         mOctree.add(new MOctreeEntity());
+
+        strokeWeight(0.25f);
     }
 
     public void draw() {
@@ -77,7 +79,7 @@ public class SketchOctree extends PApplet {
             mNumberOfPointsSelected = mEntities.size();
             for (OctreeEntity mEntity : mEntities) {
                 MOctreeEntity m = (MOctreeEntity) mEntity;
-                stroke(m.color);
+                stroke(m.entity_color);
                 drawCross(mEntity.position(), 1.0f);
             }
         }
@@ -122,28 +124,37 @@ public class SketchOctree extends PApplet {
     }
 
     public void keyPressed() {
-        if (key == ' ') {
-            for (int i = 0; i < NUMBER_OF_PARTICLES_ADDED; i++) {
-                MOctreeEntity mEntity = new MOctreeEntity();
-                mEntity.position().x = random(-mOctreeSize / 2, mOctreeSize / 2);
-                mEntity.position().y = random(-mOctreeSize / 2, mOctreeSize / 2);
-                mEntity.position().z = random(-mOctreeSize / 2, mOctreeSize / 2);
-                mOctree.add(mEntity);
-            }
-            numParticles += NUMBER_OF_PARTICLES_ADDED;
-        } else if (key == 's') {
-            useSphere = !useSphere;
-        } else if (key == 'o') {
-            showOctree = !showOctree;
-        } else if (key == '-') {
-            mSelectRadius = max(mSelectRadius - 1, 2);
-        } else if (key == '+') {
-            mSelectRadius = min(mSelectRadius + 1, mOctreeSize);
-        } else if (key == 'c') {
-            mOctree.auto_reduction(true);
-            mOctree.removeAll();
-            mOctree.auto_reduction(false);
-            numParticles = 0;
+        switch (key) {
+            case ' ':
+                for (int i = 0; i < NUMBER_OF_PARTICLES_ADDED; i++) {
+                    MOctreeEntity mEntity = new MOctreeEntity();
+                    mEntity.position().x = random(-mOctreeSize / 2, mOctreeSize / 2);
+                    mEntity.position().y = random(-mOctreeSize / 2, mOctreeSize / 2);
+                    mEntity.position().z = random(-mOctreeSize / 2, mOctreeSize / 2);
+                    mOctree.add(mEntity);
+                }
+                numParticles += NUMBER_OF_PARTICLES_ADDED;
+                break;
+            case 's':
+                useSphere = !useSphere;
+                break;
+            case 'o':
+                showOctree = !showOctree;
+                break;
+            case '-':
+                mSelectRadius = max(mSelectRadius - 1, 2);
+                break;
+            case '+':
+                mSelectRadius = min(mSelectRadius + 1, mOctreeSize);
+                break;
+            case 'c':
+                mOctree.auto_reduction(true);
+                mOctree.removeAll();
+                mOctree.auto_reduction(false);
+                numParticles = 0;
+                break;
+            default:
+                break;
         }
     }
 
@@ -152,7 +163,7 @@ public class SketchOctree extends PApplet {
 
         Vector3f position = new Vector3f();
 
-        int color = color(0, 127, random(0, 255), 127);
+        int entity_color = color(0, 127, random(0, 255), 127);
 
         public Vector3f position() {
             return position;

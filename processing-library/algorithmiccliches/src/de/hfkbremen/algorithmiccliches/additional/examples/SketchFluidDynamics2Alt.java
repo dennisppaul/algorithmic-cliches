@@ -1,6 +1,6 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
-import de.hfkbremen.algorithmiccliches.fluiddynamics.FluidDynamicsAlt;
+import de.hfkbremen.algorithmiccliches.fluiddynamics.FluidDynamicsBuoyancyVorticity;
 import processing.core.PApplet;
 
 /**
@@ -10,7 +10,7 @@ import processing.core.PApplet;
  * @version 1.0
  *
  */
-public class SketchFluidDynamicsAlt extends PApplet {
+public class SketchFluidDynamics2Alt extends PApplet {
 
     // frame dimensions (dxd pixels)
     private final int d = 60 * 10;
@@ -20,7 +20,7 @@ public class SketchFluidDynamicsAlt extends PApplet {
 
     private float dt = 0.2f;
 
-    private final FluidDynamicsAlt fs = new FluidDynamicsAlt();
+    private final FluidDynamicsBuoyancyVorticity fs = new FluidDynamicsBuoyancyVorticity();
 
     // flag to display velocity field
     private boolean vkey = false;
@@ -57,9 +57,6 @@ public class SketchFluidDynamicsAlt extends PApplet {
     }
 
     public void draw() {
-
-        println(frameRate);
-
         background(255);
         noStroke();
 
@@ -210,6 +207,6 @@ public class SketchFluidDynamicsAlt extends PApplet {
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchFluidDynamicsAlt.class.getName()});
+        PApplet.main(new String[]{SketchFluidDynamics2Alt.class.getName()});
     }
 }

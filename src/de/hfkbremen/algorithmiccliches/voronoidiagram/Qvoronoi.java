@@ -1,10 +1,8 @@
 package de.hfkbremen.algorithmiccliches.voronoidiagram;
 
+import java.io.*;
 import mathematik.Vector3f;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.Vector;
 
 public class Qvoronoi {
@@ -13,13 +11,19 @@ public class Qvoronoi {
      * install qhull ( http://www.qhull.org/ ) via macports ( http://www.macports.org/ )
      *
      */
-    public static String QVORONOI_APP = "/opt/local/bin/qvoronoi";
+    public static String QVORONOI_APP = "/usr/local/bin/qvoronoi";
 
     public static boolean VERBOSE = false;
 
     private static final float VERTEX_AT_INFINITY = -10.101f;
 
     public String computeDiagram(int pDimensions, Vector3f[] pPoints) {
+
+        File f = new File(QVORONOI_APP);
+        if (!f.exists()) {
+            System.err.println("### ERROR @" + Qvoronoi.class.getCanonicalName() + " / couldn t find qvoronoi at '" + QVORONOI_APP + "'");
+            System.exit(-1);
+        }
         try {
             /* assemble shell command */
             String myParameter = "cat - | " + QVORONOI_APP + " o";
@@ -33,12 +37,12 @@ public class Qvoronoi {
             myOutputStream.write('\n');
             myOutputStream.write(String.valueOf(pPoints.length).getBytes());
             myOutputStream.write('\n');
-            for (int i = 0; i < pPoints.length; i++) {
+            for (Vector3f pPoint : pPoints) {
                 if (pDimensions == 3) {
-                    String myVectorString = (pPoints[i].x + " " + pPoints[i].y + " " + pPoints[i].z);
+                    String myVectorString = pPoint.x + " " + pPoint.y + " " + pPoint.z;
                     myOutputStream.write(myVectorString.getBytes());
                 } else if (pDimensions == 2) {
-                    String myVectorString = (pPoints[i].x + " " + pPoints[i].y);
+                    String myVectorString = pPoint.x + " " + pPoint.y;
                     myOutputStream.write(myVectorString.getBytes());
                 }
                 myOutputStream.write('\n');
@@ -102,19 +106,19 @@ public class Qvoronoi {
             final Vector3f mVertex = new Vector3f();
             if (pDimesions == 3) {
                 mVertex.set(Float.parseFloat(mVertexStr[0]),
-                            Float.parseFloat(mVertexStr[1]),
-                            Float.parseFloat(mVertexStr[2]));
+                        Float.parseFloat(mVertexStr[1]),
+                        Float.parseFloat(mVertexStr[2]));
                 if (mVertex.x == VERTEX_AT_INFINITY
-                    && mVertex.y == VERTEX_AT_INFINITY
-                    && mVertex.z == VERTEX_AT_INFINITY) {
+                        && mVertex.y == VERTEX_AT_INFINITY
+                        && mVertex.z == VERTEX_AT_INFINITY) {
                     mVertexAtInfinityMarker = myVertexCounter;
                 }
             } else if (pDimesions == 2) {
                 mVertex.set(Float.parseFloat(mVertexStr[0]),
-                            Float.parseFloat(mVertexStr[1]),
-                            0);
+                        Float.parseFloat(mVertexStr[1]),
+                        0);
                 if (mVertex.x == VERTEX_AT_INFINITY
-                    && mVertex.y == VERTEX_AT_INFINITY) {
+                        && mVertex.y == VERTEX_AT_INFINITY) {
                     mVertexAtInfinityMarker = myVertexCounter;
                 }
             }
@@ -171,19 +175,19 @@ public class Qvoronoi {
         for (int i = 0; i < myNonCulledCounter; i++) {
             myCleanRegions[i] = new Vector3f[pRegions[myNonCulledRegions[i]].length];
             System.arraycopy(pRegions[myNonCulledRegions[i]], 0,
-                             myCleanRegions[i], 0,
-                             pRegions[myNonCulledRegions[i]].length);
+                    myCleanRegions[i], 0,
+                    pRegions[myNonCulledRegions[i]].length);
         }
         return myCleanRegions;
     }
 
     public boolean isWithInBox(Vector3f pVertex, Vector3f pBox) {
         if (pVertex.x > -pBox.x / 2
-            && pVertex.x <= pBox.x / 2
-            && pVertex.y >= -pBox.y / 2
-            && pVertex.y <= pBox.y / 2
-            && pVertex.z >= -pBox.z / 2
-            && pVertex.z <= pBox.z / 2) {
+                && pVertex.x <= pBox.x / 2
+                && pVertex.y >= -pBox.y / 2
+                && pVertex.y <= pBox.y / 2
+                && pVertex.z >= -pBox.z / 2
+                && pVertex.z <= pBox.z / 2) {
             return true;
         }
         return false;

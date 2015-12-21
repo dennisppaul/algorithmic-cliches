@@ -12,7 +12,7 @@ import java.util.Vector;
  */
 public class SketchStateMachineSimple extends PApplet {
 
-    private Vector<MEntity> mEntities = new Vector<MEntity>();
+    private final Vector<MEntity> mEntities = new Vector<MEntity>();
 
     public void settings() {
         size(1024, 768, P3D);
@@ -50,7 +50,7 @@ public class SketchStateMachineSimple extends PApplet {
 
         public Vector3f position = new Vector3f();
 
-        public int color;
+        public int entity_color;
 
         public float speed;
 
@@ -64,7 +64,7 @@ public class SketchStateMachineSimple extends PApplet {
             state = STATE_FOLLOW_MOUSE;
             position.set(random(width), random(height));
             speed = random(1, 5) * 20;
-            color = color(0, 127);
+            entity_color = color(0, 127);
             scale = IDEAL_SCALE;
         }
 
@@ -85,7 +85,7 @@ public class SketchStateMachineSimple extends PApplet {
 
         public void draw(PGraphics g) {
             noStroke();
-            fill(color);
+            fill(entity_color);
             pushMatrix();
             translate(position.x, position.y);
             ellipse(0, 0, scale, scale);
@@ -98,7 +98,7 @@ public class SketchStateMachineSimple extends PApplet {
                 state_time = 0.0f;
                 state = STATE_CHANGE_RANDOMLY;
             } else {
-                color = color(255, 127, 0, 127);
+                entity_color = color(255, 127, 0, 127);
                 final float BROWNIAN_SPEED = 15.0f;
                 position.add(random(-BROWNIAN_SPEED, BROWNIAN_SPEED),
                         random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
@@ -111,7 +111,7 @@ public class SketchStateMachineSimple extends PApplet {
                 state_time = 0.0f;
                 state = STATE_FOLLOW_MOUSE;
             } else {
-                color = color(random(127, 255), random(127, 255), 0, 127);
+                entity_color = color(random(127, 255), random(127, 255), 0, 127);
                 scale = random(50, 100);
             }
         }
@@ -126,7 +126,7 @@ public class SketchStateMachineSimple extends PApplet {
 
             } else {
                 scale += (IDEAL_SCALE - scale) * pDelta;
-                color = color(0, 127, 255, 127);
+                entity_color = color(0, 127, 255, 127);
                 mDiff.normalize();
                 mDiff.scale(pDelta);
                 mDiff.scale(speed);

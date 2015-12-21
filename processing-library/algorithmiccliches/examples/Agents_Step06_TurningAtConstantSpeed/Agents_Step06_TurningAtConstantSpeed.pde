@@ -1,6 +1,8 @@
 import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import java.util.Vector;
+import mathematik.Vector2f;
 /*
  * the agent
  * step 06 - turning at constant speed.
@@ -11,14 +13,17 @@ import netP5.*;
  * import Vector2f
  */
 Agent myAgent;
+
 void settings() {
     size(1024, 768, P3D);
 }
+
 void setup() {
     smooth();
     noFill();
     ellipseMode(CENTER);
     frameRate(10);
+
     myAgent = new Agent();
     myAgent.position.set(width / 2, height / 2);
     myAgent.velocity.set(1f, 3f);
@@ -26,19 +31,29 @@ void setup() {
     myAgent.maxspeed = 3.5f;
     myAgent.maxacceleration = 0.75f;
 }
+
 void draw() {
     background(255);
+
     myAgent.acceleration.set(random(-0.5f, 0.5f), random(-0.5f, 0.5f));
     myAgent.loop();
     myAgent.draw();
 }
+
 class Agent {
+
     Vector2f position = new Vector2f();
+
     Vector2f velocity = new Vector2f();
+
     Vector2f acceleration = new Vector2f();
+
     float maxspeed = 0;
+
     float maxacceleration = 0;
+
     float radius = 0;
+
     void loop() {
         float myAccelerationSpeed = acceleration.length();
         if (myAccelerationSpeed > maxacceleration) {
@@ -46,6 +61,7 @@ class Agent {
             acceleration.scale(maxacceleration);
         }
         velocity.add(acceleration);
+
         float mySpeed = velocity.length();
         if (mySpeed > maxspeed) {
             velocity.normalize();
@@ -53,6 +69,7 @@ class Agent {
         }
         position.add(velocity);
     }
+
     void draw() {
         stroke(0, 0, 0);
         ellipse(position.x, position.y, radius * 2, radius * 2);

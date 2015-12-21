@@ -1,7 +1,6 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation.*;
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation.DelaunayTriangulation.Triangle;
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation.VoronoiDiagram.Region;
 import java.util.*;
 import mathematik.*;
@@ -32,7 +31,7 @@ public class SketchDelaunayTriangulation extends PApplet {
             v.y += random(-1.0f, 1.0f);
         }
 
-        Vector<DelaunayTriangulation.Triangle> mDelaunayTriangles = DelaunayTriangulation.triangulate(mVertices);
+        Vector<DelaunayTriangle> mDelaunayTriangles = DelaunayTriangulation.triangulate(mVertices);
         Vector<VoronoiDiagram.Region> mVoronoiRegions = VoronoiDiagram.getRegions(mVertices, mDelaunayTriangles);
 
         if (mousePressed) {
@@ -85,7 +84,7 @@ public class SketchDelaunayTriangulation extends PApplet {
         }
     }
 
-    private void drawDelaunay(Vector<Triangle> mDelaunayTriangles) {
+    private void drawDelaunay(Vector<DelaunayTriangle> mDelaunayTriangles) {
         /* draw delaunay trinangles */
         if (mDelaunayTriangles != null) {
             beginShape(TRIANGLES);

@@ -25,6 +25,8 @@ public class SketchFluidDynamics2 extends PApplet {
         mFluid = new FluidDynamics(96, 72);
         mFluid.diffusion(0.0003f);
         mFluid.drag(0.995f);
+
+        strokeWeight(0.1f);
     }
 
     public void draw() {

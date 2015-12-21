@@ -11,7 +11,7 @@ import java.util.Vector;
 /**
  * http://en.wikipedia.org/wiki/Convex_hull
  */
-public class SketchConvexHull extends PApplet {
+public class SketchConvexHull3 extends PApplet {
 
     private final static int GRID_SIZE = 4;
 
@@ -108,6 +108,6 @@ public class SketchConvexHull extends PApplet {
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchConvexHull.class.getName()});
+        PApplet.main(new String[]{SketchConvexHull3.class.getName()});
     }
 }

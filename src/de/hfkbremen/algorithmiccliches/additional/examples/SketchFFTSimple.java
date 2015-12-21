@@ -3,7 +3,8 @@ package de.hfkbremen.algorithmiccliches.additional.examples;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import ddf.minim.analysis.FFT;
-import java.util.Vector;
+import java.util.ArrayList;
+import javax.swing.*;
 import processing.core.PApplet;
 
 /**
@@ -25,8 +26,12 @@ public class SketchFFTSimple extends PApplet {
 
     public void setup() {
 
+        JFileChooser mfileChooser = new JFileChooser();
+        mfileChooser.showOpenDialog(frame);
+        String mFileName = mfileChooser.getSelectedFile().getAbsolutePath();
+
         mMinim = new Minim(this);
-        mPlayer = mMinim.loadFile("file.mp3", 1024); // make sure the sketch can find the audio
+        mPlayer = mMinim.loadFile(mFileName, 1024); // make sure the sketch can find the audio
         mPlayer.play();
         mFFT = new FFT(mPlayer.bufferSize(), mPlayer.sampleRate());
         mFFT.logAverages(55, 4);
@@ -36,7 +41,7 @@ public class SketchFFTSimple extends PApplet {
         mFFT.forward(mPlayer.left);
         mCurrentTime = (float) mPlayer.position() / (float) mPlayer.length();
 
-        Vector<Float> mBands = new Vector<Float>(mFFT.avgSize());
+        ArrayList<Float> mBands = new ArrayList<Float>(mFFT.avgSize()); // @todo revisit the diff between ```.getBand(i)```and ```.getAvg(i)```
         for (int i = 0; i < mFFT.avgSize(); i++) {
             mBands.add(i, mFFT.getBand(i));
         }

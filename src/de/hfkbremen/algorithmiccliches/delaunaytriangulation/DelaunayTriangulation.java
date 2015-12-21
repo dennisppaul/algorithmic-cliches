@@ -21,12 +21,12 @@ public class DelaunayTriangulation {
      */
     public static boolean VERBOSE = false;
 
-    public static Vector<Triangle> triangulate(Vector<Vector3f> theVertices) {
+    public static Vector<DelaunayTriangle> triangulate(Vector<Vector3f> theVertices) {
         sort(theVertices);
         return triangulateSortedVertices(theVertices);
     }
 
-    public static Vector<Triangle> triangulateSortedVertices(Vector<Vector3f> theVertices) {
+    public static Vector<DelaunayTriangle> triangulateSortedVertices(Vector<Vector3f> theVertices) {
         /*
          * Triangulation subroutine
          * Takes as input NV vertices in array pxyz
@@ -45,7 +45,7 @@ public class DelaunayTriangulation {
             return null;
         }
 
-        final Vector<Triangle> mDelaunayTriangles = new Vector<Triangle>();
+        final Vector<DelaunayTriangle> mDelaunayTriangles = new Vector<DelaunayTriangle>();
 
         /* Allocate memory for the completeness list, flag for each triangle */
         final int trimax = 4 * theVertices.size();
@@ -104,7 +104,7 @@ public class DelaunayTriangulation {
         theVertices.add(new Vector3f(xmid, ymid + 2.0f * dmax, 0.0f));
         theVertices.add(new Vector3f(xmid + 2.0f * dmax, ymid - dmax, 0.0f));
 
-        Triangle myTriangle = new Triangle();
+        DelaunayTriangle myTriangle = new DelaunayTriangle();
         myTriangle.p[0] = nv;
         myTriangle.p[1] = nv + 1;
         myTriangle.p[2] = nv + 2;
@@ -118,7 +118,7 @@ public class DelaunayTriangulation {
 
             final float xp = theVertices.get(i).x;
             final float yp = theVertices.get(i).y;
-            Vector<TriangleEdge> edges = new Vector<TriangleEdge>();
+            Vector<DelaunayTriangleEdge> edges = new Vector<DelaunayTriangleEdge>();
 
             /*
              * Set up the edge buffer.
@@ -148,9 +148,9 @@ public class DelaunayTriangulation {
                     complete[j] = true;
                 }
                 if (inside) {
-                    final TriangleEdge a = new TriangleEdge();
-                    final TriangleEdge b = new TriangleEdge();
-                    final TriangleEdge c = new TriangleEdge();
+                    final DelaunayTriangleEdge a = new DelaunayTriangleEdge();
+                    final DelaunayTriangleEdge b = new DelaunayTriangleEdge();
+                    final DelaunayTriangleEdge c = new DelaunayTriangleEdge();
                     a.p[0] = mDelaunayTriangles.get(j).p[0];
                     a.p[1] = mDelaunayTriangles.get(j).p[1];
                     b.p[0] = mDelaunayTriangles.get(j).p[1];
@@ -178,7 +178,7 @@ public class DelaunayTriangulation {
             for (int j = 0; j < edges.size(); j++) {
                 for (int k = j + 1; k < edges.size(); k++) {
                     if ((edges.get(j).p[0] == edges.get(k).p[1])
-                        && (edges.get(j).p[1] == edges.get(k).p[0])) {
+                            && (edges.get(j).p[1] == edges.get(k).p[0])) {
                         edges.get(j).p[0] = -1;
                         edges.get(j).p[1] = -1;
                         edges.get(k).p[0] = -1;
@@ -186,7 +186,7 @@ public class DelaunayTriangulation {
                     }
                     /* Shouldn't need the following, see note above */
                     if ((edges.get(j).p[0] == edges.get(k).p[0])
-                        && (edges.get(j).p[1] == edges.get(k).p[1])) {
+                            && (edges.get(j).p[1] == edges.get(k).p[1])) {
                         edges.get(j).p[0] = -1;
                         edges.get(j).p[1] = -1;
                         edges.get(k).p[0] = -1;
@@ -207,7 +207,7 @@ public class DelaunayTriangulation {
                 if (mDelaunayTriangles.size() >= trimax) {
                     return null;
                 }
-                Triangle myNewTriangle = new Triangle();
+                DelaunayTriangle myNewTriangle = new DelaunayTriangle();
                 myNewTriangle.p[0] = edges.get(j).p[0];
                 myNewTriangle.p[1] = edges.get(j).p[1];
                 myNewTriangle.p[2] = i;
@@ -237,10 +237,10 @@ public class DelaunayTriangulation {
     }
 
     private static boolean getCircumCircle(float xp, float yp,
-                                           float x1, float y1,
-                                           float x2, float y2,
-                                           float x3, float y3,
-                                           Vector3f circle) {
+            float x1, float y1,
+            float x2, float y2,
+            float x3, float y3,
+            Vector3f circle) {
         /*
          * Return TRUE if a point (xp,yp) is inside the circumcircle made up
          * of the points (x1, y1), (x2, y2), (x3, y3)
@@ -296,11 +296,11 @@ public class DelaunayTriangulation {
         circle.y = yc;
         circle.z = r;
 
-        return (drsqr <= rsqr ? true : false);
+        return (drsqr <= rsqr);
     }
 
     static Vector3f getCenter(final Vector<Vector3f> theVertices,
-                              final Triangle theTriangle) {
+            final DelaunayTriangle theTriangle) {
         final Vector3f myCenter = new Vector3f();
         final Vector3f v0 = theVertices.get(theTriangle.p[0]);
         final Vector3f v1 = theVertices.get(theTriangle.p[1]);
@@ -335,8 +335,8 @@ public class DelaunayTriangulation {
     }
 
     public static boolean addVertexSafely(Vector<Vector3f> pVertices,
-                                          Vector3f pNewVertex,
-                                          float mMinimumApproxDistance) {
+            Vector3f pNewVertex,
+            float mMinimumApproxDistance) {
         /* check if vertex is redundant */
         for (Vector3f myVertex : pVertices) {
             if (almost(myVertex, pNewVertex, mMinimumApproxDistance)) {
@@ -351,30 +351,9 @@ public class DelaunayTriangulation {
     }
 
     private static boolean almost(final Vector3f v0,
-                                  final Vector3f v1,
-                                  float ALMOST_THRESHOLD) {
-        if (Math.abs(v1.x - v0.x) < ALMOST_THRESHOLD
-            && Math.abs(v1.y - v0.y) < ALMOST_THRESHOLD //                && Math.abs(v1.z - v0.z) < ALMOST_THRESHOLD
-                ) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static class TriangleEdge {
-
-        public int[] p = new int[2];
-
-        public TriangleEdge() {
-            p[0] = -1;
-            p[1] = -1;
-        }
-    }
-
-    public static class Triangle {
-
-        public int[] p = new int[3];
-
+            final Vector3f v1,
+            float ALMOST_THRESHOLD) {
+        return Math.abs(v1.x - v0.x) < ALMOST_THRESHOLD
+                && Math.abs(v1.y - v0.y) < ALMOST_THRESHOLD;
     }
 }

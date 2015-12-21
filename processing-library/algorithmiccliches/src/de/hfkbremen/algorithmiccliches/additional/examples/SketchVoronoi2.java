@@ -1,11 +1,11 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.Qvoronoi;
+import java.util.Vector;
 import mathematik.Vector3f;
 
 import processing.core.PApplet;
 
-import java.util.Vector;
 
 /**
  * http://en.wikipedia.org/wiki/Voronoi_diagram

@@ -1,6 +1,20 @@
 import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import java.util.Vector;
+
+
+import de.hfkbremen.algorithmiccliches.fluiddynamics.FluidDynamicsBuoyancyVorticity;
+
+
+/**
+ * Applet display interface for fluid solver.
+ *
+ * @author Alexander McKenzie
+ * @version 1.0
+ *
+ */
+
 
 // frame dimensions (dxd pixels)
 final int d = 60 * 10;
@@ -10,7 +24,7 @@ int n = 60;
 
 float dt = 0.2f;
 
-final FluidDynamicsAlt fs = new FluidDynamicsAlt();
+final FluidDynamicsBuoyancyVorticity fs = new FluidDynamicsBuoyancyVorticity();
 
 // flag to display velocity field
 boolean vkey = false;
@@ -47,9 +61,6 @@ void reset() {
 }
 
 void draw() {
-
-    println(frameRate);
-
     background(255);
     noStroke();
 
