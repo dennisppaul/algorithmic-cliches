@@ -17,6 +17,8 @@ printJob "copying jar"
 sh $ROOT/copy_jar.sh $LIB_NAME
 printJob "copying src"
 sh $ROOT/copy_src.sh $LIB_NAME
+printJob "copying README"
+sh $ROOT/copy_README.sh $LIB_NAME
 printJob "creating processing sketches"
 sh $ROOT/create-processing-sketches.sh $LIB_NAME
 printJob "packing zip"
