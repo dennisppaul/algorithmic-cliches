@@ -19,8 +19,11 @@ public class SketchControlP5
 
     Slider abc;
 
+    public void settings() {
+        size(700, 400, P3D);
+    }
+
     public void setup() {
-        size(700, 400);
         noStroke();
         mCP5 = new ControlP5(this);
 

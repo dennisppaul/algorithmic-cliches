@@ -18,8 +18,11 @@ public class SketchFluidDynamicsWaterColumns extends PApplet {
 
     private final Quad[][] mQuads = new Quad[X_SIZE][Y_SIZE];
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         textFont(createFont("Courier", 11));
         mArcBall = new ArcBall(width / 2, height / 2, -height, 400.0f, this, true);
 

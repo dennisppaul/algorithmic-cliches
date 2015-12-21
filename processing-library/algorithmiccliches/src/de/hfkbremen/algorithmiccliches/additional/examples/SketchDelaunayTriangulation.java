@@ -14,8 +14,11 @@ public class SketchDelaunayTriangulation extends PApplet {
 
     public Vector<Vector3f> mVertices;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         noFill();
         mVertices = new Vector<Vector3f>();
     }

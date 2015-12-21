@@ -39,8 +39,11 @@ public class SketchFluidDynamicsAlt extends PApplet {
 
     private int c;
 
+    public void settings() {
+        size(d, d);
+    }
+
     public void setup() {
-        size(d, d, OPENGL);
         reset();
         frameRate(240);
     }

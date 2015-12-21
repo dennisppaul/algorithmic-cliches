@@ -20,8 +20,11 @@ public class SketchIsoSurface3 extends PApplet {
 
     private ArcBall mArcBall;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         textFont(createFont("Courier", 11));
 
         mArcBall = new ArcBall(width / 2, height / 2, 0, 400.0f, this, true);

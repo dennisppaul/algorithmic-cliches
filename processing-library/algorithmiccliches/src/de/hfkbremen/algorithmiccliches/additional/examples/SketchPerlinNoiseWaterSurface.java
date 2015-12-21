@@ -11,8 +11,11 @@ public class SketchPerlinNoiseWaterSurface extends PApplet {
 
     private float mWaveOffset;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         new ArcBall(this);
         smooth();
 

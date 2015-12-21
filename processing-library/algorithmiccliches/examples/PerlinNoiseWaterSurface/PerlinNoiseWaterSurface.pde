@@ -1,28 +1,22 @@
 import mathematik.*;
 import oscP5.*;
 import netP5.*;
-import de.hfkbremen.algorithmiccliches.util.ArcBall;
 float[][] mWaterSurface;
-
 final int mGridScale = 16;
-
 float mWaveOffset;
-
+void settings() {
+    size(1024, 768, P3D);
+}
 void setup() {
-    size(1024, 768, OPENGL);
     new ArcBall(this);
     smooth();
-
     final int GRID_WIDTH = width / mGridScale;
     final int GRID_HEIGHT = height / mGridScale;
     mWaterSurface = new float[GRID_WIDTH][GRID_HEIGHT];
 }
-
 void draw() {
-
     final float mFrameRate = 1.0f / frameRate;
     mWaveOffset += mFrameRate;
-
     for (int x = 0; x < mWaterSurface.length; x++) {
         for (int y = 0; y < mWaterSurface[x].length; y++) {
             final float mWaveScale = 5.0f;
@@ -35,18 +29,15 @@ void draw() {
             mWaterSurface[x][y] = noise(mX, mY) * mHeightScale;
         }
     }
-
     /* draw */
     background(255);
     directionalLight(126, 126, 126, 0, 0, -1);
     ambientLight(102, 102, 102);
-
     pushMatrix();
     translate(0, 0, -height / 2);
     noStroke();
     fill(255, 127, 0);
     rect(0, 0, width, height);
-
     stroke(15, 143, 255);
     fill(0, 127, 255);
     pushMatrix();

@@ -17,12 +17,15 @@ public class SketchConvexHull extends PApplet {
 
     private final static float GRID_SPACE = 50;
 
-    private Vector3f[] mGridPoints = new Vector3f[GRID_SIZE * GRID_SIZE * GRID_SIZE];
+    private final Vector3f[] mGridPoints = new Vector3f[GRID_SIZE * GRID_SIZE * GRID_SIZE];
 
     private float mNoNoTriangle = 0;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         frameRate(30);
         populatePointArray();
     }

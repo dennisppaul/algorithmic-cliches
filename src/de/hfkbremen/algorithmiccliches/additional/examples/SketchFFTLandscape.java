@@ -28,8 +28,11 @@ public class SketchFFTLandscape extends PApplet {
 
     private static final float BAND_SCALE = 8.0f;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         new ArcBall(this);
 
         mMinim = new Minim(this);

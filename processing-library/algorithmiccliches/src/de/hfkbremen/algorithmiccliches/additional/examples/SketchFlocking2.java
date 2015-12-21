@@ -25,8 +25,11 @@ public class SketchFlocking2 extends PApplet {
 
     private Vector<SwarmEntity> mSwarmEntities;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         frameRate(60);
         smooth();
         rectMode(CENTER);

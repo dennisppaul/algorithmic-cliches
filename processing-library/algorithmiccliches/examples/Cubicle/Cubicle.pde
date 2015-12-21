@@ -1,42 +1,24 @@
 import mathematik.*;
 import oscP5.*;
 import netP5.*;
-import mathematik.Vector3f;
-import mathematik.Vector3i;
-import teilchen.cubicle.CubicleWorld;
-import teilchen.cubicle.ICubicleEntity;
-import teilchen.util.CubicleWorldView;
-
-import java.util.Vector;
-
 final int NUMBER_OF_PARTICLES_ADDED = 100;
-
 final int WORLD_NUMBER_OF_CUBICLES_X = 1024 / 64;
-
 final int WORLD_NUMBER_OF_CUBICLES_Y = 768 / 64;
-
 final int WORLD_NUMBER_OF_CUBICLES_Z = 768 / 64;
-
 final float WORLD_CUBICLE_SCALE = 32;
-
 boolean showCubicles = true;
-
 float mRotationZ = 0.1f;
-
 final Vector3f mPosition = new Vector3f();
-
 int numParticles = 1;
-
 CubicleWorld mCubicleWorld;
-
 CubicleWorldView mCubicleWorldView;
-
+void settings() {
+    size(1024, 768, P3D);
+}
 void setup() {
-    size(1024, 768, OPENGL);
     textFont(createFont("Courier", 11));
     hint(DISABLE_DEPTH_SORT);
     hint(DISABLE_DEPTH_TEST);
-
     /* setup world */
     mCubicleWorld = new CubicleWorld(WORLD_NUMBER_OF_CUBICLES_X,
             WORLD_NUMBER_OF_CUBICLES_Y,
@@ -45,24 +27,18 @@ void setup() {
     mCubicleWorld.transform().translation.set(-WORLD_NUMBER_OF_CUBICLES_X * mCubicleWorld.cellscale().x / 2,
             -WORLD_NUMBER_OF_CUBICLES_Y * mCubicleWorld.cellscale().y / 2,
             -WORLD_NUMBER_OF_CUBICLES_Z * mCubicleWorld.cellscale().z / 2);
-
     mCubicleWorldView = new CubicleWorldView(mCubicleWorld);
     mCubicleWorldView.color_empty = color(0, 1);
     mCubicleWorldView.color_full = color(0, 4);
-
     mCubicleWorld.add(new MCubicleEntity());
 }
-
 void draw() {
     /* get entities from cubicle world */
     mCubicleWorld.update();
     Vector<ICubicleEntity> mEntities = mCubicleWorld.getLocalEntities(mPosition, 1);
-
     background(255);
     pushMatrix();
-
     translate(width / 2, height / 2, 0);
-
     /* rotate */
     if (mousePressed) {
         mRotationZ += (mouseX * 0.01f - mRotationZ) * 0.05f;
@@ -72,14 +48,12 @@ void draw() {
     }
     rotateX(THIRD_PI);
     rotateZ(mRotationZ);
-
     /* draw cubicle world */
     if (showCubicles) {
         stroke(0, 127);
         noFill();
         mCubicleWorldView.draw(g);
     }
-
     /* draw entities */
     int mNumberOfPointsSelected = 0;
     stroke(0, 127, 255, 127);
@@ -92,7 +66,6 @@ void draw() {
             drawCross(mEntity.position(), 5.0f);
         }
     }
-
     /* draw crosshair */
     stroke(255, 0, 0, 63);
     noFill();
@@ -102,27 +75,23 @@ void draw() {
     vertex(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2, mPosition.y, 0);
     vertex(WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2, mPosition.y, 0);
     endShape();
-
     /* draw selection sphere */
     stroke(255, 0, 0, 63);
     noFill();
     translate(mPosition.x, mPosition.y, 0);
     box(WORLD_CUBICLE_SCALE);
     popMatrix();
-
     fill(0);
     noStroke();
     text("POINTS   : " + numParticles, 10, 12);
     text("SELECTED : " + mNumberOfPointsSelected, 10, 24);
     text("FPS      : " + frameRate, 10, 36);
 }
-
 void drawCross(Vector3f v, float pRadius) {
     line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
     line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
     line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
 }
-
 void keyPressed() {
     if (key == ' ') {
         for (int i = 0; i < NUMBER_OF_PARTICLES_ADDED; i++) {
@@ -140,33 +109,24 @@ void keyPressed() {
         numParticles = 0;
     }
 }
-
 class MCubicleEntity
         implements ICubicleEntity {
-
     int color = color(0, 127, random(0, 255), 127);
-
     final Vector3i mCubicalPosition;
-
     final Vector3f mPosition;
-
     MCubicleEntity() {
         mCubicalPosition = new Vector3i();
         mPosition = new Vector3f();
     }
-
     Vector3i cubicle() {
         return mCubicalPosition;
     }
-
     Vector3f position() {
         return mPosition;
     }
-
     boolean leaving(int theX, int theY, int theZ) {
         return theX != cubicle().x || theY != cubicle().y || theZ != cubicle().z;
     }
-
     boolean isActive() {
         return true;
     }

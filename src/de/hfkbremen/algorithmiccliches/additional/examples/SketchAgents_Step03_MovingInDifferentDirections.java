@@ -13,8 +13,11 @@ public class SketchAgents_Step03_MovingInDifferentDirections extends PApplet {
 
     private Agent myAgent;
 
+    public void settings() {
+        size(1204, 768, P3D);
+    }
+
     public void setup() {
-        size(1204, 768);
         smooth();
         noFill();
         ellipseMode(CENTER);

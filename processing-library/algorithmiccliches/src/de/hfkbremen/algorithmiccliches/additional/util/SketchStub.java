@@ -5,8 +5,11 @@ import processing.core.PApplet;
 public class SketchStub
         extends PApplet {
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
     }
 
     public void draw() {

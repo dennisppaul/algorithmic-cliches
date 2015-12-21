@@ -1,65 +1,44 @@
 import mathematik.*;
 import oscP5.*;
 import netP5.*;
-import de.hfkbremen.algorithmiccliches.util.ArcBall;
-/**
- * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
- */
 static final int GRID_X = 64;
-
 static final int GRID_Y = 32;
-
 static final int GRID_Z = 32;
-
 static final int GRID_WRITE = 0;
-
 static final int GRID_READ = 1;
-
 boolean[][][][] mCells;
-
 int mB = 4;
-
 int mSmin = 4;
-
 int mSmax = 4;
-
 ArcBall mArcBall;
-
+void settings() {
+    size(1024, 768, P3D);
+}
 void setup() {
-    size(1024, 768, OPENGL);
     rectMode(CENTER);
     textFont(createFont("Courier", 11));
     mArcBall = new ArcBall(this, true);
-
     mCells = new boolean[GRID_X][GRID_Y][GRID_Z][2];
     randomizeCells();
 }
-
 void draw() {
     lights();
     background(255);
-
     /* draw info */
     fill(0);
     noStroke();
     text("RULE     : " + "B" + mB + "/S" + mSmin + "" + mSmax, 10, 12);
     text("FPS      : " + frameRate, 10, 24);
-
     mArcBall.update(mousePressed, mouseX, mouseY);
-
     /* evaluate cells */
     evaluateCells(mB, mSmin, mSmax); // B3/S23
-
     /* copy to back */
     copyCellStates();
-
     /* draw grid */
     fill(127);
     noStroke();
     drawCells();
-
 }
-
 void randomizeCells() {
     for (int x = 0; x < GRID_X; x++) {
         for (int y = 0; y < GRID_Y; y++) {
@@ -70,7 +49,6 @@ void randomizeCells() {
         }
     }
 }
-
 void randomizeCells(int pCells) {
     for (int i = 0; i < pCells; i++) {
         int x = (int) random(0, GRID_X);
@@ -80,7 +58,6 @@ void randomizeCells(int pCells) {
         mCells[x][y][z][GRID_WRITE] = true;
     }
 }
-
 void drawCells() {
     pushMatrix();
     translate(width / 2, height / 2, height / -2);
@@ -100,7 +77,6 @@ void drawCells() {
     }
     popMatrix();
 }
-
 void evaluateCells(int pBirth,
         int pMinSurvive,
         int pMaxSurvive) {
@@ -122,7 +98,6 @@ void evaluateCells(int pBirth,
         }
     }
 }
-
 void copyCellStates() {
     for (int x = 0; x < GRID_X; x++) {
         for (int y = 0; y < GRID_Y; y++) {
@@ -132,7 +107,6 @@ void copyCellStates() {
         }
     }
 }
-
 int getNeighbors(int pX, int pY, int pZ) {
     int mNeighbors = 0;
     for (int x = -1; x <= 1; x++) {
@@ -152,7 +126,6 @@ int getNeighbors(int pX, int pY, int pZ) {
     }
     return mNeighbors;
 }
-
 void keyPressed() {
     switch (key) {
         case ' ': {

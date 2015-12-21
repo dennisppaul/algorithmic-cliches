@@ -32,6 +32,9 @@ public class SunflowRenderer
         mParent = pParent;
         mFrameNumber = FRAME_COUNTER++;
 
+        System.err.println("### SunflowerRenderer is broken in Processing 3.0");
+        System.exit(-1);
+
         final Class mClass = SketchRenderWithSunflow.class;
         try {
             mMethod = mClass.getMethod(pMethodName, new Class[]{PGraphics.class});
@@ -41,10 +44,11 @@ public class SunflowRenderer
 
         setBounds(0, 0, pParent.width, pParent.height);
         mApplet = new SunflowRendererApplet(this);
-        add(mApplet);
-        mApplet.init();
-        setVisible(true);
 
+        // causes problems in processing 3.0 @fix
+//        add(mApplet);
+//        mApplet.init();
+//        setVisible(true);
         mThis = this;
 
     }

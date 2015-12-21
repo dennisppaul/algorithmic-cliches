@@ -25,8 +25,11 @@ public class SketchIsoSurface2 extends PApplet {
 
     private int mCurrentCircle = 0;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         textFont(createFont("Courier", 11));
         noSmooth();
 

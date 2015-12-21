@@ -4,6 +4,7 @@ import mathematik.Vector2f;
 import processing.core.PApplet;
 
 public class SketchAgents_Step01_ASimpleAgent extends PApplet {
+
     /*
      * the agent
      * step 01 - a simple agent.
@@ -17,8 +18,11 @@ public class SketchAgents_Step01_ASimpleAgent extends PApplet {
 
     private Agent myAgent;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768);
         smooth();
         noFill();
         ellipseMode(CENTER);

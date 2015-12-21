@@ -10,8 +10,11 @@ public class SketchCellularAutomataGameOfLife2 extends PApplet {
 
     private CellularAutomaton2 mCA;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         rectMode(CENTER);
         textFont(createFont("Courier", 11));
 

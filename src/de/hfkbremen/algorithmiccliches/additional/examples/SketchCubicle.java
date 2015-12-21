@@ -34,8 +34,11 @@ public class SketchCubicle extends PApplet {
 
     private CubicleWorldView mCubicleWorldView;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         textFont(createFont("Courier", 11));
         hint(DISABLE_DEPTH_SORT);
         hint(DISABLE_DEPTH_TEST);

@@ -63,7 +63,8 @@ public class ArcBall {
         mParent = pApplet;
 
         if (!pDONT_REGISTER) {
-            pApplet.registerPre(this);
+//            pApplet.registerPre(this);
+            pApplet.registerMethod("pre", this); // new in processing 3.0 @test
         }
 
         mCenter = theCenter;

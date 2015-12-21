@@ -1,29 +1,17 @@
 import mathematik.*;
 import oscP5.*;
 import netP5.*;
-import de.hfkbremen.algorithmiccliches.convexhull.ConvexHull;
-import de.hfkbremen.algorithmiccliches.convexhull.HullVertex;
-import mathematik.Vector3f;
-
-import java.util.Vector;
-
-/**
- * http://en.wikipedia.org/wiki/Convex_hull
- */
 final static int GRID_SIZE = 4;
-
 final static float GRID_SPACE = 50;
-
-Vector3f[] mGridPoints = new Vector3f[GRID_SIZE * GRID_SIZE * GRID_SIZE];
-
+final Vector3f[] mGridPoints = new Vector3f[GRID_SIZE * GRID_SIZE * GRID_SIZE];
 float mNoNoTriangle = 0;
-
+void settings() {
+    size(1024, 768, P3D);
+}
 void setup() {
-    size(1024, 768, OPENGL);
     frameRate(30);
     populatePointArray();
 }
-
 void populatePointArray() {
     /* populate array with almost random points */
     int i = 0;
@@ -39,13 +27,11 @@ void populatePointArray() {
         }
     }
 }
-
 void draw() {
     /* setup scene */
     background(255);
     directionalLight(126, 126, 126, 0, 0, -1);
     ambientLight(102, 102, 102);
-
     /* rotate object */
     translate(width / 2, height / 2);
     rotateY(TWO_PI * (float) mouseX / width);
@@ -53,12 +39,10 @@ void draw() {
     translate(-(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
             -(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
             -(GRID_SIZE - 1) * GRID_SPACE / 2.0f);
-
     /* draw hull */
     noStroke();
     fill(255, 127, 0);
     computeAndDrawHull(mGridPoints);
-
     /* draw points */
     stroke(255, 0, 0, 127);
     for (int i = 0; i < mGridPoints.length; i++) {
@@ -66,14 +50,12 @@ void draw() {
         drawCross(v);
     }
 }
-
 void drawCross(Vector3f v) {
     final float o = 2.0f;
     line(v.x - o, v.y, v.z, v.x + o, v.y, v.z);
     line(v.x, v.y - o, v.z, v.x, v.y + o, v.z);
     line(v.x, v.y, v.z - o, v.x, v.y, v.z + o);
 }
-
 void computeAndDrawHull(Vector3f[] pVertex) {
     final ConvexHull mHull = new ConvexHull();
     final Vector<HullVertex> mNewVertices = new Vector<HullVertex>();
@@ -84,10 +66,8 @@ void computeAndDrawHull(Vector3f[] pVertex) {
     }
     mHull.calculateHull(mNewVertices);
     float[] myVertices = mHull.getVerticesArray();
-
     mNoNoTriangle += 0.01f;
     mNoNoTriangle %= myVertices.length / 9;
-
     beginShape(TRIANGLES);
     for (int i = 0; i < myVertices.length; i += 3) {
         if ((int) mNoNoTriangle != i / 9) {
@@ -96,7 +76,6 @@ void computeAndDrawHull(Vector3f[] pVertex) {
     }
     endShape();
 }
-
 void keyPressed() {
     populatePointArray();
 }

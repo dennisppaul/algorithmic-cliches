@@ -17,8 +17,11 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
 
     private final Vector3f mCenter = new Vector3f();
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768);
         smooth();
         mEntities = createRandomEntites(50);
         mCenter.set(width / 2, height / 2, 0);

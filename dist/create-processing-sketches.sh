@@ -1,11 +1,12 @@
 #!/bin/sh
 
 #
-# for further hints on `sed` read this: http://www.grymoire.com/Unix/Sed.html
-#
+#!/bin/sh
 
-SRC_PATH="../src/de/hfkbremen/algorithmiccliches/additional/examples"
-OUTPUT_DIR="../processing-library/algorithmiccliches/examples"
+# for further hints on `sed` read this: http://www.grymoire.com/Unix/Sed.html
+LIB_NAME=$1
+SRC_PATH="../src/de/hfkbremen/$LIB_NAME/additional/examples"
+OUTPUT_DIR="../processing-library/$LIB_NAME/examples"
 
 if [ -d "$OUTPUT_DIR" ]; then
 	rm -rf "$OUTPUT_DIR"
@@ -19,21 +20,19 @@ do
 	SKETCHNAME=$(echo $FILENAME | sed -e 's/.java//')
 	SKETCHNAME=$(echo $SKETCHNAME | sed -e 's/Sketch//')
 	SKETCHFILE_NAME="$SKETCHNAME.pde"
-		
+	
 	echo "# sketch '"$SKETCHNAME"'"
 
 	mkdir -p $OUTPUT_DIR/$SKETCHNAME
 
 	cat $file | \
 	sed '
-			# remove package
-			s/package.*//
-			# remove processing imports
-			s/import processing.core.*//
-			# remove class defintion 
-			s/.*extends PApplet {//
+			# only consider the lines in 'PApplet'
+			/extends PApplet/,/^}$/ !d
 			# remove all tabs from line start
 			s/[ ^I]*$//
+			# remove empty lines
+			/^$/ d
 			# remove 'private' + 'protected' + 'public'
 			s/private //
 			s/protected //
@@ -42,7 +41,8 @@ do
 			/static void main/,/}$/ {
 				D
 			}
-			# remove last line
+			# remove first and last line
+			/^class/ d
 			/^}/ d
 			# remove trailing space
 			s/    //
@@ -60,42 +60,5 @@ do
 			/^$/{N;/^\n$/d;}
 		'\
 		> $OUTPUT_DIR/$SKETCHNAME/$SKETCHFILE_NAME
+
 done
-
-exit 0
-
-#  ---- left overs ---- #
-# 
-# 	cat $file | \
-# 	sed '
-# 			# only consider the lines in 'PApplet'
-# 			/extends PApplet/,/^}$/ !d
-# 			# remove all tabs from line start
-# 			s/[ ^I]*$//
-# 			# remove empty lines
-# 			/^$/ d
-# 			# remove 'private' + 'protected' + 'public'
-# 			s/private //
-# 			s/protected //
-# 			s/public //
-# 			# remove main method
-# 			/static void main/,/}$/ {
-# 				D
-# 			}
-# 			# remove first and last line
-# 			/^class/ d
-# 			/^}/ d
-# 			# remove trailing space
-# 			s/    //
-		'\
-		> /tmp/tmp.pde
-
-		cat /tmp/tmp.pde | \
-		sed '
-			1 i\
-			 import ciid2015.exquisitdatacorpse.*;\
-			 import oscP5.*;\
-			 import netP5.*;\
-			 \
-		'\
-		> $OUTPUT_DIR/$SKETCHNAME/$SKETCHFILE_NAME

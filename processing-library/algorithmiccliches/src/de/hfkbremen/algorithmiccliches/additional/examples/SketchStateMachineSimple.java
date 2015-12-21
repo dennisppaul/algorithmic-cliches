@@ -14,8 +14,11 @@ public class SketchStateMachineSimple extends PApplet {
 
     private Vector<MEntity> mEntities = new Vector<MEntity>();
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768);
         rectMode(CENTER);
         smooth();
 

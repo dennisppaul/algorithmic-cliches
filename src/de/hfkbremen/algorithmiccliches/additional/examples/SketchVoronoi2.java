@@ -20,8 +20,11 @@ public class SketchVoronoi2 extends PApplet {
 
     private int mCurrentRegion;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         smooth();
 
         final int NUMBER_OF_POINTS_ON_CIRLCE = 20;

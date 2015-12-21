@@ -28,8 +28,11 @@ public class SketchCellularAutomataGameOfLife3 extends PApplet {
 
     private ArcBall mArcBall;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         rectMode(CENTER);
         textFont(createFont("Courier", 11));
         mArcBall = new ArcBall(this, true);

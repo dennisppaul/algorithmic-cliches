@@ -19,8 +19,11 @@ public class SketchFFTSimple extends PApplet {
 
     private static float mCurrentTime = 0.0f;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
 
         mMinim = new Minim(this);
         mPlayer = mMinim.loadFile("file.mp3", 1024); // make sure the sketch can find the audio

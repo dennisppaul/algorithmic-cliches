@@ -2,19 +2,6 @@ import mathematik.*;
 import oscP5.*;
 import netP5.*;
 
-
-import de.hfkbremen.algorithmiccliches.fluiddynamics.FluidDynamicsAlt;
-
-
-/**
- * Applet display interface for fluid solver.
- *
- * @author Alexander McKenzie
- * @version 1.0
- *
- */
-
-
 // frame dimensions (dxd pixels)
 final int d = 60 * 10;
 
@@ -42,8 +29,11 @@ int u, v;
 
 int c;
 
+void settings() {
+    size(d, d);
+}
+
 void setup() {
-    size(d, d, OPENGL);
     reset();
     frameRate(240);
 }

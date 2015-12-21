@@ -31,8 +31,11 @@ public class SketchOctree extends PApplet {
 
     private int numParticles = 1;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         textFont(createFont("Courier", 11));
 
         mOctree = new MVisibleOctree(new Vector3f(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);

@@ -28,8 +28,11 @@ public class SketchPerlinNoise extends PApplet {
 
     final float mNoiseScale = 0.024f;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         smooth();
         rectMode(CENTER);
 

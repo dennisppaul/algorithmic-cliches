@@ -13,8 +13,11 @@ public class SketchStateMachineWithObjects extends PApplet {
 
     private final Vector<Entity> mEntities = new Vector<Entity>();
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768);
         rectMode(CENTER);
         smooth();
 

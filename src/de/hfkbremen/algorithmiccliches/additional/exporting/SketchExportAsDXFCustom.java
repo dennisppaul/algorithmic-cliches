@@ -14,8 +14,11 @@ public class SketchExportAsDXFCustom
 
     public static final int NOT_ARRIVED_YET = 2;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         mRecord = false;
     }
 

@@ -11,8 +11,11 @@ public class SketchExportAsPDF
 
     PGraphicsPDF pdf;
 
+    public void settings() {
+        size(1024, 768, P3D);
+    }
+
     public void setup() {
-        size(1024, 768, OPENGL);
         pdf = (PGraphicsPDF) createGraphics(width, height, PDF, "export.pdf");
         beginRecord(pdf);
         background(255);
