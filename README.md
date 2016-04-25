@@ -3,7 +3,7 @@ Algorithmic Clichés
 
 this repository contains a collection of _algorithmic clichés_ and according simple examples.
 
-this repository is also a collection of the material for the 5-day workshop 'Creating Systems, Processing Data, Finding Structure' in March 2013 at [HfK Bremen](http://www.hfk-bremen.de/) in the [Digital Media Programme](http://digitalemedien-bremen.de).
+<!--this repository is also a collection of the material for the 5-day workshop 'Creating Systems, Processing Data, Finding Structure' in March 2013 at [HfK Bremen](http://www.hfk-bremen.de/) in the [Digital Media Programme](http://digitalemedien-bremen.de).-->
 
 ## Used Libraries
 
