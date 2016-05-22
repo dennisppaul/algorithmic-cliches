@@ -94,3 +94,17 @@ this repository contains a collection of _algorithmic clichés_ and according si
 [![SketchVoronoi2RoundRegions](./images/sketches/SketchVoronoi2RoundRegions.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchVoronoi2RoundRegions.java)
 
 [![SketchVoronoi3](./images/sketches/SketchVoronoi3.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchVoronoi3.java)
+
+## suggestions for CRB ( cliche review board )
+
+* [reaction diffusion](https://en.wikipedia.org/wiki/Reaction–diffusion_system)
+* [fractal](https://en.wikipedia.org/wiki/Fractal)
+
+### from [Architecture 27: Tooling](https://books.google.de/books?id=MG8xfIe55t0C&pg=PA53&redir_esc=y&hl=en#v=onepage&q&f=false)
+
+* spiraling
+* packing ( in addition to *circle packing* )
+* weaving
+* blending
+* cracking
+* tiling ( in addition to *voronoi* )

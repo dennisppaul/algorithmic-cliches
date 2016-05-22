@@ -1,21 +1,12 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
-import mathematik.Vector3f;
-import processing.core.PApplet;
-import processing.core.PGraphics;
-import processing.core.PMatrix3D;
-import teilchen.BehaviorParticle;
-import teilchen.Physics;
-import teilchen.behavior.Alignment;
-import teilchen.behavior.Cohesion;
-import teilchen.behavior.Motor;
-import teilchen.behavior.Separation;
-import teilchen.behavior.Wander;
-import teilchen.constraint.Teleporter;
-import teilchen.force.ViscousDrag;
+import java.util.*;
+import processing.core.*;
+import teilchen.*;
+import teilchen.behavior.*;
+import teilchen.constraint.*;
+import teilchen.force.*;
 import teilchen.util.Util;
-
-import java.util.Vector;
 
 /**
  * http://en.wikipedia.org/wiki/Flocking_(behavior)
@@ -140,7 +131,8 @@ public class SketchFlocking3 extends PApplet {
                 pushMatrix();
                 {
                     PMatrix3D p = new PMatrix3D();
-                    Util.pointAt(p, position(), new Vector3f(0, 1, 0), mathematik.Util.add(position(), velocity()));
+
+                    Util.pointAt(p, position(), new PVector(0, 1, 0), PVector.add(position(), velocity()));
                     applyMatrix(p);
 
                     pushMatrix();

@@ -1,14 +1,9 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
-import mathematik.Vector3f;
-import mathematik.Vector3i;
-
-import processing.core.PApplet;
-import teilchen.cubicle.CubicleWorld;
-import teilchen.cubicle.ICubicleEntity;
-import teilchen.util.CubicleWorldView;
-
-import java.util.Vector;
+import java.util.*;
+import processing.core.*;
+import teilchen.cubicle.*;
+import teilchen.util.*;
 
 public class SketchCubicle extends PApplet {
 
@@ -26,7 +21,7 @@ public class SketchCubicle extends PApplet {
 
     private float mRotationZ = 0.1f;
 
-    private final Vector3f mPosition = new Vector3f();
+    private final PVector mPosition = new PVector();
 
     private int numParticles = 1;
 
@@ -125,7 +120,7 @@ public class SketchCubicle extends PApplet {
         text("FPS      : " + frameRate, 10, 36);
     }
 
-    private void drawCross(Vector3f v, float pRadius) {
+    private void drawCross(PVector v, float pRadius) {
         line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
         line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
         line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
@@ -162,18 +157,18 @@ public class SketchCubicle extends PApplet {
 
         private final Vector3i mCubicalPosition;
 
-        private final Vector3f mPosition;
+        private final PVector mPosition;
 
         public MCubicleEntity() {
             mCubicalPosition = new Vector3i();
-            mPosition = new Vector3f();
+            mPosition = new PVector();
         }
 
         public Vector3i cubicle() {
             return mCubicalPosition;
         }
 
-        public Vector3f position() {
+        public PVector position() {
             return mPosition;
         }
 
