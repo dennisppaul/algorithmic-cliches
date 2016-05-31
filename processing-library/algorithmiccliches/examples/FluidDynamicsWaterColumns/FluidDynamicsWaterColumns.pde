@@ -1,20 +1,16 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
 import de.hfkbremen.algorithmiccliches.fluiddynamics.WaterColumnSolver2;
-import mathematik.Vector3f;
-
 import de.hfkbremen.algorithmiccliches.util.ArcBall;
+
 static final int X_SIZE = 1024 / 32;
 
 static final int Y_SIZE = 768 / 32;
-
-ArcBall mArcBall;
-
-WaterColumnSolver2 mWater;
-
 final Quad[][] mQuads = new Quad[X_SIZE][Y_SIZE];
+ArcBall mArcBall;
+WaterColumnSolver2 mWater;
 
 void settings() {
     size(1024, 768, P3D);
@@ -111,7 +107,7 @@ void draw() {
     endShape();
 }
 
-void vertex(Vector3f v) {
+void vertex(PVector v) {
     vertex(v.x, v.y, v.z);
 }
 
@@ -125,12 +121,12 @@ int y_wrapped(int y) {
 
 class Quad {
 
-    final Vector3f a = new Vector3f();
+    final PVector a = new PVector();
 
-    final Vector3f b = new Vector3f();
+    final PVector b = new PVector();
 
-    final Vector3f c = new Vector3f();
+    final PVector c = new PVector();
 
-    final Vector3f d = new Vector3f();
+    final PVector d = new PVector();
 
 }

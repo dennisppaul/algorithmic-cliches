@@ -52,9 +52,9 @@ do
 		cat /tmp/tmp.pde | \
 		sed '
 			1 i\
-			 import mathematik.*;\
 			 import oscP5.*;\
 			 import netP5.*;\
+			 import teilchen.util.*;\
 			 import java.util.Vector;
 			# remove empty lines
 			#/^$/ d

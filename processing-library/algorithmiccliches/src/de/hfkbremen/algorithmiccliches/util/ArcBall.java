@@ -1,37 +1,22 @@
 package de.hfkbremen.algorithmiccliches.util;
 
-import mathematik.Quaternion;
-import mathematik.Vector3f;
-import mathematik.Vector4f;
-
 import processing.core.PApplet;
+import processing.core.PVector;
+import teilchen.util.Vector4f;
 
 /**
  * http://de.wikipedia.org/wiki/Rolling-Ball-Rotation
  */
 public class ArcBall {
 
-    public static ArcBall setupRotateAroundCenter(PApplet pApplet) {
-        return new ArcBall(pApplet.width / 2, pApplet.height / 2, 0,
-                           Math.min(pApplet.g.width / 2.0f, pApplet.g.height / 2.0f),
-                           pApplet, false);
-    }
     private final PApplet mParent;
-
-    private final Vector3f mCenter;
-
+    private final PVector mCenter;
+    private final PVector mDownPosition;
+    private final PVector mDragPosition;
     private float mRadius;
-
-    private final Vector3f mDownPosition;
-
-    private final Vector3f mDragPosition;
-
     private Quaternion mCurrentQuaternion;
-
     private Quaternion mDownQuaternion;
-
     private Quaternion mDragQuaternion;
-
     private boolean mLastActiveState = false;
 
     public ArcBall(PApplet pApplet, boolean pDONT_REGISTER) {
@@ -39,7 +24,8 @@ public class ArcBall {
              pApplet.g.height / 2.0f,
              -Math.min(pApplet.g.width / 2.0f, pApplet.g.height / 2.0f),
              Math.min(pApplet.g.width / 2.0f, pApplet.g.height / 2.0f),
-             pApplet, pDONT_REGISTER);
+             pApplet,
+             pDONT_REGISTER);
     }
 
     public ArcBall(PApplet parent) {
@@ -52,26 +38,23 @@ public class ArcBall {
                    float theRadius,
                    PApplet pApplet,
                    boolean pDONT_REGISTER) {
-        this(new Vector3f(theCenterX, theCenterY, theCenterZ), theRadius, pApplet, pDONT_REGISTER);
+        this(new PVector(theCenterX, theCenterY, theCenterZ), theRadius, pApplet, pDONT_REGISTER);
     }
 
-    public ArcBall(final Vector3f theCenter,
-                   final float theRadius,
-                   final PApplet pApplet,
-                   boolean pDONT_REGISTER) {
+    public ArcBall(final PVector theCenter, final float theRadius, final PApplet pApplet, boolean pDONT_REGISTER) {
 
         mParent = pApplet;
 
         if (!pDONT_REGISTER) {
-//            pApplet.registerPre(this);
+            //            pApplet.registerPre(this);
             pApplet.registerMethod("pre", this); // new in processing 3.0 @test
         }
 
         mCenter = theCenter;
         mRadius = theRadius;
 
-        mDownPosition = new Vector3f();
-        mDragPosition = new Vector3f();
+        mDownPosition = new PVector();
+        mDragPosition = new PVector();
 
         mCurrentQuaternion = new Quaternion();
         mDownQuaternion = new Quaternion();
@@ -86,7 +69,7 @@ public class ArcBall {
 
     public void mouseDragged(float theX, float theY) {
         mDragPosition.set(mouse_to_sphere(theX, theY));
-        mDragQuaternion.set(mDownPosition.dot(mDragPosition), mathematik.Util.cross(mDownPosition, mDragPosition));
+        mDragQuaternion.set(mDownPosition.dot(mDragPosition), PVector.cross(mDownPosition, mDragPosition, null));
     }
 
     public void update() {
@@ -115,10 +98,7 @@ public class ArcBall {
         mCurrentQuaternion.multiply(mDragQuaternion, mDownQuaternion);
         final Vector4f myRotationAxisAngle = mCurrentQuaternion.getVectorAndAngle();
         if (!myRotationAxisAngle.isNaN()) {
-            mParent.rotate(myRotationAxisAngle.w,
-                           myRotationAxisAngle.x,
-                           myRotationAxisAngle.y,
-                           myRotationAxisAngle.z);
+            mParent.rotate(myRotationAxisAngle.w, myRotationAxisAngle.x, myRotationAxisAngle.y, myRotationAxisAngle.z);
         }
         mParent.translate(-mCenter.x, -mCenter.y, -mCenter.z);
     }
@@ -127,12 +107,12 @@ public class ArcBall {
         mRadius = pRadius;
     }
 
-    public Vector3f center() {
+    public PVector center() {
         return mCenter;
     }
 
-    private Vector3f mouse_to_sphere(float x, float y) {
-        final Vector3f v = new Vector3f();
+    private PVector mouse_to_sphere(float x, float y) {
+        final PVector v = new PVector();
         v.x = (x - mCenter.x) / mRadius;
         v.y = (y - mCenter.y) / mRadius;
 
@@ -145,9 +125,17 @@ public class ArcBall {
         return v;
     }
 
-
     /* processing callbacks */
     public void pre() {
         update();
+    }
+
+    public static ArcBall setupRotateAroundCenter(PApplet pApplet) {
+        return new ArcBall(pApplet.width / 2,
+                           pApplet.height / 2,
+                           0,
+                           Math.min(pApplet.g.width / 2.0f, pApplet.g.height / 2.0f),
+                           pApplet,
+                           false);
     }
 }

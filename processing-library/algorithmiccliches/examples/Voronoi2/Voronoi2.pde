@@ -1,19 +1,17 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
 import de.hfkbremen.algorithmiccliches.voronoidiagram.Qvoronoi;
+
 import java.util.Vector;
-import mathematik.Vector3f;
+
 /**
  * http://en.wikipedia.org/wiki/Voronoi_diagram
  */
-Vector3f[][] mRegions;
-
 final Qvoronoi mQvoronoi = new Qvoronoi();
-
-final Vector<Vector3f> mPoints = new Vector<Vector3f>();
-
+final Vector<PVector> mPoints = new Vector<PVector>();
+PVector[][] mRegions;
 int mCurrentRegion;
 
 void settings() {
@@ -48,11 +46,11 @@ void setup() {
 
 void addPoint(float x, float y) {
     mCurrentRegion = 0;
-    mPoints.add(new Vector3f(x, y));
+    mPoints.add(new PVector(x, y));
 }
 
 void draw() {
-    Vector3f[] mGridPointsArray = new Vector3f[mPoints.size()];
+    PVector[] mGridPointsArray = new PVector[mPoints.size()];
     mPoints.toArray(mGridPointsArray);
     mRegions = mQvoronoi.calculate2(mGridPointsArray);
 
@@ -67,7 +65,7 @@ void draw() {
 
     /* draw regions */
     if (mRegions != null) {
-        for (Vector3f[] mRegion : mRegions) {
+        for (PVector[] mRegion : mRegions) {
             stroke(255, 223, 192);
             noFill();
             drawRegion(mRegion);
@@ -84,21 +82,21 @@ void draw() {
     /* draw points */
     stroke(255, 0, 0, 127);
     for (int i = 0; i < mPoints.size(); i++) {
-        Vector3f v = mPoints.get(i);
+        PVector v = mPoints.get(i);
         drawCross(v);
     }
 }
 
-void drawCross(Vector3f v) {
+void drawCross(PVector v) {
     final float o = 2.0f;
     line(v.x - o, v.y, v.z, v.x + o, v.y, v.z);
     line(v.x, v.y - o, v.z, v.x, v.y + o, v.z);
     line(v.x, v.y, v.z - o, v.x, v.y, v.z + o);
 }
 
-void drawRegion(Vector3f[] pVertex) {
+void drawRegion(PVector[] pVertex) {
     beginShape();
-    for (Vector3f v : pVertex) {
+    for (PVector v : pVertex) {
         vertex(v.x, v.y, v.z);
     }
     endShape(CLOSE);

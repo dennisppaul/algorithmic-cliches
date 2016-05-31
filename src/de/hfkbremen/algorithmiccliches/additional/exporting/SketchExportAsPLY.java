@@ -1,9 +1,9 @@
 package de.hfkbremen.algorithmiccliches.additional.exporting;
 
 import de.hfkbremen.algorithmiccliches.exporting.PLYExporter;
-import mathematik.Vector3f;
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import processing.core.PVector;
 
 public class SketchExportAsPLY
         extends PApplet {
@@ -61,9 +61,9 @@ public class SketchExportAsPLY
         pG.noFill();
         final float mRadius = 400;
         for (int i = 0; i < 250; i++) {
-            Vector3f v = new Vector3f();
-            v.randomize();
-            v.scale(mRadius);
+            PVector v = new PVector();
+            v.set(random(1), random(1), random(1));
+            v.mult(mRadius);
             pG.strokeWeight(random(0.1f, 2.0f));
             pG.stroke(random(255), random(255, 127), random(0, 127));
             pG.line(0, 0, 0, v.x, v.y, v.z);

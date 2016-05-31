@@ -1,28 +1,20 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
-import mathematik.Vector3f;
 import java.util.Vector;
 
 /**
  * http://en.wikipedia.org/wiki/Perlin_noise
  */
 static final int GRID_SIZE = 16;
-
-int mCellsX;
-
-int mCellsY;
-
-Vector3f[][] mVectorField;
-
-final Vector<MEntity> mEntities = new Vector<MEntity>();
-
-float mOffset = 0.0f;
-
-boolean mDrawGrid = false;
-
 final float mNoiseScale = 0.024f;
+final Vector<MEntity> mEntities = new Vector<MEntity>();
+int mCellsX;
+int mCellsY;
+PVector[][] mVectorField;
+float mOffset = 0.0f;
+boolean mDrawGrid = false;
 
 void settings() {
     size(1024, 768, P3D);
@@ -35,10 +27,10 @@ void setup() {
     mCellsX = width / GRID_SIZE;
     mCellsY = height / GRID_SIZE;
 
-    mVectorField = new Vector3f[mCellsX][mCellsY];
-    for (Vector3f[] mVectorField1 : mVectorField) {
+    mVectorField = new PVector[mCellsX][mCellsY];
+    for (PVector[] mVectorField1 : mVectorField) {
         for (int y = 0; y < mVectorField1.length; y++) {
-            mVectorField1[y] = new Vector3f();
+            mVectorField1[y] = new PVector();
         }
     }
     populateField(mOffset);
@@ -51,10 +43,9 @@ void setup() {
 void populateField(float mOffset) {
     for (int x = 0; x < mVectorField.length; x++) {
         for (int y = 0; y < mVectorField[x].length; y++) {
-            float mNoise = noise((x * mNoiseScale) + mOffset,
-                    (y * mNoiseScale) + mOffset);
+            float mNoise = noise((x * mNoiseScale) + mOffset, (y * mNoiseScale) + mOffset);
             mNoise *= TWO_PI * 2;
-            final Vector3f v = mVectorField[x][y];
+            final PVector v = mVectorField[x][y];
             v.x = sin(mNoise);
             v.y = cos(mNoise);
         }
@@ -73,7 +64,7 @@ void draw() {
         noFill();
         for (int x = 0; x < mVectorField.length; x++) {
             for (int y = 0; y < mVectorField[x].length; y++) {
-                final Vector3f v = mVectorField[x][y];
+                final PVector v = mVectorField[x][y];
                 pushMatrix();
                 translate(x * GRID_SIZE, y * GRID_SIZE);
                 stroke(0, 7);
@@ -98,13 +89,23 @@ void draw() {
     }
 }
 
+void keyPressed() {
+    if (key == ' ') {
+        mOffset += 0.1f;
+        populateField(mOffset);
+    }
+    if (key == 'g') {
+        mDrawGrid = !mDrawGrid;
+    }
+}
+
 class MEntity {
 
-    Vector3f position = new Vector3f();
+    PVector position = new PVector();
 
-    Vector3f velocity = new Vector3f();
+    PVector velocity = new PVector();
 
-    Vector3f acceleration = new Vector3f();
+    PVector acceleration = new PVector();
 
     float speed = random(150, 300);
 
@@ -137,34 +138,24 @@ class MEntity {
         final int mCellX = (int) (position.x / GRID_SIZE);
         final int mCellY = (int) (position.y / GRID_SIZE);
         if (withinBounds(mCellX, mCellY)) {
-            Vector3f v = mVectorField[mCellX][mCellY];
+            PVector v = mVectorField[mCellX][mCellY];
             acceleration.set(v);
         }
 
         /* move entity */
         final float mDeltaTime = 1.0f / frameRate;
-        acceleration.scale(force);
-        Vector3f mAcc = new Vector3f(acceleration);
-        mAcc.scale(mDeltaTime);
+        acceleration.mult(force);
+        PVector mAcc = new PVector().set(acceleration);
+        mAcc.mult(mDeltaTime);
         velocity.add(mAcc);
         velocity.normalize();
-        velocity.scale(speed);
-        Vector3f mVel = new Vector3f(velocity);
-        mVel.scale(mDeltaTime);
+        velocity.mult(speed);
+        PVector mVel = new PVector().set(velocity);
+        mVel.mult(mDeltaTime);
         position.add(mVel);
     }
 
     boolean withinBounds(int pCellX, int pCellY) {
         return !(pCellX < 0 || pCellY < 0 || pCellX >= mCellsX || pCellY >= mCellsY);
-    }
-}
-
-void keyPressed() {
-    if (key == ' ') {
-        mOffset += 0.1f;
-        populateField(mOffset);
-    }
-    if (key == 'g') {
-        mDrawGrid = !mDrawGrid;
     }
 }

@@ -1,9 +1,9 @@
 package de.hfkbremen.algorithmiccliches.isosurface.marchingsquares;
 
-import java.util.Vector;
+import processing.core.PVector;
+import teilchen.util.Linef;
 
-import mathematik.Vector2f;
-import mathematik.Linef;
+import java.util.Vector;
 
 public abstract class MarchingSquares {
 
@@ -43,8 +43,8 @@ public abstract class MarchingSquares {
         -1, -1, -1, -1, -1}
     };
 
-    public static Vector<Linef<Vector2f>> getLines(float[][] theArray, float theIsoValue) {
-        final Vector<Linef<Vector2f>> myLines = new Vector<Linef<Vector2f>>();
+    public static Vector<Linef> getLines(float[][] theArray, float theIsoValue) {
+        final Vector<Linef> myLines = new Vector<>();
         for (int x = 0; x < theArray.length - 1; x++) {
             for (int y = 0; y < theArray[x].length - 1; y++) {
                 int square_idx = 0;
@@ -63,7 +63,7 @@ public abstract class MarchingSquares {
                 if (square_idx != 0 || square_idx != 15) {
                     int n = 0;
                     while (_myLine[square_idx][n] != -1) {
-                        Linef<Vector2f> myLine = new Linef<Vector2f>(Vector2f.class);
+                        Linef myLine = new Linef();
                         myLines.add(myLine);
                         getPoint(theArray, theIsoValue, x, y, myLine.p1, _myLine[square_idx][n++]);
                         getPoint(theArray, theIsoValue, x, y, myLine.p2, _myLine[square_idx][n++]);
@@ -75,11 +75,11 @@ public abstract class MarchingSquares {
         return myLines;
     }
 
-    public static Vector2f[] getLinesAsArray(float[][] theArray, float theIsoValue) {
-        Vector<Linef<Vector2f>> myLines = getLines(theArray, theIsoValue);
-        Vector2f[] myLinesArray = new Vector2f[myLines.size() * 2];
+    public static PVector[] getLinesAsArray(float[][] theArray, float theIsoValue) {
+        Vector<Linef> myLines = getLines(theArray, theIsoValue);
+        PVector[] myLinesArray = new PVector[myLines.size() * 2];
         int i = 0;
-        for (Linef<Vector2f> myLine : myLines) {
+        for (Linef myLine : myLines) {
             myLinesArray[i++] = myLine.p1;
             myLinesArray[i++] = myLine.p2;
         }
@@ -88,7 +88,7 @@ public abstract class MarchingSquares {
 
     private static void getPoint(float[][] theArray, float theIsoValue,
                                  int x, int y,
-                                 Vector2f thePoint,
+                                 PVector thePoint,
                                  int theEdgeIDx) {
         final int P1_idx = _mySquareEdge[theEdgeIDx][0];
         final int P2_idx = _mySquareEdge[theEdgeIDx][1];

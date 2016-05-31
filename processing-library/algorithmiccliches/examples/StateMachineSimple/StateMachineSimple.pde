@@ -1,8 +1,7 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
-import mathematik.Vector3f;
 import java.util.Vector;
 
 /**
@@ -44,7 +43,7 @@ class MEntity {
 
     static final int STATE_BROWNIAN_MOTION = 2;
 
-    Vector3f position = new Vector3f();
+    PVector position = new PVector();
 
     int entity_color;
 
@@ -113,9 +112,9 @@ class MEntity {
     }
 
     void update_follow_mouse(final float pDelta) {
-        Vector3f mDiff = mathematik.Util.sub(new Vector3f(mouseX, mouseY), position);
+        PVector mDiff = PVector.sub(new PVector(mouseX, mouseY), position);
         final float MIN_DISTANCE = 10.0f;
-        if (mDiff.length() < MIN_DISTANCE) {
+        if (mDiff.mag() < MIN_DISTANCE) {
             state_time = 0.0f;
             state = STATE_BROWNIAN_MOTION;
             scale = IDEAL_SCALE; /* make sure to always clean up volatile values */
@@ -124,8 +123,8 @@ class MEntity {
             scale += (IDEAL_SCALE - scale) * pDelta;
             entity_color = color(0, 127, 255, 127);
             mDiff.normalize();
-            mDiff.scale(pDelta);
-            mDiff.scale(speed);
+            mDiff.mult(pDelta);
+            mDiff.mult(speed);
             position.add(mDiff);
         }
     }

@@ -3,7 +3,7 @@
 LIB_NAME=$1
 ROOT=$(pwd)
 
-SRC=$ROOT/../../../netbeans/dist/algorithmiccliches.jar
+SRC=$ROOT/../lib/algorithmiccliches.jar
 DST=$ROOT/../processing-library/algorithmiccliches/library
 
 if [ -d "$DST" ]; then

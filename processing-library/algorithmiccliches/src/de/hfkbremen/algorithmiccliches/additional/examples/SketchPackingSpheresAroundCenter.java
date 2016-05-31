@@ -1,12 +1,9 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
-import mathematik.Vector3f;
-
-import processing.core.PApplet;
-import teilchen.util.Packing;
+import java.util.*;
+import processing.core.*;
 import teilchen.util.Packing.PackingEntity;
-
-import java.util.Vector;
+import teilchen.util.*;
 
 /**
  * http://en.wikipedia.org/wiki/Circle_packing_theorem
@@ -15,7 +12,7 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
 
     private Vector<PackingEntity> mEntities;
 
-    private final Vector3f mCenter = new Vector3f();
+    private final PVector mCenter = new PVector();
 
     public void settings() {
         size(1024, 768, P3D);
@@ -65,14 +62,14 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
         mEntities = createRandomEntites(50);
     }
 
-    private boolean contains(PackingEntity c, Vector3f pPosition) {
-        float d = c.position().distance(pPosition);
+    private boolean contains(PackingEntity c, PVector pPosition) {
+        float d = Util.distance(c.position(), pPosition);
         return d <= c.radius();
     }
 
     private void attachToMouse() {
         for (PackingEntity c : mEntities) {
-            if (contains(c, new Vector3f(mouseX, mouseY))) {
+            if (contains(c, new PVector(mouseX, mouseY))) {
                 c.position().set(mouseX, mouseY, 0);
             }
         }

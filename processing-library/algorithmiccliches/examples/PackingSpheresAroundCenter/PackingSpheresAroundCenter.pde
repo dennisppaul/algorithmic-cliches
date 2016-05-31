@@ -1,19 +1,18 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
-import mathematik.Vector3f;
-import teilchen.util.Packing;
-import teilchen.util.Packing.PackingEntity;
+import java.util.*;
 
-import java.util.Vector;
+import teilchen.util.Packing.PackingEntity;
+import teilchen.util.*;
 
 /**
  * http://en.wikipedia.org/wiki/Circle_packing_theorem
  */
 Vector<PackingEntity> mEntities;
 
-final Vector3f mCenter = new Vector3f();
+final PVector mCenter = new PVector();
 
 void settings() {
     size(1024, 768, P3D);
@@ -63,14 +62,14 @@ void keyPressed() {
     mEntities = createRandomEntites(50);
 }
 
-boolean contains(PackingEntity c, Vector3f pPosition) {
-    float d = c.position().distance(pPosition);
+boolean contains(PackingEntity c, PVector pPosition) {
+    float d = Util.distance(c.position(), pPosition);
     return d <= c.radius();
 }
 
 void attachToMouse() {
     for (PackingEntity c : mEntities) {
-        if (contains(c, new Vector3f(mouseX, mouseY))) {
+        if (contains(c, new PVector(mouseX, mouseY))) {
             c.position().set(mouseX, mouseY, 0);
         }
     }

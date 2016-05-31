@@ -1,13 +1,11 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
-import mathematik.Linef;
-import mathematik.Vector2f;
-import mathematik.Vector3f;
-
 import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.MarchingSquares;
 import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.MetaCircle;
+import teilchen.util.Linef;
+
 import java.util.Vector;
 
 /**
@@ -62,12 +60,12 @@ void draw() {
     }
 
     /* draw blobs */
-    final Vector<Linef<Vector2f>> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
+    final Vector<Linef> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
     stroke(0, 175);
     stroke(255, 127, 0);
 
     beginShape(LINES);
-    for (Linef<Vector2f> myLine : mLines) {
+    for (Linef myLine : mLines) {
         vertex(myLine.p1.x * mSquareSizeX, myLine.p1.y * mSquareSizeY);
         vertex(myLine.p2.x * mSquareSizeX, myLine.p2.y * mSquareSizeY);
     }
@@ -130,7 +128,7 @@ void drawMetaCenter() {
     beginShape(LINES);
     for (MetaCircle mMetaCircle : mMetaCircles) {
         final float mLength = 2.0f;
-        final Vector3f p = mMetaCircle.position();
+        final PVector p = mMetaCircle.position();
         vertex(p.x, p.y - mLength);
         vertex(p.x, p.y + mLength);
         vertex(p.x - mLength, p.y);

@@ -1,6 +1,6 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
-import mathematik.Vector2f;
+import de.hfkbremen.algorithmiccliches.agents.Vector2f;
 import processing.core.PApplet;
 
 public class SketchAgents_Step04_MovingSmoothlyInDifferentDirections extends PApplet {

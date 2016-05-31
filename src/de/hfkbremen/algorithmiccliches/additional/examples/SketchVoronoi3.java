@@ -1,9 +1,9 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.Qvoronoi;
-import mathematik.Vector3f;
 
 import processing.core.PApplet;
+import processing.core.PVector;
 import quickhull3d.Point3d;
 import quickhull3d.QuickHull3D;
 
@@ -12,7 +12,7 @@ import quickhull3d.QuickHull3D;
  */
 public class SketchVoronoi3 extends PApplet {
 
-    private Vector3f[][] mRegions;
+    private PVector[][] mRegions;
 
     private final Qvoronoi mQvoronoi = new Qvoronoi();
 
@@ -20,9 +20,9 @@ public class SketchVoronoi3 extends PApplet {
 
     private final static float GRID_SPACE = 50;
 
-    private final Vector3f[] mGridPoints = new Vector3f[GRID_SIZE * GRID_SIZE * GRID_SIZE];
+    private final PVector[] mGridPoints = new PVector[GRID_SIZE * GRID_SIZE * GRID_SIZE];
 
-    private final Vector3f mAcceptableRegion = new Vector3f(GRID_SIZE * GRID_SPACE * 1.5f,
+    private final PVector mAcceptableRegion = new PVector(GRID_SIZE * GRID_SPACE * 1.5f,
             GRID_SIZE * GRID_SPACE * 1.5f,
             GRID_SIZE * GRID_SPACE * 1.5f);
 
@@ -45,7 +45,7 @@ public class SketchVoronoi3 extends PApplet {
             for (int y = 0; y < GRID_SIZE; y++) {
                 for (int z = 0; z < GRID_SIZE; z++) {
                     final float mRandomOffset = 0.5f;
-                    mGridPoints[i] = new Vector3f(x * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
+                    mGridPoints[i] = new PVector(x * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
                             y * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
                             z * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset));
                     i++;
@@ -93,19 +93,19 @@ public class SketchVoronoi3 extends PApplet {
 
         /* draw points */
         stroke(255, 0, 0, 127);
-        for (Vector3f v : mGridPoints) {
+        for (PVector v : mGridPoints) {
             drawCross(v);
         }
     }
 
-    private void drawCross(Vector3f v) {
+    private void drawCross(PVector v) {
         final float o = 2.0f;
         line(v.x - o, v.y, v.z, v.x + o, v.y, v.z);
         line(v.x, v.y - o, v.z, v.x, v.y + o, v.z);
         line(v.x, v.y, v.z - o, v.x, v.y, v.z + o);
     }
 
-    private void drawHull(Vector3f[] pVertex) {
+    private void drawHull(PVector[] pVertex) {
         final QuickHull3D hull = new QuickHull3D();
 
         final Point3d[] myNewVertices = new Point3d[pVertex.length];

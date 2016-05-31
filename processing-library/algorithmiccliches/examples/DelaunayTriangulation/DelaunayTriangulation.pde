@@ -1,15 +1,18 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation.*;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation.DelaunayTriangle;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation.DelaunayTriangulation;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation.VoronoiDiagram;
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation.VoronoiDiagram.Region;
-import java.util.*;
-import mathematik.*;
+
+import java.util.Vector;
+
 /**
  * http://en.wikipedia.org/wiki/Delaunay_Triangulation
  */
-Vector<Vector3f> mVertices;
+Vector<PVector> mVertices;
 
 void settings() {
     size(1024, 768, P3D);
@@ -17,14 +20,14 @@ void settings() {
 
 void setup() {
     noFill();
-    mVertices = new Vector<Vector3f>();
+    mVertices = new Vector<PVector>();
 }
 
 void draw() {
     background(255);
 
     /* apply brownian motion to vertices */
-    for (Vector3f v : mVertices) {
+    for (PVector v : mVertices) {
         v.x += random(-1.0f, 1.0f);
         v.y += random(-1.0f, 1.0f);
     }
@@ -65,7 +68,7 @@ void addCrookedCircle(float pXOffset, float pYOffset, float pRadius, float pStep
     for (float r = 0; r < TWO_PI; r += mSteps) {
         final float x = sin(r + mROffset) * pRadius + pXOffset + random(-mOffset, mOffset);
         final float y = cos(r + mROffset) * pRadius + pYOffset + random(-mOffset, mOffset);
-        DelaunayTriangulation.addVertexSafely(mVertices, new Vector3f(x, y), 1.0f);
+        DelaunayTriangulation.addVertexSafely(mVertices, new PVector(x, y), 1.0f);
     }
 }
 
@@ -74,7 +77,7 @@ void drawVoronoi(Vector<Region> mVoronoiRegions) {
     if (mVoronoiRegions != null) {
         for (VoronoiDiagram.Region mVoronoiRegion : mVoronoiRegions) {
             beginShape();
-            for (Vector3f v : mVoronoiRegion.hull) {
+            for (PVector v : mVoronoiRegion.hull) {
                 vertex(v.x, v.y, v.z);
             }
             endShape(CLOSE);
@@ -89,7 +92,7 @@ void drawDelaunay(Vector<DelaunayTriangle> mDelaunayTriangles) {
         for (int i = 0; i < mDelaunayTriangles.size(); i++) {
             for (int j = 0; j < 3; j++) {
                 vertex(mVertices.get(mDelaunayTriangles.get(i).p[j]).x,
-                        mVertices.get(mDelaunayTriangles.get(i).p[j]).y);
+                       mVertices.get(mDelaunayTriangles.get(i).p[j]).y);
             }
         }
         endShape();
@@ -104,8 +107,6 @@ void drawVertices(float pRadius) {
 }
 
 void cross(float x, float y, float r) {
-    line(x - r, y - r,
-            x + r, y + r);
-    line(x - r, y + r,
-            x + r, y - r);
+    line(x - r, y - r, x + r, y + r);
+    line(x - r, y + r, x + r, y - r);
 }

@@ -1,14 +1,14 @@
 package de.hfkbremen.algorithmiccliches.isosurface.marchingsquares;
 
-import mathematik.Vector3f;
+import processing.core.PVector;
 
 public class MetaCircle {
 
-    private Vector3f mPosition = new Vector3f();
+    private PVector mPosition = new PVector();
 
     private float mStrength = 30000;
 
-    public Vector3f position() {
+    public PVector position() {
         return mPosition;
     }
 

@@ -1,14 +1,14 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
-import mathematik.Vector2f;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class SketchAgents_Step03_MovingInDifferentDirections extends PApplet {
     /*
      * the agent
      * step 03 - moving in different directions.
      *
-     * import Vector2f
+     * import PApplet
      */
 
     private Agent myAgent;
@@ -24,24 +24,24 @@ public class SketchAgents_Step03_MovingInDifferentDirections extends PApplet {
         frameRate(10);
 
         myAgent = new Agent();
-        myAgent.position.set(width / 2, height / 2);
-        myAgent.velocity.set(5, 8);
+        myAgent.position.set(width / 2, height / 2, 0);
+        myAgent.velocity.set(5, 8, 0);
         myAgent.radius = 15;
     }
 
     public void draw() {
         background(255);
 
-        myAgent.velocity.set(random(-5, 5), random(-5, 5));
+        myAgent.velocity.set(random(-5, 5), random(-5, 5), 0);
         myAgent.loop();
         myAgent.draw();
     }
 
     private class Agent {
 
-        Vector2f position = new Vector2f();
+        PVector position = new PVector();
 
-        Vector2f velocity = new Vector2f();
+        PVector velocity = new PVector();
 
         float radius = 0;
 
@@ -53,10 +53,7 @@ public class SketchAgents_Step03_MovingInDifferentDirections extends PApplet {
             stroke(0);
             ellipse(position.x, position.y, radius * 2, radius * 2);
             stroke(255, 0, 0);
-            line(position.x,
-                    position.y,
-                    position.x + velocity.x,
-                    position.y + velocity.y);
+            line(position.x, position.y, position.x + velocity.x, position.y + velocity.y);
         }
     }
 

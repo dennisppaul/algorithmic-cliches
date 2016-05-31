@@ -3,8 +3,8 @@ package de.hfkbremen.algorithmiccliches.additional.examples;
 import processing.core.PApplet;
 
 import java.util.Vector;
-import mathematik.Vector3f;
 import processing.core.PGraphics;
+import processing.core.PVector;
 
 /**
  * http://en.wikipedia.org/wiki/State_machine
@@ -39,7 +39,7 @@ public class SketchStateMachineWithObjects extends PApplet {
 
     public class Entity {
 
-        Vector3f position = new Vector3f();
+        PVector position = new PVector();
 
         int entity_color;
 
@@ -179,14 +179,14 @@ public class SketchStateMachineWithObjects extends PApplet {
         }
 
         public void update(float pDelta) {
-            Vector3f mDiff = mathematik.Util.sub(new Vector3f(p.mouseX, p.mouseY), e.position);
-            if (mDiff.length() < MIN_DISTANCE) {
+            PVector mDiff = PVector.sub(new PVector(p.mouseX, p.mouseY), e.position);
+            if (mDiff.mag() < MIN_DISTANCE) {
                 e.switchState(new StateBrownianMotion(e, p));
             } else {
                 e.scale += (Entity.IDEAL_SCALE - e.scale) * pDelta;
                 mDiff.normalize();
-                mDiff.scale(pDelta);
-                mDiff.scale(e.speed);
+                mDiff.mult(pDelta);
+                mDiff.mult(e.speed);
                 e.position.add(mDiff);
             }
         }

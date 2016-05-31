@@ -1,17 +1,20 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation.*;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation.DelaunayTriangle;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation.DelaunayTriangulation;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation.VoronoiDiagram;
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation.VoronoiDiagram.Region;
-import java.util.*;
-import mathematik.*;
-import processing.core.*;
+import processing.core.PApplet;
+import processing.core.PVector;
+
+import java.util.Vector;
 
 /**
  * http://en.wikipedia.org/wiki/Delaunay_Triangulation
  */
 public class SketchDelaunayTriangulation extends PApplet {
 
-    public Vector<Vector3f> mVertices;
+    public Vector<PVector> mVertices;
 
     public void settings() {
         size(1024, 768, P3D);
@@ -19,14 +22,14 @@ public class SketchDelaunayTriangulation extends PApplet {
 
     public void setup() {
         noFill();
-        mVertices = new Vector<Vector3f>();
+        mVertices = new Vector<PVector>();
     }
 
     public void draw() {
         background(255);
 
         /* apply brownian motion to vertices */
-        for (Vector3f v : mVertices) {
+        for (PVector v : mVertices) {
             v.x += random(-1.0f, 1.0f);
             v.y += random(-1.0f, 1.0f);
         }
@@ -67,7 +70,7 @@ public class SketchDelaunayTriangulation extends PApplet {
         for (float r = 0; r < TWO_PI; r += mSteps) {
             final float x = sin(r + mROffset) * pRadius + pXOffset + random(-mOffset, mOffset);
             final float y = cos(r + mROffset) * pRadius + pYOffset + random(-mOffset, mOffset);
-            DelaunayTriangulation.addVertexSafely(mVertices, new Vector3f(x, y), 1.0f);
+            DelaunayTriangulation.addVertexSafely(mVertices, new PVector(x, y), 1.0f);
         }
     }
 
@@ -76,7 +79,7 @@ public class SketchDelaunayTriangulation extends PApplet {
         if (mVoronoiRegions != null) {
             for (VoronoiDiagram.Region mVoronoiRegion : mVoronoiRegions) {
                 beginShape();
-                for (Vector3f v : mVoronoiRegion.hull) {
+                for (PVector v : mVoronoiRegion.hull) {
                     vertex(v.x, v.y, v.z);
                 }
                 endShape(CLOSE);
@@ -91,7 +94,7 @@ public class SketchDelaunayTriangulation extends PApplet {
             for (int i = 0; i < mDelaunayTriangles.size(); i++) {
                 for (int j = 0; j < 3; j++) {
                     vertex(mVertices.get(mDelaunayTriangles.get(i).p[j]).x,
-                            mVertices.get(mDelaunayTriangles.get(i).p[j]).y);
+                           mVertices.get(mDelaunayTriangles.get(i).p[j]).y);
                 }
             }
             endShape();
@@ -106,10 +109,8 @@ public class SketchDelaunayTriangulation extends PApplet {
     }
 
     private void cross(float x, float y, float r) {
-        line(x - r, y - r,
-                x + r, y + r);
-        line(x - r, y + r,
-                x + r, y - r);
+        line(x - r, y - r, x + r, y + r);
+        line(x - r, y + r, x + r, y - r);
     }
 
     public static void main(String[] args) {

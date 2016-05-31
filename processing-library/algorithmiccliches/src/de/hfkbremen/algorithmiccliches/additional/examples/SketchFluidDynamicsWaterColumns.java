@@ -1,22 +1,18 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
 import de.hfkbremen.algorithmiccliches.fluiddynamics.WaterColumnSolver2;
-import mathematik.Vector3f;
-
 import de.hfkbremen.algorithmiccliches.util.ArcBall;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class SketchFluidDynamicsWaterColumns extends PApplet {
 
     private static final int X_SIZE = 1024 / 32;
 
     private static final int Y_SIZE = 768 / 32;
-
-    private ArcBall mArcBall;
-
-    private WaterColumnSolver2 mWater;
-
     private final Quad[][] mQuads = new Quad[X_SIZE][Y_SIZE];
+    private ArcBall mArcBall;
+    private WaterColumnSolver2 mWater;
 
     public void settings() {
         size(1024, 768, P3D);
@@ -113,7 +109,7 @@ public class SketchFluidDynamicsWaterColumns extends PApplet {
         endShape();
     }
 
-    private void vertex(Vector3f v) {
+    private void vertex(PVector v) {
         vertex(v.x, v.y, v.z);
     }
 
@@ -127,13 +123,13 @@ public class SketchFluidDynamicsWaterColumns extends PApplet {
 
     private class Quad {
 
-        final Vector3f a = new Vector3f();
+        final PVector a = new PVector();
 
-        final Vector3f b = new Vector3f();
+        final PVector b = new PVector();
 
-        final Vector3f c = new Vector3f();
+        final PVector c = new PVector();
 
-        final Vector3f d = new Vector3f();
+        final PVector d = new PVector();
 
     }
 

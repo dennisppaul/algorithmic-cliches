@@ -1,16 +1,16 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
 import de.hfkbremen.algorithmiccliches.voronoidiagram.Qvoronoi;
-import mathematik.Vector3f;
+
 import quickhull3d.Point3d;
 import quickhull3d.QuickHull3D;
 
 /**
  * http://en.wikipedia.org/wiki/Voronoi_diagram
  */
-Vector3f[][] mRegions;
+PVector[][] mRegions;
 
 final Qvoronoi mQvoronoi = new Qvoronoi();
 
@@ -18,9 +18,9 @@ final static int GRID_SIZE = 4;
 
 final static float GRID_SPACE = 50;
 
-final Vector3f[] mGridPoints = new Vector3f[GRID_SIZE * GRID_SIZE * GRID_SIZE];
+final PVector[] mGridPoints = new PVector[GRID_SIZE * GRID_SIZE * GRID_SIZE];
 
-final Vector3f mAcceptableRegion = new Vector3f(GRID_SIZE * GRID_SPACE * 1.5f,
+final PVector mAcceptableRegion = new PVector(GRID_SIZE * GRID_SPACE * 1.5f,
         GRID_SIZE * GRID_SPACE * 1.5f,
         GRID_SIZE * GRID_SPACE * 1.5f);
 
@@ -43,7 +43,7 @@ void populatePointArray() {
         for (int y = 0; y < GRID_SIZE; y++) {
             for (int z = 0; z < GRID_SIZE; z++) {
                 final float mRandomOffset = 0.5f;
-                mGridPoints[i] = new Vector3f(x * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
+                mGridPoints[i] = new PVector(x * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
                         y * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
                         z * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset));
                 i++;
@@ -91,19 +91,19 @@ void draw() {
 
     /* draw points */
     stroke(255, 0, 0, 127);
-    for (Vector3f v : mGridPoints) {
+    for (PVector v : mGridPoints) {
         drawCross(v);
     }
 }
 
-void drawCross(Vector3f v) {
+void drawCross(PVector v) {
     final float o = 2.0f;
     line(v.x - o, v.y, v.z, v.x + o, v.y, v.z);
     line(v.x, v.y - o, v.z, v.x, v.y + o, v.z);
     line(v.x, v.y, v.z - o, v.x, v.y, v.z + o);
 }
 
-void drawHull(Vector3f[] pVertex) {
+void drawHull(PVector[] pVertex) {
     final QuickHull3D hull = new QuickHull3D();
 
     final Point3d[] myNewVertices = new Point3d[pVertex.length];

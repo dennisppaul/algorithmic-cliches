@@ -1,11 +1,9 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
 import de.hfkbremen.algorithmiccliches.convexhull.ConvexHull;
 import de.hfkbremen.algorithmiccliches.convexhull.HullVertex;
-import mathematik.Vector3f;
-
 import java.util.Vector;
 
 /**
@@ -15,7 +13,7 @@ final static int GRID_SIZE = 4;
 
 final static float GRID_SPACE = 50;
 
-final Vector3f[] mGridPoints = new Vector3f[GRID_SIZE * GRID_SIZE * GRID_SIZE];
+final PVector[] mGridPoints = new PVector[GRID_SIZE * GRID_SIZE * GRID_SIZE];
 
 float mNoNoTriangle = 0;
 
@@ -35,7 +33,7 @@ void populatePointArray() {
         for (int y = 0; y < GRID_SIZE; y++) {
             for (int z = 0; z < GRID_SIZE; z++) {
                 final float mRandomOffset = 1.5f;
-                mGridPoints[i] = new Vector3f(x * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
+                mGridPoints[i] = new PVector(x * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
                         y * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
                         z * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset));
                 i++;
@@ -66,19 +64,19 @@ void draw() {
     /* draw points */
     stroke(255, 0, 0, 127);
     for (int i = 0; i < mGridPoints.length; i++) {
-        Vector3f v = mGridPoints[i];
+        PVector v = mGridPoints[i];
         drawCross(v);
     }
 }
 
-void drawCross(Vector3f v) {
+void drawCross(PVector v) {
     final float o = 2.0f;
     line(v.x - o, v.y, v.z, v.x + o, v.y, v.z);
     line(v.x, v.y - o, v.z, v.x, v.y + o, v.z);
     line(v.x, v.y, v.z - o, v.x, v.y, v.z + o);
 }
 
-void computeAndDrawHull(Vector3f[] pVertex) {
+void computeAndDrawHull(PVector[] pVertex) {
     final ConvexHull mHull = new ConvexHull();
     final Vector<HullVertex> mNewVertices = new Vector<HullVertex>();
     for (int i = 0; i < pVertex.length; i++) {

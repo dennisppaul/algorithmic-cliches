@@ -1,8 +1,8 @@
 package de.hfkbremen.algorithmiccliches.octree;
 
-import mathematik.Vector3f;
+import processing.core.PVector;
 
 public interface OctreeEntity {
 
-    Vector3f position();
+    PVector position();
 }

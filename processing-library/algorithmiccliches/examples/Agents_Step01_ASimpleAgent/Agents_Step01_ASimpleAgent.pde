@@ -1,8 +1,8 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
-import mathematik.Vector2f;
+
 /*
  * the agent
  * step 01 - a simple agent.
@@ -39,9 +39,9 @@ void draw() {
 
 class Agent {
 
-    Vector2f position = new Vector2f();
+    PVector position = new PVector();
 
-    Vector2f velocity = new Vector2f();
+    PVector velocity = new PVector();
 
     float radius = 0;
 

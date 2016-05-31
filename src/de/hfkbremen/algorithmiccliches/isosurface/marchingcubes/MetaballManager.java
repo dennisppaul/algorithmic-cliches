@@ -1,31 +1,23 @@
 package de.hfkbremen.algorithmiccliches.isosurface.marchingcubes;
 
-import mathematik.Vector3f;
-import mathematik.Vector3i;
+import processing.core.PVector;
+import teilchen.util.Util;
+import teilchen.util.Vector3i;
 
 import java.util.Vector;
 
 public class MetaballManager {
 
-    private float mIsoValue = 0.1f;
-
-    public Vector3f dimension = new Vector3f(100, 100, 100);
-
-    public Vector3f position = new Vector3f();
-
+    public PVector dimension = new PVector(100, 100, 100);
+    public PVector position = new PVector();
     public Vector3i resolution = new Vector3i(10, 10, 10);
-
     public boolean accumulate_energy_levels = false;
-
     public boolean clamp_energy_levels = false;
-
     public float maximum_energy_level = 1.0f;
-
     public float minimum_energy_level = 0.0f;
-
     protected Vector<Metaball> _myMetaballs = new Vector<Metaball>();
-
     protected float[][][] _myForceField;
+    private float mIsoValue = 0.1f;
 
     public float isovalue() {
         return mIsoValue;
@@ -52,14 +44,11 @@ public class MetaballManager {
     }
 
     public void updateLevels() {
-        if (_myForceField == null
-            || _myForceField.length != resolution.x
-            || _myForceField[0].length != resolution.y
-            || _myForceField[0][0].length != resolution.z) {
+        if (_myForceField == null || _myForceField.length != resolution.x || _myForceField[0].length != resolution.y || _myForceField[0][0].length != resolution.z) {
             _myForceField = new float[resolution.x][resolution.y][resolution.z];
         }
 
-        final Vector3f myDimension = new Vector3f(dimension);
+        final PVector myDimension = new PVector(dimension.x, dimension.y, dimension.z);
         myDimension.x /= resolution.x;
         myDimension.y /= resolution.y;
         myDimension.z /= resolution.z;
@@ -68,15 +57,12 @@ public class MetaballManager {
         updateGrid(_myForceField, myDimension);
     }
 
-    public Vector<Vector3f> createSurface() {
-        if (_myForceField == null
-            || _myForceField.length != resolution.x
-            || _myForceField[0].length != resolution.y
-            || _myForceField[0][0].length != resolution.z) {
+    public Vector<PVector> createSurface() {
+        if (_myForceField == null || _myForceField.length != resolution.x || _myForceField[0].length != resolution.y || _myForceField[0][0].length != resolution.z) {
             _myForceField = new float[resolution.x][resolution.y][resolution.z];
         }
 
-        final Vector3f myDimension = new Vector3f(dimension);
+        final PVector myDimension = new PVector(dimension.x, dimension.y, dimension.z);
         myDimension.x /= resolution.x;
         myDimension.y /= resolution.y;
         myDimension.z /= resolution.z;
@@ -85,24 +71,24 @@ public class MetaballManager {
         updateGrid(_myForceField, myDimension);
 
         /* polygonize field */
-//        final Vector<Vector3f> myTrianglesVertices = Polygonizer.polygonizeField(_myForceField, mIsoValue);
-        final Vector<Vector3f> myTrianglesVertices = IsoSurface.polygonizeField(_myForceField, mIsoValue);
+        //        final Vector<PVector> myTrianglesVertices = Polygonizer.polygonizeField(_myForceField, mIsoValue);
+        final Vector<PVector> myTrianglesVertices = IsoSurface.polygonizeField(_myForceField, mIsoValue);
 
         /* apply scale */
-        for (Vector3f myVertex : myTrianglesVertices) {
-            myVertex.scale(myDimension);
+        for (PVector myVertex : myTrianglesVertices) {
+            Util.mult(myVertex, myDimension, myVertex);
             myVertex.add(position);
         }
 
         return myTrianglesVertices;
     }
 
-    protected void updateGrid(float[][][] theForceField, Vector3f dimension) {
+    protected void updateGrid(float[][][] theForceField, PVector dimension) {
         for (int x = 0; x < theForceField.length - 1; x++) {
             for (int y = 0; y < theForceField[x].length - 1; y++) {
                 for (int z = 0; z < theForceField[x][y].length - 1; z++) {
-                    final Vector3f myPosition = new Vector3f(x, y, z);
-                    myPosition.scale(dimension);
+                    final PVector myPosition = new PVector(x, y, z);
+                    Util.mult(myPosition, dimension, myPosition);
                     myPosition.add(position);
                     if (accumulate_energy_levels) {
                         theForceField[x][y][z] += getForceFieldValue(myPosition);
@@ -122,10 +108,10 @@ public class MetaballManager {
         }
     }
 
-    protected float getForceFieldValue(Vector3f thePosition) {
+    protected float getForceFieldValue(PVector thePosition) {
         float f = 0;
         for (final Metaball myMetaball : _myMetaballs) {
-            final float myDistanceSquared = myMetaball.position.distanceSquared(new Vector3f(thePosition));
+            final float myDistanceSquared = Util.distanceSquared(myMetaball.position, thePosition);
             float myRadiusSquared = myMetaball.radius * myMetaball.radius;
             if (myDistanceSquared < myRadiusSquared) {
                 //float fallOff = ( myRadiusSquared - distance ) /  myRadiusSquared;

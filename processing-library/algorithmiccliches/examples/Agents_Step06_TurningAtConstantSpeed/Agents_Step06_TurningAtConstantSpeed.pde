@@ -1,8 +1,8 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
-import mathematik.Vector2f;
+import de.hfkbremen.algorithmiccliches.agents.Vector2f;
 /*
  * the agent
  * step 06 - turning at constant speed.

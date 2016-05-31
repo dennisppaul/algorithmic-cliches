@@ -1,9 +1,9 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
 import java.util.Vector;
-import mathematik.Vector3f;
+
 /**
  * http://en.wikipedia.org/wiki/State_machine
  */
@@ -35,7 +35,7 @@ void draw() {
 
 class Entity {
 
-    Vector3f position = new Vector3f();
+    PVector position = new PVector();
 
     int entity_color;
 
@@ -175,14 +175,14 @@ class StateFollowMouse
     }
 
     void update(float pDelta) {
-        Vector3f mDiff = mathematik.Util.sub(new Vector3f(p.mouseX, p.mouseY), e.position);
-        if (mDiff.length() < MIN_DISTANCE) {
+        PVector mDiff = PVector.sub(new PVector(p.mouseX, p.mouseY), e.position);
+        if (mDiff.mag() < MIN_DISTANCE) {
             e.switchState(new StateBrownianMotion(e, p));
         } else {
             e.scale += (Entity.IDEAL_SCALE - e.scale) * pDelta;
             mDiff.normalize();
-            mDiff.scale(pDelta);
-            mDiff.scale(e.speed);
+            mDiff.mult(pDelta);
+            mDiff.mult(e.speed);
             e.position.add(mDiff);
         }
     }

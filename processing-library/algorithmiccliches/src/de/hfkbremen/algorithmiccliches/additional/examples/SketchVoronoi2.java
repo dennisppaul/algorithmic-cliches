@@ -1,23 +1,19 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.Qvoronoi;
-import java.util.Vector;
-import mathematik.Vector3f;
-
 import processing.core.PApplet;
+import processing.core.PVector;
 
+import java.util.Vector;
 
 /**
  * http://en.wikipedia.org/wiki/Voronoi_diagram
  */
 public class SketchVoronoi2 extends PApplet {
 
-    private Vector3f[][] mRegions;
-
     private final Qvoronoi mQvoronoi = new Qvoronoi();
-
-    private final Vector<Vector3f> mPoints = new Vector<Vector3f>();
-
+    private final Vector<PVector> mPoints = new Vector<PVector>();
+    private PVector[][] mRegions;
     private int mCurrentRegion;
 
     public void settings() {
@@ -52,11 +48,11 @@ public class SketchVoronoi2 extends PApplet {
 
     private void addPoint(float x, float y) {
         mCurrentRegion = 0;
-        mPoints.add(new Vector3f(x, y));
+        mPoints.add(new PVector(x, y));
     }
 
     public void draw() {
-        Vector3f[] mGridPointsArray = new Vector3f[mPoints.size()];
+        PVector[] mGridPointsArray = new PVector[mPoints.size()];
         mPoints.toArray(mGridPointsArray);
         mRegions = mQvoronoi.calculate2(mGridPointsArray);
 
@@ -71,7 +67,7 @@ public class SketchVoronoi2 extends PApplet {
 
         /* draw regions */
         if (mRegions != null) {
-            for (Vector3f[] mRegion : mRegions) {
+            for (PVector[] mRegion : mRegions) {
                 stroke(255, 223, 192);
                 noFill();
                 drawRegion(mRegion);
@@ -88,21 +84,21 @@ public class SketchVoronoi2 extends PApplet {
         /* draw points */
         stroke(255, 0, 0, 127);
         for (int i = 0; i < mPoints.size(); i++) {
-            Vector3f v = mPoints.get(i);
+            PVector v = mPoints.get(i);
             drawCross(v);
         }
     }
 
-    private void drawCross(Vector3f v) {
+    private void drawCross(PVector v) {
         final float o = 2.0f;
         line(v.x - o, v.y, v.z, v.x + o, v.y, v.z);
         line(v.x, v.y - o, v.z, v.x, v.y + o, v.z);
         line(v.x, v.y, v.z - o, v.x, v.y, v.z + o);
     }
 
-    private void drawRegion(Vector3f[] pVertex) {
+    private void drawRegion(PVector[] pVertex) {
         beginShape();
-        for (Vector3f v : pVertex) {
+        for (PVector v : pVertex) {
             vertex(v.x, v.y, v.z);
         }
         endShape(CLOSE);

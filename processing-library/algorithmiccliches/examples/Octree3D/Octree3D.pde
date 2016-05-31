@@ -1,11 +1,9 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
 import de.hfkbremen.algorithmiccliches.octree.Octree;
 import de.hfkbremen.algorithmiccliches.octree.OctreeEntity;
-import mathematik.Vector3f;
-
 import java.util.Vector;
 
 /**
@@ -25,7 +23,7 @@ boolean useSphere = true;
 
 float mRotationZ = 0.1f;
 
-final Vector3f mPosition = new Vector3f();
+final PVector mPosition = new PVector();
 
 int numParticles = 1;
 
@@ -36,7 +34,7 @@ void settings() {
 void setup() {
     textFont(createFont("Courier", 11));
 
-    mOctree = new MVisibleOctree(new Vector3f(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
+    mOctree = new MVisibleOctree(new PVector(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
     mOctree.add(new MOctreeEntity());
 
     strokeWeight(0.25f);
@@ -64,7 +62,7 @@ void draw() {
     if (useSphere) {
         mEntities = mOctree.getEntitesWithinSphere(mPosition, mSelectRadius);
     } else {
-        mEntities = mOctree.getEntitiesWithinBox(mPosition, new Vector3f(mSelectRadius / 2,
+        mEntities = mOctree.getEntitiesWithinBox(mPosition, new PVector(mSelectRadius / 2,
                 mSelectRadius / 2,
                 mSelectRadius / 2));
     }
@@ -115,7 +113,7 @@ void draw() {
     text("FPS      : " + frameRate, 10, 36);
 }
 
-void drawCross(Vector3f v, float pRadius) {
+void drawCross(PVector v, float pRadius) {
     line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
     line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
     line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
@@ -159,11 +157,11 @@ void keyPressed() {
 class MOctreeEntity
         implements OctreeEntity {
 
-    Vector3f position = new Vector3f();
+    PVector position = new PVector();
 
     int entity_color = color(0, 127, random(0, 255), 127);
 
-    Vector3f position() {
+    PVector position() {
         return position;
     }
 }
@@ -171,7 +169,7 @@ class MOctreeEntity
 class MVisibleOctree
         extends Octree {
 
-    MVisibleOctree(Vector3f o, float d) {
+    MVisibleOctree(PVector o, float d) {
         super(o, d);
     }
 

@@ -1,8 +1,11 @@
 package de.hfkbremen.algorithmiccliches.delaunaytriangulation;
 
-import mathematik.Vector3f;
+import processing.core.PApplet;
+import processing.core.PVector;
+import teilchen.util.Intersection;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 
 public class DelaunayTriangulation {
@@ -21,12 +24,110 @@ public class DelaunayTriangulation {
      */
     public static boolean VERBOSE = false;
 
-    public static Vector<DelaunayTriangle> triangulate(Vector<Vector3f> theVertices) {
+    private static boolean getCircumCircle(float xp,
+                                           float yp,
+                                           float x1,
+                                           float y1,
+                                           float x2,
+                                           float y2,
+                                           float x3,
+                                           float y3,
+                                           PVector circle) {
+        /*
+         * Return TRUE if a point (xp,yp) is inside the circumcircle made up
+         * of the points (x1, y1), (x2, y2), (x3, y3)
+         * The circumcircle centre is returned in (xc, yc) and the radius r
+         * NOTE: A point on the edge is inside the circumcircle
+         */
+
+        float m1, m2, mx1, mx2, my1, my2;
+        float dx, dy, rsqr, drsqr;
+        float xc, yc, r;
+
+        /* Check for coincident points */
+        if (Math.abs(y1 - y2) < PApplet.EPSILON && Math.abs(y2 - y3) < PApplet.EPSILON) {
+            if (VERBOSE) {
+                System.out.println("### points are coincident.");
+            }
+            return false;
+        }
+
+        if (Math.abs(y2 - y1) < PApplet.EPSILON) {
+            m2 = -(x3 - x2) / (y3 - y2);
+            mx2 = (x2 + x3) / 2.0f;
+            my2 = (y2 + y3) / 2.0f;
+            xc = (x2 + x1) / 2.0f;
+            yc = m2 * (xc - mx2) + my2;
+        } else if (Math.abs(y3 - y2) < PApplet.EPSILON) {
+            m1 = -(x2 - x1) / (y2 - y1);
+            mx1 = (x1 + x2) / 2.0f;
+            my1 = (y1 + y2) / 2.0f;
+            xc = (x3 + x2) / 2.0f;
+            yc = m1 * (xc - mx1) + my1;
+        } else {
+            m1 = -(x2 - x1) / (y2 - y1);
+            m2 = -(x3 - x2) / (y3 - y2);
+            mx1 = (x1 + x2) / 2.0f;
+            mx2 = (x2 + x3) / 2.0f;
+            my1 = (y1 + y2) / 2.0f;
+            my2 = (y2 + y3) / 2.0f;
+            xc = (m1 * mx1 - m2 * mx2 + my2 - my1) / (m1 - m2);
+            yc = m1 * (xc - mx1) + my1;
+        }
+
+        dx = x2 - xc;
+        dy = y2 - yc;
+        rsqr = dx * dx + dy * dy;
+        r = (float) Math.sqrt(rsqr);
+
+        dx = xp - xc;
+        dy = yp - yc;
+        drsqr = dx * dx + dy * dy;
+
+        circle.x = xc;
+        circle.y = yc;
+        circle.z = r;
+
+        return (drsqr <= rsqr);
+    }
+
+    static PVector getCenter(final Vector<PVector> theVertices, final DelaunayTriangle theTriangle) {
+        final PVector myCenter = new PVector();
+        final PVector v0 = theVertices.get(theTriangle.p[0]);
+        final PVector v1 = theVertices.get(theTriangle.p[1]);
+        final PVector v2 = theVertices.get(theTriangle.p[2]);
+        final PVector myNormal = new PVector(0, 0, 1);
+
+        final PVector pA = PVector.sub(new PVector(v2.x, v2.y), new PVector(v0.x, v0.y));
+        pA.mult(0.5f);
+        PVector pAc = new PVector();
+        pAc.cross(pA, myNormal);
+        pAc.add(v0);
+        pAc.add(pA);
+        pA.add(v0);
+
+        final PVector pB = PVector.sub(new PVector(v2.x, v2.y), new PVector(v1.x, v1.y));
+        pB.mult(0.5f);
+        PVector pBc = new PVector().set(pB);
+        pBc.cross(pB, myNormal);
+        pBc.add(v1);
+        pBc.add(pB);
+        pB.add(v1);
+
+        Intersection.lineLineIntersect(pA, pAc, pB, pBc, myCenter, new PVector(), null);
+        return myCenter;
+    }
+
+    private static boolean almost(final PVector v0, final PVector v1, float ALMOST_THRESHOLD) {
+        return Math.abs(v1.x - v0.x) < ALMOST_THRESHOLD && Math.abs(v1.y - v0.y) < ALMOST_THRESHOLD;
+    }
+
+    public static Vector<DelaunayTriangle> triangulate(Vector<PVector> theVertices) {
         sort(theVertices);
         return triangulateSortedVertices(theVertices);
     }
 
-    public static Vector<DelaunayTriangle> triangulateSortedVertices(Vector<Vector3f> theVertices) {
+    public static Vector<DelaunayTriangle> triangulateSortedVertices(Vector<PVector> theVertices) {
         /*
          * Triangulation subroutine
          * Takes as input NV vertices in array pxyz
@@ -60,10 +161,10 @@ public class DelaunayTriangulation {
          */
         float xmin = theVertices.get(0).x;
         float ymin = theVertices.get(0).y;
-//        float zmin = theVertices.get(0).z;
+        //        float zmin = theVertices.get(0).z;
         float xmax = xmin;
         float ymax = ymin;
-//        float zmax = zmin;
+        //        float zmax = zmin;
         for (int i = 1; i < nv; i++) {
             if (theVertices.get(i).x < xmin) {
                 xmin = theVertices.get(i).x;
@@ -77,21 +178,21 @@ public class DelaunayTriangulation {
             if (theVertices.get(i).y > ymax) {
                 ymax = theVertices.get(i).y;
             }
-//            if (theVertices.get(i).z < zmin) {
-//                zmin = theVertices.get(i).z;
-//            }
-//            if (theVertices.get(i).z > zmax) {
-//                zmax = theVertices.get(i).z;
-//            }
+            //            if (theVertices.get(i).z < zmin) {
+            //                zmin = theVertices.get(i).z;
+            //            }
+            //            if (theVertices.get(i).z > zmax) {
+            //                zmax = theVertices.get(i).z;
+            //            }
         }
 
         final float dx = xmax - xmin;
         final float dy = ymax - ymin;
-//        final float dz = zmax - zmin;
+        //        final float dz = zmax - zmin;
         final float dmax = (dx > dy) ? dx : dy;
         float xmid = (xmax + xmin) / 2.0f;
         float ymid = (ymax + ymin) / 2.0f;
-//        float zmid = (zmax + zmin) / 2.0f;
+        //        float zmid = (zmax + zmin) / 2.0f;
 
         /*
          * Set up the supertriangle
@@ -100,9 +201,9 @@ public class DelaunayTriangulation {
          * vertex list. The supertriangle is the first triangle in
          * the triangle list.
          */
-        theVertices.add(new Vector3f(xmid - 2.0f * dmax, ymid - dmax, 0.0f));
-        theVertices.add(new Vector3f(xmid, ymid + 2.0f * dmax, 0.0f));
-        theVertices.add(new Vector3f(xmid + 2.0f * dmax, ymid - dmax, 0.0f));
+        theVertices.add(new PVector(xmid - 2.0f * dmax, ymid - dmax, 0.0f));
+        theVertices.add(new PVector(xmid, ymid + 2.0f * dmax, 0.0f));
+        theVertices.add(new PVector(xmid + 2.0f * dmax, ymid - dmax, 0.0f));
 
         DelaunayTriangle myTriangle = new DelaunayTriangle();
         myTriangle.p[0] = nv;
@@ -126,7 +227,7 @@ public class DelaunayTriangulation {
              * three edges of that triangle are added to the edge buffer
              * and that triangle is removed.
              */
-            final Vector3f _myCircle = new Vector3f();
+            final PVector _myCircle = new PVector();
             for (int j = 0; j < mDelaunayTriangles.size(); j++) {
                 final float x1, y1, x2, y2, x3, y3, xc, yc, r;
 
@@ -177,16 +278,14 @@ public class DelaunayTriangulation {
              */
             for (int j = 0; j < edges.size(); j++) {
                 for (int k = j + 1; k < edges.size(); k++) {
-                    if ((edges.get(j).p[0] == edges.get(k).p[1])
-                            && (edges.get(j).p[1] == edges.get(k).p[0])) {
+                    if ((edges.get(j).p[0] == edges.get(k).p[1]) && (edges.get(j).p[1] == edges.get(k).p[0])) {
                         edges.get(j).p[0] = -1;
                         edges.get(j).p[1] = -1;
                         edges.get(k).p[0] = -1;
                         edges.get(k).p[1] = -1;
                     }
                     /* Shouldn't need the following, see note above */
-                    if ((edges.get(j).p[0] == edges.get(k).p[0])
-                            && (edges.get(j).p[1] == edges.get(k).p[1])) {
+                    if ((edges.get(j).p[0] == edges.get(k).p[0]) && (edges.get(j).p[1] == edges.get(k).p[1])) {
                         edges.get(j).p[0] = -1;
                         edges.get(j).p[1] = -1;
                         edges.get(k).p[0] = -1;
@@ -236,109 +335,13 @@ public class DelaunayTriangulation {
         return mDelaunayTriangles;
     }
 
-    private static boolean getCircumCircle(float xp, float yp,
-            float x1, float y1,
-            float x2, float y2,
-            float x3, float y3,
-            Vector3f circle) {
-        /*
-         * Return TRUE if a point (xp,yp) is inside the circumcircle made up
-         * of the points (x1, y1), (x2, y2), (x3, y3)
-         * The circumcircle centre is returned in (xc, yc) and the radius r
-         * NOTE: A point on the edge is inside the circumcircle
-         */
-
-        float m1, m2, mx1, mx2, my1, my2;
-        float dx, dy, rsqr, drsqr;
-        float xc, yc, r;
-
-        /* Check for coincident points */
-        if (Math.abs(y1 - y2) < mathematik.Mathematik.EPSILON && Math.abs(y2 - y3) < mathematik.Mathematik.EPSILON) {
-            if (VERBOSE) {
-                System.out.println("### points are coincident.");
-            }
-            return false;
-        }
-
-        if (Math.abs(y2 - y1) < mathematik.Mathematik.EPSILON) {
-            m2 = -(x3 - x2) / (y3 - y2);
-            mx2 = (x2 + x3) / 2.0f;
-            my2 = (y2 + y3) / 2.0f;
-            xc = (x2 + x1) / 2.0f;
-            yc = m2 * (xc - mx2) + my2;
-        } else if (Math.abs(y3 - y2) < mathematik.Mathematik.EPSILON) {
-            m1 = -(x2 - x1) / (y2 - y1);
-            mx1 = (x1 + x2) / 2.0f;
-            my1 = (y1 + y2) / 2.0f;
-            xc = (x3 + x2) / 2.0f;
-            yc = m1 * (xc - mx1) + my1;
-        } else {
-            m1 = -(x2 - x1) / (y2 - y1);
-            m2 = -(x3 - x2) / (y3 - y2);
-            mx1 = (x1 + x2) / 2.0f;
-            mx2 = (x2 + x3) / 2.0f;
-            my1 = (y1 + y2) / 2.0f;
-            my2 = (y2 + y3) / 2.0f;
-            xc = (m1 * mx1 - m2 * mx2 + my2 - my1) / (m1 - m2);
-            yc = m1 * (xc - mx1) + my1;
-        }
-
-        dx = x2 - xc;
-        dy = y2 - yc;
-        rsqr = dx * dx + dy * dy;
-        r = (float) Math.sqrt(rsqr);
-
-        dx = xp - xc;
-        dy = yp - yc;
-        drsqr = dx * dx + dy * dy;
-
-        circle.x = xc;
-        circle.y = yc;
-        circle.z = r;
-
-        return (drsqr <= rsqr);
+    public static void sort(Vector<PVector> theConvexHullVertices) {
+        Collections.sort(theConvexHullVertices, new PVectorConpare());
     }
 
-    static Vector3f getCenter(final Vector<Vector3f> theVertices,
-            final DelaunayTriangle theTriangle) {
-        final Vector3f myCenter = new Vector3f();
-        final Vector3f v0 = theVertices.get(theTriangle.p[0]);
-        final Vector3f v1 = theVertices.get(theTriangle.p[1]);
-        final Vector3f v2 = theVertices.get(theTriangle.p[2]);
-        final Vector3f myNormal = new Vector3f(0, 0, 1);
-
-        final Vector3f pA = mathematik.Util.sub(new Vector3f(v2.x, v2.y), new Vector3f(v0.x, v0.y));
-        pA.scale(0.5f);
-        Vector3f pAc = new Vector3f();
-        pAc.cross(pA, myNormal);
-        pAc.add(v0);
-        pAc.add(pA);
-        pA.add(v0);
-
-        final Vector3f pB = mathematik.Util.sub(new Vector3f(v2.x, v2.y), new Vector3f(v1.x, v1.y));
-        pB.scale(0.5f);
-        Vector3f pBc = new Vector3f(pB);
-        pBc.cross(pB, myNormal);
-        pBc.add(v1);
-        pBc.add(pB);
-        pB.add(v1);
-
-        mathematik.Intersection.lineLineIntersect(pA, pAc, pB, pBc, myCenter, new Vector3f(), null);
-        return myCenter;
-    }
-
-    public static void sort(Vector<Vector3f> theConvexHullVertices) {
-        int myCOMPARE_TYPE = Vector3f.COMPARE_TYPE;
-        Vector3f.COMPARE_TYPE = Vector3f.X;
-        Collections.sort(theConvexHullVertices);
-        Vector3f.COMPARE_TYPE = myCOMPARE_TYPE;
-    }
-
-    public static boolean addVertexSafely(Vector<Vector3f> pVertices,
-            Vector3f pNewVertex,
-            float mMinimumApproxDistance) {
+    public static boolean addVertexSafely(Vector<PVector> pVertices, PVector pNewVertex, float mMinimumApproxDistance) {
         /* check if vertex is redundant */
-        for (Vector3f myVertex : pVertices) {
+        for (PVector myVertex : pVertices) {
             if (almost(myVertex, pNewVertex, mMinimumApproxDistance)) {
                 if (VERBOSE) {
                     System.out.println("### new vertex is not added; it is redundant.");
@@ -350,10 +353,11 @@ public class DelaunayTriangulation {
         return true;
     }
 
-    private static boolean almost(final Vector3f v0,
-            final Vector3f v1,
-            float ALMOST_THRESHOLD) {
-        return Math.abs(v1.x - v0.x) < ALMOST_THRESHOLD
-                && Math.abs(v1.y - v0.y) < ALMOST_THRESHOLD;
+    private static class PVectorConpare implements Comparator<PVector> {
+
+        @Override
+        public int compare(PVector p1, PVector p2) {
+            return p1.x > p2.x ? 1 : (p1.x < p2.x ? -1 : 0);
+        }
     }
 }

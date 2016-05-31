@@ -1,14 +1,11 @@
-import mathematik.*;
 import oscP5.*;
 import netP5.*;
+import teilchen.util.*;
 import java.util.Vector;
-import mathematik.Vector3f;
-import mathematik.Vector3i;
-import teilchen.cubicle.CubicleWorld;
-import teilchen.cubicle.ICubicleEntity;
-import teilchen.util.CubicleWorldView;
+import java.util.*;
 
-import java.util.Vector;
+import teilchen.cubicle.*;
+import teilchen.util.*;
 
 final int NUMBER_OF_PARTICLES_ADDED = 100;
 
@@ -24,7 +21,7 @@ boolean showCubicles = true;
 
 float mRotationZ = 0.1f;
 
-final Vector3f mPosition = new Vector3f();
+final PVector mPosition = new PVector();
 
 int numParticles = 1;
 
@@ -123,7 +120,7 @@ void draw() {
     text("FPS      : " + frameRate, 10, 36);
 }
 
-void drawCross(Vector3f v, float pRadius) {
+void drawCross(PVector v, float pRadius) {
     line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
     line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
     line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
@@ -160,18 +157,18 @@ class MCubicleEntity
 
     final Vector3i mCubicalPosition;
 
-    final Vector3f mPosition;
+    final PVector mPosition;
 
     MCubicleEntity() {
         mCubicalPosition = new Vector3i();
-        mPosition = new Vector3f();
+        mPosition = new PVector();
     }
 
     Vector3i cubicle() {
         return mCubicalPosition;
     }
 
-    Vector3f position() {
+    PVector position() {
         return mPosition;
     }
 

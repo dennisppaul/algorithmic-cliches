@@ -2,16 +2,16 @@ package de.hfkbremen.algorithmiccliches.additional.examples;
 
 import de.hfkbremen.algorithmiccliches.octree.Octree;
 import de.hfkbremen.algorithmiccliches.octree.OctreeEntity;
-import mathematik.Vector3f;
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
 import java.util.Vector;
 
 /**
  * http://en.wikipedia.org/wiki/Octree
  */
-public class SketchOctree extends PApplet {
+public class SketchOctree3D extends PApplet {
 
     private final int NUMBER_OF_PARTICLES_ADDED = 10000;
 
@@ -27,7 +27,7 @@ public class SketchOctree extends PApplet {
 
     private float mRotationZ = 0.1f;
 
-    private final Vector3f mPosition = new Vector3f();
+    private final PVector mPosition = new PVector();
 
     private int numParticles = 1;
 
@@ -38,7 +38,7 @@ public class SketchOctree extends PApplet {
     public void setup() {
         textFont(createFont("Courier", 11));
 
-        mOctree = new MVisibleOctree(new Vector3f(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
+        mOctree = new MVisibleOctree(new PVector(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
         mOctree.add(new MOctreeEntity());
 
         strokeWeight(0.25f);
@@ -66,7 +66,7 @@ public class SketchOctree extends PApplet {
         if (useSphere) {
             mEntities = mOctree.getEntitesWithinSphere(mPosition, mSelectRadius);
         } else {
-            mEntities = mOctree.getEntitiesWithinBox(mPosition, new Vector3f(mSelectRadius / 2,
+            mEntities = mOctree.getEntitiesWithinBox(mPosition, new PVector(mSelectRadius / 2,
                     mSelectRadius / 2,
                     mSelectRadius / 2));
         }
@@ -117,7 +117,7 @@ public class SketchOctree extends PApplet {
         text("FPS      : " + frameRate, 10, 36);
     }
 
-    private void drawCross(Vector3f v, float pRadius) {
+    private void drawCross(PVector v, float pRadius) {
         line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
         line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
         line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
@@ -161,11 +161,11 @@ public class SketchOctree extends PApplet {
     class MOctreeEntity
             implements OctreeEntity {
 
-        Vector3f position = new Vector3f();
+        PVector position = new PVector();
 
         int entity_color = color(0, 127, random(0, 255), 127);
 
-        public Vector3f position() {
+        public PVector position() {
             return position;
         }
     }
@@ -173,7 +173,7 @@ public class SketchOctree extends PApplet {
     class MVisibleOctree
             extends Octree {
 
-        MVisibleOctree(Vector3f o, float d) {
+        MVisibleOctree(PVector o, float d) {
             super(o, d);
         }
 
@@ -198,6 +198,6 @@ public class SketchOctree extends PApplet {
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchOctree.class.getName()});
+        PApplet.main(new String[]{SketchOctree3D.class.getName()});
     }
 }

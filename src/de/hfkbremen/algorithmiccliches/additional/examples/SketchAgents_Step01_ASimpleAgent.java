@@ -1,7 +1,7 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
-import mathematik.Vector2f;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class SketchAgents_Step01_ASimpleAgent extends PApplet {
 
@@ -41,9 +41,9 @@ public class SketchAgents_Step01_ASimpleAgent extends PApplet {
 
     private class Agent {
 
-        Vector2f position = new Vector2f();
+        PVector position = new PVector();
 
-        Vector2f velocity = new Vector2f();
+        PVector velocity = new PVector();
 
         float radius = 0;
 

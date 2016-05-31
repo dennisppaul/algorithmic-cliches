@@ -1,11 +1,10 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
-import mathematik.Vector3f;
-
 import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.Metaball;
 import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.MetaballManager;
 import de.hfkbremen.algorithmiccliches.util.ArcBall;
 import processing.core.PApplet;
+import processing.core.PVector;
 
 import java.util.Vector;
 
@@ -34,7 +33,7 @@ public class SketchIsoSurface3 extends PApplet {
         mMetaballManager.resolution.set(30, 30, 30);
         mMetaballManager.position.set(width / -2, height / -2, height / -2);
 
-        mMetaballManager.add(new Metaball(new Vector3f(0, 0, 0), 1, 100));
+        mMetaballManager.add(new Metaball(new PVector(0, 0, 0), 1, 100));
     }
 
     public void draw() {
@@ -57,7 +56,7 @@ public class SketchIsoSurface3 extends PApplet {
             mMetaballManager.metaballs().get(mCurrentCircle).position.y = mouseY - height / 2;
         }
 
-        final Vector<Vector3f> myData = mMetaballManager.createSurface();
+        final Vector<PVector> myData = mMetaballManager.createSurface();
 
         /* draw metaballs */
         translate(width / 2, height / 2);
@@ -83,9 +82,9 @@ public class SketchIsoSurface3 extends PApplet {
                 mCurrentCircle %= mMetaballManager.metaballs().size();
                 break;
             case 'c':
-                mMetaballManager.add(new Metaball(new Vector3f(mouseX - width / 2, mouseY - height / 2, random(-100, 100)),
-                        random(1, 2),
-                        random(50, 150)));
+                mMetaballManager.add(new Metaball(new PVector(mouseX - width / 2,
+                                                              mouseY - height / 2,
+                                                              random(-100, 100)), random(1, 2), random(50, 150)));
                 break;
         }
     }

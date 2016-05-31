@@ -1,9 +1,8 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
-import mathematik.Vector3f;
-
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import processing.core.PVector;
 
 import java.util.Vector;
 
@@ -48,7 +47,7 @@ public class SketchStateMachineSimple extends PApplet {
 
         private static final int STATE_BROWNIAN_MOTION = 2;
 
-        public Vector3f position = new Vector3f();
+        public PVector position = new PVector();
 
         public int entity_color;
 
@@ -117,9 +116,9 @@ public class SketchStateMachineSimple extends PApplet {
         }
 
         private void update_follow_mouse(final float pDelta) {
-            Vector3f mDiff = mathematik.Util.sub(new Vector3f(mouseX, mouseY), position);
+            PVector mDiff = PVector.sub(new PVector(mouseX, mouseY), position);
             final float MIN_DISTANCE = 10.0f;
-            if (mDiff.length() < MIN_DISTANCE) {
+            if (mDiff.mag() < MIN_DISTANCE) {
                 state_time = 0.0f;
                 state = STATE_BROWNIAN_MOTION;
                 scale = IDEAL_SCALE; /* make sure to always clean up volatile values */
@@ -128,8 +127,8 @@ public class SketchStateMachineSimple extends PApplet {
                 scale += (IDEAL_SCALE - scale) * pDelta;
                 entity_color = color(0, 127, 255, 127);
                 mDiff.normalize();
-                mDiff.scale(pDelta);
-                mDiff.scale(speed);
+                mDiff.mult(pDelta);
+                mDiff.mult(speed);
                 position.add(mDiff);
             }
         }
