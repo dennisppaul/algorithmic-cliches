@@ -38,8 +38,11 @@ this repository contains a collection of _algorithmic clichés_ and according si
 
 [![SketchDelaunayTriangulation](./images/sketches/SketchDelaunayTriangulation.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchDelaunayTriangulation.java)
 
-### Exporting
+### Diffusion-Limited Aggregation
 
+[![SketchDiffusionLimitedAggregation](./images/sketches/SketchDiffusionLimitedAggregation.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchDiffusionLimitedAggregation.java)
+
+<!--### Exporting-->
 <!--![](./images/sketches/)-->
 
 ### Fast Fourier Transform
@@ -98,7 +101,6 @@ this repository contains a collection of _algorithmic clichés_ and according si
 
 * [reaction diffusion](https://en.wikipedia.org/wiki/Reaction–diffusion_system)
 * [fractal](https://en.wikipedia.org/wiki/Fractal)
-* [Diffusion-limited aggregation](https://en.wikipedia.org/wiki/Diffusion-limited_aggregation)
 
 ### from [Architecture 27: Tooling](https://books.google.de/books?id=MG8xfIe55t0C&pg=PA53&redir_esc=y&hl=en#v=onepage&q&f=false)
 

@@ -40,7 +40,7 @@ this repository contains a collection of _algorithmic clichés_ and according si
 
 ### Diffusion-Limited Aggregation
 
-[![SketchDiffusionLimitedAggregation](./images/sketches/SketchDiffusionLimitedAggregation.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchDiffusionLimitedAggregation.java)
+[![SketchDiffusionLimitedAggregation](./images/sketches/SketchDiffusionLimitedAggregation.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchDiffusionLimitedAggregation.java)
 
 <!--### Exporting-->
 <!--![](./images/sketches/)-->
