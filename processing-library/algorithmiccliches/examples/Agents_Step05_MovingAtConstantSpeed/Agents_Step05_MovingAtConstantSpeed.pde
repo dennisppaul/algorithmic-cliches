@@ -5,10 +5,10 @@ import java.util.Vector;
 import de.hfkbremen.algorithmiccliches.agents.Vector2f;
 /*
  * the agent
- * step 05 - moving at constant speed.
+ * step 05 - moving at constant mSpeed.
  *
  * introducing:
- * maximum speed
+ * maximum mSpeed
  *
  * import Vector2f
  */

@@ -8,7 +8,6 @@ this repository contains a collection of _algorithmic clichés_ and according si
 ## Used Libraries
 
 * [Processing.org](http://www.processing.org/) ( updated to version 3.0++ ) including _PDF_, _DXF_, and _Minim_ libraries
-* [Mathematik](https://github.com/d3p/mathematik) a lightweight linear algebra library on GitHub
 * [Teilchen](https://github.com/d3p/teilchen) on GitHub
 * [Qhull](http://www.qhull.org/) for ( 2D + ) 3D voronoi diagrams ( on OS X qhull is available via [homebrew](http://brew.sh) -› ```brew install qhull``` )
 * [QuickHull3D](http://www.cs.ubc.ca/~lloyd/java/quickhull3d.html) for 3D convex hulls in 3D voronoi
@@ -99,6 +98,7 @@ this repository contains a collection of _algorithmic clichés_ and according si
 
 * [reaction diffusion](https://en.wikipedia.org/wiki/Reaction–diffusion_system)
 * [fractal](https://en.wikipedia.org/wiki/Fractal)
+* [Diffusion-limited aggregation](https://en.wikipedia.org/wiki/Diffusion-limited_aggregation)
 
 ### from [Architecture 27: Tooling](https://books.google.de/books?id=MG8xfIe55t0C&pg=PA53&redir_esc=y&hl=en#v=onepage&q&f=false)
 

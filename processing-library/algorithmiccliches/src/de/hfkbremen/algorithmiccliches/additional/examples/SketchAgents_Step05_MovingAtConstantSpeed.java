@@ -7,10 +7,10 @@ public class SketchAgents_Step05_MovingAtConstantSpeed extends PApplet {
 
     /*
      * the agent
-     * step 05 - moving at constant speed.
+     * step 05 - moving at constant mSpeed.
      *
      * introducing:
-     * maximum speed
+     * maximum mSpeed
      *
      * import Vector2f
      */

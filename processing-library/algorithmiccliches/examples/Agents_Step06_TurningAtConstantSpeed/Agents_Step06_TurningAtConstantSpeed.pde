@@ -5,7 +5,7 @@ import java.util.Vector;
 import de.hfkbremen.algorithmiccliches.agents.Vector2f;
 /*
  * the agent
- * step 06 - turning at constant speed.
+ * step 06 - turning at constant mSpeed.
  *
  * introducing:
  * maximum acceleration
