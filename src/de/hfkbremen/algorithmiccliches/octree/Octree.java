@@ -145,9 +145,6 @@ public class Octree {
         return null;
     }
 
-    /**
-     * @return the depth
-     */
     public int getDepth() {
         return mDepth;
     }
@@ -195,14 +192,14 @@ public class Octree {
     public Vector<OctreeEntity> entities() {
         Vector<OctreeEntity> results = null;
         if (mEntities != null) {
-            results = new Vector<OctreeEntity>(mEntities);
+            results = new Vector<>(mEntities);
         } else if (mNumberOfChildren > 0) {
             for (int i = 0; i < NUMBER_OF_CHILDREN; i++) {
                 if (mChildren[i] != null) {
                     Vector<OctreeEntity> childPoints = mChildren[i].entities();
                     if (childPoints != null) {
                         if (results == null) {
-                            results = new Vector<OctreeEntity>();
+                            results = new Vector<>();
                         }
                         results.addAll(childPoints);
                     }
@@ -219,7 +216,7 @@ public class Octree {
                 for (OctreeEntity mEntity : mEntities) {
                     if (isPointInBox(mEntity.position(), origin(), scale())) {
                         if (mResults == null) {
-                            mResults = new Vector<OctreeEntity>();
+                            mResults = new Vector<>();
                         }
                         mResults.add(mEntity);
                     }
@@ -230,7 +227,7 @@ public class Octree {
                         Vector<OctreeEntity> mChildrenPoints = mChildren[i].getEntitiesWithinBox(pBoxOrigin, pBoxScale);
                         if (mChildrenPoints != null) {
                             if (mResults == null) {
-                                mResults = new Vector<OctreeEntity>();
+                                mResults = new Vector<>();
                             }
                             mResults.addAll(mChildrenPoints);
                         }
@@ -242,15 +239,15 @@ public class Octree {
     }
 
     public Vector<OctreeEntity> getEntitesWithinSphere(PVector pSphereOrigin, float pSphereRadius) {
-        Vector<OctreeEntity> results = null;
+        Vector<OctreeEntity> mResults = null;
         if (isBoxIntersectingSphere(origin(), scale(), pSphereOrigin, pSphereRadius)) {
             if (mEntities != null) {
                 for (OctreeEntity mEntity : mEntities) {
                     if (isPointInSphere(mEntity.position(), pSphereOrigin, pSphereRadius)) {
-                        if (results == null) {
-                            results = new Vector<OctreeEntity>();
+                        if (mResults == null) {
+                            mResults = new Vector<>();
                         }
-                        results.add(mEntity);
+                        mResults.add(mEntity);
                     }
                 }
             } else if (mNumberOfChildren > 0) {
@@ -259,16 +256,16 @@ public class Octree {
                         Vector<OctreeEntity> mChildrenPoints = mChildren[i].getEntitesWithinSphere(pSphereOrigin,
                                                                                                    pSphereRadius);
                         if (mChildrenPoints != null) {
-                            if (results == null) {
-                                results = new Vector<OctreeEntity>();
+                            if (mResults == null) {
+                                mResults = new Vector<>();
                             }
-                            results.addAll(mChildrenPoints);
+                            mResults.addAll(mChildrenPoints);
                         }
                     }
                 }
             }
         }
-        return results;
+        return mResults;
     }
 
     private void reduceBranch() {

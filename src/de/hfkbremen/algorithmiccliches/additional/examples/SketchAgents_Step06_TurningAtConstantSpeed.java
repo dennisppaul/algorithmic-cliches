@@ -7,7 +7,7 @@ public class SketchAgents_Step06_TurningAtConstantSpeed extends PApplet {
 
     /*
      * the agent
-     * step 06 - turning at constant speed.
+     * step 06 - turning at constant mSpeed.
      *
      * introducing:
      * maximum acceleration
