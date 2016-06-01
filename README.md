@@ -42,9 +42,6 @@ this repository contains a collection of _algorithmic clichés_ and according si
 
 [![SketchDiffusionLimitedAggregation](./images/sketches/SketchDiffusionLimitedAggregation.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchDiffusionLimitedAggregation.java)
 
-<!--### Exporting-->
-<!--![](./images/sketches/)-->
-
 ### Fast Fourier Transform
 
 [![SketchSimpleFFT](./images/sketches/SketchSimpleFFT.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchFFTSimple.java)
