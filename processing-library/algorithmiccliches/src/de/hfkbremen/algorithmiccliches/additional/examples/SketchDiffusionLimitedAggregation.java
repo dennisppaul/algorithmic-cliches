@@ -5,7 +5,6 @@ import de.hfkbremen.algorithmiccliches.octree.OctreeEntity;
 import processing.core.PApplet;
 import processing.core.PVector;
 import teilchen.BasicParticle;
-import teilchen.Particle;
 import teilchen.util.Overlap;
 
 import java.util.ArrayList;
@@ -15,8 +14,6 @@ import java.util.Vector;
  * https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
  */
 public class SketchDiffusionLimitedAggregation extends PApplet {
-
-    // @todo a second sketch combining DLA and 3D Isosurface
 
     private final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
     private final int NUMBER_OF_MAX_PARTICLES = 1000;
@@ -82,7 +79,7 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
         }
 
         /* maintain particle number */
-        final ArrayList<Particle> mAttachedParticles = new ArrayList<>();
+        final ArrayList<BrownianParticle> mAttachedParticles = new ArrayList<>();
         for (OctreeEntity oe : mOctree.entities()) {
             BrownianParticle bp = (BrownianParticle) oe;
             if (bp.attached()) {
@@ -125,8 +122,7 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
         /* draw attached */
         noStroke();
         sphereDetail(mSphereDetail);
-        for (Particle p : mAttachedParticles) {
-            BrownianParticle bp = (BrownianParticle) p;
+        for (BrownianParticle bp : mAttachedParticles) {
             fill(bp.entity_color);
             pushMatrix();
             translate(bp.position().x, bp.position().y, bp.position().z);

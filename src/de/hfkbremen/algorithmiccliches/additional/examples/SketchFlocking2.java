@@ -13,7 +13,7 @@ import teilchen.constraint.Teleporter;
 import teilchen.force.Attractor;
 import teilchen.force.ViscousDrag;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * http://en.wikipedia.org/wiki/Flocking_(behavior)
@@ -23,7 +23,7 @@ public class SketchFlocking2 extends PApplet {
 
     private Physics mPhysics;
 
-    private Vector<SwarmEntity> mSwarmEntities;
+    private ArrayList<SwarmEntity> mSwarmEntities;
 
     public void settings() {
         size(1024, 768, P3D);
@@ -56,7 +56,7 @@ public class SketchFlocking2 extends PApplet {
         }
 
         /* setup entities */
-        mSwarmEntities = new Vector<SwarmEntity>();
+        mSwarmEntities = new ArrayList<SwarmEntity>();
     }
 
     public void draw() {

@@ -1,14 +1,11 @@
 import oscP5.*;
 import netP5.*;
 import teilchen.util.*;
-import java.util.Vector;
 import ddf.minim.AudioInput;
 import ddf.minim.Minim;
 import ddf.minim.analysis.FFT;
 import de.hfkbremen.algorithmiccliches.util.ArcBall;
 import java.util.Vector;
-import static processing.core.PConstants.TRIANGLES;
-
 /**
  * http://en.wikipedia.org/wiki/Fft
  */

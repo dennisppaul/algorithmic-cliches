@@ -1,7 +1,6 @@
 import oscP5.*;
 import netP5.*;
 import teilchen.util.*;
-import java.util.Vector;
 import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.MarchingSquares;
 import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.MetaCircle;
 import teilchen.util.Linef;

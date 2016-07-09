@@ -1,7 +1,6 @@
 import oscP5.*;
 import netP5.*;
 import teilchen.util.*;
-import java.util.Vector;
 import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.Metaball;
 import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.MetaballManager;
 import de.hfkbremen.algorithmiccliches.util.ArcBall;

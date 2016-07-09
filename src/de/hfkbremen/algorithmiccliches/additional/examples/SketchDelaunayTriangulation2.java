@@ -1,9 +1,9 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation.DelaunayTriangle;
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation.DelaunayTriangulation;
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation.VoronoiDiagram;
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation.VoronoiDiagram.Region;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.DelaunayTriangle;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.DelaunayTriangulation;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -12,7 +12,7 @@ import java.util.Vector;
 /**
  * http://en.wikipedia.org/wiki/Delaunay_Triangulation
  */
-public class SketchDelaunayTriangulation extends PApplet {
+public class SketchDelaunayTriangulation2 extends PApplet {
 
     public Vector<PVector> mVertices;
 
@@ -91,10 +91,9 @@ public class SketchDelaunayTriangulation extends PApplet {
         /* draw delaunay trinangles */
         if (mDelaunayTriangles != null) {
             beginShape(TRIANGLES);
-            for (int i = 0; i < mDelaunayTriangles.size(); i++) {
+            for (DelaunayTriangle mDelaunayTriangle : mDelaunayTriangles) {
                 for (int j = 0; j < 3; j++) {
-                    vertex(mVertices.get(mDelaunayTriangles.get(i).p[j]).x,
-                           mVertices.get(mDelaunayTriangles.get(i).p[j]).y);
+                    vertex(mVertices.get(mDelaunayTriangle.p[j]).x, mVertices.get(mDelaunayTriangle.p[j]).y);
                 }
             }
             endShape();
@@ -103,8 +102,8 @@ public class SketchDelaunayTriangulation extends PApplet {
 
     private void drawVertices(float pRadius) {
         /* draw vertices */
-        for (int i = 0; i < mVertices.size(); i++) {
-            cross(mVertices.get(i).x, mVertices.get(i).y, pRadius);
+        for (PVector mVertice : mVertices) {
+            cross(mVertice.x, mVertice.y, pRadius);
         }
     }
 
@@ -114,6 +113,6 @@ public class SketchDelaunayTriangulation extends PApplet {
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchDelaunayTriangulation.class.getName()});
+        PApplet.main(new String[]{SketchDelaunayTriangulation2.class.getName()});
     }
 }

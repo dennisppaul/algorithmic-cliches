@@ -1,18 +1,17 @@
 import oscP5.*;
 import netP5.*;
 import teilchen.util.*;
-import java.util.Vector;
-import java.util.*;
-
+import teilchen.util.Packing;
 import teilchen.util.Packing.PackingEntity;
-import teilchen.util.*;
+import teilchen.util.Util;
+
+import java.util.ArrayList;
 
 /**
  * http://en.wikipedia.org/wiki/Circle_packing_theorem
  */
-Vector<PackingEntity> mEntities;
-
 final PVector mCenter = new PVector();
+ArrayList<PackingEntity> mEntities;
 
 void settings() {
     size(1024, 768, P3D);
@@ -29,11 +28,8 @@ void draw() {
 
     stroke(0);
     noFill();
-    for (int i = 0; i < mEntities.size(); i++) {
-        PackingEntity mEntity = mEntities.get(i);
-        ellipse(mEntity.position().x, mEntity.position().y,
-                mEntity.radius() * 2, mEntity.radius() * 2);
-
+    for (PackingEntity mEntity : mEntities) {
+        ellipse(mEntity.position().x, mEntity.position().y, mEntity.radius() * 2, mEntity.radius() * 2);
     }
 
     final int ITERATIONS = 50;
@@ -43,8 +39,8 @@ void draw() {
     }
 }
 
-Vector<PackingEntity> createRandomEntites(int pNumberOfShapes) {
-    Vector<PackingEntity> mRandomEntities = new Vector<PackingEntity>();
+ArrayList<PackingEntity> createRandomEntites(int pNumberOfShapes) {
+    ArrayList<PackingEntity> mRandomEntities = new ArrayList<>();
     for (int i = 0; i < pNumberOfShapes; i++) {
         PackingEntity c = new PackingEntity();
         c.position().set(random(width), random(height), 0);

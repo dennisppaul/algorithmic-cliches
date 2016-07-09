@@ -1,7 +1,6 @@
 import oscP5.*;
 import netP5.*;
 import teilchen.util.*;
-import java.util.Vector;
 import java.util.*;
 
 import teilchen.cubicle.*;
@@ -57,7 +56,7 @@ void setup() {
 void draw() {
     /* get entities from cubicle world */
     mCubicleWorld.update();
-    Vector<ICubicleEntity> mEntities = mCubicleWorld.getLocalEntities(mPosition, 1);
+    ArrayList<ICubicleEntity> mEntities = mCubicleWorld.getLocalEntities(mPosition, 1);
 
     background(255);
     pushMatrix();

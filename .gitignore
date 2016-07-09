@@ -5,5 +5,5 @@
 *.war
 *.ear
 
-libraries/toxiclibs/**
+libraries/**
 tmp/**

@@ -3,8 +3,6 @@ Algorithmic Clichés
 
 this repository contains a collection of _algorithmic clichés_ and according simple examples.
 
-<!--this repository is also a collection of the material for the 5-day workshop 'Creating Systems, Processing Data, Finding Structure' in March 2013 at [HfK Bremen](http://www.hfk-bremen.de/) in the [Digital Media Programme](http://digitalemedien-bremen.de).-->
-
 ## Used Libraries
 
 * [Processing.org](http://www.processing.org/) ( updated to version 3.0++ ) including _PDF_, _DXF_, and _Minim_ libraries
@@ -12,7 +10,7 @@ this repository contains a collection of _algorithmic clichés_ and according si
 * [Qhull](http://www.qhull.org/) for ( 2D + ) 3D voronoi diagrams ( on OS X qhull is available via [homebrew](http://brew.sh) -› ```brew install qhull``` )
 * [QuickHull3D](http://www.cs.ubc.ca/~lloyd/java/quickhull3d.html) for 3D convex hulls in 3D voronoi
 * [ControlP5](http://www.sojamo.de/libraries/controlP5/) for GUIs
-* [Sunflow](http://sunflow.sourceforge.net/) ( this seems to be properly broken until further notice )
+* [Mesh]() ( currently unreleased )
 
 ## Current Clichees
 
@@ -36,7 +34,7 @@ this repository contains a collection of _algorithmic clichés_ and according si
 
 ### Delaunay Triangulation
 
-[![SketchDelaunayTriangulation](./images/sketches/SketchDelaunayTriangulation.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchDelaunayTriangulation.java)
+[![SketchDelaunayTriangulation](./images/sketches/SketchDelaunayTriangulation.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchDelaunayTriangulation2.java)
 
 ### Diffusion-Limited Aggregation
 
@@ -68,11 +66,11 @@ this repository contains a collection of _algorithmic clichés_ and according si
 
 ### Octree
 
-[![SketchOctree](./images/sketches/SketchOctree.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchOctree.java)
+[![SketchOctree](./images/sketches/SketchOctree.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchOctree3D.java)
 
 ### Packing
 
-[![SketchSpherePackingAroundCenter](./images/sketches/SketchSpherePackingAroundCenter.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchSpherePackingAroundCenter.java)
+[![SketchSpherePackingAroundCenter](./images/sketches/SketchSpherePackingAroundCenter.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchPackingSpheresAroundCenter.java)
 
 ### Perlin Noise
 
@@ -82,7 +80,7 @@ this repository contains a collection of _algorithmic clichés_ and according si
 
 ### State Machine
 
-[![SketchSimpleStateMachine](./images/sketches/SketchSimpleStateMachine.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchSimpleStateMachine.java)
+[![SketchSimpleStateMachine](./images/sketches/SketchSimpleStateMachine.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchStateMachineSimple.java)
 
 [![SketchStateMachineWithObjects](./images/sketches/SketchStateMachineWithObjects.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchStateMachineWithObjects.java)
 
@@ -93,6 +91,10 @@ this repository contains a collection of _algorithmic clichés_ and according si
 [![SketchVoronoi2RoundRegions](./images/sketches/SketchVoronoi2RoundRegions.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchVoronoi2RoundRegions.java)
 
 [![SketchVoronoi3](./images/sketches/SketchVoronoi3.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchVoronoi3.java)
+
+### Alpha Shapes
+
+[![SketchVoronoi3](./images/sketches/SketchAlphaShape3.png)](https://github.com/d3p/algorithmic-cliches/blob/thereafter/src/de/hfkbremen/algorithmiccliches/additional/examples/SketchAlphaShape3.java)
 
 ## suggestions for CRB ( cliche review board )
 

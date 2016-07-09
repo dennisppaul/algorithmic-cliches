@@ -57,7 +57,7 @@ public class SketchCubicle extends PApplet {
     public void draw() {
         /* get entities from cubicle world */
         mCubicleWorld.update();
-        Vector<ICubicleEntity> mEntities = mCubicleWorld.getLocalEntities(mPosition, 1);
+        ArrayList<ICubicleEntity> mEntities = mCubicleWorld.getLocalEntities(mPosition, 1);
 
         background(255);
         pushMatrix();

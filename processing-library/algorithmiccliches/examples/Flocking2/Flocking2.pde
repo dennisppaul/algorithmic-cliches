@@ -1,7 +1,6 @@
 import oscP5.*;
 import netP5.*;
 import teilchen.util.*;
-import java.util.Vector;
 import teilchen.BehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Alignment;
@@ -13,7 +12,7 @@ import teilchen.constraint.Teleporter;
 import teilchen.force.Attractor;
 import teilchen.force.ViscousDrag;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * http://en.wikipedia.org/wiki/Flocking_(behavior)
@@ -21,7 +20,7 @@ import java.util.Vector;
  */
 Physics mPhysics;
 
-Vector<SwarmEntity> mSwarmEntities;
+ArrayList<SwarmEntity> mSwarmEntities;
 
 void settings() {
     size(1024, 768, P3D);
@@ -54,7 +53,7 @@ void setup() {
     }
 
     /* setup entities */
-    mSwarmEntities = new Vector<SwarmEntity>();
+    mSwarmEntities = new ArrayList<SwarmEntity>();
 }
 
 void draw() {

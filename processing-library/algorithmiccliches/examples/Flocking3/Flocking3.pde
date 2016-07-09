@@ -1,8 +1,6 @@
 import oscP5.*;
 import netP5.*;
 import teilchen.util.*;
-import java.util.Vector;
-import java.util.*;
 
 import teilchen.*;
 import teilchen.behavior.*;
@@ -10,13 +8,15 @@ import teilchen.constraint.*;
 import teilchen.force.*;
 import teilchen.util.Util;
 
+import java.util.ArrayList;
+
 /**
  * http://en.wikipedia.org/wiki/Flocking_(behavior)
  * http://de.wikipedia.org/wiki/Craig_Reynolds
  */
 Physics mPhysics;
 
-Vector<SwarmEntity> mSwarmEntities;
+ArrayList<SwarmEntity> mSwarmEntities;
 
 void settings() {
     size(1024, 768, P3D);
@@ -40,7 +40,7 @@ void setup() {
     mPhysics.add(myViscousDrag);
 
     /* setup entities */
-    mSwarmEntities = new Vector<SwarmEntity>();
+    mSwarmEntities = new ArrayList<SwarmEntity>();
     for (int i = 0; i < 80; i++) {
         SwarmEntity mSwarmEntity = new SwarmEntity();
         mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),

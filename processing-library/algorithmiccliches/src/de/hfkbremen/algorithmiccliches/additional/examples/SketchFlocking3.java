@@ -1,12 +1,13 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
-import java.util.*;
 import processing.core.*;
 import teilchen.*;
 import teilchen.behavior.*;
 import teilchen.constraint.*;
 import teilchen.force.*;
 import teilchen.util.Util;
+
+import java.util.ArrayList;
 
 /**
  * http://en.wikipedia.org/wiki/Flocking_(behavior)
@@ -16,7 +17,7 @@ public class SketchFlocking3 extends PApplet {
 
     private Physics mPhysics;
 
-    private Vector<SwarmEntity> mSwarmEntities;
+    private ArrayList<SwarmEntity> mSwarmEntities;
 
     public void settings() {
         size(1024, 768, P3D);
@@ -42,7 +43,7 @@ public class SketchFlocking3 extends PApplet {
         mPhysics.add(myViscousDrag);
 
         /* setup entities */
-        mSwarmEntities = new Vector<SwarmEntity>();
+        mSwarmEntities = new ArrayList<SwarmEntity>();
         for (int i = 0; i < 80; i++) {
             SwarmEntity mSwarmEntity = new SwarmEntity();
             mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),

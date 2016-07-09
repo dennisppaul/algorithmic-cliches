@@ -1,7 +1,6 @@
 import oscP5.*;
 import netP5.*;
 import teilchen.util.*;
-import java.util.Vector;
 import de.hfkbremen.algorithmiccliches.octree.Octree;
 import de.hfkbremen.algorithmiccliches.octree.OctreeEntity;
 import java.util.Vector;

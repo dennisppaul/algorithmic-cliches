@@ -1,5 +1,7 @@
 package de.hfkbremen.algorithmiccliches.additional.examples;
 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.Metaball;
+import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.MetaballManager;
 import de.hfkbremen.algorithmiccliches.octree.Octree;
 import de.hfkbremen.algorithmiccliches.octree.OctreeEntity;
 import processing.core.PApplet;
@@ -13,7 +15,7 @@ import java.util.Vector;
 /**
  * https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
  */
-public class SketchDiffusionLimitedAggregation extends PApplet {
+public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
 
     private final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
     private final int NUMBER_OF_MAX_PARTICLES = 1000;
@@ -21,6 +23,8 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
     private Octree mOctree;
     private float mRotationZ = 0.1f;
     private int mSphereDetail = 8;
+
+    private MetaballManager mMetaballManager;
 
     public void settings() {
         size(1024, 768, P3D);
@@ -31,6 +35,12 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
         strokeWeight(0.25f);
 
         mOctree = new Octree(new PVector(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
+
+        mMetaballManager = new MetaballManager();
+        mMetaballManager.dimension.set(mOctreeSize, mOctreeSize, mOctreeSize);
+        final int mIsoSurfaceResolution = 60;
+        mMetaballManager.resolution.set(mIsoSurfaceResolution, mIsoSurfaceResolution, mIsoSurfaceResolution);
+        mMetaballManager.position.set(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2);
 
         for (int i = 0; i < 270; i += 16) {
             float x = sin(radians(i)) * 50;
@@ -95,7 +105,6 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
         /* resolve overlap */
         Overlap.resolveOverlap(mAttachedParticles);
 
-
         /* --- */
         background(255);
         lights();
@@ -109,25 +118,57 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
         rotateZ(mRotationZ);
         scale(4);
 
+        /* metaball */
+        if (keyPressed) {
+            mMetaballManager.clear();
+            for (BrownianParticle bp : mAttachedParticles) {
+                mMetaballManager.add(new Metaball(bp.position(), 5, bp.radius()));
+            }
+            final Vector<PVector> myData = mMetaballManager.createSurface();
+
+            /* draw */
+            fill(255, 127, 0);
+            noStroke();
+            beginShape(TRIANGLES);
+            for (PVector aMyData : myData) {
+                vertex(aMyData.x, aMyData.y, aMyData.z);
+            }
+            endShape();
+        }
+
         /* draw unattached */
-        noFill();
-        stroke(0);
+        //        noFill();
+        //        stroke(0);
+        //        for (OctreeEntity oe : mOctree.entities()) {
+        //            BrownianParticle bp = (BrownianParticle) oe;
+        //            if (!bp.attached()) {
+        //                drawCross(bp.position(), bp.radius());
+        //            }
+        //        }
+        noStroke();
+        sphereDetail(4);
         for (OctreeEntity oe : mOctree.entities()) {
             BrownianParticle bp = (BrownianParticle) oe;
             if (!bp.attached()) {
-                drawCross(bp.position(), bp.radius());
+                fill(bp.entity_color);
+                pushMatrix();
+                translate(bp.position().x, bp.position().y, bp.position().z);
+                sphere(bp.radius() * 1.1f);
+                popMatrix();
             }
         }
 
         /* draw attached */
-        noStroke();
-        sphereDetail(mSphereDetail);
-        for (BrownianParticle bp : mAttachedParticles) {
-            fill(bp.entity_color);
-            pushMatrix();
-            translate(bp.position().x, bp.position().y, bp.position().z);
-            sphere(bp.radius() * 1.1f);
-            popMatrix();
+        if (!keyPressed) {
+            noStroke();
+            sphereDetail(mSphereDetail);
+            for (BrownianParticle bp : mAttachedParticles) {
+                fill(bp.entity_color);
+                pushMatrix();
+                translate(bp.position().x, bp.position().y, bp.position().z);
+                sphere(bp.radius() * 1.1f);
+                popMatrix();
+            }
         }
 
         popMatrix();
@@ -154,24 +195,10 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
         mOctree.add(mEntity);
     }
 
-    public void keyPressed() {
-        switch (key) {
-            case '+':
-                mSphereDetail++;
-                break;
-            case '-':
-                mSphereDetail--;
-                mSphereDetail = max(mSphereDetail, 3);
-                break;
-            default:
-                break;
-        }
-    }
-
     private class BrownianParticle extends BasicParticle implements OctreeEntity {
 
         int entity_color = color(191);
-        private float mSpeed = 4;
+        private float mSpeed = 2;
         private boolean mAttached = false;
         private float mSelectRadius = 20;
 
@@ -215,7 +242,8 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
     }
 
     public static void main(String[] args) {
-        PApplet.main(new String[]{SketchDiffusionLimitedAggregation.class.getName()});
+        PApplet.main(new String[]{SketchDiffusionLimitedAggregationWithIsoSurfaces.class.getName()});
     }
 }
+
 

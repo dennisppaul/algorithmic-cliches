@@ -7,8 +7,6 @@ import de.hfkbremen.algorithmiccliches.util.ArcBall;
 import java.util.Vector;
 import processing.core.PApplet;
 
-import static processing.core.PConstants.TRIANGLES;
-
 /**
  * http://en.wikipedia.org/wiki/Fft
  */

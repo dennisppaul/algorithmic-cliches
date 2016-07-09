@@ -1,4 +1,4 @@
-package de.hfkbremen.algorithmiccliches.delaunaytriangulation;
+package de.hfkbremen.algorithmiccliches.delaunaytriangulation2;
 
 import processing.core.PApplet;
 import processing.core.PVector;

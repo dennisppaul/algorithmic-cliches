@@ -1,7 +1,6 @@
 import oscP5.*;
 import netP5.*;
 import teilchen.util.*;
-import java.util.Vector;
 import de.hfkbremen.algorithmiccliches.convexhull.ConvexHull;
 import de.hfkbremen.algorithmiccliches.convexhull.HullVertex;
 import java.util.Vector;
@@ -63,8 +62,7 @@ void draw() {
 
     /* draw points */
     stroke(255, 0, 0, 127);
-    for (int i = 0; i < mGridPoints.length; i++) {
-        PVector v = mGridPoints[i];
+    for (PVector v : mGridPoints) {
         drawCross(v);
     }
 }

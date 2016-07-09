@@ -1,11 +1,10 @@
 #!/bin/sh
 
 # for further hints on `sed` read this: http://www.grymoire.com/Unix/Sed.html
-LIB_NAME=$1
-ROOT=$(pwd)
 
-SRC_PATH=$ROOT/"../src/de/hfkbremen/$LIB_NAME/additional/examples"
-OUTPUT_DIR=$ROOT/"../processing-library/$LIB_NAME/examples"
+LIB_NAME=$1
+SRC_PATH="../src/de/hfkbremen/$LIB_NAME/additional/examples/"
+OUTPUT_DIR="../processing-library/$LIB_NAME/examples"
 
 if [ -d "$OUTPUT_DIR" ]; then
 	rm -rf "$OUTPUT_DIR"
@@ -52,10 +51,9 @@ do
 		cat /tmp/tmp.pde | \
 		sed '
 			1 i\
-			 import oscP5.*;\
+ 			 import oscP5.*;\
 			 import netP5.*;\
-			 import teilchen.util.*;\
-			 import java.util.Vector;
+			 import teilchen.util.*;
 			# remove empty lines
 			#/^$/ d
 			/^$/{N;/^\n$/d;}

@@ -67,8 +67,7 @@ public class SketchConvexHull3 extends PApplet {
 
         /* draw points */
         stroke(255, 0, 0, 127);
-        for (int i = 0; i < mGridPoints.length; i++) {
-            PVector v = mGridPoints[i];
+        for (PVector v : mGridPoints) {
             drawCross(v);
         }
     }

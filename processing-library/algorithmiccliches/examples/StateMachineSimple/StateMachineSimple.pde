@@ -2,7 +2,6 @@ import oscP5.*;
 import netP5.*;
 import teilchen.util.*;
 import java.util.Vector;
-import java.util.Vector;
 
 /**
  * http://en.wikipedia.org/wiki/State_machine

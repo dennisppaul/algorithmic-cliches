@@ -1,11 +1,10 @@
 import oscP5.*;
 import netP5.*;
 import teilchen.util.*;
-import java.util.Vector;
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation.DelaunayTriangle;
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation.DelaunayTriangulation;
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation.VoronoiDiagram;
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation.VoronoiDiagram.Region;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.DelaunayTriangle;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.DelaunayTriangulation;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram;
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region;
 
 import java.util.Vector;
 
@@ -89,10 +88,9 @@ void drawDelaunay(Vector<DelaunayTriangle> mDelaunayTriangles) {
     /* draw delaunay trinangles */
     if (mDelaunayTriangles != null) {
         beginShape(TRIANGLES);
-        for (int i = 0; i < mDelaunayTriangles.size(); i++) {
+        for (DelaunayTriangle mDelaunayTriangle : mDelaunayTriangles) {
             for (int j = 0; j < 3; j++) {
-                vertex(mVertices.get(mDelaunayTriangles.get(i).p[j]).x,
-                       mVertices.get(mDelaunayTriangles.get(i).p[j]).y);
+                vertex(mVertices.get(mDelaunayTriangle.p[j]).x, mVertices.get(mDelaunayTriangle.p[j]).y);
             }
         }
         endShape();
@@ -101,8 +99,8 @@ void drawDelaunay(Vector<DelaunayTriangle> mDelaunayTriangles) {
 
 void drawVertices(float pRadius) {
     /* draw vertices */
-    for (int i = 0; i < mVertices.size(); i++) {
-        cross(mVertices.get(i).x, mVertices.get(i).y, pRadius);
+    for (PVector mVertice : mVertices) {
+        cross(mVertice.x, mVertice.y, pRadius);
     }
 }
 

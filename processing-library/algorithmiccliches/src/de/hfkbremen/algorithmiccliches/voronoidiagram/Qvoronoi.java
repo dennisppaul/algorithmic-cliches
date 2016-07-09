@@ -2,21 +2,21 @@ package de.hfkbremen.algorithmiccliches.voronoidiagram;
 
 import processing.core.PVector;
 
-import java.io.*;
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.Vector;
 
 public class Qvoronoi {
 
+    private static final float VERTEX_AT_INFINITY = -10.101f;
     /*
-     * install qhull ( http://www.qhull.org/ ) via macports ( http://www.macports.org/ )
+     * install qhull ( http://www.qhull.org/ ) via homebrew ( http://brew.sh ) or via macports ( http://www.macports.org/ )
      *
      */
     public static String QVORONOI_APP = "/usr/local/bin/qvoronoi";
-
     public static boolean VERBOSE = false;
-
-    private static final float VERTEX_AT_INFINITY = -10.101f;
 
     public String computeDiagram(int pDimensions, PVector[] pPoints) {
 
@@ -69,9 +69,9 @@ public class Qvoronoi {
     }
 
     public PVector[][] parseRegions(final String pRawResult, final int pDimesions) {
-//        if (pDimesions == 2) {
-//        System.out.println("---\n" + pRawResult);
-//        }
+        //        if (pDimesions == 2) {
+        //        System.out.println("---\n" + pRawResult);
+        //        }
 
         final String[] mResult = pRawResult.split("\n");
         /* remove space */
@@ -107,19 +107,14 @@ public class Qvoronoi {
             final PVector mVertex = new PVector();
             if (pDimesions == 3) {
                 mVertex.set(Float.parseFloat(mVertexStr[0]),
-                        Float.parseFloat(mVertexStr[1]),
-                        Float.parseFloat(mVertexStr[2]));
-                if (mVertex.x == VERTEX_AT_INFINITY
-                        && mVertex.y == VERTEX_AT_INFINITY
-                        && mVertex.z == VERTEX_AT_INFINITY) {
+                            Float.parseFloat(mVertexStr[1]),
+                            Float.parseFloat(mVertexStr[2]));
+                if (mVertex.x == VERTEX_AT_INFINITY && mVertex.y == VERTEX_AT_INFINITY && mVertex.z == VERTEX_AT_INFINITY) {
                     mVertexAtInfinityMarker = myVertexCounter;
                 }
             } else if (pDimesions == 2) {
-                mVertex.set(Float.parseFloat(mVertexStr[0]),
-                        Float.parseFloat(mVertexStr[1]),
-                        0);
-                if (mVertex.x == VERTEX_AT_INFINITY
-                        && mVertex.y == VERTEX_AT_INFINITY) {
+                mVertex.set(Float.parseFloat(mVertexStr[0]), Float.parseFloat(mVertexStr[1]), 0);
+                if (mVertex.x == VERTEX_AT_INFINITY && mVertex.y == VERTEX_AT_INFINITY) {
                     mVertexAtInfinityMarker = myVertexCounter;
                 }
             }
@@ -175,23 +170,17 @@ public class Qvoronoi {
         PVector[][] myCleanRegions = new PVector[myNonCulledCounter][];
         for (int i = 0; i < myNonCulledCounter; i++) {
             myCleanRegions[i] = new PVector[pRegions[myNonCulledRegions[i]].length];
-            System.arraycopy(pRegions[myNonCulledRegions[i]], 0,
-                    myCleanRegions[i], 0,
-                    pRegions[myNonCulledRegions[i]].length);
+            System.arraycopy(pRegions[myNonCulledRegions[i]],
+                             0,
+                             myCleanRegions[i],
+                             0,
+                             pRegions[myNonCulledRegions[i]].length);
         }
         return myCleanRegions;
     }
 
     public boolean isWithInBox(PVector pVertex, PVector pBox) {
-        if (pVertex.x > -pBox.x / 2
-                && pVertex.x <= pBox.x / 2
-                && pVertex.y >= -pBox.y / 2
-                && pVertex.y <= pBox.y / 2
-                && pVertex.z >= -pBox.z / 2
-                && pVertex.z <= pBox.z / 2) {
-            return true;
-        }
-        return false;
+        return pVertex.x > -pBox.x / 2 && pVertex.x <= pBox.x / 2 && pVertex.y >= -pBox.y / 2 && pVertex.y <= pBox.y / 2 && pVertex.z >= -pBox.z / 2 && pVertex.z <= pBox.z / 2;
     }
 
     public PVector[][] calculate3(PVector[] pPoints) {
@@ -205,27 +194,40 @@ public class Qvoronoi {
     }
 
     public static void main(String[] args) {
-        PVector[] myTestData = new PVector[]{
-            new PVector(-0.3871359948170853f, 0.2713311749239735f, 0.1628039158968905f),
-            new PVector(0.3411034895376994f, -0.3402090239048531f, -0.1338141602331819f),
-            new PVector(-0.1911684421170798f, 0.3928607867327655f, 0.2431358241523477f),
-            new PVector(0.4776323890993975f, 0.1446410269029255f, -0.03076157050068981f),
-            new PVector(-0.3600901223756653f, 0.2623469103584902f, -0.2269563887464564f),
-            new PVector(0.1527006834626436f, 0.2188966181527613f, -0.422808197450482f),
-            new PVector(-0.1407945180671705f, 0.4166124825766334f, 0.2379305424773532f),
-            new PVector(-0.3935169844113147f, 0.1964031571024019f, -0.2378448714183983f),
-            new PVector(0.2665084159570797f, 0.3398643259133964f, 0.2519236078565899f),
-            new PVector(-0.01053233822924869f, 0.4645876571310951f, 0.1845193179395177f)};
+        PVector[] myTestData = new PVector[]{new PVector(-0.3871359948170853f,
+                                                         0.2713311749239735f,
+                                                         0.1628039158968905f),
+                                             new PVector(0.3411034895376994f,
+                                                         -0.3402090239048531f,
+                                                         -0.1338141602331819f),
+                                             new PVector(-0.1911684421170798f,
+                                                         0.3928607867327655f,
+                                                         0.2431358241523477f),
+                                             new PVector(0.4776323890993975f,
+                                                         0.1446410269029255f,
+                                                         -0.03076157050068981f),
+                                             new PVector(-0.3600901223756653f,
+                                                         0.2623469103584902f,
+                                                         -0.2269563887464564f),
+                                             new PVector(0.1527006834626436f, 0.2188966181527613f, -0.422808197450482f),
+                                             new PVector(-0.1407945180671705f,
+                                                         0.4166124825766334f,
+                                                         0.2379305424773532f),
+                                             new PVector(-0.3935169844113147f,
+                                                         0.1964031571024019f,
+                                                         -0.2378448714183983f),
+                                             new PVector(0.2665084159570797f, 0.3398643259133964f, 0.2519236078565899f),
+                                             new PVector(-0.01053233822924869f,
+                                                         0.4645876571310951f,
+                                                         0.1845193179395177f)};
 
         Qvoronoi myQhull = new Qvoronoi();
         String myResult = myQhull.computeDiagram(3, myTestData);
         PVector[][] mDiagram = myQhull.parseRegions(myResult, 3);
         System.out.println(myResult);
 
-        for (int i = 0; i < mDiagram.length; i++) {
-            PVector[] mRegions = mDiagram[i];
-            for (int j = 0; j < mRegions.length; j++) {
-                final PVector v = mRegions[j];
+        for (PVector[] mRegions : mDiagram) {
+            for (final PVector v : mRegions) {
                 System.out.println(v);
             }
             System.out.println("---");

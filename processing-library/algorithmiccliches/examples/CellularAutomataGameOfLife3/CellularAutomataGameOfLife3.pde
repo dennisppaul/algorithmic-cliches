@@ -1,7 +1,6 @@
 import oscP5.*;
 import netP5.*;
 import teilchen.util.*;
-import java.util.Vector;
 import de.hfkbremen.algorithmiccliches.util.ArcBall;
 /**
  * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
