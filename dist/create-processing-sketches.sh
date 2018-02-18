@@ -1,20 +1,34 @@
 #!/bin/sh
 
+source config.build
+
 # for further hints on `sed` read this: http://www.grymoire.com/Unix/Sed.html
 
 LIB_NAME=$1
-SRC_PATH="../src/de/hfkbremen/$LIB_NAME/additional/examples/"
-OUTPUT_DIR="../processing-library/$LIB_NAME/examples"
+INPUT_FOLDER=$2
+OUTPUT_FOLDER=$2
+M_PACKAGE_FOLDER=$(echo $PROJECT_PACKAGE | sed -e 's/\./\//g')
+SRC_PATH="../src/$M_PACKAGE_FOLDER/$INPUT_FOLDER/"
+OUTPUT_DIR="../processing-library/$LIB_NAME/$OUTPUT_FOLDER"
 
 if [ -d "$OUTPUT_DIR" ]; then
 	rm -rf "$OUTPUT_DIR"
 fi
 mkdir -p "$OUTPUT_DIR"
 
+# compile imports
+M_IMPORTS='import '$PROJECT_PACKAGE'.*; \
+'
+for j in ${SKETCH_IMPORTS[@]}; do
+	M_IMPORTS=$M_IMPORTS'import '$j'; \
+'
+done
+
+# transmogrify sketches
 for file in $SRC_PATH/*.java
 do
 	#echo "$file"
-	FILENAME=$(echo $file | sed -e 's/.*\///') # retreive filename
+	FILENAME=$(echo $file | sed -e 's/.*\///') # retrieve filename
 	SKETCHNAME=$(echo $FILENAME | sed -e 's/.java//')
 	SKETCHNAME=$(echo $SKETCHNAME | sed -e 's/Sketch//')
 	SKETCHFILE_NAME="$SKETCHNAME.pde"
@@ -25,23 +39,26 @@ do
 
 	cat $file | \
 	sed '
-			# remove package
-			s/package.*//
-			# remove processing imports
-			s/import processing.core.*//
-			# remove class defintion 
-			s/.*extends PApplet {//
+			# only consider the lines in 'PApplet'
+			/extends PApplet/,/^}$/ !d
 			# remove all tabs from line start
 			s/[ ^I]*$//
+			# remove empty lines
+			/^$/ d
 			# remove 'private' + 'protected' + 'public'
 			s/private //
 			s/protected //
 			s/public //
+			# simplify generics
+			s/new ArrayList<>()/new ArrayList()/
 			# remove main method
 			/static void main/,/}$/ {
 				D
 			}
-			# remove last line
+			# remove add-comment
+			s/\/\/@add//
+			# remove first and last line
+			/^class/ d
 			/^}/ d
 			# remove trailing space
 			s/    //
@@ -51,12 +68,8 @@ do
 		cat /tmp/tmp.pde | \
 		sed '
 			1 i\
- 			 import oscP5.*;\
-			 import netP5.*;\
-			 import teilchen.util.*;
-			# remove empty lines
-			#/^$/ d
-			/^$/{N;/^\n$/d;}
+			 '"$M_IMPORTS"'\
+			 \
 		'\
 		> $OUTPUT_DIR/$SKETCHNAME/$SKETCHFILE_NAME
 

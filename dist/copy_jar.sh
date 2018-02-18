@@ -12,7 +12,3 @@ fi
 mkdir -p "$DST"
 
 cp "$SRC" "$DST"
-
-SRC_LIBS=$ROOT/../lib/
-#cp "$SRC_LIBS/libCGALAlphaShape3.jnilib" "$DST"
-#cp "$SRC_LIBS/libCGALBooleanOperations3.jnilib" "$DST"

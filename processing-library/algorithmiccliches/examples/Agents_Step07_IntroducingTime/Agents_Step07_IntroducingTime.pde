@@ -1,7 +1,39 @@
-import oscP5.*;
-import netP5.*;
-import teilchen.util.*;
-import de.hfkbremen.algorithmiccliches.agents.Vector2f;
+import de.hfkbremen.algorithmiccliches.*; 
+import de.hfkbremen.algorithmiccliches.agents.*; 
+import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
+import de.hfkbremen.algorithmiccliches.convexhull.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
+import de.hfkbremen.algorithmiccliches.exporting.*; 
+import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.laserline.*; 
+import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
+import de.hfkbremen.algorithmiccliches.octree.*; 
+import de.hfkbremen.algorithmiccliches.util.*; 
+import de.hfkbremen.algorithmiccliches.util.ArcBall; 
+import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
+import oscP5.*; 
+import netP5.*; 
+import teilchen.*; 
+import teilchen.constraint.*; 
+import teilchen.force.*; 
+import teilchen.behavior.*; 
+import teilchen.cubicle.*; 
+import teilchen.util.*; 
+import teilchen.util.Vector3i; 
+import teilchen.util.Util; 
+import teilchen.util.Packing; 
+import teilchen.util.Packing.PackingEntity; 
+import de.hfkbremen.mesh.*; 
+import java.util.*; 
+import ddf.minim.*; 
+import ddf.minim.analysis.*; 
+import quickhull3d.*; 
+import javax.swing.*; 
+
+
 /*
  * the agent
  * step 07 - introducing time.
@@ -12,17 +44,14 @@ import de.hfkbremen.algorithmiccliches.agents.Vector2f;
  * import Vector2f
  */
 Agent myAgent;
-
 void settings() {
     size(1024, 768, P3D);
 }
-
 void setup() {
     smooth();
     noFill();
     ellipseMode(CENTER);
     frameRate(60);
-
     myAgent = new Agent();
     myAgent.position.set(width / 2, height / 2);
     myAgent.velocity.set(0f, 0f);
@@ -31,17 +60,13 @@ void setup() {
     myAgent.maxspeed = 50;
     myAgent.maxacceleration = 40;
 }
-
 void draw() {
     background(255);
-
     goToMouse(myAgent);
-
     final float mDeltaTime = 1.0f / frameRate;
     myAgent.loop(mDeltaTime);
     myAgent.draw();
 }
-
 void goToMouse(Agent theAgent) {
     /*
      * this method is just for quickly observing different
@@ -56,49 +81,33 @@ void goToMouse(Agent theAgent) {
     myAccelerationDirection.sub(myAgent.position);
     theAgent.acceleration.set(myAccelerationDirection);
 }
-
 class Agent {
-
     Vector2f position = new Vector2f();
-
     Vector2f velocity = new Vector2f();
-
     Vector2f acceleration = new Vector2f();
-
     float maxspeed = 0;
-
     float maxacceleration = 0;
-
     float radius = 0;
-
     void loop(float theDeltaTime) {
-
         float myAccelerationSpeed = acceleration.length();
-
         if (myAccelerationSpeed > maxacceleration) {
             acceleration.normalize();
             acceleration.scale(maxacceleration);
         }
-
         Vector2f myTimerAcceleration = new Vector2f();
         myTimerAcceleration.set(acceleration);
         myTimerAcceleration.scale(theDeltaTime);
-
         velocity.add(myTimerAcceleration);
-
         float mySpeed = velocity.length();
         if (mySpeed > maxspeed) {
             velocity.normalize();
             velocity.scale(maxspeed);
         }
-
         Vector2f myTimerVelocity = new Vector2f();
         myTimerVelocity.set(velocity);
         myTimerVelocity.scale(theDeltaTime);
-
         position.add(myTimerVelocity);
     }
-
     void draw() {
         stroke(0, 0, 0);
         ellipse(position.x, position.y, radius * 2, radius * 2);

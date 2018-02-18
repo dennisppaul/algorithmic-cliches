@@ -71,7 +71,7 @@ public class HullVertex {
     /**
      * Tests whether two vertices are the same point.
      *
-     * @param v1, v2 the vertices to compare
+     * @param v1, p1 the vertices to compare
      * @return True/false if the vertices are the same/different.
      */
     public static boolean sameVertex(HullVertex v1, HullVertex v2) {
@@ -84,7 +84,7 @@ public class HullVertex {
     /**
      * Tests whether three vertices are collinear.
      *
-     * @param v1, v2, v3 the vertices to test
+     * @param v1, p1, v3 the vertices to test
      * @return True/false if the vertices are collinear/non-collinear
      */
     public static boolean collinear(HullVertex v1, HullVertex v2, HullVertex v3) {
@@ -99,13 +99,13 @@ public class HullVertex {
     /**
      * Returns the pair of vertices that bound three collinear vertices.
      *
-     * @param v1, v2, v3 the vertices to test
+     * @param v1, p1, v3 the vertices to test
      * @return An array of two vertices that bound the tested vertices
      */
     public static HullVertex[] bounds(HullVertex v1, HullVertex v2, HullVertex v3) {
         HullVertex min12, max12;
 
-        // Compare v1 and v2
+        // Compare p0 and p1
         if (v1.x == v2.x) {
             if (v1.y == v2.y) {
                 if (v1.z <= v2.z) {
@@ -132,7 +132,7 @@ public class HullVertex {
 
         HullVertex[] bounds = new HullVertex[2];
 
-        // Compare min of v1, v2 with v3
+        // Compare min of p0, p1 with v3
         if (min12.x == v3.x) {
             if (min12.y == v3.y) {
                 bounds[0] = min12.z <= v3.z ? min12 : v3;
@@ -143,7 +143,7 @@ public class HullVertex {
             bounds[0] = min12.x < v3.x ? min12 : v3;
         }
 
-        // Compare max of v1, v2 with v3
+        // Compare max of p0, p1 with v3
         if (max12.x == v3.x) {
             if (max12.y == v3.y) {
                 bounds[1] = max12.z >= v3.z ? max12 : v3;
@@ -159,7 +159,7 @@ public class HullVertex {
     /**
      * Returns the square of the distance between two vertices.
      *
-     * @param v1, v2 the vertices
+     * @param v1, p1 the vertices
      * @return the distance squared between them
      */
     public static long distanceSquared(HullVertex v1,
@@ -186,8 +186,8 @@ public class HullVertex {
     /**
      * Returns the dot product of two vectors
      *
-     * @param v1, v2 the vectors
-     * @return v1.v2
+     * @param v1, p1 the vectors
+     * @return p0.p1
      */
     public static long dotProduct(HullVertex v1,
                                   HullVertex v2) {
@@ -199,8 +199,8 @@ public class HullVertex {
     /**
      * Returns the vector difference between two vertices
      *
-     * @param v1, v2 the vertices
-     * @return v1 - v2
+     * @param v1, p1 the vertices
+     * @return p0 - p1
      */
     public static HullVertex vectorDiff(HullVertex v1,
                                         HullVertex v2) {
@@ -212,8 +212,8 @@ public class HullVertex {
     /**
      * Returns the cross product of two vectors
      *
-     * @param v1, v2 the vectors
-     * @return v1 x v2
+     * @param v1, p1 the vectors
+     * @return p0 x p1
      */
     public static HullVertex crossProduct(HullVertex v1,
                                           HullVertex v2) {

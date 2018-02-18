@@ -27,7 +27,7 @@ public class HullTriangle
     /**
      * Construct a triangle given three vertices.
      *
-     * @param v1, v2, v3 the vertices
+     * @param v1, p1, v3 the vertices
      */
     public HullTriangle(HullVertex v1, HullVertex v2, HullVertex v3) {
         super();
@@ -103,8 +103,8 @@ public class HullTriangle
     /**
      * Returns the third vertex of a triangle given the other two.
      *
-     * @param v1, v2 the other two vertices
-     * @return the third vertex or null if v1 and v2 are not vertices
+     * @param v1, p1 the other two vertices
+     * @return the third vertex or null if p0 and p1 are not vertices
      */
     public HullVertex thirdVertex(HullVertex v1, HullVertex v2) {
         Vector vertices = getVertices();
@@ -129,7 +129,7 @@ public class HullTriangle
     /**
      * Returns the triangle that shares a particular edge.
      *
-     * @params tris the list of triangles to search v1 v2 the vertices that
+     * @params tris the list of triangles to search p0 p1 the vertices that
      * define the edge
      * @return the neighbouring triangle or null if not found
      */

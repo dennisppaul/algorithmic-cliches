@@ -1,50 +1,61 @@
-import oscP5.*;
-import netP5.*;
-import teilchen.util.*;
-import de.hfkbremen.algorithmiccliches.octree.Octree;
-import de.hfkbremen.algorithmiccliches.octree.OctreeEntity;
-import java.util.Vector;
+import de.hfkbremen.algorithmiccliches.*; 
+import de.hfkbremen.algorithmiccliches.agents.*; 
+import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
+import de.hfkbremen.algorithmiccliches.convexhull.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
+import de.hfkbremen.algorithmiccliches.exporting.*; 
+import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.laserline.*; 
+import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
+import de.hfkbremen.algorithmiccliches.octree.*; 
+import de.hfkbremen.algorithmiccliches.util.*; 
+import de.hfkbremen.algorithmiccliches.util.ArcBall; 
+import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
+import oscP5.*; 
+import netP5.*; 
+import teilchen.*; 
+import teilchen.constraint.*; 
+import teilchen.force.*; 
+import teilchen.behavior.*; 
+import teilchen.cubicle.*; 
+import teilchen.util.*; 
+import teilchen.util.Vector3i; 
+import teilchen.util.Util; 
+import teilchen.util.Packing; 
+import teilchen.util.Packing.PackingEntity; 
+import de.hfkbremen.mesh.*; 
+import java.util.*; 
+import ddf.minim.*; 
+import ddf.minim.analysis.*; 
+import quickhull3d.*; 
+import javax.swing.*; 
 
-/**
- * http://en.wikipedia.org/wiki/Octree
- */
+
 final int NUMBER_OF_PARTICLES_ADDED = 10000;
-
 MVisibleOctree mOctree;
-
 final float mOctreeSize = 100;
-
 float mSelectRadius = 20;
-
 boolean showOctree = true;
-
 boolean useSphere = true;
-
 float mRotationZ = 0.1f;
-
 final PVector mPosition = new PVector();
-
 int numParticles = 1;
-
 void settings() {
     size(1024, 768, P3D);
 }
-
 void setup() {
     textFont(createFont("Courier", 11));
-
     mOctree = new MVisibleOctree(new PVector(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
     mOctree.add(new MOctreeEntity());
-
     strokeWeight(0.25f);
 }
-
 void draw() {
     background(255);
     pushMatrix();
-
     translate(width / 2, height / 2, 0);
-
     /* rotate */
     if (mousePressed) {
         mRotationZ += (mouseX * 0.01f - mRotationZ) * 0.05f;
@@ -55,7 +66,6 @@ void draw() {
     rotateX(THIRD_PI);
     rotateZ(mRotationZ);
     scale(4);
-
     /* get entities from octree */
     Vector<OctreeEntity> mEntities;
     if (useSphere) {
@@ -65,7 +75,6 @@ void draw() {
                 mSelectRadius / 2,
                 mSelectRadius / 2));
     }
-
     /* draw entities */
     int mNumberOfPointsSelected = 0;
     stroke(0, 127, 255, 127);
@@ -78,14 +87,12 @@ void draw() {
             drawCross(mEntity.position(), 1.0f);
         }
     }
-
     /* draw octree */
     if (showOctree) {
         stroke(0, 4);
         noFill();
         mOctree.draw();
     }
-
     /* draw crosshair */
     stroke(255, 0, 0, 63);
     noFill();
@@ -95,7 +102,6 @@ void draw() {
     vertex(-mOctreeSize / 2, mPosition.y, 0);
     vertex(mOctreeSize / 2, mPosition.y, 0);
     endShape();
-
     /* draw selection sphere */
     stroke(255, 0, 0, 63);
     noFill();
@@ -103,7 +109,6 @@ void draw() {
     sphereDetail(8);
     sphere(mSelectRadius);
     popMatrix();
-
     /* draw info */
     fill(0);
     noStroke();
@@ -111,13 +116,11 @@ void draw() {
     text("SELECTED : " + mNumberOfPointsSelected, 10, 24);
     text("FPS      : " + frameRate, 10, 36);
 }
-
 void drawCross(PVector v, float pRadius) {
     line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
     line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
     line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
 }
-
 void keyPressed() {
     switch (key) {
         case ' ':
@@ -152,30 +155,22 @@ void keyPressed() {
             break;
     }
 }
-
 class MOctreeEntity
         implements OctreeEntity {
-
     PVector position = new PVector();
-
     int entity_color = color(0, 127, random(0, 255), 127);
-
     PVector position() {
         return position;
     }
 }
-
 class MVisibleOctree
         extends Octree {
-
     MVisibleOctree(PVector o, float d) {
         super(o, d);
     }
-
     void draw() {
         drawNode(this);
     }
-
     void drawNode(Octree pOctree) {
         if (pOctree.getNumChildren() > 0) {
             pushMatrix();

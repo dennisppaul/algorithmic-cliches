@@ -1,39 +1,55 @@
-import oscP5.*;
-import netP5.*;
-import teilchen.util.*;
-import de.hfkbremen.algorithmiccliches.voronoidiagram.Qvoronoi;
+import de.hfkbremen.algorithmiccliches.*; 
+import de.hfkbremen.algorithmiccliches.agents.*; 
+import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
+import de.hfkbremen.algorithmiccliches.convexhull.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
+import de.hfkbremen.algorithmiccliches.exporting.*; 
+import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.laserline.*; 
+import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
+import de.hfkbremen.algorithmiccliches.octree.*; 
+import de.hfkbremen.algorithmiccliches.util.*; 
+import de.hfkbremen.algorithmiccliches.util.ArcBall; 
+import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
+import oscP5.*; 
+import netP5.*; 
+import teilchen.*; 
+import teilchen.constraint.*; 
+import teilchen.force.*; 
+import teilchen.behavior.*; 
+import teilchen.cubicle.*; 
+import teilchen.util.*; 
+import teilchen.util.Vector3i; 
+import teilchen.util.Util; 
+import teilchen.util.Packing; 
+import teilchen.util.Packing.PackingEntity; 
+import de.hfkbremen.mesh.*; 
+import java.util.*; 
+import ddf.minim.*; 
+import ddf.minim.analysis.*; 
+import quickhull3d.*; 
+import javax.swing.*; 
 
-import quickhull3d.Point3d;
-import quickhull3d.QuickHull3D;
 
-/**
- * http://en.wikipedia.org/wiki/Voronoi_diagram
- */
 PVector[][] mRegions;
-
 final Qvoronoi mQvoronoi = new Qvoronoi();
-
 final static int GRID_SIZE = 4;
-
 final static float GRID_SPACE = 50;
-
 final PVector[] mGridPoints = new PVector[GRID_SIZE * GRID_SIZE * GRID_SIZE];
-
 final PVector mAcceptableRegion = new PVector(GRID_SIZE * GRID_SPACE * 1.5f,
         GRID_SIZE * GRID_SPACE * 1.5f,
         GRID_SIZE * GRID_SPACE * 1.5f);
-
 int mCurrentRegion;
-
 void settings() {
     size(1024, 768, P3D);
 }
-
 void setup() {
     frameRate(30);
     populatePointArray();
 }
-
 void populatePointArray() {
     mCurrentRegion = 0;
     /* populate array with almost random points */
@@ -50,16 +66,13 @@ void populatePointArray() {
         }
     }
 }
-
 void draw() {
     mRegions = mQvoronoi.calculate3(mGridPoints);
     mRegions = mQvoronoi.cullReagions(mRegions, mAcceptableRegion);
-
     /* setup scene */
     background(255);
     directionalLight(126, 126, 126, 0, 0, -1);
     ambientLight(102, 102, 102);
-
     /* rotate object */
     translate(width / 2, height / 2);
     rotateY(TWO_PI * (float) mouseX / width);
@@ -67,7 +80,6 @@ void draw() {
     translate(-(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
             -(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
             -(GRID_SIZE - 1) * GRID_SPACE / 2.0f);
-
     /* draw regions */
     for (int i = 0; i < mRegions.length; i++) {
         fill(255, 223, 192);
@@ -82,40 +94,33 @@ void draw() {
         }
         popMatrix();
     }
-
     /* draw selected region */
     noStroke();
     fill(255, 127, 0);
     drawHull(mRegions[mCurrentRegion]);
-
     /* draw points */
     stroke(255, 0, 0, 127);
     for (PVector v : mGridPoints) {
         drawCross(v);
     }
 }
-
 void drawCross(PVector v) {
     final float o = 2.0f;
     line(v.x - o, v.y, v.z, v.x + o, v.y, v.z);
     line(v.x, v.y - o, v.z, v.x, v.y + o, v.z);
     line(v.x, v.y, v.z - o, v.x, v.y, v.z + o);
 }
-
 void drawHull(PVector[] pVertex) {
     final QuickHull3D hull = new QuickHull3D();
-
     final Point3d[] myNewVertices = new Point3d[pVertex.length];
     for (int i = 0; i < pVertex.length; i++) {
         myNewVertices[i] = new Point3d(pVertex[i].x,
                 pVertex[i].y,
                 pVertex[i].z);
     }
-
     hull.build(myNewVertices);
     hull.triangulate();
     Point3d[] vertices = hull.getVertices();  //get vertices
-
     beginShape(TRIANGLE_STRIP);
     int[][] faceIndices = hull.getFaces();
     for (int[] faceIndice : faceIndices) {
@@ -129,12 +134,10 @@ void drawHull(PVector[] pVertex) {
     }
     endShape(CLOSE);
 }
-
 void mousePressed() {
     mCurrentRegion++;
     mCurrentRegion %= mRegions.length;
 }
-
 void keyPressed() {
     populatePointArray();
 }

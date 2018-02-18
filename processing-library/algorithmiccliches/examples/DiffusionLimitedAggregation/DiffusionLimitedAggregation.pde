@@ -1,34 +1,52 @@
-import oscP5.*;
-import netP5.*;
-import teilchen.util.*;
-import de.hfkbremen.algorithmiccliches.octree.Octree;
-import de.hfkbremen.algorithmiccliches.octree.OctreeEntity;
-import teilchen.BasicParticle;
-import teilchen.util.Overlap;
+import de.hfkbremen.algorithmiccliches.*; 
+import de.hfkbremen.algorithmiccliches.agents.*; 
+import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
+import de.hfkbremen.algorithmiccliches.convexhull.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
+import de.hfkbremen.algorithmiccliches.exporting.*; 
+import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.laserline.*; 
+import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
+import de.hfkbremen.algorithmiccliches.octree.*; 
+import de.hfkbremen.algorithmiccliches.util.*; 
+import de.hfkbremen.algorithmiccliches.util.ArcBall; 
+import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
+import oscP5.*; 
+import netP5.*; 
+import teilchen.*; 
+import teilchen.constraint.*; 
+import teilchen.force.*; 
+import teilchen.behavior.*; 
+import teilchen.cubicle.*; 
+import teilchen.util.*; 
+import teilchen.util.Vector3i; 
+import teilchen.util.Util; 
+import teilchen.util.Packing; 
+import teilchen.util.Packing.PackingEntity; 
+import de.hfkbremen.mesh.*; 
+import java.util.*; 
+import ddf.minim.*; 
+import ddf.minim.analysis.*; 
+import quickhull3d.*; 
+import javax.swing.*; 
 
-import java.util.ArrayList;
-import java.util.Vector;
 
-/**
- * https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
- */
 final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
 final int NUMBER_OF_MAX_PARTICLES = 1000;
 final float mOctreeSize = 150;
 Octree mOctree;
 float mRotationZ = 0.1f;
 int mSphereDetail = 8;
-
 void settings() {
     size(1024, 768, P3D);
 }
-
 void setup() {
     textFont(createFont("Courier", 11));
     strokeWeight(0.25f);
-
     mOctree = new Octree(new PVector(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
-
     for (int i = 0; i < 270; i += 16) {
         float x = sin(radians(i)) * 50;
         float y = cos(radians(i)) * 50;
@@ -36,21 +54,18 @@ void setup() {
         addInitialParticle(r, x, y, 0);
     }
 }
-
 void addInitialParticle(float r, float x, float y, float z) {
     BrownianParticle p = new BrownianParticle(r);
     p.position().set(x, y, z);
     p.attach(true);
     mOctree.add(p);
 }
-
 void draw() {
     /* move particles */
     for (OctreeEntity oe : mOctree.entities()) {
         BrownianParticle bp = (BrownianParticle) oe;
         bp.move();
     }
-
     /* teleport */
     float mBoxSize = mOctreeSize / 2;
     for (OctreeEntity oe : mOctree.entities()) {
@@ -74,36 +89,30 @@ void draw() {
             bp.position().z = mBoxSize;
         }
     }
-
     /* maintain particle number */
-    final ArrayList<BrownianParticle> mAttachedParticles = new ArrayList<>();
+    final ArrayList<BrownianParticle> mAttachedParticles = new ArrayList();
     for (OctreeEntity oe : mOctree.entities()) {
         BrownianParticle bp = (BrownianParticle) oe;
         if (bp.attached()) {
             mAttachedParticles.add(bp);
         }
     }
-
     int mNumberOfUnattachedParticles = mOctree.entities().size() - mAttachedParticles.size();
     if (mNumberOfUnattachedParticles < NUMBER_OF_PARTICLES_UNATTACHED && mOctree.entities().size() < NUMBER_OF_MAX_PARTICLES) {
         addBrownianParticle();
     }
-
     /* resolve overlap */
     Overlap.resolveOverlap(mAttachedParticles);
     /* --- */
     background(255);
     lights();
     pushMatrix();
-
     translate(width / 2, height / 2, 0);
-
     /* rotate */
     mRotationZ += 1.0f / frameRate * 0.1f;
     rotateX(THIRD_PI);
     rotateZ(mRotationZ);
     scale(4);
-
     /* draw unattached */
     noFill();
     stroke(0);
@@ -113,7 +122,6 @@ void draw() {
             drawCross(bp.position(), bp.radius());
         }
     }
-
     /* draw attached */
     noStroke();
     sphereDetail(mSphereDetail);
@@ -124,9 +132,7 @@ void draw() {
         sphere(bp.radius() * 1.1f);
         popMatrix();
     }
-
     popMatrix();
-
     /* draw info */
     fill(0);
     noStroke();
@@ -134,13 +140,11 @@ void draw() {
     text("ATTACHED : " + mAttachedParticles.size(), 10, 24);
     text("FPS      : " + frameRate, 10, 36);
 }
-
 void drawCross(PVector v, float pRadius) {
     line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
     line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
     line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
 }
-
 void addBrownianParticle() {
     BrownianParticle mEntity = new BrownianParticle(random(0.5f, 2.5f));
     mEntity.position().x = random(-mOctreeSize / 2, mOctreeSize / 2);
@@ -148,7 +152,6 @@ void addBrownianParticle() {
     mEntity.position().z = random(-mOctreeSize / 2, mOctreeSize / 2);
     mOctree.add(mEntity);
 }
-
 void keyPressed() {
     switch (key) {
         case '+':
@@ -162,18 +165,14 @@ void keyPressed() {
             break;
     }
 }
-
 class BrownianParticle extends BasicParticle implements OctreeEntity {
-
     int entity_color = color(191);
     float mSpeed = 4;
     boolean mAttached = false;
     float mSelectRadius = 20;
-
     BrownianParticle(float pRadius) {
         radius(pRadius);
     }
-
     void move() {
         if (!mAttached) {
             position().x += random(-mSpeed, mSpeed);
@@ -182,11 +181,9 @@ class BrownianParticle extends BasicParticle implements OctreeEntity {
             attach();
         }
     }
-
     void attach(boolean pAttachState) {
         mAttached = pAttachState;
     }
-
     boolean attach() {
         Vector<OctreeEntity> mEntities = mOctree.getEntitesWithinSphere(position(), mSelectRadius);
         if (mEntities != null) {
@@ -203,7 +200,6 @@ class BrownianParticle extends BasicParticle implements OctreeEntity {
         }
         return false;
     }
-
     boolean attached() {
         return mAttached;
     }

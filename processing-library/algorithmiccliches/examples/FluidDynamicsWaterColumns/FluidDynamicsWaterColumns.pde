@@ -1,24 +1,50 @@
-import oscP5.*;
-import netP5.*;
-import teilchen.util.*;
-import de.hfkbremen.algorithmiccliches.fluiddynamics.WaterColumnSolver2;
-import de.hfkbremen.algorithmiccliches.util.ArcBall;
+import de.hfkbremen.algorithmiccliches.*; 
+import de.hfkbremen.algorithmiccliches.agents.*; 
+import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
+import de.hfkbremen.algorithmiccliches.convexhull.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
+import de.hfkbremen.algorithmiccliches.exporting.*; 
+import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.laserline.*; 
+import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
+import de.hfkbremen.algorithmiccliches.octree.*; 
+import de.hfkbremen.algorithmiccliches.util.*; 
+import de.hfkbremen.algorithmiccliches.util.ArcBall; 
+import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
+import oscP5.*; 
+import netP5.*; 
+import teilchen.*; 
+import teilchen.constraint.*; 
+import teilchen.force.*; 
+import teilchen.behavior.*; 
+import teilchen.cubicle.*; 
+import teilchen.util.*; 
+import teilchen.util.Vector3i; 
+import teilchen.util.Util; 
+import teilchen.util.Packing; 
+import teilchen.util.Packing.PackingEntity; 
+import de.hfkbremen.mesh.*; 
+import java.util.*; 
+import ddf.minim.*; 
+import ddf.minim.analysis.*; 
+import quickhull3d.*; 
+import javax.swing.*; 
+
 
 static final int X_SIZE = 1024 / 32;
-
 static final int Y_SIZE = 768 / 32;
 final Quad[][] mQuads = new Quad[X_SIZE][Y_SIZE];
 ArcBall mArcBall;
 WaterColumnSolver2 mWater;
-
 void settings() {
     size(1024, 768, P3D);
 }
-
 void setup() {
     textFont(createFont("Courier", 11));
     mArcBall = new ArcBall(width / 2, height / 2, -height, 400.0f, this, true);
-
     /* create view */
     mWater = new WaterColumnSolver2(X_SIZE, Y_SIZE, 300);
     final float mCellSize = width / X_SIZE;
@@ -31,19 +57,14 @@ void setup() {
             mQuads[x][y].d.set(x * mCellSize, y * mCellSize + mCellSize);
         }
     }
-
     strokeWeight(0.1f);
 }
-
 void draw() {
     final float mDeltaTime = 1.0f / frameRate;
-
     /* step */
     final float mScaledDeltaTime = mDeltaTime * 10.0f;
     /* artificially speeding up the simulation */
-
     mWater.step(mScaledDeltaTime, 20);
-
     /* water interaction */
     final int mX = (int) (mouseX / (float) width * X_SIZE);
     final int mY = (int) (mouseY / (float) height * Y_SIZE);
@@ -57,7 +78,6 @@ void draw() {
             mWater.addVolume(mX, mY, -mVolumePerSecond);
         }
     }
-
     /* update quads from volume map */
     for (int x = 0; x < mQuads.length; x++) {
         for (int y = 0; y < mQuads[x].length; y++) {
@@ -67,27 +87,22 @@ void draw() {
             mQuads[x][y].d.z = mWater.volumemap()[x][y_wrapped(y + 1)];
         }
     }
-
     /* draw */
     background(255);
     directionalLight(126, 126, 126, 0, 0, -1);
     ambientLight(102, 102, 102);
-
     /* draw extra info */
     fill(0);
     noStroke();
     text("FPS      : " + (int) frameRate, 10, 12);
     text("VOLUME   : " + mWater.totalvolume(), 10, 24);
-
     /* view */
     mArcBall.update();
     translate(0, 0, -height);
-
     /* ground */
     fill(255, 127, 0);
     noStroke();
     rect(0, 0, width, height);
-
     /* water */
     fill(0, 127, 255, 191);
     stroke(31, 191, 255, 31);
@@ -105,27 +120,18 @@ void draw() {
     }
     endShape();
 }
-
 void vertex(PVector v) {
     vertex(v.x, v.y, v.z);
 }
-
 int x_wrapped(int x) {
     return (x + X_SIZE) % X_SIZE;
 }
-
 int y_wrapped(int y) {
     return (y + Y_SIZE) % Y_SIZE;
 }
-
 class Quad {
-
     final PVector a = new PVector();
-
     final PVector b = new PVector();
-
     final PVector c = new PVector();
-
     final PVector d = new PVector();
-
 }

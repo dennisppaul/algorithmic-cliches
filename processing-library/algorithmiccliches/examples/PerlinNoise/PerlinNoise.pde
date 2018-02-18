@@ -1,11 +1,39 @@
-import oscP5.*;
-import netP5.*;
-import teilchen.util.*;
-import java.util.Vector;
+import de.hfkbremen.algorithmiccliches.*; 
+import de.hfkbremen.algorithmiccliches.agents.*; 
+import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
+import de.hfkbremen.algorithmiccliches.convexhull.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
+import de.hfkbremen.algorithmiccliches.exporting.*; 
+import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.laserline.*; 
+import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
+import de.hfkbremen.algorithmiccliches.octree.*; 
+import de.hfkbremen.algorithmiccliches.util.*; 
+import de.hfkbremen.algorithmiccliches.util.ArcBall; 
+import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
+import oscP5.*; 
+import netP5.*; 
+import teilchen.*; 
+import teilchen.constraint.*; 
+import teilchen.force.*; 
+import teilchen.behavior.*; 
+import teilchen.cubicle.*; 
+import teilchen.util.*; 
+import teilchen.util.Vector3i; 
+import teilchen.util.Util; 
+import teilchen.util.Packing; 
+import teilchen.util.Packing.PackingEntity; 
+import de.hfkbremen.mesh.*; 
+import java.util.*; 
+import ddf.minim.*; 
+import ddf.minim.analysis.*; 
+import quickhull3d.*; 
+import javax.swing.*; 
 
-/**
- * http://en.wikipedia.org/wiki/Perlin_noise
- */
+
 static final int GRID_SIZE = 16;
 final float mNoiseScale = 0.024f;
 final Vector<MEntity> mEntities = new Vector<MEntity>();
@@ -14,18 +42,14 @@ int mCellsY;
 PVector[][] mVectorField;
 float mOffset = 0.0f;
 boolean mDrawGrid = false;
-
 void settings() {
     size(1024, 768, P3D);
 }
-
 void setup() {
     smooth();
     rectMode(CENTER);
-
     mCellsX = width / GRID_SIZE;
     mCellsY = height / GRID_SIZE;
-
     mVectorField = new PVector[mCellsX][mCellsY];
     for (PVector[] mVectorField1 : mVectorField) {
         for (int y = 0; y < mVectorField1.length; y++) {
@@ -33,12 +57,10 @@ void setup() {
         }
     }
     populateField(mOffset);
-
     for (int i = 0; i < 3000; i++) {
         mEntities.add(new MEntity());
     }
 }
-
 void populateField(float mOffset) {
     for (int x = 0; x < mVectorField.length; x++) {
         for (int y = 0; y < mVectorField[x].length; y++) {
@@ -50,10 +72,8 @@ void populateField(float mOffset) {
         }
     }
 }
-
 void draw() {
     background(255);
-
     /* update flowfield */
     final float mDeltaTime = 1.0f / frameRate;
     mOffset += 0.05f * mDeltaTime;
@@ -76,7 +96,6 @@ void draw() {
             }
         }
     }
-
     /* update + draw entities */
     for (MEntity mEntity : mEntities) {
         mEntity.update();
@@ -87,7 +106,6 @@ void draw() {
         mEntity.draw(g);
     }
 }
-
 void keyPressed() {
     if (key == ' ') {
         mOffset += 0.1f;
@@ -97,19 +115,12 @@ void keyPressed() {
         mDrawGrid = !mDrawGrid;
     }
 }
-
 class MEntity {
-
     PVector position = new PVector();
-
     PVector velocity = new PVector();
-
     PVector acceleration = new PVector();
-
     float speed = random(150, 300);
-
     float force = random(600, 900);
-
     void draw(PGraphics g) {
         pushMatrix();
         translate(position.x, position.y, position.z);
@@ -117,7 +128,6 @@ class MEntity {
         rect(0, 0, 15, 5);
         popMatrix();
     }
-
     void update() {
         /* teleport */
         if (position.x < 0) {
@@ -132,7 +142,6 @@ class MEntity {
         if (position.y > height) {
             position.y = 0;
         }
-
         /* set acceleration from forcefield */
         final int mCellX = (int) (position.x / GRID_SIZE);
         final int mCellY = (int) (position.y / GRID_SIZE);
@@ -140,7 +149,6 @@ class MEntity {
             PVector v = mVectorField[mCellX][mCellY];
             acceleration.set(v);
         }
-
         /* move entity */
         final float mDeltaTime = 1.0f / frameRate;
         acceleration.mult(force);
@@ -153,7 +161,6 @@ class MEntity {
         mVel.mult(mDeltaTime);
         position.add(mVel);
     }
-
     boolean withinBounds(int pCellX, int pCellY) {
         return !(pCellX < 0 || pCellY < 0 || pCellX >= mCellsX || pCellY >= mCellsY);
     }

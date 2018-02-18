@@ -31,7 +31,7 @@ public class HullEdge {
     /**
      * Construct an edge using two vertices.
      *
-     * @param v1, v2 the end-points of the edge
+     * @param v1, p1 the end-points of the edge
      */
     public HullEdge(HullVertex v1, HullVertex v2) {
         end1 = v1;

@@ -1,59 +1,69 @@
-import oscP5.*;
-import netP5.*;
-import teilchen.util.*;
-import java.util.Vector;
+import de.hfkbremen.algorithmiccliches.*; 
+import de.hfkbremen.algorithmiccliches.agents.*; 
+import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
+import de.hfkbremen.algorithmiccliches.convexhull.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
+import de.hfkbremen.algorithmiccliches.exporting.*; 
+import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.laserline.*; 
+import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
+import de.hfkbremen.algorithmiccliches.octree.*; 
+import de.hfkbremen.algorithmiccliches.util.*; 
+import de.hfkbremen.algorithmiccliches.util.ArcBall; 
+import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
+import oscP5.*; 
+import netP5.*; 
+import teilchen.*; 
+import teilchen.constraint.*; 
+import teilchen.force.*; 
+import teilchen.behavior.*; 
+import teilchen.cubicle.*; 
+import teilchen.util.*; 
+import teilchen.util.Vector3i; 
+import teilchen.util.Util; 
+import teilchen.util.Packing; 
+import teilchen.util.Packing.PackingEntity; 
+import de.hfkbremen.mesh.*; 
+import java.util.*; 
+import ddf.minim.*; 
+import ddf.minim.analysis.*; 
+import quickhull3d.*; 
+import javax.swing.*; 
 
-/**
- * http://en.wikipedia.org/wiki/State_machine
- */
+
 final Vector<MEntity> mEntities = new Vector<MEntity>();
-
 void settings() {
     size(1024, 768, P3D);
 }
-
 void setup() {
     rectMode(CENTER);
     smooth();
-
     for (int i = 0; i < 100; i++) {
         mEntities.add(new MEntity());
     }
 }
-
 void draw() {
     final float mDelta = 1.0f / frameRate;
-
     background(255);
-
     for (MEntity m : mEntities) {
         m.update(mDelta);
         m.draw(g);
     }
 }
-
 class MEntity {
-
     int state;
-
     static final int STATE_FOLLOW_MOUSE = 0;
-
     static final int STATE_CHANGE_RANDOMLY = 1;
-
     static final int STATE_BROWNIAN_MOTION = 2;
-
     PVector position = new PVector();
-
     int entity_color;
-
     float speed;
-
     float state_time;
-
     float scale;
-
     final float IDEAL_SCALE = 20.0f;
-
     MEntity() {
         state = STATE_FOLLOW_MOUSE;
         position.set(random(width), random(height));
@@ -61,7 +71,6 @@ class MEntity {
         entity_color = color(0, 127);
         scale = IDEAL_SCALE;
     }
-
     void update(final float pDelta) {
         state_time += pDelta;
         switch (state) {
@@ -76,7 +85,6 @@ class MEntity {
                 break;
         }
     }
-
     void draw(PGraphics g) {
         noStroke();
         fill(entity_color);
@@ -85,7 +93,6 @@ class MEntity {
         ellipse(0, 0, scale, scale);
         popMatrix();
     }
-
     void update_brownian_motion(final float pDelta) {
         final float STATE_DURATION = 4.0f;
         if (state_time > STATE_DURATION) {
@@ -98,7 +105,6 @@ class MEntity {
                     random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
         }
     }
-
     void update_change_randomly(final float pDelta) {
         final float STATE_DURATION = 1.5f;
         if (state_time > STATE_DURATION) {
@@ -109,7 +115,6 @@ class MEntity {
             scale = random(50, 100);
         }
     }
-
     void update_follow_mouse(final float pDelta) {
         PVector mDiff = PVector.sub(new PVector(mouseX, mouseY), position);
         final float MIN_DISTANCE = 10.0f;
@@ -117,7 +122,6 @@ class MEntity {
             state_time = 0.0f;
             state = STATE_BROWNIAN_MOTION;
             scale = IDEAL_SCALE; /* make sure to always clean up volatile values */
-
         } else {
             scale += (IDEAL_SCALE - scale) * pDelta;
             entity_color = color(0, 127, 255, 127);

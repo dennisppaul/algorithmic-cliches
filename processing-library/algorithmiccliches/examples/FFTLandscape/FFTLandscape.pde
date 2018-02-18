@@ -1,74 +1,81 @@
-import oscP5.*;
-import netP5.*;
-import teilchen.util.*;
-import ddf.minim.AudioInput;
-import ddf.minim.Minim;
-import ddf.minim.analysis.FFT;
-import de.hfkbremen.algorithmiccliches.util.ArcBall;
-import java.util.Vector;
-/**
- * http://en.wikipedia.org/wiki/Fft
- */
+import de.hfkbremen.algorithmiccliches.*; 
+import de.hfkbremen.algorithmiccliches.agents.*; 
+import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
+import de.hfkbremen.algorithmiccliches.convexhull.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
+import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
+import de.hfkbremen.algorithmiccliches.exporting.*; 
+import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.laserline.*; 
+import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
+import de.hfkbremen.algorithmiccliches.octree.*; 
+import de.hfkbremen.algorithmiccliches.util.*; 
+import de.hfkbremen.algorithmiccliches.util.ArcBall; 
+import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
+import oscP5.*; 
+import netP5.*; 
+import teilchen.*; 
+import teilchen.constraint.*; 
+import teilchen.force.*; 
+import teilchen.behavior.*; 
+import teilchen.cubicle.*; 
+import teilchen.util.*; 
+import teilchen.util.Vector3i; 
+import teilchen.util.Util; 
+import teilchen.util.Packing; 
+import teilchen.util.Packing.PackingEntity; 
+import de.hfkbremen.mesh.*; 
+import java.util.*; 
+import ddf.minim.*; 
+import ddf.minim.analysis.*; 
+import quickhull3d.*; 
+import javax.swing.*; 
+
+
 Minim mMinim;
-
 AudioInput mLiveAudioInput;
-
 FFT mFFT;
-
 static float mCurrentTime = 0.0f;
-
 final MBands[] mBands = new MBands[200];
-
 int mBandsPointer = 0;
-
 static final float BAND_SCALE = 8.0f;
-
 void settings() {
     size(1024, 768, P3D);
 }
-
 void setup() {
     new ArcBall(this);
-
     mMinim = new Minim(this);
-
     mLiveAudioInput = mMinim.getLineIn(Minim.STEREO, 1024);
     mFFT = new FFT(mLiveAudioInput.bufferSize(), mLiveAudioInput.sampleRate());
     mFFT.logAverages(55, 4);
-
     for (int i = 0; i < mBands.length; i++) {
         mBands[i] = new MBands();
     }
 }
-
 void draw() {
     mCurrentTime += 1.0f / frameRate;
     handleFFT();
-
     background(255);
     directionalLight(126, 126, 126, 0, 0, -1);
     ambientLight(102, 102, 102);
     translate(0, 0, -height / 2);
-
     fill(255, 127, 0);
     noStroke();
     drawFFTLandscape();
-
     fill(0, 127, 255);
     noStroke();
     translate(0, 0, 20);
     drawBands(mBands[mBandsPointer]);
-
     mBandsPointer++;
     mBandsPointer %= mBands.length;
 }
-
 void stop() {
     mLiveAudioInput.close();
     mMinim.stop();
     super.stop();
 }
-
 void handleFFT() {
     mFFT.forward(mLiveAudioInput.left);
     MBands mCurrentBands = new MBands();
@@ -78,7 +85,6 @@ void handleFFT() {
     }
     mBands[mBandsPointer] = mCurrentBands;
 }
-
 void drawBands(MBands b) {
     for (int i = 0; i < b.bands.size(); i++) {
         final float x = width * (float) i / b.bands.size();
@@ -86,7 +92,6 @@ void drawBands(MBands b) {
         rect(x, height, width / b.bands.size(), -myHeight);
     }
 }
-
 void drawFFTLandscape() {
     beginShape(TRIANGLES);
     if (mBands.length > 2) {
@@ -99,23 +104,19 @@ void drawFFTLandscape() {
             if (bP.bands.isEmpty() || b.bands.isEmpty()) {
                 continue;
             }
-
             for (int j = 0; j < b.bands.size(); j++) {
                 int mJ = (j + 1) % b.bands.size();
                 final float x0 = width * (float) j / b.bands.size();
                 final float y0 = height - b.bands.get(j) * BAND_SCALE;
                 final float x1 = width * (float) (j + 1) / b.bands.size();
                 final float y1 = height - b.bands.get(mJ) * BAND_SCALE;
-
                 final float x2 = width * (float) (j + 1) / bP.bands.size();
                 final float y2 = height - bP.bands.get(mJ) * BAND_SCALE;
                 final float x3 = width * (float) j / bP.bands.size();
                 final float y3 = height - bP.bands.get(j) * BAND_SCALE;
-
                 vertex(x0, y0, z * i);
                 vertex(x1, y1, z * i);
                 vertex(x2, y2, z * (i - 1));
-
                 vertex(x0, y0, z * i);
                 vertex(x2, y2, z * (i - 1));
                 vertex(x3, y3, z * (i - 1));
@@ -124,11 +125,7 @@ void drawFFTLandscape() {
     }
     endShape();
 }
-
 class MBands {
-
     Vector<Float> bands = new Vector<Float>();
-
     float time;
-
 }
