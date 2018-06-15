@@ -61,7 +61,7 @@ public class SketchIsoSurface2 extends PApplet {
             }
         }
 
-        /* draw blobs */
+        /* draw lines */
         final Vector<Linef> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
         stroke(0, 175);
         stroke(255, 127, 0);

@@ -7,7 +7,6 @@ import processing.core.PVector;
 import teilchen.util.Linef;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Vector;
 
 public class SketchIsoSurface2ExtractBlobs extends PApplet {
@@ -54,7 +53,7 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
             }
         }
 
-        /* draw blobs */
+        /* draw lines */
         final Vector<Linef> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
         stroke(0, 175);
         stroke(255, 127, 0);
@@ -66,7 +65,8 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
         }
         endShape();
 
-        ArrayList<ArrayList<PVector>> mBlobShapes = extractBlobs(mLines);
+        /* draw blobs */
+        ArrayList<ArrayList<PVector>> mBlobShapes = MarchingSquares.extractBlobs(mLines);
         noStroke();
         fill(0, 127);
         for (ArrayList<PVector> mBlobShape : mBlobShapes) {
@@ -83,9 +83,9 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
 
         fill(0);
         noStroke();
-        text("ISOVALUE   : " + mIsoValue, 10, 12);
-        text("BLOB_SHAPE : " + mBlobShapes.size(), 10, 24);
-        text("FPS        : " + (int) frameRate, 10, 36);
+        text("ISOVALUE    : " + mIsoValue, 10, 12);
+        text("#BLOB_SHAPE : " + mBlobShapes.size(), 10, 24);
+        text("FPS         : " + (int) frameRate, 10, 36);
     }
 
     public void keyPressed() {
@@ -97,69 +97,6 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
                 mIsoValue--;
                 break;
         }
-    }
-
-    public ArrayList<ArrayList<PVector>> extractBlobs(Vector<Linef> pLines) {
-        Vector<Linef> mLines = new Vector<>(pLines);
-        ArrayList<ArrayList<PVector>> mBlobs = new ArrayList<>();
-        while (!mLines.isEmpty()) {
-            ArrayList<PVector> mBlob = extractBlob(mLines);
-            if (mBlob != null) {
-                mBlobs.add(mBlob);
-            }
-        }
-        return mBlobs;
-    }
-
-    public ArrayList<PVector> extractBlob(Vector<Linef> pLines) {
-        ArrayList<PVector> mBlob = new ArrayList<>();
-        Linef mFirstLine = pLines.remove(0);
-        mBlob.add(mFirstLine.p1);
-        mBlob.add(mFirstLine.p2);
-
-        int mShapesAdded;
-        do {
-            mShapesAdded = 0;
-            for (Iterator<Linef> iterator = pLines.iterator(); iterator.hasNext(); ) {
-                Linef l = iterator.next();
-                PVector mFirst = mBlob.get(0);
-                PVector mLast = mBlob.get(mBlob.size() - 1);
-                if (close(l.p2, mFirst) && close(l.p1, mLast)) {
-                    iterator.remove();
-                    return mBlob;
-                } else if (close(l.p1, mFirst) && close(l.p2, mLast)) {
-                    iterator.remove();
-                    return mBlob;
-                } else if (close(l.p1, mFirst)) {
-                    mBlob.add(0, l.p1);
-                    mBlob.add(0, l.p2);
-                    mShapesAdded++;
-                    iterator.remove();
-                } else if (close(l.p2, mFirst)) {
-                    mBlob.add(0, l.p2);
-                    mBlob.add(0, l.p1);
-                    mShapesAdded++;
-                    iterator.remove();
-                } else if (close(l.p1, mLast)) {
-                    mBlob.add(l.p1);
-                    mBlob.add(l.p2);
-                    mShapesAdded++;
-                    iterator.remove();
-                } else if (close(l.p2, mLast)) {
-                    mBlob.add(l.p2);
-                    mBlob.add(l.p1);
-                    mShapesAdded++;
-                    iterator.remove();
-                }
-            }
-        } while (mShapesAdded > 0);
-        final boolean RETURN_CLOSED_ONLY = false;
-        return RETURN_CLOSED_ONLY ? null : (mBlob.size() == 2 ? null : mBlob);
-    }
-
-    private boolean close(PVector a, PVector b) {
-        final float mEpsilon = 0.001f;
-        return a.dist(b) < mEpsilon;
     }
 
     private void drawGrid(int RES_X, int RES_Y) {
