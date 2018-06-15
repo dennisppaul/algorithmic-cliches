@@ -10,7 +10,7 @@ import processing.core.PVector;
 import java.util.Vector;
 
 /**
- * http://en.wikipedia.org/wiki/Delaunay_Triangulation
+ http://en.wikipedia.org/wiki/Delaunay_Triangulation
  */
 public class SketchDelaunayTriangulation2 extends PApplet {
 
@@ -88,7 +88,7 @@ public class SketchDelaunayTriangulation2 extends PApplet {
     }
 
     private void drawDelaunay(Vector<DelaunayTriangle> mDelaunayTriangles) {
-        /* draw delaunay trinangles */
+        /* draw delaunay triangles */
         if (mDelaunayTriangles != null) {
             beginShape(TRIANGLES);
             for (DelaunayTriangle mDelaunayTriangle : mDelaunayTriangles) {

@@ -95,7 +95,7 @@ void drawVoronoi(Vector<Region> mVoronoiRegions) {
     }
 }
 void drawDelaunay(Vector<DelaunayTriangle> mDelaunayTriangles) {
-    /* draw delaunay trinangles */
+    /* draw delaunay triangles */
     if (mDelaunayTriangles != null) {
         beginShape(TRIANGLES);
         for (DelaunayTriangle mDelaunayTriangle : mDelaunayTriangles) {

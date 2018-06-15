@@ -114,7 +114,7 @@ public class DelaunayTriangulation {
         pBc.add(pB);
         pB.add(v1);
 
-        Intersection.lineLineIntersect(pA, pAc, pB, pBc, myCenter, new PVector(), null);
+        Intersection.lineLineIntersect(pA, pAc, pB, pBc, myCenter, new PVector());
         return myCenter;
     }
 
