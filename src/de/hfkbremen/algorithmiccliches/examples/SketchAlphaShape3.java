@@ -1,7 +1,7 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
-import de.hfkbremen.mesh.CGALAlphaShape3;
-import de.hfkbremen.mesh.Mesh;
+import de.hfkbremen.gewebe.CGALAlphaShape3;
+import de.hfkbremen.gewebe.Mesh;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -40,7 +40,7 @@ public class SketchAlphaShape3 extends PApplet {
         directionalLight(126, 126, 126, 0, 0, -1);
         ambientLight(102, 102, 102);
 
-        translate(width / 2, height / 2);
+        translate(width / 2.0f, height / 2.0f);
         scale(100);
         rotateX(frameCount * 0.01f);
         rotateY(frameCount * 0.003f);
@@ -62,12 +62,12 @@ public class SketchAlphaShape3 extends PApplet {
         endShape();
     }
 
-    private void computeAlphaShape(float mAlpha) {
-        mMesh = cgal.mesh(mAlpha);
-    }
-
     public void mouseMoved() {
         computeAlphaShape(mouseX / (float) width);
+    }
+
+    private void computeAlphaShape(float mAlpha) {
+        mMesh = cgal.mesh(mAlpha);
     }
 
     public static void main(String[] args) {

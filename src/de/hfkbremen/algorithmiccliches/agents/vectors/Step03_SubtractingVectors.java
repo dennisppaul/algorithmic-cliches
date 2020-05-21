@@ -14,7 +14,7 @@ public class Step03_SubtractingVectors extends PApplet {
         myVector.x = 4;
         myVector.y = 5;
 
-        /* creating anonther vector */
+        /* creating another vector */
         Vector2f myOtherVector = new Vector2f();
         myOtherVector.x = 1;
         myOtherVector.y = 2;

@@ -8,10 +8,11 @@ import processing.core.PVector;
 import java.util.Arrays;
 import java.util.Vector;
 
-/**
- * http://en.wikipedia.org/wiki/Voronoi_diagram
- */
 public class SketchVoronoi2RoundRegions extends PApplet {
+
+    /**
+     * http://en.wikipedia.org/wiki/Voronoi_diagram
+     */
 
     private final Qvoronoi mQvoronoi = new Qvoronoi();
     private final Vector<PVector> mPoints = new Vector<PVector>();
@@ -23,34 +24,27 @@ public class SketchVoronoi2RoundRegions extends PApplet {
     }
 
     public void setup() {
-        smooth();
-
-        final int NUMBER_OF_POINTS_ON_CIRLCE = 20;
-        for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRLCE; i++) {
-            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRLCE * TWO_PI;
-            final float x = sin(r) * 50 + width / 2;
-            final float y = cos(r) * 50 + height / 2;
+        final int NUMBER_OF_POINTS_ON_CIRCLE = 20;
+        for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRCLE; i++) {
+            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRCLE * TWO_PI;
+            final float x = sin(r) * 50 + width / 2.0f;
+            final float y = cos(r) * 50 + height / 2.0f;
             addPoint(x, y);
         }
-        for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRLCE; i++) {
-            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRLCE * TWO_PI + 0.3f;
-            final float x = sin(r) * 100 + width / 2;
-            final float y = cos(r) * 100 + height / 2;
+        for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRCLE; i++) {
+            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRCLE * TWO_PI + 0.3f;
+            final float x = sin(r) * 100 + width / 2.0f;
+            final float y = cos(r) * 100 + height / 2.0f;
             addPoint(x, y);
         }
-        for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRLCE; i++) {
-            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRLCE * TWO_PI + 1.1f;
-            final float x = sin(r) * 150 + width / 2;
-            final float y = cos(r) * 150 + height / 2;
+        for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRCLE; i++) {
+            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRCLE * TWO_PI + 1.1f;
+            final float x = sin(r) * 150 + width / 2.0f;
+            final float y = cos(r) * 150 + height / 2.0f;
             addPoint(x, y);
         }
 
-        addPoint(width / 2, height / 2);
-    }
-
-    private void addPoint(float x, float y) {
-        mCurrentRegion = 0;
-        mPoints.add(new PVector(x, y));
+        addPoint(width / 2.0f, height / 2.0f);
     }
 
     public void draw() {
@@ -91,6 +85,20 @@ public class SketchVoronoi2RoundRegions extends PApplet {
         }
     }
 
+    public void mousePressed() {
+        addPoint(mouseX, mouseY);
+    }
+
+    public void keyPressed() {
+        mCurrentRegion++;
+        mCurrentRegion %= mRegions.length;
+    }
+
+    private void addPoint(float x, float y) {
+        mCurrentRegion = 0;
+        mPoints.add(new PVector(x, y));
+    }
+
     private void drawCross(PVector v) {
         final float o = 2.0f;
         line(v.x - o, v.y, v.z, v.x + o, v.y, v.z);
@@ -107,15 +115,6 @@ public class SketchVoronoi2RoundRegions extends PApplet {
             vertex(v.x, v.y, v.z);
         }
         endShape(CLOSE);
-    }
-
-    public void keyPressed() {
-        mCurrentRegion++;
-        mCurrentRegion %= mRegions.length;
-    }
-
-    public void mousePressed() {
-        addPoint(mouseX, mouseY);
     }
 
     public static void main(String[] args) {

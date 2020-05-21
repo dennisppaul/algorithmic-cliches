@@ -3,10 +3,11 @@ package de.hfkbremen.algorithmiccliches.examples;
 import de.hfkbremen.algorithmiccliches.cellularautomata.CellularAutomaton2;
 import processing.core.PApplet;
 
-/**
- * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
- */
 public class SketchCellularAutomataGameOfLife2 extends PApplet {
+
+    /**
+     * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+     */
 
     private CellularAutomaton2 mCA;
 
@@ -36,7 +37,7 @@ public class SketchCellularAutomataGameOfLife2 extends PApplet {
         fill(127);
         noStroke();
         pushMatrix();
-        translate(width / 2, height / 2);
+        translate(width / 2.0f, height / 2.0f);
         scale(6);
         mCA.draw(g);
         popMatrix();

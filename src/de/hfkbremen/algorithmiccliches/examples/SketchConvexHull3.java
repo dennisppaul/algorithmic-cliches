@@ -2,7 +2,6 @@ package de.hfkbremen.algorithmiccliches.examples;
 
 import de.hfkbremen.algorithmiccliches.convexhull.ConvexHull;
 import de.hfkbremen.algorithmiccliches.convexhull.HullVertex;
-
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -30,22 +29,6 @@ public class SketchConvexHull3 extends PApplet {
         populatePointArray();
     }
 
-    private void populatePointArray() {
-        /* populate array with almost random points */
-        int i = 0;
-        for (int x = 0; x < GRID_SIZE; x++) {
-            for (int y = 0; y < GRID_SIZE; y++) {
-                for (int z = 0; z < GRID_SIZE; z++) {
-                    final float mRandomOffset = 1.5f;
-                    mGridPoints[i] = new PVector(x * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
-                            y * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset),
-                            z * GRID_SPACE + random(-GRID_SPACE * mRandomOffset, GRID_SPACE * mRandomOffset));
-                    i++;
-                }
-            }
-        }
-    }
-
     public void draw() {
         /* setup scene */
         background(255);
@@ -53,12 +36,12 @@ public class SketchConvexHull3 extends PApplet {
         ambientLight(102, 102, 102);
 
         /* rotate object */
-        translate(width / 2, height / 2);
+        translate(width / 2.0f, height / 2.0f);
         rotateY(TWO_PI * (float) mouseX / width);
         rotateX(TWO_PI * (float) mouseY / height);
         translate(-(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
-                -(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
-                -(GRID_SIZE - 1) * GRID_SPACE / 2.0f);
+                  -(GRID_SIZE - 1) * GRID_SPACE / 2.0f,
+                  -(GRID_SIZE - 1) * GRID_SPACE / 2.0f);
 
         /* draw hull */
         noStroke();
@@ -69,6 +52,29 @@ public class SketchConvexHull3 extends PApplet {
         stroke(255, 0, 0, 127);
         for (PVector v : mGridPoints) {
             drawCross(v);
+        }
+    }
+
+    public void keyPressed() {
+        populatePointArray();
+    }
+
+    private void populatePointArray() {
+        /* populate array with almost random points */
+        int i = 0;
+        for (int x = 0; x < GRID_SIZE; x++) {
+            for (int y = 0; y < GRID_SIZE; y++) {
+                for (int z = 0; z < GRID_SIZE; z++) {
+                    final float mRandomOffset = 1.5f;
+                    mGridPoints[i] = new PVector(x * GRID_SPACE + random(-GRID_SPACE * mRandomOffset,
+                                                                         GRID_SPACE * mRandomOffset),
+                                                 y * GRID_SPACE + random(-GRID_SPACE * mRandomOffset,
+                                                                         GRID_SPACE * mRandomOffset),
+                                                 z * GRID_SPACE + random(-GRID_SPACE * mRandomOffset,
+                                                                         GRID_SPACE * mRandomOffset));
+                    i++;
+                }
+            }
         }
     }
 
@@ -84,8 +90,8 @@ public class SketchConvexHull3 extends PApplet {
         final Vector<HullVertex> mNewVertices = new Vector<HullVertex>();
         for (int i = 0; i < pVertex.length; i++) {
             mNewVertices.add(new HullVertex(pVertex[i].x,
-                    pVertex[i].y,
-                    pVertex[i].z));
+                                            pVertex[i].y,
+                                            pVertex[i].z));
         }
         mHull.calculateHull(mNewVertices);
         float[] myVertices = mHull.getVerticesArray();
@@ -100,10 +106,6 @@ public class SketchConvexHull3 extends PApplet {
             }
         }
         endShape();
-    }
-
-    public void keyPressed() {
-        populatePointArray();
     }
 
     public static void main(String[] args) {

@@ -24,7 +24,7 @@ public class SketchAgents_Step03_MovingInDifferentDirections extends PApplet {
         frameRate(10);
 
         myAgent = new Agent();
-        myAgent.position.set(width / 2, height / 2, 0);
+        myAgent.position.set(width / 2.0f, height / 2.0f, 0);
         myAgent.velocity.set(5, 8, 0);
         myAgent.radius = 15;
     }

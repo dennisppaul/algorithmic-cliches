@@ -50,13 +50,6 @@ public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
         }
     }
 
-    private void addInitialParticle(float r, float x, float y, float z) {
-        BrownianParticle p = new BrownianParticle(r);
-        p.position().set(x, y, z);
-        p.attach(true);
-        mOctree.add(p);
-    }
-
     public void draw() {
         /* move particles */
         for (OctreeEntity oe : mOctree.entities()) {
@@ -98,7 +91,8 @@ public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
         }
 
         int mNumberOfUnattachedParticles = mOctree.entities().size() - mAttachedParticles.size();
-        if (mNumberOfUnattachedParticles < NUMBER_OF_PARTICLES_UNATTACHED && mOctree.entities().size() < NUMBER_OF_MAX_PARTICLES) {
+        if (mNumberOfUnattachedParticles < NUMBER_OF_PARTICLES_UNATTACHED && mOctree.entities()
+                                                                                    .size() < NUMBER_OF_MAX_PARTICLES) {
             addBrownianParticle();
         }
 
@@ -110,7 +104,7 @@ public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
         lights();
         pushMatrix();
 
-        translate(width / 2, height / 2, 0);
+        translate(width / 2.0f, height / 2.0f, 0);
 
         /* rotate */
         mRotationZ += 1.0f / frameRate * 0.1f;
@@ -179,6 +173,13 @@ public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
         text("TOTAL    : " + mOctree.entities().size(), 10, 12);
         text("ATTACHED : " + mAttachedParticles.size(), 10, 24);
         text("FPS      : " + frameRate, 10, 36);
+    }
+
+    private void addInitialParticle(float r, float x, float y, float z) {
+        BrownianParticle p = new BrownianParticle(r);
+        p.position().set(x, y, z);
+        p.attach(true);
+        mOctree.add(p);
     }
 
     private void drawCross(PVector v, float pRadius) {

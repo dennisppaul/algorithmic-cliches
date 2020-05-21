@@ -1,10 +1,10 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
 import processing.core.PApplet;
-
-import java.util.Vector;
 import processing.core.PGraphics;
 import processing.core.PVector;
+
+import java.util.Vector;
 
 /**
  * http://en.wikipedia.org/wiki/State_machine
@@ -39,19 +39,13 @@ public class SketchStateMachineWithObjects extends PApplet {
 
     public class Entity {
 
-        PVector position = new PVector();
-
-        int entity_color;
-
-        float speed;
-
-        float scale;
-
         static final float IDEAL_SCALE = 20.0f;
-
-        private State mState;
-
         private final PApplet p;
+        PVector position = new PVector();
+        int entity_color;
+        float speed;
+        float scale;
+        private State mState;
 
         public Entity(PApplet pPApplet) {
             p = pPApplet;
@@ -109,11 +103,9 @@ public class SketchStateMachineWithObjects extends PApplet {
     public class StateBrownianMotion
             extends State {
 
-        private float mStateTime;
-
         private static final float STATE_DURATION = 4.0f;
-
         private static final float BROWNIAN_SPEED = 15.0f;
+        private float mStateTime;
 
         public StateBrownianMotion(Entity pParent, PApplet pPApplet) {
             super(pParent, pPApplet);
@@ -129,7 +121,7 @@ public class SketchStateMachineWithObjects extends PApplet {
                 e.switchState(new StateChangeRandomly(e, p));
             } else {
                 e.position.add(p.random(-BROWNIAN_SPEED, BROWNIAN_SPEED),
-                        p.random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
+                               p.random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
             }
         }
 
@@ -140,9 +132,8 @@ public class SketchStateMachineWithObjects extends PApplet {
     public class StateChangeRandomly
             extends State {
 
-        private float mStateTime;
-
         private static final float STATE_DURATION = 1.5f;
+        private float mStateTime;
 
         public StateChangeRandomly(Entity pParent, PApplet pPApplet) {
             super(pParent, pPApplet);

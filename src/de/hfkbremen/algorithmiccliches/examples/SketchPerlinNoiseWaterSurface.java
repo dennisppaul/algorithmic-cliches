@@ -5,10 +5,8 @@ import processing.core.PApplet;
 
 public class SketchPerlinNoiseWaterSurface extends PApplet {
 
-    private float[][] mWaterSurface;
-
     private final int mGridScale = 16;
-
+    private float[][] mWaterSurface;
     private float mWaveOffset;
 
     public void settings() {
@@ -48,7 +46,7 @@ public class SketchPerlinNoiseWaterSurface extends PApplet {
         ambientLight(102, 102, 102);
 
         pushMatrix();
-        translate(0, 0, -height / 2);
+        translate(0, 0, -height / 2.0f);
         noStroke();
         fill(255, 127, 0);
         rect(0, 0, width, height);

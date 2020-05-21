@@ -1,5 +1,6 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
+import de.hfkbremen.algorithmiccliches.lindenmayersystems.LSystem;
 import processing.core.PApplet;
 
 public class SketchLindenmayerSystemBasic extends PApplet {

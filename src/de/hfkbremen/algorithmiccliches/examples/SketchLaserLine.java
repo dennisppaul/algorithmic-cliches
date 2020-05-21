@@ -37,7 +37,7 @@ public class SketchLaserLine extends PApplet {
         l.inner_fade_color = color(255, 0, 0, 127);
         l.outer_fade_color = color(255, 0, 0, 0);
         if (mLaserLines.isEmpty()) {
-            l.p0.set(width / 2, height / 2);
+            l.p0.set(width / 2.0f, height / 2.0f);
         } else {
             l.p0.set(mLaserLines.get(mLaserLines.size() - 1).p1);
         }

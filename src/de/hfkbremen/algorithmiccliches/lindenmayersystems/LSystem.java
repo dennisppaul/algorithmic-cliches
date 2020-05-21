@@ -12,7 +12,7 @@ public class LSystem {
 
     String axiom;
     String rule;
-    String production;
+    public String production;
 
     private int steps = 0;
     private float startLength;
@@ -40,7 +40,7 @@ public class LSystem {
     }
 
     public void render(PGraphics g) {
-        g.translate(g.width / 2, g.height / 2);
+        g.translate(g.width / 2.0f, g.height / 2.0f);
         steps += 1;
         if (steps > production.length()) {
             steps = production.length();

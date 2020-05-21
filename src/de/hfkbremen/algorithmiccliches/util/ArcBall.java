@@ -14,9 +14,9 @@ public class ArcBall {
     private final PVector mDownPosition;
     private final PVector mDragPosition;
     private float mRadius;
-    private Quaternion mCurrentQuaternion;
-    private Quaternion mDownQuaternion;
-    private Quaternion mDragQuaternion;
+    private final Quaternion mCurrentQuaternion;
+    private final Quaternion mDownQuaternion;
+    private final Quaternion mDragQuaternion;
     private boolean mLastActiveState = false;
 
     public ArcBall(PApplet pApplet, boolean pDONT_REGISTER) {
@@ -86,9 +86,6 @@ public class ArcBall {
                 mousePressed(theX, theY);
             }
             mouseDragged(theX, theY);
-        } else {
-            if (mLastActiveState) {
-            }
         }
         mLastActiveState = theActiveState;
 
@@ -131,8 +128,8 @@ public class ArcBall {
     }
 
     public static ArcBall setupRotateAroundCenter(PApplet pApplet) {
-        return new ArcBall(pApplet.width / 2,
-                           pApplet.height / 2,
+        return new ArcBall(pApplet.width / 2.0f,
+                           pApplet.height / 2.0f,
                            0,
                            Math.min(pApplet.g.width / 2.0f, pApplet.g.height / 2.0f),
                            pApplet,

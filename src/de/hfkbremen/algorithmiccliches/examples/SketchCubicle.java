@@ -1,9 +1,13 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
-import java.util.*;
-import processing.core.*;
-import teilchen.cubicle.*;
-import teilchen.util.*;
+import processing.core.PApplet;
+import processing.core.PVector;
+import teilchen.cubicle.CubicleWorld;
+import teilchen.cubicle.ICubicleEntity;
+import teilchen.util.CubicleWorldView;
+import teilchen.util.Vector3i;
+
+import java.util.ArrayList;
 
 public class SketchCubicle extends PApplet {
 
@@ -16,13 +20,9 @@ public class SketchCubicle extends PApplet {
     private final int WORLD_NUMBER_OF_CUBICLES_Z = 768 / 64;
 
     private final float WORLD_CUBICLE_SCALE = 32;
-
-    private boolean showCubicles = true;
-
-    private float mRotationZ = 0.1f;
-
     private final PVector mPosition = new PVector();
-
+    private boolean showCubicles = true;
+    private float mRotationZ = 0.1f;
     private int numParticles = 1;
 
     private CubicleWorld mCubicleWorld;
@@ -40,12 +40,12 @@ public class SketchCubicle extends PApplet {
 
         /* setup world */
         mCubicleWorld = new CubicleWorld(WORLD_NUMBER_OF_CUBICLES_X,
-                WORLD_NUMBER_OF_CUBICLES_Y,
-                WORLD_NUMBER_OF_CUBICLES_Z);
+                                         WORLD_NUMBER_OF_CUBICLES_Y,
+                                         WORLD_NUMBER_OF_CUBICLES_Z);
         mCubicleWorld.cellscale().set(WORLD_CUBICLE_SCALE, WORLD_CUBICLE_SCALE, WORLD_CUBICLE_SCALE);
         mCubicleWorld.transform().translation.set(-WORLD_NUMBER_OF_CUBICLES_X * mCubicleWorld.cellscale().x / 2,
-                -WORLD_NUMBER_OF_CUBICLES_Y * mCubicleWorld.cellscale().y / 2,
-                -WORLD_NUMBER_OF_CUBICLES_Z * mCubicleWorld.cellscale().z / 2);
+                                                  -WORLD_NUMBER_OF_CUBICLES_Y * mCubicleWorld.cellscale().y / 2,
+                                                  -WORLD_NUMBER_OF_CUBICLES_Z * mCubicleWorld.cellscale().z / 2);
 
         mCubicleWorldView = new CubicleWorldView(mCubicleWorld);
         mCubicleWorldView.color_empty = color(0, 1);
@@ -62,14 +62,14 @@ public class SketchCubicle extends PApplet {
         background(255);
         pushMatrix();
 
-        translate(width / 2, height / 2, 0);
+        translate(width / 2.0f, height / 2.0f, 0);
 
         /* rotate */
         if (mousePressed) {
             mRotationZ += (mouseX * 0.01f - mRotationZ) * 0.05f;
         } else {
-            mPosition.x = mouseX - width / 2;
-            mPosition.y = mouseY - height / 2;
+            mPosition.x = mouseX - width / 2.0f;
+            mPosition.y = mouseY - height / 2.0f;
         }
         rotateX(THIRD_PI);
         rotateZ(mRotationZ);
@@ -120,20 +120,17 @@ public class SketchCubicle extends PApplet {
         text("FPS      : " + frameRate, 10, 36);
     }
 
-    private void drawCross(PVector v, float pRadius) {
-        line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
-        line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
-        line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
-    }
-
     public void keyPressed() {
         switch (key) {
             case ' ':
                 for (int i = 0; i < NUMBER_OF_PARTICLES_ADDED; i++) {
                     MCubicleEntity mEntity = new MCubicleEntity();
-                    mEntity.position().x = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_X / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_X / 2);
-                    mEntity.position().y = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2);
-                    mEntity.position().z = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Z / 2, WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Z / 2);
+                    mEntity.position().x = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_X / 2,
+                                                  WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_X / 2);
+                    mEntity.position().y = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2,
+                                                  WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Y / 2);
+                    mEntity.position().z = random(-WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Z / 2,
+                                                  WORLD_CUBICLE_SCALE * WORLD_NUMBER_OF_CUBICLES_Z / 2);
                     mCubicleWorld.add(mEntity);
                 }
                 numParticles += NUMBER_OF_PARTICLES_ADDED;
@@ -150,14 +147,18 @@ public class SketchCubicle extends PApplet {
         }
     }
 
+    private void drawCross(PVector v, float pRadius) {
+        line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
+        line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
+        line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
+    }
+
     class MCubicleEntity
             implements ICubicleEntity {
 
-        int entity_color = color(0, 127, random(0, 255), 127);
-
         private final Vector3i mCubicalPosition;
-
         private final PVector mPosition;
+        int entity_color = color(0, 127, random(0, 255), 127);
 
         public MCubicleEntity() {
             mCubicalPosition = new Vector3i();

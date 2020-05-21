@@ -8,20 +8,15 @@ import processing.core.PApplet;
  *
  * @author Alexander McKenzie
  * @version 1.0
- *
  */
 public class SketchFluidDynamics2Alt extends PApplet {
 
     // frame dimensions (dxd pixels)
     private final int d = 60 * 10;
-
+    private final FluidDynamicsBuoyancyVorticity fs = new FluidDynamicsBuoyancyVorticity();
     // solver variables
     private int n = 60;
-
     private float dt = 0.2f;
-
-    private final FluidDynamicsBuoyancyVorticity fs = new FluidDynamicsBuoyancyVorticity();
-
     // flag to display velocity field
     private boolean vkey = false;
 
@@ -48,14 +43,6 @@ public class SketchFluidDynamics2Alt extends PApplet {
         frameRate(240);
     }
 
-    public void reset() {
-        // calculate cell deimensions
-        dg = d / n;
-        dg_2 = dg / 2;
-
-        fs.setup(n, dt);
-    }
-
     public void draw() {
         background(255);
         noStroke();
@@ -65,10 +52,10 @@ public class SketchFluidDynamics2Alt extends PApplet {
         }
 
         // solve fluid
-//        for (int i = 0; i < 5; i++) {
+        //        for (int i = 0; i < 5; i++) {
         fs.velocitySolver();
         fs.densitySolver();
-//        }
+        //        }
 
         for (int k = 1; k <= n; k++) {
             // x position of current cell
@@ -171,6 +158,14 @@ public class SketchFluidDynamics2Alt extends PApplet {
 
             fs.dt = dt;
         }
+    }
+
+    public void reset() {
+        // calculate cell deimensions
+        dg = d / n;
+        dg_2 = dg / 2;
+
+        fs.setup(n, dt);
     }
 
     public void updateLocation() {

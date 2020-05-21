@@ -26,7 +26,7 @@ public class SketchIsoSurface3 extends PApplet {
     public void setup() {
         textFont(createFont("Courier", 11));
 
-        mArcBall = new ArcBall(width / 2, height / 2, 0, 400.0f, this, true);
+        mArcBall = new ArcBall(width / 2.0f, height / 2.0f, 0, 400.0f, this, true);
 
         mMetaballManager = new MetaballManager();
         mMetaballManager.dimension.set(width, height, height);
@@ -52,14 +52,14 @@ public class SketchIsoSurface3 extends PApplet {
         mArcBall.update();
 
         if (!mMetaballManager.metaballs().isEmpty()) {
-            mMetaballManager.metaballs().get(mCurrentCircle).position.x = mouseX - width / 2;
-            mMetaballManager.metaballs().get(mCurrentCircle).position.y = mouseY - height / 2;
+            mMetaballManager.metaballs().get(mCurrentCircle).position.x = mouseX - width / 2.0f;
+            mMetaballManager.metaballs().get(mCurrentCircle).position.y = mouseY - height / 2.0f;
         }
 
         final Vector<PVector> myData = mMetaballManager.createSurface();
 
         /* draw metaballs */
-        translate(width / 2, height / 2);
+        translate(width / 2.0f, height / 2.0f);
         fill(255, 127, 0);
         noStroke();
         beginShape(TRIANGLES);
@@ -82,8 +82,8 @@ public class SketchIsoSurface3 extends PApplet {
                 mCurrentCircle %= mMetaballManager.metaballs().size();
                 break;
             case 'c':
-                mMetaballManager.add(new Metaball(new PVector(mouseX - width / 2,
-                                                              mouseY - height / 2,
+                mMetaballManager.add(new Metaball(new PVector(mouseX - width / 2.0f,
+                                                              mouseY - height / 2.0f,
                                                               random(-100, 100)), random(1, 2), random(50, 150)));
                 break;
         }

@@ -49,7 +49,7 @@ public class SketchFlocking2 extends PApplet {
 
         for (int i = 0; i < 3; i++) {
             Attractor mAttractor = new Attractor();
-            mAttractor.position().set(i * width / 2, i * height / 2);
+            mAttractor.position().set(i * width / 2.0f, i * height / 2.0f);
             mAttractor.strength(-200);
             mAttractor.radius(350);
             mPhysics.add(mAttractor);

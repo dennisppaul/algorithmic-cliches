@@ -1,10 +1,18 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
-import processing.core.*;
-import teilchen.*;
-import teilchen.behavior.*;
-import teilchen.constraint.*;
-import teilchen.force.*;
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PMatrix3D;
+import processing.core.PVector;
+import teilchen.BehaviorParticle;
+import teilchen.Physics;
+import teilchen.behavior.Alignment;
+import teilchen.behavior.Cohesion;
+import teilchen.behavior.Motor;
+import teilchen.behavior.Separation;
+import teilchen.behavior.Wander;
+import teilchen.constraint.Teleporter;
+import teilchen.force.ViscousDrag;
 import teilchen.util.Util;
 
 import java.util.ArrayList;
@@ -36,7 +44,7 @@ public class SketchFlocking3 extends PApplet {
 
         Teleporter mTeleporter = new Teleporter();
         mTeleporter.min().set(0, 0, height / -2);
-        mTeleporter.max().set(width, height, height / 2);
+        mTeleporter.max().set(width, height, height / 2.0f);
         mPhysics.add(mTeleporter);
 
         ViscousDrag myViscousDrag = new ViscousDrag();
@@ -47,8 +55,8 @@ public class SketchFlocking3 extends PApplet {
         for (int i = 0; i < 80; i++) {
             SwarmEntity mSwarmEntity = new SwarmEntity();
             mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
-                    random(mTeleporter.min().y, mTeleporter.max().y),
-                    random(mTeleporter.min().z, mTeleporter.max().z));
+                                        random(mTeleporter.min().y, mTeleporter.max().y),
+                                        random(mTeleporter.min().z, mTeleporter.max().z));
             mSwarmEntities.add(mSwarmEntity);
             mPhysics.add(mSwarmEntity);
         }

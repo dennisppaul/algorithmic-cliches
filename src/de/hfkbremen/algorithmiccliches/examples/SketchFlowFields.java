@@ -122,7 +122,7 @@ public class SketchFlowFields extends PApplet {
         }
 
         public void move(float pDeltaTime) {
-                        /* find position in flow field */
+            /* find position in flow field */
             int x = (int) (position.x / mFlowField.cell_size());
             int y = (int) (position.y / mFlowField.cell_size());
             PVector v = mFlowField.field()[x][y];

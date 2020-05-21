@@ -44,18 +44,6 @@ public class SketchPerlinNoise extends PApplet {
         }
     }
 
-    private void populateField(float mOffset) {
-        for (int x = 0; x < mVectorField.length; x++) {
-            for (int y = 0; y < mVectorField[x].length; y++) {
-                float mNoise = noise((x * mNoiseScale) + mOffset, (y * mNoiseScale) + mOffset);
-                mNoise *= TWO_PI * 2;
-                final PVector v = mVectorField[x][y];
-                v.x = sin(mNoise);
-                v.y = cos(mNoise);
-            }
-        }
-    }
-
     public void draw() {
         background(255);
 
@@ -102,6 +90,18 @@ public class SketchPerlinNoise extends PApplet {
         }
         if (key == 'g') {
             mDrawGrid = !mDrawGrid;
+        }
+    }
+
+    private void populateField(float mOffset) {
+        for (int x = 0; x < mVectorField.length; x++) {
+            for (int y = 0; y < mVectorField[x].length; y++) {
+                float mNoise = noise((x * mNoiseScale) + mOffset, (y * mNoiseScale) + mOffset);
+                mNoise *= TWO_PI * 2;
+                final PVector v = mVectorField[x][y];
+                v.x = sin(mNoise);
+                v.y = cos(mNoise);
+            }
         }
     }
 

@@ -23,7 +23,7 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
     public void setup() {
         smooth();
         mEntities = createRandomEntites(50);
-        mCenter.set(width / 2, height / 2, 0);
+        mCenter.set(width / 2.0f, height / 2.0f, 0);
     }
 
     public void draw() {
@@ -42,6 +42,14 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
         }
     }
 
+    public void mousePressed() {
+        mCenter.set(mouseX, mouseY, 0);
+    }
+
+    public void keyPressed() {
+        mEntities = createRandomEntites(50);
+    }
+
     private ArrayList<PackingEntity> createRandomEntites(int pNumberOfShapes) {
         ArrayList<PackingEntity> mRandomEntities = new ArrayList<>();
         for (int i = 0; i < pNumberOfShapes; i++) {
@@ -51,14 +59,6 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
             mRandomEntities.add(c);
         }
         return mRandomEntities;
-    }
-
-    public void mousePressed() {
-        mCenter.set(mouseX, mouseY, 0);
-    }
-
-    public void keyPressed() {
-        mEntities = createRandomEntites(50);
     }
 
     private boolean contains(PackingEntity c, PVector pPosition) {

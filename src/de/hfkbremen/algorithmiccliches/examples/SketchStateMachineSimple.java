@@ -39,24 +39,15 @@ public class SketchStateMachineSimple extends PApplet {
 
     public class MEntity {
 
-        public int state;
-
         private static final int STATE_FOLLOW_MOUSE = 0;
-
         private static final int STATE_CHANGE_RANDOMLY = 1;
-
         private static final int STATE_BROWNIAN_MOTION = 2;
-
-        public PVector position = new PVector();
-
         public int entity_color;
-
-        public float speed;
-
-        public float state_time;
-
+        public PVector position = new PVector();
         public float scale;
-
+        public float speed;
+        public int state;
+        public float state_time;
         private final float IDEAL_SCALE = 20.0f;
 
         public MEntity() {
@@ -100,7 +91,7 @@ public class SketchStateMachineSimple extends PApplet {
                 entity_color = color(255, 127, 0, 127);
                 final float BROWNIAN_SPEED = 15.0f;
                 position.add(random(-BROWNIAN_SPEED, BROWNIAN_SPEED),
-                        random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
+                             random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
             }
         }
 

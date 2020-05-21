@@ -20,7 +20,7 @@ public class SketchFluidDynamicsWaterColumns extends PApplet {
 
     public void setup() {
         textFont(createFont("Courier", 11));
-        mArcBall = new ArcBall(width / 2, height / 2, -height, 400.0f, this, true);
+        mArcBall = new ArcBall(width / 2.0f, height / 2.0f, -height, 400.0f, this, true);
 
         /* create view */
         mWater = new WaterColumnSolver2(X_SIZE, Y_SIZE, 300);
