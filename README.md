@@ -17,7 +17,7 @@ suggestions for _algorithmic clichés_ can be contributed via [issues tracking](
 
 ### Agents
 
-[![Step07_IntroducingTime](./images/sketches/Agents.png)](https://github.com/dennisppaul/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchAgents_Step07_IntroducingTime.java)
+[![Step07_IntroducingTime](./images/sketches/Agents.png)](./blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchAgents_Step07_IntroducingTime.java)
 
 ### Alpha Shapes
 
@@ -25,9 +25,9 @@ suggestions for _algorithmic clichés_ can be contributed via [issues tracking](
 
 ### Cellular Automaton, Game of Life
 
-[![GameOfLife2](./images/sketches/GameOfLife2.png)](https://github.com/dennisppaul/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchCellularAutomataGameOfLife2.java)
+[![GameOfLife2](./images/sketches/CellularAutomataGameOfLife2.png)](https://github.com/dennisppaul/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchCellularAutomataGameOfLife2.java)
 
-[![GameOfLife3](./images/sketches/GameOfLife3.png)](https://github.com/dennisppaul/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchCellularAutomataGameOfLife3.java)
+[![GameOfLife3](./images/sketches/CellularAutomataGameOfLife3.png)](https://github.com/dennisppaul/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchCellularAutomataGameOfLife3.java)
 
 ### Convex Hull
 
