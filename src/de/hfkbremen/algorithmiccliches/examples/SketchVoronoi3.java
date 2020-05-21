@@ -8,7 +8,7 @@ import quickhull3d.QuickHull3D;
 
 public class SketchVoronoi3 extends PApplet {
 
-    /**
+    /*
      * http://en.wikipedia.org/wiki/Voronoi_diagram
      */
 

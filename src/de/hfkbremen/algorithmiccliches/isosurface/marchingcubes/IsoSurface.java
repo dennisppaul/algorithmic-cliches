@@ -3,7 +3,7 @@ package de.hfkbremen.algorithmiccliches.isosurface.marchingcubes;
 import processing.core.PVector;
 import teilchen.util.Util;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class IsoSurface {
 
@@ -1860,8 +1860,43 @@ public class IsoSurface {
                                                                -1}};
     public static boolean NORMALIZE_POSITIONS = false;
 
+    public static ArrayList<PVector> polygonizeField(float[][][] theForceField, float theThreshold) {
+        final ArrayList<PVector> myTrianglesVertices = new ArrayList<>();
+        polygonizeField(myTrianglesVertices, theForceField, theThreshold);
+        return myTrianglesVertices;
+    }
+
+    // iterates over the entire dataset, calling vMarchCube on each cube
+    public static void polygonizeField(final ArrayList<PVector> theTrianglesVertices,
+                                       float[][][] theForceField,
+                                       float theIsoLevel) {
+        /* a little hackish */
+        final float X = theForceField.length;
+        final float Y = theForceField[0].length;
+        final float Z = theForceField[0][0].length;
+        ourNormalReScale.set(1.0f / X, 1.0f / Y, 1.0f / Z);
+
+        for (int x = 0; x < theForceField.length - 1; x++) {
+            for (int y = 0; y < theForceField[x].length - 1; y++) {
+                for (int z = 0; z < theForceField[x][y].length - 1; z++) {
+                    // Make a local copy of the values at the cube's corners
+                    final float[] myCubeValue = new float[8];
+                    for (int iVertex = 0; iVertex < 8; iVertex++) {
+                        final int myX = x + (int) VERTEX_OFFSET[iVertex][0];
+                        final int myY = y + (int) VERTEX_OFFSET[iVertex][1];
+                        final int myZ = z + (int) VERTEX_OFFSET[iVertex][2];
+                        myCubeValue[iVertex] = theForceField[myX][myY][myZ];
+                    }
+
+                    final PVector myPoint = new PVector(x, y, z);
+                    marchCube(theTrianglesVertices, myCubeValue, myPoint, theIsoLevel);
+                }
+            }
+        }
+    }
+
     /*  performs the Marching Cubes algorithm on a single cube */
-    private static void marchCube(final Vector<PVector> theTrianglesVertices,
+    private static void marchCube(final ArrayList<PVector> theTrianglesVertices,
                                   final float[] theCubeValue,
                                   final PVector p,
                                   final float theIsoLevel) {
@@ -1920,7 +1955,7 @@ public class IsoSurface {
 
     // fGetOffset finds the approximate point of intersection of the surface
     // between two points with the values fValue1 and fValue2
-    private static final float getOffset(final float theValue1, final float theValue2, final float theValueDesired) {
+    private static float getOffset(final float theValue1, final float theValue2, final float theValueDesired) {
         final float myDelta = theValue2 - theValue1;
 
         if (myDelta == 0.0f) {
@@ -1928,40 +1963,4 @@ public class IsoSurface {
         }
         return (theValueDesired - theValue1) / myDelta;
     }
-
-    public static Vector<PVector> polygonizeField(float[][][] theForceField, float theThreshold) {
-        final Vector<PVector> myTrianglesVertices = new Vector<PVector>();
-        polygonizeField(myTrianglesVertices, theForceField, theThreshold);
-        return myTrianglesVertices;
-    }
-
-    // iterates over the entire dataset, calling vMarchCube on each cube
-    public static void polygonizeField(final Vector<PVector> theTrianglesVertices,
-                                       float[][][] theForceField,
-                                       float theIsoLevel) {
-        /* a little hackish */
-        final float X = theForceField.length;
-        final float Y = theForceField[0].length;
-        final float Z = theForceField[0][0].length;
-        ourNormalReScale.set(1.0f / X, 1.0f / Y, 1.0f / Z);
-
-        for (int x = 0; x < theForceField.length - 1; x++) {
-            for (int y = 0; y < theForceField[x].length - 1; y++) {
-                for (int z = 0; z < theForceField[x][y].length - 1; z++) {
-                    // Make a local copy of the values at the cube's corners
-                    final float[] myCubeValue = new float[8];
-                    for (int iVertex = 0; iVertex < 8; iVertex++) {
-                        final int myX = x + (int) VERTEX_OFFSET[iVertex][0];
-                        final int myY = y + (int) VERTEX_OFFSET[iVertex][1];
-                        final int myZ = z + (int) VERTEX_OFFSET[iVertex][2];
-                        myCubeValue[iVertex] = theForceField[myX][myY][myZ];
-                    }
-
-                    final PVector myPoint = new PVector(x, y, z);
-                    marchCube(theTrianglesVertices, myCubeValue, myPoint, theIsoLevel);
-                }
-            }
-        }
-    }
-
 }

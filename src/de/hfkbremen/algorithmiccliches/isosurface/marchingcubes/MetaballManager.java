@@ -4,18 +4,18 @@ import processing.core.PVector;
 import teilchen.util.Util;
 import teilchen.util.Vector3i;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class MetaballManager {
 
-    public PVector dimension = new PVector(100, 100, 100);
-    public PVector position = new PVector();
-    public Vector3i resolution = new Vector3i(10, 10, 10);
     public boolean accumulate_energy_levels = false;
     public boolean clamp_energy_levels = false;
+    public PVector dimension = new PVector(100, 100, 100);
     public float maximum_energy_level = 1.0f;
     public float minimum_energy_level = 0.0f;
-    protected Vector<Metaball> mMetaballs = new Vector<Metaball>();
+    public PVector position = new PVector();
+    public Vector3i resolution = new Vector3i(10, 10, 10);
+    protected ArrayList<Metaball> mMetaballs = new ArrayList<>();
     protected float[][][] mForceField;
     private float mIsoValue = 0.1f;
 
@@ -27,7 +27,7 @@ public class MetaballManager {
         mIsoValue = pIsoValue;
     }
 
-    public Vector<Metaball> metaballs() {
+    public ArrayList<Metaball> metaballs() {
         return mMetaballs;
     }
 
@@ -35,12 +35,12 @@ public class MetaballManager {
         return mForceField;
     }
 
-    public void add(Metaball myMetaball) {
-        mMetaballs.add(myMetaball);
+    public void add(Metaball pMetaball) {
+        mMetaballs.add(pMetaball);
     }
 
-    public void remove(Metaball myMetaball) {
-        mMetaballs.remove(myMetaball);
+    public void remove(Metaball pMetaball) {
+        mMetaballs.remove(pMetaball);
     }
 
     public void clear() {
@@ -61,7 +61,7 @@ public class MetaballManager {
         updateGrid(mForceField, myDimension);
     }
 
-    public Vector<PVector> createSurface() {
+    public ArrayList<PVector> createSurface() {
         if (mForceField == null || mForceField.length != resolution.x || mForceField[0].length != resolution.y || mForceField[0][0].length != resolution.z) {
             mForceField = new float[resolution.x][resolution.y][resolution.z];
         }
@@ -75,8 +75,8 @@ public class MetaballManager {
         updateGrid(mForceField, myDimension);
 
         /* polygonize field */
-        //        final Vector<PVector> myTrianglesVertices = Polygonizer.polygonizeField(mForceField, mIsoValue);
-        final Vector<PVector> myTrianglesVertices = IsoSurface.polygonizeField(mForceField, mIsoValue);
+//        final ArrayList<PVector> myTrianglesVertices = Polygonizer.polygonizeField(mForceField, mIsoValue);
+        final ArrayList<PVector> myTrianglesVertices = IsoSurface.polygonizeField(mForceField, mIsoValue);
 
         /* apply scale */
         for (PVector myVertex : myTrianglesVertices) {

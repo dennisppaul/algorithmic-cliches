@@ -7,14 +7,14 @@ import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Reg
 import processing.core.PApplet;
 import processing.core.PVector;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/Delaunay_Triangulation
- */
 public class SketchDelaunayTriangulation2 extends PApplet {
+    /*
+     * http://en.wikipedia.org/wiki/Delaunay_Triangulation
+     */
 
-    public Vector<PVector> mVertices;
+    public ArrayList<PVector> mVertices;
 
     public void settings() {
         size(1024, 768, P3D);
@@ -22,7 +22,7 @@ public class SketchDelaunayTriangulation2 extends PApplet {
 
     public void setup() {
         noFill();
-        mVertices = new Vector<PVector>();
+        mVertices = new ArrayList<>();
     }
 
     public void draw() {
@@ -34,8 +34,8 @@ public class SketchDelaunayTriangulation2 extends PApplet {
             v.y += random(-1.0f, 1.0f);
         }
 
-        Vector<DelaunayTriangle> mDelaunayTriangles = DelaunayTriangulation.triangulate(mVertices);
-        Vector<VoronoiDiagram.Region> mVoronoiRegions = VoronoiDiagram.getRegions(mVertices, mDelaunayTriangles);
+        ArrayList<DelaunayTriangle> mDelaunayTriangles = DelaunayTriangulation.triangulate(mVertices);
+        ArrayList<VoronoiDiagram.Region> mVoronoiRegions = VoronoiDiagram.getRegions(mVertices, mDelaunayTriangles);
 
         if (mousePressed) {
             addCrookedCircle(mouseX, mouseY, random(20, 100), random(2, 5));
@@ -74,7 +74,7 @@ public class SketchDelaunayTriangulation2 extends PApplet {
         }
     }
 
-    private void drawVoronoi(Vector<Region> mVoronoiRegions) {
+    private void drawVoronoi(ArrayList<Region> mVoronoiRegions) {
         /* draw voronoi diagrams */
         if (mVoronoiRegions != null) {
             for (VoronoiDiagram.Region mVoronoiRegion : mVoronoiRegions) {
@@ -87,7 +87,7 @@ public class SketchDelaunayTriangulation2 extends PApplet {
         }
     }
 
-    private void drawDelaunay(Vector<DelaunayTriangle> mDelaunayTriangles) {
+    private void drawDelaunay(ArrayList<DelaunayTriangle> mDelaunayTriangles) {
         /* draw delaunay triangles */
         if (mDelaunayTriangles != null) {
             beginShape(TRIANGLES);

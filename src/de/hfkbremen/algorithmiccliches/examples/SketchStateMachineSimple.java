@@ -4,14 +4,15 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/State_machine
- */
 public class SketchStateMachineSimple extends PApplet {
 
-    private final Vector<MEntity> mEntities = new Vector<MEntity>();
+    /*
+     * http://en.wikipedia.org/wiki/State_machine
+     */
+
+    private final ArrayList<MEntity> mEntities = new ArrayList<>();
 
     public void settings() {
         size(1024, 768, P3D);
@@ -74,12 +75,12 @@ public class SketchStateMachineSimple extends PApplet {
         }
 
         public void draw(PGraphics g) {
-            noStroke();
-            fill(entity_color);
-            pushMatrix();
-            translate(position.x, position.y);
-            ellipse(0, 0, scale, scale);
-            popMatrix();
+            g.noStroke();
+            g.fill(entity_color);
+            g.pushMatrix();
+            g.translate(position.x, position.y);
+            g.ellipse(0, 0, scale, scale);
+            g.popMatrix();
         }
 
         private void update_brownian_motion(final float pDelta) {

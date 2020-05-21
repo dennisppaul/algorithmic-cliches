@@ -10,20 +10,18 @@ import teilchen.BasicParticle;
 import teilchen.util.Overlap;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
-/**
- * https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
- */
 public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
+    /*
+     * https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
+     */
 
-    private final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
-    private final int NUMBER_OF_MAX_PARTICLES = 1000;
+    private static final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
+    private static final int NUMBER_OF_MAX_PARTICLES = 1000;
+    private static final int SPHERE_DETAIL = 8;
     private final float mOctreeSize = 150;
     private Octree mOctree;
     private float mRotationZ = 0.1f;
-    private int mSphereDetail = 8;
-
     private MetaballManager mMetaballManager;
 
     public void settings() {
@@ -118,7 +116,7 @@ public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
             for (BrownianParticle bp : mAttachedParticles) {
                 mMetaballManager.add(new Metaball(bp.position(), 5, bp.radius()));
             }
-            final Vector<PVector> myData = mMetaballManager.createSurface();
+            final ArrayList<PVector> myData = mMetaballManager.createSurface();
 
             /* draw */
             fill(255, 127, 0);
@@ -155,7 +153,7 @@ public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
         /* draw attached */
         if (!keyPressed) {
             noStroke();
-            sphereDetail(mSphereDetail);
+            sphereDetail(SPHERE_DETAIL);
             for (BrownianParticle bp : mAttachedParticles) {
                 fill(bp.entity_color);
                 pushMatrix();
@@ -198,10 +196,10 @@ public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
 
     private class BrownianParticle extends BasicParticle implements OctreeEntity {
 
+        private static final float SPEED = 2;
+        private static final float SELECT_RADIUS = 20;
         int entity_color = color(191);
-        private float mSpeed = 2;
         private boolean mAttached = false;
-        private float mSelectRadius = 20;
 
         BrownianParticle(float pRadius) {
             radius(pRadius);
@@ -209,9 +207,9 @@ public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
 
         void move() {
             if (!mAttached) {
-                position().x += random(-mSpeed, mSpeed);
-                position().y += random(-mSpeed, mSpeed);
-                position().z += random(-mSpeed, mSpeed);
+                position().x += random(-SPEED, SPEED);
+                position().y += random(-SPEED, SPEED);
+                position().z += random(-SPEED, SPEED);
                 attach();
             }
         }
@@ -221,7 +219,7 @@ public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
         }
 
         boolean attach() {
-            Vector<OctreeEntity> mEntities = mOctree.getEntitesWithinSphere(position(), mSelectRadius);
+            ArrayList<OctreeEntity> mEntities = mOctree.getEntitesWithinSphere(position(), SELECT_RADIUS);
             if (mEntities != null) {
                 for (OctreeEntity mEntity : mEntities) {
                     BrownianParticle m = (BrownianParticle) mEntity;

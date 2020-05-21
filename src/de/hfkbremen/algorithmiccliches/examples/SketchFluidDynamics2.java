@@ -3,15 +3,13 @@ package de.hfkbremen.algorithmiccliches.examples;
 import de.hfkbremen.algorithmiccliches.fluiddynamics.FluidDynamics;
 import processing.core.PApplet;
 
-/**
- * http://en.wikipedia.org/wiki/Fluid_Dynamics
- */
 public class SketchFluidDynamics2 extends PApplet {
+    /*
+     * http://en.wikipedia.org/wiki/Fluid_Dynamics
+     */
 
     private boolean showDensity = true;
-
     private boolean showVelocity = true;
-
     private FluidDynamics mFluid;
 
     public void settings() {
@@ -68,25 +66,21 @@ public class SketchFluidDynamics2 extends PApplet {
 
         noStroke();
         fill(127);
-        text("VISCOSITY: " + mFluid.viscosity() * 100, 10, 12);
-        text("DIFFUSION: " + mFluid.diffusion() * 100, 10, 24);
-        text("FPS      : " + (int) frameRate, 10, 36);
+        text("VISCOSITY : " + mFluid.viscosity() * 100, 10, 12);
+        text("DIFFUSION : " + mFluid.diffusion() * 100, 10, 24);
+        text("FPS       : " + (int) frameRate, 10, 36);
     }
 
     public void keyPressed() {
-
         if (key == 'v') {
             showVelocity = !showVelocity;
         }
-
         if (key == 'd') {
             showDensity = !showDensity;
         }
-
         if (key == 'r') {
             mFluid.reset();
         }
-
         if (key == '+') {
             mFluid.viscosity(mFluid.viscosity() + 0.00001f);
         }

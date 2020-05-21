@@ -14,6 +14,7 @@ public class SketchAgents_Step04_MovingSmoothlyInDifferentDirections extends PAp
      *
      * import Vector2f
      */
+
     private Agent myAgent;
 
     public void settings() {

@@ -8,15 +8,14 @@ import teilchen.BasicParticle;
 import teilchen.util.Overlap;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
-/**
- * https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
- */
 public class SketchDiffusionLimitedAggregation extends PApplet {
+    /*
+     * https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
+     */
 
-    private final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
-    private final int NUMBER_OF_MAX_PARTICLES = 1000;
+    private static final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
+    private static final int NUMBER_OF_MAX_PARTICLES = 1000;
     private final float mOctreeSize = 150;
     private Octree mOctree;
     private float mRotationZ = 0.1f;
@@ -171,10 +170,10 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
 
     private class BrownianParticle extends BasicParticle implements OctreeEntity {
 
+        private static final float SPEED = 4;
+        private static final float SELECT_RADIUS = 20;
         int entity_color = color(191);
-        private float mSpeed = 4;
         private boolean mAttached = false;
-        private float mSelectRadius = 20;
 
         BrownianParticle(float pRadius) {
             radius(pRadius);
@@ -182,9 +181,9 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
 
         void move() {
             if (!mAttached) {
-                position().x += random(-mSpeed, mSpeed);
-                position().y += random(-mSpeed, mSpeed);
-                position().z += random(-mSpeed, mSpeed);
+                position().x += random(-SPEED, SPEED);
+                position().y += random(-SPEED, SPEED);
+                position().z += random(-SPEED, SPEED);
                 attach();
             }
         }
@@ -194,7 +193,7 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
         }
 
         boolean attach() {
-            Vector<OctreeEntity> mEntities = mOctree.getEntitesWithinSphere(position(), mSelectRadius);
+            ArrayList<OctreeEntity> mEntities = mOctree.getEntitesWithinSphere(position(), SELECT_RADIUS);
             if (mEntities != null) {
                 for (OctreeEntity mEntity : mEntities) {
                     BrownianParticle m = (BrownianParticle) mEntity;

@@ -7,12 +7,10 @@ import processing.core.PVector;
 import teilchen.util.Linef;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class SketchIsoSurface2ExtractBlobs extends PApplet {
 
     private float mIsoValue = 32.0f;
-
     private MetaCircle[] mMetaCircles;
 
     public void settings() {
@@ -54,7 +52,7 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
         }
 
         /* draw lines */
-        final Vector<Linef> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
+        final ArrayList<Linef> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
         stroke(0, 175);
         stroke(255, 127, 0);
 
@@ -83,7 +81,7 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
 
         fill(0);
         noStroke();
-        text("ISOVALUE    : " + mIsoValue, 10, 12);
+        text("ISO VALUE   : " + mIsoValue, 10, 12);
         text("#BLOB_SHAPE : " + mBlobShapes.size(), 10, 24);
         text("FPS         : " + (int) frameRate, 10, 36);
     }

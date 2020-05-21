@@ -4,6 +4,7 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 public class SketchAgents_Step03_MovingInDifferentDirections extends PApplet {
+
     /*
      * the agent
      * step 03 - moving in different directions.

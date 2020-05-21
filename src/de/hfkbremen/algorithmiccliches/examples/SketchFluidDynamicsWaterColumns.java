@@ -24,7 +24,7 @@ public class SketchFluidDynamicsWaterColumns extends PApplet {
 
         /* create view */
         mWater = new WaterColumnSolver2(X_SIZE, Y_SIZE, 300);
-        final float mCellSize = width / X_SIZE;
+        final float mCellSize = (float) width / X_SIZE;
         for (int x = 0; x < mQuads.length; x++) {
             for (int y = 0; y < mQuads[x].length; y++) {
                 mQuads[x][y] = new Quad();
@@ -121,7 +121,7 @@ public class SketchFluidDynamicsWaterColumns extends PApplet {
         return (y + Y_SIZE) % Y_SIZE;
     }
 
-    private class Quad {
+    private static class Quad {
 
         final PVector a = new PVector();
 

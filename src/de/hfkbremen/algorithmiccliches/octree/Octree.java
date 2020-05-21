@@ -3,8 +3,8 @@ package de.hfkbremen.algorithmiccliches.octree;
 import processing.core.PVector;
 import teilchen.util.Util;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Vector;
 
 public class Octree {
 
@@ -42,31 +42,20 @@ public class Octree {
      * does NOT support 3D mesh geometry as other forms of Octrees do.
      */
     public static final int NUMBER_OF_CHILDREN = 8;
-
+    private final Octree mParent;
+    private final float mSize;
+    private final float mHalfSize;
+    private final PVector mOffset;
+    private final PVector mScale;
+    private final PVector mOrigin;
     /*
      * alternative tree recursion limit, number of world units when cells are
      * not subdivided any further
      */
     private float mMinNodeSize = 4;
-
-    private Octree mParent;
-
     private Octree[] mChildren;
-
     private byte mNumberOfChildren;
-
-    private Vector<OctreeEntity> mEntities;
-
-    private float mSize;
-
-    private float mHalfSize;
-
-    private PVector mOffset;
-
-    private PVector mScale;
-
-    private PVector mOrigin;
-
+    private ArrayList<OctreeEntity> mEntities;
     private int mDepth = 0;
 
     private boolean isAutoReducing = false;
@@ -112,7 +101,7 @@ public class Octree {
             // only add entities to leaves for now
             if (mHalfSize <= mMinNodeSize) {
                 if (mEntities == null) {
-                    mEntities = new Vector<OctreeEntity>();
+                    mEntities = new ArrayList<>();
                 }
                 mEntities.add(pEntity);
                 return true;
@@ -149,21 +138,6 @@ public class Octree {
         return mDepth;
     }
 
-    private Octree getLeafForEntity(OctreeEntity pEntity) {
-        /* Finds the leaf node which spatially relates to the given point */
-        if (isPointInBox(pEntity.position(), mOrigin, mScale)) {
-            if (mNumberOfChildren > 0) {
-                int octant = getOctantID(PVector.sub(pEntity.position(), mOffset));
-                if (mChildren[octant] != null) {
-                    return mChildren[octant].getLeafForEntity(pEntity);
-                }
-            } else if (mEntities != null) {
-                return this;
-            }
-        }
-        return null;
-    }
-
     public float getNodeSize() {
         return mSize;
     }
@@ -172,34 +146,25 @@ public class Octree {
         return mNumberOfChildren;
     }
 
-    private int getOctantID(PVector pPoint) {
-        /* Computes the local child octant/cube index for the given point */
-        return (pPoint.x >= mHalfSize ? 1 : 0) + (pPoint.y >= mHalfSize ? 2 : 0) + (pPoint.z >= mHalfSize ? 4 : 0);
-    }
-
     public PVector offset() {
         return mOffset;
-    }
-
-    private Octree parent() {
-        return mParent;
     }
 
     public float size() {
         return mSize;
     }
 
-    public Vector<OctreeEntity> entities() {
-        Vector<OctreeEntity> results = null;
+    public ArrayList<OctreeEntity> entities() {
+        ArrayList<OctreeEntity> results = null;
         if (mEntities != null) {
-            results = new Vector<>(mEntities);
+            results = new ArrayList<>(mEntities);
         } else if (mNumberOfChildren > 0) {
             for (int i = 0; i < NUMBER_OF_CHILDREN; i++) {
                 if (mChildren[i] != null) {
-                    Vector<OctreeEntity> childPoints = mChildren[i].entities();
+                    ArrayList<OctreeEntity> childPoints = mChildren[i].entities();
                     if (childPoints != null) {
                         if (results == null) {
-                            results = new Vector<>();
+                            results = new ArrayList<>();
                         }
                         results.addAll(childPoints);
                     }
@@ -209,14 +174,14 @@ public class Octree {
         return results;
     }
 
-    public Vector<OctreeEntity> getEntitiesWithinBox(PVector pBoxOrigin, PVector pBoxScale) {
-        Vector<OctreeEntity> mResults = null;
+    public ArrayList<OctreeEntity> getEntitiesWithinBox(PVector pBoxOrigin, PVector pBoxScale) {
+        ArrayList<OctreeEntity> mResults = null;
         if (intersectsBox(origin(), scale(), pBoxOrigin, pBoxScale)) {
             if (mEntities != null) {
                 for (OctreeEntity mEntity : mEntities) {
                     if (isPointInBox(mEntity.position(), origin(), scale())) {
                         if (mResults == null) {
-                            mResults = new Vector<>();
+                            mResults = new ArrayList<>();
                         }
                         mResults.add(mEntity);
                     }
@@ -224,10 +189,11 @@ public class Octree {
             } else if (mNumberOfChildren > 0) {
                 for (int i = 0; i < NUMBER_OF_CHILDREN; i++) {
                     if (mChildren[i] != null) {
-                        Vector<OctreeEntity> mChildrenPoints = mChildren[i].getEntitiesWithinBox(pBoxOrigin, pBoxScale);
+                        ArrayList<OctreeEntity> mChildrenPoints = mChildren[i].getEntitiesWithinBox(pBoxOrigin,
+                                                                                                    pBoxScale);
                         if (mChildrenPoints != null) {
                             if (mResults == null) {
-                                mResults = new Vector<>();
+                                mResults = new ArrayList<>();
                             }
                             mResults.addAll(mChildrenPoints);
                         }
@@ -238,14 +204,14 @@ public class Octree {
         return mResults;
     }
 
-    public Vector<OctreeEntity> getEntitesWithinSphere(PVector pSphereOrigin, float pSphereRadius) {
-        Vector<OctreeEntity> mResults = null;
+    public ArrayList<OctreeEntity> getEntitesWithinSphere(PVector pSphereOrigin, float pSphereRadius) {
+        ArrayList<OctreeEntity> mResults = null;
         if (isBoxIntersectingSphere(origin(), scale(), pSphereOrigin, pSphereRadius)) {
             if (mEntities != null) {
                 for (OctreeEntity mEntity : mEntities) {
                     if (isPointInSphere(mEntity.position(), pSphereOrigin, pSphereRadius)) {
                         if (mResults == null) {
-                            mResults = new Vector<>();
+                            mResults = new ArrayList<>();
                         }
                         mResults.add(mEntity);
                     }
@@ -253,11 +219,11 @@ public class Octree {
             } else if (mNumberOfChildren > 0) {
                 for (int i = 0; i < NUMBER_OF_CHILDREN; i++) {
                     if (mChildren[i] != null) {
-                        Vector<OctreeEntity> mChildrenPoints = mChildren[i].getEntitesWithinSphere(pSphereOrigin,
-                                                                                                   pSphereRadius);
+                        ArrayList<OctreeEntity> mChildrenPoints = mChildren[i].getEntitesWithinSphere(pSphereOrigin,
+                                                                                                      pSphereRadius);
                         if (mChildrenPoints != null) {
                             if (mResults == null) {
-                                mResults = new Vector<>();
+                                mResults = new ArrayList<>();
                             }
                             mResults.addAll(mChildrenPoints);
                         }
@@ -266,22 +232,6 @@ public class Octree {
             }
         }
         return mResults;
-    }
-
-    private void reduceBranch() {
-        if (mEntities != null && mEntities.isEmpty()) {
-            mEntities = null;
-        }
-        if (mNumberOfChildren > 0) {
-            for (int i = 0; i < NUMBER_OF_CHILDREN; i++) {
-                if (mChildren[i] != null && mChildren[i].mEntities == null) {
-                    mChildren[i] = null;
-                }
-            }
-        }
-        if (mParent != null) {
-            mParent.reduceBranch();
-        }
     }
 
     public boolean remove(OctreeEntity pEntity) {
@@ -314,7 +264,8 @@ public class Octree {
     }
 
     public void auto_reduction(boolean pState) {
-        /* Enables/disables auto reduction of branches after entities have been deleted from the tree. Turned off by default. */
+        /* Enables/disables auto reduction of branches after entities have been deleted from the tree. Turned off by
+        default. */
         isAutoReducing = pState;
     }
 
@@ -329,6 +280,46 @@ public class Octree {
 
     public void setMinNodeSize(float pMinNodeSize) {
         mMinNodeSize = pMinNodeSize;
+    }
+
+    private Octree getLeafForEntity(OctreeEntity pEntity) {
+        /* Finds the leaf node which spatially relates to the given point */
+        if (isPointInBox(pEntity.position(), mOrigin, mScale)) {
+            if (mNumberOfChildren > 0) {
+                int octant = getOctantID(PVector.sub(pEntity.position(), mOffset));
+                if (mChildren[octant] != null) {
+                    return mChildren[octant].getLeafForEntity(pEntity);
+                }
+            } else if (mEntities != null) {
+                return this;
+            }
+        }
+        return null;
+    }
+
+    private int getOctantID(PVector pPoint) {
+        /* Computes the local child octant/cube index for the given point */
+        return (pPoint.x >= mHalfSize ? 1 : 0) + (pPoint.y >= mHalfSize ? 2 : 0) + (pPoint.z >= mHalfSize ? 4 : 0);
+    }
+
+    private Octree parent() {
+        return mParent;
+    }
+
+    private void reduceBranch() {
+        if (mEntities != null && mEntities.isEmpty()) {
+            mEntities = null;
+        }
+        if (mNumberOfChildren > 0) {
+            for (int i = 0; i < NUMBER_OF_CHILDREN; i++) {
+                if (mChildren[i] != null && mChildren[i].mEntities == null) {
+                    mChildren[i] = null;
+                }
+            }
+        }
+        if (mParent != null) {
+            mParent.reduceBranch();
+        }
     }
 
     private static boolean intersectsBox(PVector pBoxAOrigin,

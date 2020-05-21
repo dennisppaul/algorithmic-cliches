@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class SketchLaserLine extends PApplet {
 
-    private ArrayList<LaserLine2> mLaserLines = new ArrayList<>();
+    private final ArrayList<LaserLine2> mLaserLines = new ArrayList<>();
 
     public void settings() {
         size(640, 480, P3D);
@@ -26,7 +26,7 @@ public class SketchLaserLine extends PApplet {
 
         for (int i = 0; i < mLaserLines.size(); i++) {
             LaserLine2 l = mLaserLines.get(i);
-            l.fade_width = sin(radians(frameCount * 4 + i * (360 / mLaserLines.size()))) * 5;
+            l.fade_width = sin(radians(frameCount * 4 + i * (360.0f / mLaserLines.size()))) * 5;
             l.fade_width += 10;
         }
     }

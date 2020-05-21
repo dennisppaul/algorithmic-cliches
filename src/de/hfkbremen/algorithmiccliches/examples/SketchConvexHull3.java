@@ -5,19 +5,16 @@ import de.hfkbremen.algorithmiccliches.convexhull.HullVertex;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/Convex_hull
- */
 public class SketchConvexHull3 extends PApplet {
+    /*
+     * http://en.wikipedia.org/wiki/Convex_hull
+     */
 
-    private final static int GRID_SIZE = 4;
-
-    private final static float GRID_SPACE = 50;
-
+    private static final int GRID_SIZE = 4;
+    private static final float GRID_SPACE = 50;
     private final PVector[] mGridPoints = new PVector[GRID_SIZE * GRID_SIZE * GRID_SIZE];
-
     private float mNoNoTriangle = 0;
 
     public void settings() {
@@ -85,19 +82,19 @@ public class SketchConvexHull3 extends PApplet {
         line(v.x, v.y, v.z - o, v.x, v.y, v.z + o);
     }
 
-    private void computeAndDrawHull(PVector[] pVertex) {
+    private void computeAndDrawHull(PVector[] pVertices) {
         final ConvexHull mHull = new ConvexHull();
-        final Vector<HullVertex> mNewVertices = new Vector<HullVertex>();
-        for (int i = 0; i < pVertex.length; i++) {
-            mNewVertices.add(new HullVertex(pVertex[i].x,
-                                            pVertex[i].y,
-                                            pVertex[i].z));
+        final ArrayList<HullVertex> mNewVertices = new ArrayList<>();
+        for (PVector vertex : pVertices) {
+            mNewVertices.add(new HullVertex(vertex.x,
+                                            vertex.y,
+                                            vertex.z));
         }
         mHull.calculateHull(mNewVertices);
         float[] myVertices = mHull.getVerticesArray();
 
         mNoNoTriangle += 0.01f;
-        mNoNoTriangle %= myVertices.length / 9;
+        mNoNoTriangle %= myVertices.length / 9.0f;
 
         beginShape(TRIANGLES);
         for (int i = 0; i < myVertices.length; i += 3) {

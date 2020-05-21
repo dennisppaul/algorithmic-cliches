@@ -4,14 +4,15 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/State_machine
- */
 public class SketchStateMachineWithObjects extends PApplet {
 
-    private final Vector<Entity> mEntities = new Vector<Entity>();
+    /*
+     * http://en.wikipedia.org/wiki/State_machine
+     */
+
+    private final ArrayList<Entity> mEntities = new ArrayList<>();
 
     public void settings() {
         size(1024, 768, P3D);
@@ -40,7 +41,6 @@ public class SketchStateMachineWithObjects extends PApplet {
     public class Entity {
 
         static final float IDEAL_SCALE = 20.0f;
-        private final PApplet p;
         PVector position = new PVector();
         int entity_color;
         float speed;
@@ -48,10 +48,9 @@ public class SketchStateMachineWithObjects extends PApplet {
         private State mState;
 
         public Entity(PApplet pPApplet) {
-            p = pPApplet;
-            switchState(new StateFollowMouse(this, p));
-            position.set(p.random(p.width), p.random(p.height));
-            speed = p.random(1, 5) * 20;
+            switchState(new StateFollowMouse(this, pPApplet));
+            position.set(pPApplet.random(pPApplet.width), pPApplet.random(pPApplet.height));
+            speed = pPApplet.random(1, 5) * 20;
             scale = IDEAL_SCALE;
         }
 

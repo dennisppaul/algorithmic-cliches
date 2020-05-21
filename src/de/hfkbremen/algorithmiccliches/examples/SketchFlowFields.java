@@ -8,10 +8,9 @@ import java.util.ArrayList;
 
 public class SketchFlowFields extends PApplet {
 
+    private final ArrayList<FlowFieldParticle> mParticles = new ArrayList<>();
     private float mOffset = 10;
     private FlowField mFlowField;
-
-    private ArrayList<FlowFieldParticle> mParticles = new ArrayList<>();
 
     public void settings() {
         size(1024, 768, P3D);
@@ -78,7 +77,7 @@ public class SketchFlowFields extends PApplet {
                     g.pushMatrix();
                     g.translate(x * CELL_SIZE, y * CELL_SIZE);
                     g.rect(0, 0, CELL_SIZE, CELL_SIZE);
-                    g.translate(CELL_SIZE / 2, CELL_SIZE / 2);
+                    g.translate(CELL_SIZE / 2.0f, CELL_SIZE / 2.0f);
                     g.line(0, 0, v.x, v.y);
                     g.popMatrix();
                 }

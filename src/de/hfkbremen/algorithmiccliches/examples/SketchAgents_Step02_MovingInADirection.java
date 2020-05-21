@@ -11,6 +11,7 @@ public class SketchAgents_Step02_MovingInADirection extends PApplet {
      *
      * import Vector2f
      */
+
     private Agent myAgent;
 
     public void settings() {

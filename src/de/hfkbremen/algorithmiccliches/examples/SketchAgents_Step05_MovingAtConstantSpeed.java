@@ -14,6 +14,7 @@ public class SketchAgents_Step05_MovingAtConstantSpeed extends PApplet {
      *
      * import Vector2f
      */
+
     private Agent myAgent;
 
     public void settings() {

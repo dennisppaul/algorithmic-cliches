@@ -6,15 +6,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.Vector;
+import java.util.ArrayList;
 
 public class Qvoronoi {
 
-    private static final float VERTEX_AT_INFINITY = -10.101f;
     /*
-     * install qhull ( http://www.qhull.org/ ) via homebrew ( http://brew.sh ) or via macports ( http://www.macports.org/ )
-     *
+     * install qhull ( http://www.qhull.org/ ) via homebrew ( http://brew.sh )
+     * and set `QVORONOI_APP` to path to binary.
      */
+
+    private static final float VERTEX_AT_INFINITY = -10.101f;
     public static String QVORONOI_APP = "/usr/local/bin/qvoronoi";
     public static boolean VERBOSE = false;
 
@@ -85,17 +86,17 @@ public class Qvoronoi {
         if (mHeaderA.length == 0 || mHeaderA[0].isEmpty()) {
             return null;
         }
-        final int myDimensions = Integer.parseInt(mHeaderA[0]);
+//        final int myDimensions = Integer.parseInt(mHeaderA[0]);
 
         /* header line 2 */
         final int LINE_HEADER_B = 1;
         final String[] mHeaderB = mResult[LINE_HEADER_B].split(" ");
         final int ELEMENT_NUMBER_OF_VERTICES = 0;
         final int ELEMENT_NUMBER_OF_REGIONS = 1;
-        final int ELEMENT_NUMBER_OF_RIDGES = 2;
+//        final int ELEMENT_NUMBER_OF_RIDGES = 2;
         final int mNumberOfVertices = Integer.parseInt(mHeaderB[ELEMENT_NUMBER_OF_VERTICES]);
         final int mNumberOfRegions = Integer.parseInt(mHeaderB[ELEMENT_NUMBER_OF_REGIONS]);
-        final int mNumberOfRidges = Integer.parseInt(mHeaderB[ELEMENT_NUMBER_OF_RIDGES]);
+//        final int mNumberOfRidges = Integer.parseInt(mHeaderB[ELEMENT_NUMBER_OF_RIDGES]);
 
         /* vertices */
         int myVertexCounter = 0;
@@ -123,9 +124,9 @@ public class Qvoronoi {
         }
 
         /* faces */
-        int mRegionsCounter = 0;
+//        int mRegionsCounter = 0;
         final int LINE_FACE_OFFSET = LINE_VERTEX_OFFSET + mNumberOfVertices;
-        final Vector<PVector[]> myRegions = new Vector<PVector[]>();
+        final ArrayList<PVector[]> myRegions = new ArrayList<>();
         for (int i = LINE_FACE_OFFSET; i < LINE_FACE_OFFSET + mNumberOfRegions; i++) {
             boolean mVertexAtInfinityMark = false;
             final String[] mFaces = mResult[i].split(" ");
@@ -142,7 +143,7 @@ public class Qvoronoi {
             }
             if (!mVertexAtInfinityMark) {
                 myRegions.add(mRegion);
-                mRegionsCounter++;
+//                mRegionsCounter++;
             }
         }
 

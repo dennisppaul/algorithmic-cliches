@@ -8,10 +8,11 @@ import teilchen.util.Util;
 
 import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/Circle_packing_theorem
- */
 public class SketchPackingSpheresAroundCenter extends PApplet {
+
+    /*
+     * http://en.wikipedia.org/wiki/Circle_packing_theorem
+     */
 
     private final PVector mCenter = new PVector();
     private ArrayList<PackingEntity> mEntities;
@@ -22,7 +23,7 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
 
     public void setup() {
         smooth();
-        mEntities = createRandomEntites(50);
+        mEntities = createRandomEntities(50);
         mCenter.set(width / 2.0f, height / 2.0f, 0);
     }
 
@@ -38,7 +39,7 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
         final int ITERATIONS = 50;
         for (int i = 1; i < ITERATIONS; i++) {
             attachToMouse();
-            Packing.pack(mEntities, mCenter, 1.0f / (float) frameRate * 0.0251f);
+            Packing.pack(mEntities, mCenter, 1.0f / frameRate * 0.0251f);
         }
     }
 
@@ -47,10 +48,10 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
     }
 
     public void keyPressed() {
-        mEntities = createRandomEntites(50);
+        mEntities = createRandomEntities(50);
     }
 
-    private ArrayList<PackingEntity> createRandomEntites(int pNumberOfShapes) {
+    private ArrayList<PackingEntity> createRandomEntities(int pNumberOfShapes) {
         ArrayList<PackingEntity> mRandomEntities = new ArrayList<>();
         for (int i = 0; i < pNumberOfShapes; i++) {
             PackingEntity c = new PackingEntity();

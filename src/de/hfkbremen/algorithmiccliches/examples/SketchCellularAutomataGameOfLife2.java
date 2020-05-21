@@ -5,7 +5,7 @@ import processing.core.PApplet;
 
 public class SketchCellularAutomataGameOfLife2 extends PApplet {
 
-    /**
+    /*
      * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
      */
 

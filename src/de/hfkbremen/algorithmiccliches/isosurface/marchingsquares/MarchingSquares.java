@@ -33,7 +33,7 @@ public abstract class MarchingSquares {
                                             {0, 3, -1, -1, -1},
                                             {-1, -1, -1, -1, -1}};
 
-    private static ArrayList<PVector> extractBlob(Vector<Linef> pLines) {
+    private static ArrayList<PVector> extractBlob(ArrayList<Linef> pLines) {
         ArrayList<PVector> mBlob = new ArrayList<>();
         Linef mFirstLine = pLines.remove(0);
         mBlob.add(mFirstLine.p1);
@@ -101,8 +101,8 @@ public abstract class MarchingSquares {
         thePoint.x = (x + _myOffset[P1_idx][1]) + temp * ((x + _myOffset[P2_idx][1]) - (x + _myOffset[P1_idx][1]));
     }
 
-    public static ArrayList<ArrayList<PVector>> extractBlobs(Vector<Linef> pLines) {
-        Vector<Linef> mLines = new Vector<Linef>(pLines);
+    public static ArrayList<ArrayList<PVector>> extractBlobs(ArrayList<Linef> pLines) {
+        ArrayList<Linef> mLines = new ArrayList<Linef>(pLines);
         ArrayList<ArrayList<PVector>> mBlobs = new ArrayList<>();
         while (!mLines.isEmpty()) {
             ArrayList<PVector> mBlob = extractBlob(mLines);
@@ -113,8 +113,8 @@ public abstract class MarchingSquares {
         return mBlobs;
     }
 
-    public static Vector<Linef> getLines(float[][] theArray, float theIsoValue) {
-        final Vector<Linef> myLines = new Vector<>();
+    public static ArrayList<Linef> getLines(float[][] theArray, float theIsoValue) {
+        final ArrayList<Linef> myLines = new ArrayList<>();
         for (int x = 0; x < theArray.length - 1; x++) {
             for (int y = 0; y < theArray[x].length - 1; y++) {
                 int square_idx = 0;
@@ -146,7 +146,7 @@ public abstract class MarchingSquares {
     }
 
     public static PVector[] getLinesAsArray(float[][] theArray, float theIsoValue) {
-        Vector<Linef> myLines = getLines(theArray, theIsoValue);
+        ArrayList<Linef> myLines = getLines(theArray, theIsoValue);
         PVector[] myLinesArray = new PVector[myLines.size() * 2];
         int i = 0;
         for (Linef myLine : myLines) {

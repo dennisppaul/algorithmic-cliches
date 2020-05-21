@@ -4,16 +4,17 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/Perlin_noise
- */
 public class SketchPerlinNoise extends PApplet {
+
+    /*
+     * http://en.wikipedia.org/wiki/Perlin_noise
+     */
 
     private static final int GRID_SIZE = 16;
     final float mNoiseScale = 0.024f;
-    private final Vector<MEntity> mEntities = new Vector<MEntity>();
+    private final ArrayList<MEntity> mEntities = new ArrayList<>();
     private int mCellsX;
     private int mCellsY;
     private PVector[][] mVectorField;
@@ -62,7 +63,7 @@ public class SketchPerlinNoise extends PApplet {
                     pushMatrix();
                     translate(x * GRID_SIZE, y * GRID_SIZE);
                     stroke(0, 7);
-                    translate(GRID_SIZE / 2, GRID_SIZE / 2);
+                    translate(GRID_SIZE / 2.0f, GRID_SIZE / 2.0f);
                     rect(0, 0, GRID_SIZE, GRID_SIZE);
                     scale(10);
                     stroke(0, 31);
@@ -108,21 +109,17 @@ public class SketchPerlinNoise extends PApplet {
     class MEntity {
 
         PVector position = new PVector();
-
         PVector velocity = new PVector();
-
         PVector acceleration = new PVector();
-
         float speed = random(150, 300);
-
         float force = random(600, 900);
 
         void draw(PGraphics g) {
-            pushMatrix();
-            translate(position.x, position.y, position.z);
-            rotate(atan2(velocity.y, velocity.x));
-            rect(0, 0, 15, 5);
-            popMatrix();
+            g.pushMatrix();
+            g.translate(position.x, position.y, position.z);
+            g.rotate(atan2(velocity.y, velocity.x));
+            g.rect(0, 0, 15, 5);
+            g.popMatrix();
         }
 
         void update() {

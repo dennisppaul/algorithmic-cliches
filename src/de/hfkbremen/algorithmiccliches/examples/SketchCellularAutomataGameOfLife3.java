@@ -9,23 +9,14 @@ import processing.core.PApplet;
 public class SketchCellularAutomataGameOfLife3 extends PApplet {
 
     private static final int GRID_X = 64;
-
     private static final int GRID_Y = 32;
-
     private static final int GRID_Z = 32;
-
     private static final int GRID_WRITE = 0;
-
     private static final int GRID_READ = 1;
-
     private boolean[][][][] mCells;
-
     private int mB = 4;
-
-    private int mSmin = 4;
-
-    private int mSmax = 4;
-
+    private int mSMin = 4;
+    private int mSMax = 4;
     private ArcBall mArcBall;
 
     public void settings() {
@@ -48,13 +39,13 @@ public class SketchCellularAutomataGameOfLife3 extends PApplet {
         /* draw info */
         fill(0);
         noStroke();
-        text("RULE     : " + "B" + mB + "/S" + mSmin + "" + mSmax, 10, 12);
+        text("RULE     : " + "B" + mB + "/S" + mSMin + "" + mSMax, 10, 12);
         text("FPS      : " + frameRate, 10, 24);
 
         mArcBall.update(mousePressed, mouseX, mouseY);
 
         /* evaluate cells */
-        evaluateCells(mB, mSmin, mSmax); // B3/S23
+        evaluateCells(mB, mSMin, mSMax); // B3/S23
 
         /* copy to back */
         copyCellStates();
@@ -81,19 +72,19 @@ public class SketchCellularAutomataGameOfLife3 extends PApplet {
             }
             break;
             case 'q': {
-                mSmin++;
+                mSMin++;
             }
             break;
             case 'a': {
-                mSmin--;
+                mSMin--;
             }
             break;
             case 'Q': {
-                mSmax++;
+                mSMax++;
             }
             break;
             case 'A': {
-                mSmax--;
+                mSMax--;
             }
             break;
         }
@@ -122,9 +113,9 @@ public class SketchCellularAutomataGameOfLife3 extends PApplet {
 
     private void drawCells() {
         pushMatrix();
-        translate(width / 2.0f, height / 2.0f, height / -2);
+        translate(width / 2.0f, height / 2.0f, height / -2.0f);
         scale(16);
-        translate(GRID_X / -2, GRID_Y / -2, GRID_Z / -2);
+        translate(GRID_X / -2.0f, GRID_Y / -2.0f, GRID_Z / -2.0f);
         for (int x = 0; x < GRID_X; x++) {
             for (int y = 0; y < GRID_Y; y++) {
                 for (int z = 0; z < GRID_Z; z++) {

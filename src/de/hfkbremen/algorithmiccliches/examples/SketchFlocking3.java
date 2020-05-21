@@ -17,14 +17,13 @@ import teilchen.util.Util;
 
 import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/Flocking_(behavior)
- * http://de.wikipedia.org/wiki/Craig_Reynolds
- */
 public class SketchFlocking3 extends PApplet {
+    /*
+     * http://en.wikipedia.org/wiki/Flocking_(behavior)
+     * http://de.wikipedia.org/wiki/Craig_Reynolds
+     */
 
     private Physics mPhysics;
-
     private ArrayList<SwarmEntity> mSwarmEntities;
 
     public void settings() {
@@ -43,7 +42,7 @@ public class SketchFlocking3 extends PApplet {
         mPhysics = new Physics();
 
         Teleporter mTeleporter = new Teleporter();
-        mTeleporter.min().set(0, 0, height / -2);
+        mTeleporter.min().set(0, 0, height / -2.0f);
         mTeleporter.max().set(width, height, height / 2.0f);
         mPhysics.add(mTeleporter);
 
@@ -51,7 +50,7 @@ public class SketchFlocking3 extends PApplet {
         mPhysics.add(myViscousDrag);
 
         /* setup entities */
-        mSwarmEntities = new ArrayList<SwarmEntity>();
+        mSwarmEntities = new ArrayList<>();
         for (int i = 0; i < 80; i++) {
             SwarmEntity mSwarmEntity = new SwarmEntity();
             mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
@@ -89,15 +88,15 @@ public class SketchFlocking3 extends PApplet {
     private class SwarmEntity
             extends BehaviorParticle {
 
-        private Separation separation;
+        private final Separation separation;
 
-        private Alignment alignment;
+        private final Alignment alignment;
 
-        private Cohesion cohesion;
+        private final Cohesion cohesion;
 
-        private Wander wander;
+        private final Wander wander;
 
-        private Motor motor;
+        private final Motor motor;
 
         public SwarmEntity() {
             maximumInnerForce(random(100.0f, 1000.0f));

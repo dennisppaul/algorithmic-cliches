@@ -6,12 +6,12 @@ import ddf.minim.analysis.FFT;
 import de.hfkbremen.algorithmiccliches.util.ArcBall;
 import processing.core.PApplet;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/Fft
- */
 public class SketchFFTLandscape extends PApplet {
+    /*
+     * http://en.wikipedia.org/wiki/Fft
+     */
 
     private static final float BAND_SCALE = 8.0f;
     private static float mCurrentTime = 0.0f;
@@ -81,7 +81,7 @@ public class SketchFFTLandscape extends PApplet {
         for (int i = 0; i < b.bands.size(); i++) {
             final float x = width * (float) i / b.bands.size();
             final float myHeight = b.bands.get(i) * BAND_SCALE;
-            rect(x, height, width / b.bands.size(), -myHeight);
+            rect(x, height, (float) width / b.bands.size(), -myHeight);
         }
     }
 
@@ -123,9 +123,9 @@ public class SketchFFTLandscape extends PApplet {
         endShape();
     }
 
-    class MBands {
+    static class MBands {
 
-        Vector<Float> bands = new Vector<Float>();
+        ArrayList<Float> bands = new ArrayList<>();
 
         float time;
 

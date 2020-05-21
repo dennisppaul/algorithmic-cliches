@@ -14,6 +14,7 @@ public class SketchAgents_Step07_IntroducingTime extends PApplet {
      *
      * import Vector2f
      */
+
     private Agent myAgent;
 
     public void settings() {

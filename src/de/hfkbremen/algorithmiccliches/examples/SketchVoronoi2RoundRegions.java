@@ -5,17 +5,17 @@ import de.hfkbremen.algorithmiccliches.voronoidiagram.Qvoronoi;
 import processing.core.PApplet;
 import processing.core.PVector;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Vector;
 
 public class SketchVoronoi2RoundRegions extends PApplet {
 
-    /**
+    /*
      * http://en.wikipedia.org/wiki/Voronoi_diagram
      */
 
     private final Qvoronoi mQvoronoi = new Qvoronoi();
-    private final Vector<PVector> mPoints = new Vector<PVector>();
+    private final ArrayList<PVector> mPoints = new ArrayList<>();
     private PVector[][] mRegions;
     private int mCurrentRegion;
 
@@ -52,7 +52,7 @@ public class SketchVoronoi2RoundRegions extends PApplet {
         mPoints.toArray(mGridPointsArray);
         mRegions = mQvoronoi.calculate2(mGridPointsArray);
 
-        mPoints.lastElement().set(mouseX, mouseY);
+        mPoints.get(mPoints.size() - 1).set(mouseX, mouseY);
 
         if (mousePressed) {
             addPoint(mouseX, mouseY);
@@ -79,8 +79,7 @@ public class SketchVoronoi2RoundRegions extends PApplet {
 
         /* draw points */
         stroke(255, 0, 0, 127);
-        for (int i = 0; i < mPoints.size(); i++) {
-            PVector v = mPoints.get(i);
+        for (PVector v : mPoints) {
             drawCross(v);
         }
     }
@@ -107,8 +106,8 @@ public class SketchVoronoi2RoundRegions extends PApplet {
     }
 
     private void drawRegion(PVector[] pVertex) {
-        Vector<PVector> mRegion = new Vector<PVector>(Arrays.asList(pVertex));
-        final Vector<PVector> mRoundRegion = BSpline.curve(BSpline.closeCurve(mRegion), 10);
+        ArrayList<PVector> mRegion = new ArrayList<>(Arrays.asList(pVertex));
+        final ArrayList<PVector> mRoundRegion = BSpline.curve(BSpline.closeCurve(mRegion), 10);
 
         beginShape();
         for (PVector v : mRoundRegion) {

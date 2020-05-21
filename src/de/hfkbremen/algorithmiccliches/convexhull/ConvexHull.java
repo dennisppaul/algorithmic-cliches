@@ -13,8 +13,10 @@
 // THIS SOFTWARE/DOCUMENTATION IS PROVIDED WITH NO WARRANTY, EXPRESS OR
 // IMPLIED, INCLUDING, WITHOUT LIMITATION, WARRANTY OF MERCHANTABILITY OR
 // FITNESS FOR A PARTICULAR PURPOSE.
+
 package de.hfkbremen.algorithmiccliches.convexhull;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -33,11 +35,26 @@ public class ConvexHull
     private static final int COORD_RANGE = 1000000;
 
     // private static final int COORD_RANGE = 512;   Use with Volume6()
+
     /**
      * Constructs a convex hull initialised to a null surface.
      */
     public ConvexHull() {
         super();
+    }
+
+    /**
+     * Constructs the convex hull of a set of vertices.
+     *
+     * @param - vertices the set of vertices
+     * @throws - ConvexHullException if hull construction fails
+     */
+    public ConvexHull(Vector vertices) {
+        calculateHull(vertices);
+    }
+
+    public void calculateHull(ArrayList<HullVertex> pVertices) {
+        calculateHull(new Vector<>(pVertices));
     }
 
     public void calculateHull(Vector vertices) {
@@ -48,7 +65,7 @@ public class ConvexHull
         if (e.hasMoreElements()) {
             HullVertex v1 = (HullVertex) e.nextElement();
             HullVertex v2 = null;
-            for (; e.hasMoreElements();) {
+            for (; e.hasMoreElements(); ) {
                 v2 = (HullVertex) e.nextElement();
                 if (!HullVertex.sameVertex(v1, v2)) {
                     break;
@@ -58,7 +75,7 @@ public class ConvexHull
             HullVertex v3 = new HullVertex();
             HullTriangle t = null;
             Vector coVerts = new Vector();
-            for (; e.hasMoreElements();) {
+            for (; e.hasMoreElements(); ) {
                 v3 = (HullVertex) e.nextElement();
                 if (HullVertex.collinear(v1, v2, v3)) {
                     coVerts.addElement(v3);
@@ -69,7 +86,7 @@ public class ConvexHull
             }
 
             HullVertex v4 = new HullVertex();
-            for (; e.hasMoreElements();) {
+            for (; e.hasMoreElements(); ) {
                 v4 = (HullVertex) e.nextElement();
                 int volSign = t.volumeSign(v4);
                 if (volSign == 0) {
@@ -90,30 +107,20 @@ public class ConvexHull
             int i = 0;
 
             // Add vertices to the hull one at a time
-            for (; e.hasMoreElements();) {
+            for (; e.hasMoreElements(); ) {
                 addVertex((HullVertex) e.nextElement());
             }
 
             // Reprocess the previously found co-linear/planar vertices
             if (getFaces().size() > 0) {
                 for (e = coVerts.elements();
-                        e.hasMoreElements();) {
+                     e.hasMoreElements(); ) {
                     addVertex((HullVertex) e.nextElement());
                 }
 
             } else {
             }
         }
-    }
-
-    /**
-     * Constructs the convex hull of a set of vertices.
-     *
-     * @param - vertices the set of vertices
-     * @exception - ConvexHullException if hull construction fails
-     */
-    public ConvexHull(Vector vertices) {
-        calculateHull(vertices);
     }
 
     public float[] getVerticesArray() {
@@ -149,7 +156,7 @@ public class ConvexHull
         Vector xFaces = new Vector();
 
         for (Enumeration e = faces.elements();
-                e.hasMoreElements();) {
+             e.hasMoreElements(); ) {
             HullTriangle t = (HullTriangle) e.nextElement();
             Vector v = t.getVertices();
             HullVertex v1 = (HullVertex) v.firstElement();
@@ -184,9 +191,9 @@ public class ConvexHull
     /**
      * Form a tetrahedron from vertex and the existing triangular hull.
      *
-     * @param face - a triangular face of the tetrahedron
+     * @param face   - a triangular face of the tetrahedron
      * @param vertex - the fourth point of the tetrahedron
-     * @param vol - indicates on which side of face vertex lies
+     * @param vol    - indicates on which side of face vertex lies
      */
     private void triToTet(HullPolygon face, HullVertex vertex, int vol) {
         Vector v = face.getVertices();
@@ -224,7 +231,7 @@ public class ConvexHull
 
         // Delete visible faces
         for (Enumeration e = getFaces().elements();
-                e.hasMoreElements();) {
+             e.hasMoreElements(); ) {
             HullTriangle face = (HullTriangle) e.nextElement();
             if (face.volumeSign(vertex) < 0) {
                 visFaces.addElement(face);
@@ -237,7 +244,7 @@ public class ConvexHull
         }
         // Delete visible faces and construct visible edges list
         for (Enumeration e = visFaces.elements();
-                e.hasMoreElements();) {
+             e.hasMoreElements(); ) {
             HullPolygon face = (HullPolygon) e.nextElement();
             deleteVisibleFace(face, visEdges);
         }
@@ -245,7 +252,7 @@ public class ConvexHull
         //System.out.println("Visible edges: " + visEdges);
         // Construct new faces using visible edges
         for (Enumeration f = visEdges.elements();
-                f.hasMoreElements();) {
+             f.hasMoreElements(); ) {
             HullEdge edge = (HullEdge) f.nextElement();
             HullVertex ends[] = edge.getVertices();
             addFace(new HullTriangle(ends[0], ends[1], vertex));
@@ -256,7 +263,7 @@ public class ConvexHull
      * Delete a visible face from the convex hull. Adjust the list of visible
      * edges accordingly.
      *
-     * @param face - a face visible from a vertex to be deleted
+     * @param face         - a face visible from a vertex to be deleted
      * @param visibleEdges - the list of hull edges visible from a vertex
      */
     private void deleteVisibleFace(HullPolygon face, Vector visibleEdges) {
@@ -277,7 +284,7 @@ public class ConvexHull
      * Update the visible edge list. If e is not in the list then add it if it
      * is then delete it from the list
      *
-     * @param e - a visible edge
+     * @param e            - a visible edge
      * @param visibleEdges - a list of edges visible from a vertex
      */
     private void updateVisibleEdges(HullEdge e, Vector visibleEdges) {
@@ -285,7 +292,7 @@ public class ConvexHull
         boolean same = false;
 
         for (f = visibleEdges.elements();
-                f.hasMoreElements();) {
+             f.hasMoreElements(); ) {
             HullEdge edge = (HullEdge) f.nextElement();
             if (HullEdge.sameEdge(e, edge)) {
                 same = true;

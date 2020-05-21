@@ -6,21 +6,17 @@ import processing.core.PApplet;
 import processing.core.PVector;
 import teilchen.util.Linef;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/Marching_squares
- */
 public class SketchIsoSurface2 extends PApplet {
+    /*
+     * http://en.wikipedia.org/wiki/Marching_squares
+     */
 
     private float mIsoValue = 32.0f;
-
     private MetaCircle[] mMetaCircles;
-
     private boolean mDrawGrid = false;
-
     private boolean mDrawCenter = false;
-
     private int mCurrentCircle = 0;
 
     public void settings() {
@@ -62,7 +58,7 @@ public class SketchIsoSurface2 extends PApplet {
         }
 
         /* draw lines */
-        final Vector<Linef> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
+        final ArrayList<Linef> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
         stroke(0, 175);
         stroke(255, 127, 0);
 

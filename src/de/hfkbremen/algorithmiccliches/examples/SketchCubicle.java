@@ -11,15 +11,11 @@ import java.util.ArrayList;
 
 public class SketchCubicle extends PApplet {
 
-    private final int NUMBER_OF_PARTICLES_ADDED = 100;
-
-    private final int WORLD_NUMBER_OF_CUBICLES_X = 1024 / 64;
-
-    private final int WORLD_NUMBER_OF_CUBICLES_Y = 768 / 64;
-
-    private final int WORLD_NUMBER_OF_CUBICLES_Z = 768 / 64;
-
-    private final float WORLD_CUBICLE_SCALE = 32;
+    private static final int NUMBER_OF_PARTICLES_ADDED = 100;
+    private static final int WORLD_NUMBER_OF_CUBICLES_X = 1024 / 64;
+    private static final int WORLD_NUMBER_OF_CUBICLES_Y = 768 / 64;
+    private static final int WORLD_NUMBER_OF_CUBICLES_Z = 768 / 64;
+    private static final float WORLD_CUBICLE_SCALE = 32;
     private final PVector mPosition = new PVector();
     private boolean showCubicles = true;
     private float mRotationZ = 0.1f;
