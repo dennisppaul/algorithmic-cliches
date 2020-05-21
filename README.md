@@ -7,11 +7,11 @@ suggestions for _algorithmic clichés_ can be contributed via [issues tracking](
 ## Used Libraries
 
 * [Processing.org](http://www.processing.org/) ( updated to version 3.0++ ) including _PDF_, _DXF_, and _Minim_ libraries
-* [Teilchen](https://github.com/dennisppaul/teilchen)
+* [Minim](http://code.compartmental.net/minim/)
 * [Qhull](http://www.qhull.org/) for ( 2D + ) 3D voronoi diagrams ( on OS X qhull is available via [homebrew](http://brew.sh) -› ```brew install qhull``` )
 * [QuickHull3D](http://www.cs.ubc.ca/~lloyd/java/quickhull3d.html) for 3D convex hulls in 3D voronoi
 * [Gewebe](https://github.com/dennisppaul/gewebe/)
-* [Minim](http://code.compartmental.net/minim/)
+* [Teilchen](https://github.com/dennisppaul/teilchen)
 
 ## Current Algorithmic Clichés
 
