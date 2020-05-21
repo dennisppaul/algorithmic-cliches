@@ -2,7 +2,7 @@
 
 this repository contains a collection of _algorithmic clichés_ and according simple examples.
 
-suggestions for _algorithmic clichés_ can be contributed via [issues tracking](./issues).
+suggestions for _algorithmic clichés_ can be contributed via [issues tracking](https://github.com/dennisppaul/algorithmic-cliches/issues).
 
 ## Used Libraries
 
