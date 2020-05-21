@@ -27,7 +27,7 @@ import quickhull3d.*;
 
 final ArrayList<LaserLine2> mLaserLines = new ArrayList();
 void settings() {
-    size(640, 480, P3D);
+    size(1024, 768, P3D);
 }
 void setup() {
 }

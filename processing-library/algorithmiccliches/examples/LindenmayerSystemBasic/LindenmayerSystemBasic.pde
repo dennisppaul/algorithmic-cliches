@@ -27,7 +27,7 @@ import quickhull3d.*;
 
 LSystem ds;
 void settings() {
-    size(640, 360);
+    size(1024, 768);
 }
 void setup() {
     ds = new LSystem();

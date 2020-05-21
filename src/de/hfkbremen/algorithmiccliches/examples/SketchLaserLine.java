@@ -10,7 +10,7 @@ public class SketchLaserLine extends PApplet {
     private final ArrayList<LaserLine2> mLaserLines = new ArrayList<>();
 
     public void settings() {
-        size(640, 480, P3D);
+        size(1024, 768, P3D);
     }
 
     public void setup() {

@@ -4,16 +4,15 @@ import processing.core.PGraphics;
 
 import static processing.core.PApplet.radians;
 
-/**
- * look into: https://en.wikipedia.org/wiki/L-system
- */
-
 public class LSystem {
 
+    /*
+     * look into: https://en.wikipedia.org/wiki/L-system
+     */
+
+    public String production;
     String axiom;
     String rule;
-    public String production;
-
     private int steps = 0;
     private float startLength;
     private float drawLength;
@@ -48,8 +47,8 @@ public class LSystem {
         for (int i = 0; i < steps; i++) {
             char step = production.charAt(i);
             if (step == 'F') {
-                g.noFill();
-                g.stroke(255);
+//                g.noFill();
+//                g.stroke(255);
                 g.line(0, 0, 0, -drawLength);
                 g.translate(0, -drawLength);
             } else if (step == '+') {

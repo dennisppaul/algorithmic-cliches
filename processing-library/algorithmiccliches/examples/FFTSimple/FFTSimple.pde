@@ -32,7 +32,7 @@ Minim mMinim;
 AudioPlayer mPlayer;
 FFT mFFT;
 void settings() {
-    size(1024, 768, P3D);
+    size(1024, 768);
 }
 void stop() {
     mPlayer.pause();
