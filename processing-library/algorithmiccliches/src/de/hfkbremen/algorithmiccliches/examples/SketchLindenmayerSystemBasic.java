@@ -8,7 +8,7 @@ public class SketchLindenmayerSystemBasic extends PApplet {
     LSystem ds;
 
     public void settings() {
-        size(640, 360);
+        size(1024, 768);
     }
 
     public void setup() {
@@ -18,7 +18,8 @@ public class SketchLindenmayerSystemBasic extends PApplet {
     }
 
     public void draw() {
-        background(0);
+        background(255);
+        stroke(0);
         ds.render(g);
     }
 

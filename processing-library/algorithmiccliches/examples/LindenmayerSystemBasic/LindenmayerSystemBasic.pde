@@ -35,6 +35,7 @@ void setup() {
     System.out.println(ds.production);
 }
 void draw() {
-    background(0);
+    background(255);
+    stroke(0);
     ds.render(g);
 }

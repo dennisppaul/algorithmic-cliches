@@ -17,82 +17,99 @@ suggestions for _algorithmic clichés_ can be contributed via [issues tracking](
 
 ### Agents
 
-[![Step07_IntroducingTime](./images/sketches/Step07_IntroducingTime.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchAgents_Step07_IntroducingTime.java)
-
-### Cellular Automaton, Game of Life
-
-[![SketchGameOfLife2](./images/sketches/SketchGameOfLife2.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchCellularAutomataGameOfLife2.java)
-
-[![SketchGameOfLife3](./images/sketches/SketchGameOfLife3.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchCellularAutomataGameOfLife3.java)
-
-### Convex Hull
-
-[![SketchConvexHull](./images/sketches/SketchConvexHull.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchConvexHull3.java)
-
-### Cubicle
-
-[![SketchCubicle](./images/sketches/SketchCubicle.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchCubicle.java)
-
-### Delaunay Triangulation
-
-[![SketchDelaunayTriangulation](./images/sketches/SketchDelaunayTriangulation.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchDelaunayTriangulation2.java)
-
-### Diffusion-Limited Aggregation
-
-[![SketchDiffusionLimitedAggregation](./images/sketches/SketchDiffusionLimitedAggregation.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchDiffusionLimitedAggregation.java)
-
-### Fast Fourier Transform
-
-[![SketchSimpleFFT](./images/sketches/SketchSimpleFFT.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchFFTSimple.java)
-
-[![SketchFFTLandscape](./images/sketches/SketchFFTLandscape.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchFFTLandscape.java)
-
-### Flocking
-
-[![SketchFlocking2](./images/sketches/SketchFlocking2.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchFlocking2.java)
-
-[![SketchFlocking3](./images/sketches/SketchFlocking3.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchFlocking3.java)
-
-### Fluid Dynamics
-
-[![SketchFluidDynamics2](./images/sketches/SketchFluidDynamics2.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchFluidDynamics2.java)
-
-[![SketchWaterColumns](./images/sketches/SketchWaterColumns.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchFluidDynamicsWaterColumns.java)
-
-### Iso-Surface
-
-[![SketchIsoSurface2](./images/sketches/SketchIsoSurface2.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchIsoSurface2.java)
-
-[![SketchIsoSurface3](./images/sketches/SketchIsoSurface3.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchIsoSurface3.java)
-
-### Octree
-
-[![SketchOctree](./images/sketches/SketchOctree.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchOctree3D.java)
-
-### Packing
-
-[![SketchSpherePackingAroundCenter](./images/sketches/SketchSpherePackingAroundCenter.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchPackingSpheresAroundCenter.java)
-
-### Perlin Noise
-
-[![SketchPerlinNoise](./images/sketches/SketchPerlinNoise.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchPerlinNoise.java)
-
-[![SketchWaterSurface](./images/sketches/SketchWaterSurface.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchPerlinNoiseWaterSurface.java)
-
-### State Machine
-
-[![SketchSimpleStateMachine](./images/sketches/SketchSimpleStateMachine.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchStateMachineSimple.java)
-
-[![SketchStateMachineWithObjects](./images/sketches/SketchStateMachineWithObjects.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchStateMachineWithObjects.java)
-
-### Voronoi Diagram
-
-[![SketchVoronoi2](./images/sketches/SketchVoronoi2.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchVoronoi2.java)
-
-[![SketchVoronoi2RoundRegions](./images/sketches/SketchVoronoi2RoundRegions.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchVoronoi2RoundRegions.java)
-
-[![SketchVoronoi3](./images/sketches/SketchVoronoi3.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchVoronoi3.java)
+[![Step07_IntroducingTime](./images/sketches/Agents.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchAgents_Step07_IntroducingTime.java)
 
 ### Alpha Shapes
 
-[![SketchVoronoi3](./images/sketches/SketchAlphaShape3.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchAlphaShape3.java)
+[![Voronoi3](./images/sketches/AlphaShape3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchAlphaShape3.java)
+
+### Cellular Automaton, Game of Life
+
+[![GameOfLife2](./images/sketches/CellularAutomataGameOfLife2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchCellularAutomataGameOfLife2.java)
+
+[![GameOfLife3](./images/sketches/CellularAutomataGameOfLife3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchCellularAutomataGameOfLife3.java)
+
+### Convex Hull
+
+[![ConvexHull](./images/sketches/ConvexHull3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchConvexHull3.java)
+
+### Cubicle
+
+[![Cubicle](./images/sketches/Cubicle.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchCubicle.java)
+
+### Delaunay Triangulation
+
+[![DelaunayTriangulation](./images/sketches/DelaunayTriangulation2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchDelaunayTriangulation2.java)
+
+### Diffusion-Limited Aggregation
+
+[![DiffusionLimitedAggregation](./images/sketches/DiffusionLimitedAggregation.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchDiffusionLimitedAggregation.java)
+
+[![DiffusionLimitedAggregation](./images/sketches/DiffusionLimitedAggregationWithIsoSurfaces.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchDiffusionLimitedAggregationWithIsoSurfaces.java)
+
+### Fast Fourier Transform
+
+[![SimpleFFT](./images/sketches/FFTSimple.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFFTSimple.java)
+
+[![FFTLandscape](./images/sketches/FFTLandscape.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFFTLandscape.java)
+
+### Flocking
+
+[![Flocking2](./images/sketches/Flocking2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFlocking2.java)
+
+[![Flocking3](./images/sketches/Flocking3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFlocking3.java)
+
+### Flow Fields
+
+[![FlowFields](./images/sketches/FlowFields.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFlowFields.java)
+
+### Fluid Dynamics
+
+[![FluidDynamics2](./images/sketches/FluidDynamics2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFluidDynamics2.java)
+
+[![FluidDynamicsWaterColumns](./images/sketches/FluidDynamicsWaterColumns.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFluidDynamicsWaterColumns.java)
+
+### Iso Surfaces
+
+[![IsoSurface2MetaCircle](./images/sketches/IsoSurface2MetaCircle.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchIsoSurface2MetaCircle.java)
+
+[![IsoSurface2ExtractBlobs](./images/sketches/IsoSurface2ExtractBlobs.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchIsoSurface2ExtractBlobs.java)
+
+[![IsoSurface3MetaBall](./images/sketches/IsoSurface3MetaBall.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchIsoSurface3MetaBall.java)
+
+### Laser Line
+
+[![LaserLine](./images/sketches/LaserLine.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchLaserLine.java)
+
+### Lindenmayer System
+
+[![LindenmayerSystemBasic](./images/sketches/LindenmayerSystemBasic.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchLindenmayerSystemBasic.java)
+
+### Octree
+
+[![Octree3D](./images/sketches/Octree3D.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchOctree3D.java)
+
+### Packing
+
+[![PackingSpheresAroundCenter](./images/sketches/PackingSpheresAroundCenter.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchPackingSpheresAroundCenter.java)
+
+### Perlin Noise
+
+[![PerlinNoise](./images/sketches/PerlinNoise.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchPerlinNoise.java)
+
+[![PerlinNoiseWaterSurface](./images/sketches/PerlinNoiseWaterSurface.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchPerlinNoiseWaterSurface.java)
+
+### State Machine
+
+[![StateMachineSimple](./images/sketches/StateMachineSimple.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchStateMachineSimple.java)
+
+[![StateMachineWithObjects](./images/sketches/StateMachineWithObjects.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchStateMachineWithObjects.java)
+
+### Voronoi Diagram
+
+[![Voronoi2](./images/sketches/Voronoi2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchVoronoi2.java)
+
+[![Voronoi2RoundRegions](./images/sketches/Voronoi2RoundRegions.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchVoronoi2RoundRegions.java)
+
+[![Voronoi3](./images/sketches/Voronoi3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchVoronoi3.java)
+
