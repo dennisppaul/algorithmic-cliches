@@ -6,7 +6,6 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class SketchVoronoi2RoundRegions extends PApplet {
 
@@ -106,7 +105,7 @@ public class SketchVoronoi2RoundRegions extends PApplet {
     }
 
     private void drawRegion(PVector[] pVertex) {
-        ArrayList<PVector> mRegion = new ArrayList<>(Arrays.asList(pVertex));
+        ArrayList<PVector> mRegion = new ArrayList(java.util.Arrays.asList(pVertex));
         final ArrayList<PVector> mRoundRegion = BSpline.curve(BSpline.closeCurve(mRegion), 10);
 
         beginShape();

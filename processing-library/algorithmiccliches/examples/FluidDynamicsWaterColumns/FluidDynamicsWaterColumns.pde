@@ -3,51 +3,42 @@ import de.hfkbremen.algorithmiccliches.agents.*;
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
-import de.hfkbremen.algorithmiccliches.exporting.*; 
 import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.*; 
 import de.hfkbremen.algorithmiccliches.laserline.*; 
 import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
 import de.hfkbremen.algorithmiccliches.octree.*; 
 import de.hfkbremen.algorithmiccliches.util.*; 
-import de.hfkbremen.algorithmiccliches.util.ArcBall; 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
-import oscP5.*; 
-import netP5.*; 
 import teilchen.*; 
-import teilchen.constraint.*; 
-import teilchen.force.*; 
 import teilchen.behavior.*; 
+import teilchen.constraint.*; 
 import teilchen.cubicle.*; 
+import teilchen.integration.*; 
 import teilchen.util.*; 
-import teilchen.util.Vector3i; 
-import teilchen.util.Util; 
-import teilchen.util.Packing; 
-import teilchen.util.Packing.PackingEntity; 
-import de.hfkbremen.mesh.*; 
-import java.util.*; 
+import teilchen.force.*; 
+import teilchen.force.flowfield.*; 
+import teilchen.force.vectorfield.*; 
+import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
-import javax.swing.*; 
 
 
 static final int X_SIZE = 1024 / 32;
 static final int Y_SIZE = 768 / 32;
 final Quad[][] mQuads = new Quad[X_SIZE][Y_SIZE];
-ArcBall mArcBall;
+ACArcBall mArcBall;
 WaterColumnSolver2 mWater;
 void settings() {
     size(1024, 768, P3D);
 }
 void setup() {
     textFont(createFont("Courier", 11));
-    mArcBall = new ArcBall(width / 2, height / 2, -height, 400.0f, this, true);
+    mArcBall = new ACArcBall(width / 2.0f, height / 2.0f, -height, 400.0f, this, true);
     /* create view */
     mWater = new WaterColumnSolver2(X_SIZE, Y_SIZE, 300);
-    final float mCellSize = width / X_SIZE;
+    final float mCellSize = (float) width / X_SIZE;
     for (int x = 0; x < mQuads.length; x++) {
         for (int y = 0; y < mQuads[x].length; y++) {
             mQuads[x][y] = new Quad();
@@ -129,7 +120,7 @@ int x_wrapped(int x) {
 int y_wrapped(int y) {
     return (y + Y_SIZE) % Y_SIZE;
 }
-class Quad {
+static class Quad {
     final PVector a = new PVector();
     final PVector b = new PVector();
     final PVector c = new PVector();

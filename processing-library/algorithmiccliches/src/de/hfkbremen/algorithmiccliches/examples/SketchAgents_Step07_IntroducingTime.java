@@ -14,6 +14,7 @@ public class SketchAgents_Step07_IntroducingTime extends PApplet {
      *
      * import Vector2f
      */
+
     private Agent myAgent;
 
     public void settings() {
@@ -21,13 +22,12 @@ public class SketchAgents_Step07_IntroducingTime extends PApplet {
     }
 
     public void setup() {
-        smooth();
         noFill();
         ellipseMode(CENTER);
         frameRate(60);
 
         myAgent = new Agent();
-        myAgent.position.set(width / 2, height / 2);
+        myAgent.position.set(width / 2.0f, height / 2.0f);
         myAgent.velocity.set(0f, 0f);
         myAgent.acceleration.set(-4.0f, -3.0f);
         myAgent.radius = 15;
@@ -63,15 +63,10 @@ public class SketchAgents_Step07_IntroducingTime extends PApplet {
     private class Agent {
 
         Vector2f position = new Vector2f();
-
         Vector2f velocity = new Vector2f();
-
         Vector2f acceleration = new Vector2f();
-
         float maxspeed = 0;
-
         float maxacceleration = 0;
-
         float radius = 0;
 
         void loop(float theDeltaTime) {
@@ -107,14 +102,14 @@ public class SketchAgents_Step07_IntroducingTime extends PApplet {
             ellipse(position.x, position.y, radius * 2, radius * 2);
             stroke(255, 0, 0);
             line(position.x,
-                    position.y,
-                    position.x + velocity.x,
-                    position.y + velocity.y);
+                 position.y,
+                 position.x + velocity.x,
+                 position.y + velocity.y);
             stroke(0, 255, 0);
             line(position.x + velocity.x,
-                    position.y + velocity.y,
-                    position.x + velocity.x + acceleration.x,
-                    position.y + velocity.y + acceleration.y);
+                 position.y + velocity.y,
+                 position.x + velocity.x + acceleration.x,
+                 position.y + velocity.y + acceleration.y);
         }
     }
 

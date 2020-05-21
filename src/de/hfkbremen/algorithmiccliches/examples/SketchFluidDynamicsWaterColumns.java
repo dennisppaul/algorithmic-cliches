@@ -1,7 +1,7 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
 import de.hfkbremen.algorithmiccliches.fluiddynamics.WaterColumnSolver2;
-import de.hfkbremen.algorithmiccliches.util.ArcBall;
+import de.hfkbremen.algorithmiccliches.util.ACArcBall;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -11,7 +11,7 @@ public class SketchFluidDynamicsWaterColumns extends PApplet {
 
     private static final int Y_SIZE = 768 / 32;
     private final Quad[][] mQuads = new Quad[X_SIZE][Y_SIZE];
-    private ArcBall mArcBall;
+    private ACArcBall mArcBall;
     private WaterColumnSolver2 mWater;
 
     public void settings() {
@@ -20,7 +20,7 @@ public class SketchFluidDynamicsWaterColumns extends PApplet {
 
     public void setup() {
         textFont(createFont("Courier", 11));
-        mArcBall = new ArcBall(width / 2.0f, height / 2.0f, -height, 400.0f, this, true);
+        mArcBall = new ACArcBall(width / 2.0f, height / 2.0f, -height, 400.0f, this, true);
 
         /* create view */
         mWater = new WaterColumnSolver2(X_SIZE, Y_SIZE, 300);

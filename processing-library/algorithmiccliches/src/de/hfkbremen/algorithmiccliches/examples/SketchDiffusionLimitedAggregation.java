@@ -8,15 +8,14 @@ import teilchen.BasicParticle;
 import teilchen.util.Overlap;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
-/**
- * https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
- */
 public class SketchDiffusionLimitedAggregation extends PApplet {
+    /*
+     * https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
+     */
 
-    private final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
-    private final int NUMBER_OF_MAX_PARTICLES = 1000;
+    private static final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
+    private static final int NUMBER_OF_MAX_PARTICLES = 1000;
     private final float mOctreeSize = 150;
     private Octree mOctree;
     private float mRotationZ = 0.1f;
@@ -38,13 +37,6 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
             float r = 2.5f + sin(radians(i));
             addInitialParticle(r, x, y, 0);
         }
-    }
-
-    private void addInitialParticle(float r, float x, float y, float z) {
-        BrownianParticle p = new BrownianParticle(r);
-        p.position().set(x, y, z);
-        p.attach(true);
-        mOctree.add(p);
     }
 
     public void draw() {
@@ -88,7 +80,8 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
         }
 
         int mNumberOfUnattachedParticles = mOctree.entities().size() - mAttachedParticles.size();
-        if (mNumberOfUnattachedParticles < NUMBER_OF_PARTICLES_UNATTACHED && mOctree.entities().size() < NUMBER_OF_MAX_PARTICLES) {
+        if (mNumberOfUnattachedParticles < NUMBER_OF_PARTICLES_UNATTACHED && mOctree.entities()
+                                                                                    .size() < NUMBER_OF_MAX_PARTICLES) {
             addBrownianParticle();
         }
 
@@ -101,7 +94,7 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
         lights();
         pushMatrix();
 
-        translate(width / 2, height / 2, 0);
+        translate(width / 2.0f, height / 2.0f, 0);
 
         /* rotate */
         mRotationZ += 1.0f / frameRate * 0.1f;
@@ -140,20 +133,6 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
         text("FPS      : " + frameRate, 10, 36);
     }
 
-    private void drawCross(PVector v, float pRadius) {
-        line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
-        line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
-        line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
-    }
-
-    private void addBrownianParticle() {
-        BrownianParticle mEntity = new BrownianParticle(random(0.5f, 2.5f));
-        mEntity.position().x = random(-mOctreeSize / 2, mOctreeSize / 2);
-        mEntity.position().y = random(-mOctreeSize / 2, mOctreeSize / 2);
-        mEntity.position().z = random(-mOctreeSize / 2, mOctreeSize / 2);
-        mOctree.add(mEntity);
-    }
-
     public void keyPressed() {
         switch (key) {
             case '+':
@@ -168,12 +147,33 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
         }
     }
 
+    private void addInitialParticle(float r, float x, float y, float z) {
+        BrownianParticle p = new BrownianParticle(r);
+        p.position().set(x, y, z);
+        p.attach(true);
+        mOctree.add(p);
+    }
+
+    private void drawCross(PVector v, float pRadius) {
+        line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
+        line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
+        line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
+    }
+
+    private void addBrownianParticle() {
+        BrownianParticle mEntity = new BrownianParticle(random(0.5f, 2.5f));
+        mEntity.position().x = random(-mOctreeSize / 2, mOctreeSize / 2);
+        mEntity.position().y = random(-mOctreeSize / 2, mOctreeSize / 2);
+        mEntity.position().z = random(-mOctreeSize / 2, mOctreeSize / 2);
+        mOctree.add(mEntity);
+    }
+
     private class BrownianParticle extends BasicParticle implements OctreeEntity {
 
+        private static final float SPEED = 4;
+        private static final float SELECT_RADIUS = 20;
         int entity_color = color(191);
-        private float mSpeed = 4;
         private boolean mAttached = false;
-        private float mSelectRadius = 20;
 
         BrownianParticle(float pRadius) {
             radius(pRadius);
@@ -181,9 +181,9 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
 
         void move() {
             if (!mAttached) {
-                position().x += random(-mSpeed, mSpeed);
-                position().y += random(-mSpeed, mSpeed);
-                position().z += random(-mSpeed, mSpeed);
+                position().x += random(-SPEED, SPEED);
+                position().y += random(-SPEED, SPEED);
+                position().z += random(-SPEED, SPEED);
                 attach();
             }
         }
@@ -193,7 +193,7 @@ public class SketchDiffusionLimitedAggregation extends PApplet {
         }
 
         boolean attach() {
-            Vector<OctreeEntity> mEntities = mOctree.getEntitesWithinSphere(position(), mSelectRadius);
+            ArrayList<OctreeEntity> mEntities = mOctree.getEntitesWithinSphere(position(), SELECT_RADIUS);
             if (mEntities != null) {
                 for (OctreeEntity mEntity : mEntities) {
                     BrownianParticle m = (BrownianParticle) mEntity;

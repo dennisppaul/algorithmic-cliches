@@ -3,8 +3,6 @@ package de.hfkbremen.algorithmiccliches.examples;
 import processing.core.PApplet;
 import processing.core.PVector;
 import teilchen.util.Packing;
-import teilchen.util.Packing.PackingEntity;
-import teilchen.util.Util;
 
 import java.util.ArrayList;
 
@@ -15,7 +13,7 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
      */
 
     private final PVector mCenter = new PVector();
-    private ArrayList<PackingEntity> mEntities;
+    private ArrayList<Packing.PackingEntity> mEntities;
 
     public void settings() {
         size(1024, 768, P3D);
@@ -31,7 +29,7 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
 
         stroke(0);
         noFill();
-        for (PackingEntity mEntity : mEntities) {
+        for (Packing.PackingEntity mEntity : mEntities) {
             ellipse(mEntity.position().x, mEntity.position().y, mEntity.radius() * 2, mEntity.radius() * 2);
         }
 
@@ -50,10 +48,10 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
         mEntities = createRandomEntities(50);
     }
 
-    private ArrayList<PackingEntity> createRandomEntities(int pNumberOfShapes) {
-        ArrayList<PackingEntity> mRandomEntities = new ArrayList<>();
+    private ArrayList<Packing.PackingEntity> createRandomEntities(int pNumberOfShapes) {
+        ArrayList<Packing.PackingEntity> mRandomEntities = new ArrayList<>();
         for (int i = 0; i < pNumberOfShapes; i++) {
-            PackingEntity c = new PackingEntity();
+            Packing.PackingEntity c = new Packing.PackingEntity();
             c.position().set(random(width), random(height), 0);
             c.radius(random(pNumberOfShapes) + 10);
             mRandomEntities.add(c);
@@ -61,13 +59,13 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
         return mRandomEntities;
     }
 
-    private boolean contains(PackingEntity c, PVector pPosition) {
-        float d = Util.distance(c.position(), pPosition);
+    private boolean contains(Packing.PackingEntity c, PVector pPosition) {
+        float d = PVector.dist(c.position(), pPosition);
         return d <= c.radius();
     }
 
     private void attachToMouse() {
-        for (PackingEntity c : mEntities) {
+        for (Packing.PackingEntity c : mEntities) {
             if (contains(c, new PVector(mouseX, mouseY))) {
                 c.position().set(mouseX, mouseY, 0);
             }

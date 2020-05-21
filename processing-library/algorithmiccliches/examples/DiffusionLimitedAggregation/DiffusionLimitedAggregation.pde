@@ -3,39 +3,33 @@ import de.hfkbremen.algorithmiccliches.agents.*;
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
-import de.hfkbremen.algorithmiccliches.exporting.*; 
 import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.*; 
 import de.hfkbremen.algorithmiccliches.laserline.*; 
 import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
 import de.hfkbremen.algorithmiccliches.octree.*; 
 import de.hfkbremen.algorithmiccliches.util.*; 
-import de.hfkbremen.algorithmiccliches.util.ArcBall; 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
-import oscP5.*; 
-import netP5.*; 
 import teilchen.*; 
-import teilchen.constraint.*; 
-import teilchen.force.*; 
 import teilchen.behavior.*; 
+import teilchen.constraint.*; 
 import teilchen.cubicle.*; 
+import teilchen.integration.*; 
 import teilchen.util.*; 
-import teilchen.util.Vector3i; 
-import teilchen.util.Util; 
-import teilchen.util.Packing; 
-import teilchen.util.Packing.PackingEntity; 
-import de.hfkbremen.mesh.*; 
-import java.util.*; 
+import teilchen.force.*; 
+import teilchen.force.flowfield.*; 
+import teilchen.force.vectorfield.*; 
+import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
-import javax.swing.*; 
 
 
-final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
-final int NUMBER_OF_MAX_PARTICLES = 1000;
+/*
+ * https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
+ */
+static final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
+static final int NUMBER_OF_MAX_PARTICLES = 1000;
 final float mOctreeSize = 150;
 Octree mOctree;
 float mRotationZ = 0.1f;
@@ -53,12 +47,6 @@ void setup() {
         float r = 2.5f + sin(radians(i));
         addInitialParticle(r, x, y, 0);
     }
-}
-void addInitialParticle(float r, float x, float y, float z) {
-    BrownianParticle p = new BrownianParticle(r);
-    p.position().set(x, y, z);
-    p.attach(true);
-    mOctree.add(p);
 }
 void draw() {
     /* move particles */
@@ -98,7 +86,8 @@ void draw() {
         }
     }
     int mNumberOfUnattachedParticles = mOctree.entities().size() - mAttachedParticles.size();
-    if (mNumberOfUnattachedParticles < NUMBER_OF_PARTICLES_UNATTACHED && mOctree.entities().size() < NUMBER_OF_MAX_PARTICLES) {
+    if (mNumberOfUnattachedParticles < NUMBER_OF_PARTICLES_UNATTACHED && mOctree.entities()
+                                                                                .size() < NUMBER_OF_MAX_PARTICLES) {
         addBrownianParticle();
     }
     /* resolve overlap */
@@ -107,7 +96,7 @@ void draw() {
     background(255);
     lights();
     pushMatrix();
-    translate(width / 2, height / 2, 0);
+    translate(width / 2.0f, height / 2.0f, 0);
     /* rotate */
     mRotationZ += 1.0f / frameRate * 0.1f;
     rotateX(THIRD_PI);
@@ -140,18 +129,6 @@ void draw() {
     text("ATTACHED : " + mAttachedParticles.size(), 10, 24);
     text("FPS      : " + frameRate, 10, 36);
 }
-void drawCross(PVector v, float pRadius) {
-    line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
-    line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
-    line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
-}
-void addBrownianParticle() {
-    BrownianParticle mEntity = new BrownianParticle(random(0.5f, 2.5f));
-    mEntity.position().x = random(-mOctreeSize / 2, mOctreeSize / 2);
-    mEntity.position().y = random(-mOctreeSize / 2, mOctreeSize / 2);
-    mEntity.position().z = random(-mOctreeSize / 2, mOctreeSize / 2);
-    mOctree.add(mEntity);
-}
 void keyPressed() {
     switch (key) {
         case '+':
@@ -165,19 +142,37 @@ void keyPressed() {
             break;
     }
 }
+void addInitialParticle(float r, float x, float y, float z) {
+    BrownianParticle p = new BrownianParticle(r);
+    p.position().set(x, y, z);
+    p.attach(true);
+    mOctree.add(p);
+}
+void drawCross(PVector v, float pRadius) {
+    line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
+    line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
+    line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
+}
+void addBrownianParticle() {
+    BrownianParticle mEntity = new BrownianParticle(random(0.5f, 2.5f));
+    mEntity.position().x = random(-mOctreeSize / 2, mOctreeSize / 2);
+    mEntity.position().y = random(-mOctreeSize / 2, mOctreeSize / 2);
+    mEntity.position().z = random(-mOctreeSize / 2, mOctreeSize / 2);
+    mOctree.add(mEntity);
+}
 class BrownianParticle extends BasicParticle implements OctreeEntity {
+    static final float SPEED = 4;
+    static final float SELECT_RADIUS = 20;
     int entity_color = color(191);
-    float mSpeed = 4;
     boolean mAttached = false;
-    float mSelectRadius = 20;
     BrownianParticle(float pRadius) {
         radius(pRadius);
     }
     void move() {
         if (!mAttached) {
-            position().x += random(-mSpeed, mSpeed);
-            position().y += random(-mSpeed, mSpeed);
-            position().z += random(-mSpeed, mSpeed);
+            position().x += random(-SPEED, SPEED);
+            position().y += random(-SPEED, SPEED);
+            position().z += random(-SPEED, SPEED);
             attach();
         }
     }
@@ -185,7 +180,7 @@ class BrownianParticle extends BasicParticle implements OctreeEntity {
         mAttached = pAttachState;
     }
     boolean attach() {
-        Vector<OctreeEntity> mEntities = mOctree.getEntitesWithinSphere(position(), mSelectRadius);
+        ArrayList<OctreeEntity> mEntities = mOctree.getEntitesWithinSphere(position(), SELECT_RADIUS);
         if (mEntities != null) {
             for (OctreeEntity mEntity : mEntities) {
                 BrownianParticle m = (BrownianParticle) mEntity;

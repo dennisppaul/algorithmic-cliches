@@ -1,6 +1,6 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
-import de.hfkbremen.algorithmiccliches.util.ArcBall;
+import de.hfkbremen.algorithmiccliches.util.ACArcBall;
 import processing.core.PApplet;
 
 public class SketchCellularAutomataGameOfLife3 extends PApplet {
@@ -17,7 +17,7 @@ public class SketchCellularAutomataGameOfLife3 extends PApplet {
     private int mB = 4;
     private int mSMin = 4;
     private int mSMax = 4;
-    private ArcBall mArcBall;
+    private ACArcBall mArcBall;
 
     public void settings() {
         size(1024, 768, P3D);
@@ -26,7 +26,7 @@ public class SketchCellularAutomataGameOfLife3 extends PApplet {
     public void setup() {
         rectMode(CENTER);
         textFont(createFont("Courier", 11));
-        mArcBall = new ArcBall(this, true);
+        mArcBall = new ACArcBall(this, true);
 
         mCells = new boolean[GRID_X][GRID_Y][GRID_Z][2];
         randomizeCells();

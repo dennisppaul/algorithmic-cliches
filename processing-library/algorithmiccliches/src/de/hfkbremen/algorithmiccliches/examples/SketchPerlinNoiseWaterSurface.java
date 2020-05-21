@@ -1,14 +1,12 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
-import de.hfkbremen.algorithmiccliches.util.ArcBall;
+import de.hfkbremen.algorithmiccliches.util.ACArcBall;
 import processing.core.PApplet;
 
 public class SketchPerlinNoiseWaterSurface extends PApplet {
 
-    private float[][] mWaterSurface;
-
     private final int mGridScale = 16;
-
+    private float[][] mWaterSurface;
     private float mWaveOffset;
 
     public void settings() {
@@ -16,8 +14,7 @@ public class SketchPerlinNoiseWaterSurface extends PApplet {
     }
 
     public void setup() {
-        new ArcBall(this);
-        smooth();
+        new ACArcBall(this);
 
         final int GRID_WIDTH = width / mGridScale;
         final int GRID_HEIGHT = height / mGridScale;
@@ -48,7 +45,7 @@ public class SketchPerlinNoiseWaterSurface extends PApplet {
         ambientLight(102, 102, 102);
 
         pushMatrix();
-        translate(0, 0, -height / 2);
+        translate(0, 0, -height / 2.0f);
         noStroke();
         fill(255, 127, 0);
         rect(0, 0, width, height);
@@ -57,6 +54,7 @@ public class SketchPerlinNoiseWaterSurface extends PApplet {
         fill(0, 127, 255);
         pushMatrix();
         scale(mGridScale, mGridScale, 1);
+        strokeWeight(1.0f / mGridScale);
         for (int x = 0; x < mWaterSurface.length - 1; x++) {
             for (int y = 0; y < mWaterSurface[x].length - 1; y++) {
                 pushMatrix();

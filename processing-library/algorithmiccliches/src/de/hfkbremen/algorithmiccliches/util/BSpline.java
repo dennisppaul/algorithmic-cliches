@@ -2,13 +2,40 @@ package de.hfkbremen.algorithmiccliches.util;
 
 import processing.core.PVector;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-/**
- * b-spline source code from: Tim Lambert 'nice page on curves, splines etc.'
- * http://www.cse.unsw.edu.au/~lambert/splines/
- */
 public abstract class BSpline {
+
+    /**
+     * b-spline source code from: Tim Lambert 'nice page on curves, splines etc.'
+     * http://www.cse.unsw.edu.au/~lambert/splines/
+     */
+
+    public static ArrayList<PVector> curve(ArrayList<PVector> thePoints, int theSteps, ArrayList<PVector> theResult) {
+        for (int i = 2; i < thePoints.size() - 1; i++) {
+            for (int j = 1; j <= theSteps; j++) {
+                theResult.add(p(thePoints, i, j / (float) theSteps));
+            }
+        }
+        return theResult;
+    }
+
+    public static ArrayList<PVector> curve(ArrayList<PVector> thePoints, int theSteps) {
+        return curve(thePoints, theSteps, new ArrayList<PVector>());
+    }
+
+    public static ArrayList<PVector> closeCurve(ArrayList<PVector> thePoints) {
+        /* copy points */
+        ArrayList<PVector> myClosedPoints = new ArrayList<PVector>(thePoints);
+
+        /* repeat first three points */
+        if (thePoints.size() > 2) {
+            myClosedPoints.add(thePoints.get(0));
+            myClosedPoints.add(thePoints.get(1));
+            myClosedPoints.add(thePoints.get(2));
+        }
+        return myClosedPoints;
+    }
 
     /* the basis function for a cubic B spline */
     private static float b(int i, float t) {
@@ -26,7 +53,7 @@ public abstract class BSpline {
     }
 
     /* evaluate a point on the B spline */
-    private static PVector p(Vector<PVector> thePoints, int i, float t) {
+    private static PVector p(ArrayList<PVector> thePoints, int i, float t) {
         PVector p = new PVector();
         for (int j = -2; j <= 1; j++) {
             p.x += b(j, t) * thePoints.get(i + j).x;
@@ -34,34 +61,5 @@ public abstract class BSpline {
             p.z += b(j, t) * thePoints.get(i + j).z;
         }
         return p;
-    }
-
-    public static Vector<PVector> curve(Vector<PVector> thePoints, int theSteps, Vector<PVector> theResult) {
-        for (int i = 2; i < thePoints.size() - 1; i++) {
-            for (int j = 1; j <= theSteps; j++) {
-                theResult.add(p(thePoints, i, j / (float) theSteps));
-            }
-        }
-        return theResult;
-    }
-
-    public static Vector<PVector> curve(Vector<PVector> thePoints, int theSteps) {
-        return curve(thePoints, theSteps, new Vector<PVector>());
-    }
-
-    public static Vector<PVector> closeCurve(Vector<PVector> thePoints) {
-        /* copy points */
-        Vector<PVector> myClosedPoints = new Vector<PVector>();
-        for (int i = 0; i < thePoints.size(); i++) {
-            myClosedPoints.add(thePoints.get(i));
-        }
-
-        /* repeat first three points */
-        if (thePoints.size() > 2) {
-            myClosedPoints.add(thePoints.get(0));
-            myClosedPoints.add(thePoints.get(1));
-            myClosedPoints.add(thePoints.get(2));
-        }
-        return myClosedPoints;
     }
 }

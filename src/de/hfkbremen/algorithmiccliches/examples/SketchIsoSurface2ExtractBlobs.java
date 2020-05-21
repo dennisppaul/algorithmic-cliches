@@ -1,7 +1,7 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.MarchingSquares;
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.MetaCircle;
+import de.hfkbremen.algorithmiccliches.isosurface.IsoSurface2;
+import de.hfkbremen.algorithmiccliches.isosurface.MetaCircle;
 import processing.core.PApplet;
 import processing.core.PVector;
 import teilchen.util.Linef;
@@ -15,7 +15,6 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
 
     public void settings() {
         size(1024, 768, P3D);
-        noSmooth();
     }
 
     public void setup() {
@@ -52,7 +51,7 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
         }
 
         /* draw lines */
-        final ArrayList<Linef> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
+        final ArrayList<Linef> mLines = IsoSurface2.getLines(mEnergyGrid, mIsoValue);
         stroke(0, 127, 255);
 
         beginShape(LINES);
@@ -63,7 +62,7 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
         endShape();
 
         /* draw blobs */
-        ArrayList<ArrayList<PVector>> mBlobShapes = MarchingSquares.extractBlobs(mLines);
+        ArrayList<ArrayList<PVector>> mBlobShapes = IsoSurface2.extractBlobs(mLines);
         noStroke();
         fill(0, 127, 255, 127);
         for (ArrayList<PVector> mBlobShape : mBlobShapes) {

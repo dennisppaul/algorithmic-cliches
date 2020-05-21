@@ -3,41 +3,25 @@ package de.hfkbremen.algorithmiccliches.examples;
 import de.hfkbremen.algorithmiccliches.fluiddynamics.FluidDynamicsBuoyancyVorticity;
 import processing.core.PApplet;
 
-/**
- * Applet display interface for fluid solver.
- *
- * @author Alexander McKenzie
- * @version 1.0
- *
- */
 public class SketchFluidDynamics2Alt extends PApplet {
+    /*
+     * Applet display interface for fluid solver.
+     *
+     * @author Alexander McKenzie
+     * @version 1.0
+     */
 
     // frame dimensions (dxd pixels)
     private final int d = 60 * 10;
-
+    private final FluidDynamicsBuoyancyVorticity fs = new FluidDynamicsBuoyancyVorticity();
     // solver variables
     private int n = 60;
-
     private float dt = 0.2f;
-
-    private final FluidDynamicsBuoyancyVorticity fs = new FluidDynamicsBuoyancyVorticity();
-
     // flag to display velocity field
-    private boolean vkey = false;
-
-    // cell index
-    private int i, j;
+    private boolean vKey = false;
 
     // cell dimensions
     private int dg, dg_2;
-
-    // cell position
-    private int dx, dy;
-
-    // fluid velocity
-    private int u, v;
-
-    private int c;
 
     public void settings() {
         size(d, d);
@@ -46,14 +30,6 @@ public class SketchFluidDynamics2Alt extends PApplet {
     public void setup() {
         reset();
         frameRate(240);
-    }
-
-    public void reset() {
-        // calculate cell deimensions
-        dg = d / n;
-        dg_2 = dg / 2;
-
-        fs.setup(n, dt);
     }
 
     public void draw() {
@@ -65,21 +41,22 @@ public class SketchFluidDynamics2Alt extends PApplet {
         }
 
         // solve fluid
-//        for (int i = 0; i < 5; i++) {
+        //        for (int i = 0; i < 5; i++) {
         fs.velocitySolver();
         fs.densitySolver();
-//        }
+        //        }
 
         for (int k = 1; k <= n; k++) {
             // x position of current cell
-            dx = (int) ((k - 0.5f) * dg);
+            // cell position
+            int dx = (int) ((k - 0.5f) * dg);
             for (int l = 1; l <= n; l++) {
                 // y position of current cell
-                dy = (int) ((l - 0.5f) * dg);
+                int dy = (int) ((l - 0.5f) * dg);
 
                 // draw density
                 if (fs.d[I(k, l)] > 0) {
-                    c = (int) ((1.0 - fs.d[I(k, l)]) * 255);
+                    int c = (int) ((1.0 - fs.d[I(k, l)]) * 255);
                     if (c < 0) {
                         c = 0;
                     }
@@ -89,9 +66,10 @@ public class SketchFluidDynamics2Alt extends PApplet {
                 }
 
                 // draw velocity field
-                if (vkey) { // && i % 5 == 1 && j % 5 == 1) {
-                    u = (int) (50.0f * fs.u[I(k, l)]);
-                    v = (int) (50.0f * fs.v[I(k, l)]);
+                if (vKey) { // && i % 5 == 1 && j % 5 == 1) {
+                    // fluid velocity
+                    int u = (int) (50.0f * fs.u[I(k, l)]);
+                    int v = (int) (50.0f * fs.v[I(k, l)]);
                     stroke(255, 0, 0);
                     line(dx, dy, dx + u, dy + v);
                 }
@@ -102,7 +80,7 @@ public class SketchFluidDynamics2Alt extends PApplet {
     public void keyPressed() {
         // set flag for drawing velocity field
         if (key == 'v') {
-            vkey = !vkey;
+            vKey = !vKey;
         }
 
         // reset solver
@@ -173,12 +151,21 @@ public class SketchFluidDynamics2Alt extends PApplet {
         }
     }
 
+    public void reset() {
+        // calculate cell deimensions
+        dg = d / n;
+        dg_2 = dg / 2;
+
+        fs.setup(n, dt);
+    }
+
     public void updateLocation() {
         // get index for fluid cell under mouse position
-        i = (int) ((mouseX / (float) d) * n + 1);
-        j = (int) ((mouseY / (float) d) * n + 1);
+        // cell index
+        int i = (int) ((mouseX / (float) d) * n + 1);
+        int j = (int) ((mouseY / (float) d) * n + 1);
 
-        // set boundries
+        // set boundaries
         if (i > n) {
             i = n;
         }

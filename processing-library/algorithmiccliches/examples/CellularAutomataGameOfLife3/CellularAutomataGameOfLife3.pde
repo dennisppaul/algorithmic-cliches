@@ -3,37 +3,31 @@ import de.hfkbremen.algorithmiccliches.agents.*;
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
-import de.hfkbremen.algorithmiccliches.exporting.*; 
 import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.*; 
 import de.hfkbremen.algorithmiccliches.laserline.*; 
 import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
 import de.hfkbremen.algorithmiccliches.octree.*; 
 import de.hfkbremen.algorithmiccliches.util.*; 
-import de.hfkbremen.algorithmiccliches.util.ArcBall; 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
-import oscP5.*; 
-import netP5.*; 
 import teilchen.*; 
-import teilchen.constraint.*; 
-import teilchen.force.*; 
 import teilchen.behavior.*; 
+import teilchen.constraint.*; 
 import teilchen.cubicle.*; 
+import teilchen.integration.*; 
 import teilchen.util.*; 
-import teilchen.util.Vector3i; 
-import teilchen.util.Util; 
-import teilchen.util.Packing; 
-import teilchen.util.Packing.PackingEntity; 
-import de.hfkbremen.mesh.*; 
-import java.util.*; 
+import teilchen.force.*; 
+import teilchen.force.flowfield.*; 
+import teilchen.force.vectorfield.*; 
+import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
-import javax.swing.*; 
 
 
+/*
+ * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+ */
 static final int GRID_X = 64;
 static final int GRID_Y = 32;
 static final int GRID_Z = 32;
@@ -41,16 +35,16 @@ static final int GRID_WRITE = 0;
 static final int GRID_READ = 1;
 boolean[][][][] mCells;
 int mB = 4;
-int mSmin = 4;
-int mSmax = 4;
-ArcBall mArcBall;
+int mSMin = 4;
+int mSMax = 4;
+ACArcBall mArcBall;
 void settings() {
     size(1024, 768, P3D);
 }
 void setup() {
     rectMode(CENTER);
     textFont(createFont("Courier", 11));
-    mArcBall = new ArcBall(this, true);
+    mArcBall = new ACArcBall(this, true);
     mCells = new boolean[GRID_X][GRID_Y][GRID_Z][2];
     randomizeCells();
 }
@@ -60,17 +54,49 @@ void draw() {
     /* draw info */
     fill(0);
     noStroke();
-    text("RULE     : " + "B" + mB + "/S" + mSmin + "" + mSmax, 10, 12);
+    text("RULE     : " + "B" + mB + "/S" + mSMin + "" + mSMax, 10, 12);
     text("FPS      : " + frameRate, 10, 24);
     mArcBall.update(mousePressed, mouseX, mouseY);
     /* evaluate cells */
-    evaluateCells(mB, mSmin, mSmax); // B3/S23
+    evaluateCells(mB, mSMin, mSMax); // B3/S23
     /* copy to back */
     copyCellStates();
     /* draw grid */
     fill(127);
     noStroke();
     drawCells();
+}
+void keyPressed() {
+    switch (key) {
+        case ' ': {
+            randomizeCells(128 * 4);
+        }
+        break;
+        case '+': {
+            mB++;
+        }
+        break;
+        case '-': {
+            mB--;
+        }
+        break;
+        case 'q': {
+            mSMin++;
+        }
+        break;
+        case 'a': {
+            mSMin--;
+        }
+        break;
+        case 'Q': {
+            mSMax++;
+        }
+        break;
+        case 'A': {
+            mSMax--;
+        }
+        break;
+    }
 }
 void randomizeCells() {
     for (int x = 0; x < GRID_X; x++) {
@@ -93,9 +119,9 @@ void randomizeCells(int pCells) {
 }
 void drawCells() {
     pushMatrix();
-    translate(width / 2, height / 2, height / -2);
+    translate(width / 2.0f, height / 2.0f, height / -2.0f);
     scale(16);
-    translate(GRID_X / -2, GRID_Y / -2, GRID_Z / -2);
+    translate(GRID_X / -2.0f, GRID_Y / -2.0f, GRID_Z / -2.0f);
     for (int x = 0; x < GRID_X; x++) {
         for (int y = 0; y < GRID_Y; y++) {
             for (int z = 0; z < GRID_Z; z++) {
@@ -111,8 +137,8 @@ void drawCells() {
     popMatrix();
 }
 void evaluateCells(int pBirth,
-        int pMinSurvive,
-        int pMaxSurvive) {
+                           int pMinSurvive,
+                           int pMaxSurvive) {
     for (int x = 0; x < GRID_X; x++) {
         for (int y = 0; y < GRID_Y; y++) {
             for (int z = 0; z < GRID_Z; z++) {
@@ -158,36 +184,4 @@ int getNeighbors(int pX, int pY, int pZ) {
         }
     }
     return mNeighbors;
-}
-void keyPressed() {
-    switch (key) {
-        case ' ': {
-            randomizeCells(128 * 4);
-        }
-        break;
-        case '+': {
-            mB++;
-        }
-        break;
-        case '-': {
-            mB--;
-        }
-        break;
-        case 'q': {
-            mSmin++;
-        }
-        break;
-        case 'a': {
-            mSmin--;
-        }
-        break;
-        case 'Q': {
-            mSmax++;
-        }
-        break;
-        case 'A': {
-            mSmax--;
-        }
-        break;
-    }
 }

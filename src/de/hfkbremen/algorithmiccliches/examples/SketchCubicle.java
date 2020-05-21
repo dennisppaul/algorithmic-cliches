@@ -5,7 +5,6 @@ import processing.core.PVector;
 import teilchen.cubicle.CubicleWorld;
 import teilchen.cubicle.ICubicleEntity;
 import teilchen.util.CubicleWorldView;
-import teilchen.util.Vector3i;
 
 import java.util.ArrayList;
 
@@ -156,16 +155,16 @@ public class SketchCubicle extends PApplet {
     class MCubicleEntity
             implements ICubicleEntity {
 
-        private final Vector3i mCubicalPosition;
+        private final teilchen.util.Vector3i mCubicalPosition;
         private final PVector mPosition;
         int entity_color = color(0, 127, random(0, 255), 127);
 
         public MCubicleEntity() {
-            mCubicalPosition = new Vector3i();
+            mCubicalPosition = new teilchen.util.Vector3i();
             mPosition = new PVector();
         }
 
-        public Vector3i cubicle() {
+        public teilchen.util.Vector3i cubicle() {
             return mCubicalPosition;
         }
 

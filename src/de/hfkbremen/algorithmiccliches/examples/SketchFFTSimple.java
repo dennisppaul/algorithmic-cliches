@@ -5,8 +5,6 @@ import ddf.minim.Minim;
 import ddf.minim.analysis.FFT;
 import processing.core.PApplet;
 
-import javax.swing.*;
-
 public class SketchFFTSimple extends PApplet {
     /*
      * http://en.wikipedia.org/wiki/Fft
@@ -28,7 +26,7 @@ public class SketchFFTSimple extends PApplet {
 
     public void setup() {
         // @TODO `JFileChooser` crashes on macOS 10.15
-        JFileChooser mFileChooser = new JFileChooser();
+        javax.swing.JFileChooser mFileChooser = new javax.swing.JFileChooser();
         mFileChooser.showOpenDialog(frame);
         String mFileName = mFileChooser.getSelectedFile().getAbsolutePath();
 

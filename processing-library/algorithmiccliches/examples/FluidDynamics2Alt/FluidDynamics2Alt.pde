@@ -3,64 +3,46 @@ import de.hfkbremen.algorithmiccliches.agents.*;
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
-import de.hfkbremen.algorithmiccliches.exporting.*; 
 import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.*; 
 import de.hfkbremen.algorithmiccliches.laserline.*; 
 import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
 import de.hfkbremen.algorithmiccliches.octree.*; 
 import de.hfkbremen.algorithmiccliches.util.*; 
-import de.hfkbremen.algorithmiccliches.util.ArcBall; 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
-import oscP5.*; 
-import netP5.*; 
 import teilchen.*; 
-import teilchen.constraint.*; 
-import teilchen.force.*; 
 import teilchen.behavior.*; 
+import teilchen.constraint.*; 
 import teilchen.cubicle.*; 
+import teilchen.integration.*; 
 import teilchen.util.*; 
-import teilchen.util.Vector3i; 
-import teilchen.util.Util; 
-import teilchen.util.Packing; 
-import teilchen.util.Packing.PackingEntity; 
-import de.hfkbremen.mesh.*; 
-import java.util.*; 
+import teilchen.force.*; 
+import teilchen.force.flowfield.*; 
+import teilchen.force.vectorfield.*; 
+import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
-import javax.swing.*; 
 
 
+/*
+ * Applet display interface for fluid solver.
+ *
+ * @author Alexander McKenzie
+ * @version 1.0
+ */
 
 // frame dimensions (dxd pixels)
 final int d = 60 * 10;
-
+final FluidDynamicsBuoyancyVorticity fs = new FluidDynamicsBuoyancyVorticity();
 // solver variables
 int n = 60;
-
 float dt = 0.2f;
-
-final FluidDynamicsBuoyancyVorticity fs = new FluidDynamicsBuoyancyVorticity();
-
 // flag to display velocity field
-boolean vkey = false;
-
-// cell index
-int i, j;
+boolean vKey = false;
 
 // cell dimensions
 int dg, dg_2;
-
-// cell position
-int dx, dy;
-
-// fluid velocity
-int u, v;
-
-int c;
 
 void settings() {
     size(d, d);
@@ -69,14 +51,6 @@ void settings() {
 void setup() {
     reset();
     frameRate(240);
-}
-
-void reset() {
-    // calculate cell deimensions
-    dg = d / n;
-    dg_2 = dg / 2;
-
-    fs.setup(n, dt);
 }
 
 void draw() {
@@ -88,21 +62,22 @@ void draw() {
     }
 
     // solve fluid
-//    for (int i = 0; i < 5; i++) {
+    //        for (int i = 0; i < 5; i++) {
     fs.velocitySolver();
     fs.densitySolver();
-//    }
+    //        }
 
     for (int k = 1; k <= n; k++) {
         // x position of current cell
-        dx = (int) ((k - 0.5f) * dg);
+        // cell position
+        int dx = (int) ((k - 0.5f) * dg);
         for (int l = 1; l <= n; l++) {
             // y position of current cell
-            dy = (int) ((l - 0.5f) * dg);
+            int dy = (int) ((l - 0.5f) * dg);
 
             // draw density
             if (fs.d[I(k, l)] > 0) {
-                c = (int) ((1.0 - fs.d[I(k, l)]) * 255);
+                int c = (int) ((1.0 - fs.d[I(k, l)]) * 255);
                 if (c < 0) {
                     c = 0;
                 }
@@ -112,9 +87,10 @@ void draw() {
             }
 
             // draw velocity field
-            if (vkey) { // && i % 5 == 1 && j % 5 == 1) {
-                u = (int) (50.0f * fs.u[I(k, l)]);
-                v = (int) (50.0f * fs.v[I(k, l)]);
+            if (vKey) { // && i % 5 == 1 && j % 5 == 1) {
+                // fluid velocity
+                int u = (int) (50.0f * fs.u[I(k, l)]);
+                int v = (int) (50.0f * fs.v[I(k, l)]);
                 stroke(255, 0, 0);
                 line(dx, dy, dx + u, dy + v);
             }
@@ -125,7 +101,7 @@ void draw() {
 void keyPressed() {
     // set flag for drawing velocity field
     if (key == 'v') {
-        vkey = !vkey;
+        vKey = !vKey;
     }
 
     // reset solver
@@ -196,12 +172,21 @@ void keyPressed() {
     }
 }
 
+void reset() {
+    // calculate cell deimensions
+    dg = d / n;
+    dg_2 = dg / 2;
+
+    fs.setup(n, dt);
+}
+
 void updateLocation() {
     // get index for fluid cell under mouse position
-    i = (int) ((mouseX / (float) d) * n + 1);
-    j = (int) ((mouseY / (float) d) * n + 1);
+    // cell index
+    int i = (int) ((mouseX / (float) d) * n + 1);
+    int j = (int) ((mouseY / (float) d) * n + 1);
 
-    // set boundries
+    // set boundaries
     if (i > n) {
         i = n;
     }

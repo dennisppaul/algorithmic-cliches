@@ -3,7 +3,6 @@ package de.hfkbremen.algorithmiccliches.examples;
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.DelaunayTriangle;
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.DelaunayTriangulation;
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram;
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region;
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -74,7 +73,7 @@ public class SketchDelaunayTriangulation2 extends PApplet {
         }
     }
 
-    private void drawVoronoi(ArrayList<Region> mVoronoiRegions) {
+    private void drawVoronoi(ArrayList<VoronoiDiagram.Region> mVoronoiRegions) {
         /* draw voronoi diagrams */
         if (mVoronoiRegions != null) {
             for (VoronoiDiagram.Region mVoronoiRegion : mVoronoiRegions) {
@@ -102,8 +101,8 @@ public class SketchDelaunayTriangulation2 extends PApplet {
 
     private void drawVertices(float pRadius) {
         /* draw vertices */
-        for (PVector mVertice : mVertices) {
-            cross(mVertice.x, mVertice.y, pRadius);
+        for (PVector mVertices : mVertices) {
+            cross(mVertices.x, mVertices.y, pRadius);
         }
     }
 

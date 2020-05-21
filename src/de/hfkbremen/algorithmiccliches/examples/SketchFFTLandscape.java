@@ -3,7 +3,7 @@ package de.hfkbremen.algorithmiccliches.examples;
 import ddf.minim.AudioInput;
 import ddf.minim.Minim;
 import ddf.minim.analysis.FFT;
-import de.hfkbremen.algorithmiccliches.util.ArcBall;
+import de.hfkbremen.algorithmiccliches.util.ACArcBall;
 import processing.core.PApplet;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class SketchFFTLandscape extends PApplet {
     }
 
     public void setup() {
-        new ArcBall(this);
+        new ACArcBall(this);
 
         mMinim = new Minim(this);
 

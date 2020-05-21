@@ -1,17 +1,18 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
 import processing.core.PApplet;
-
-import java.util.Vector;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-/**
- * http://en.wikipedia.org/wiki/State_machine
- */
+import java.util.ArrayList;
+
 public class SketchStateMachineWithObjects extends PApplet {
 
-    private final Vector<Entity> mEntities = new Vector<Entity>();
+    /*
+     * http://en.wikipedia.org/wiki/State_machine
+     */
+
+    private final ArrayList<Entity> mEntities = new ArrayList<>();
 
     public void settings() {
         size(1024, 768, P3D);
@@ -19,8 +20,6 @@ public class SketchStateMachineWithObjects extends PApplet {
 
     public void setup() {
         rectMode(CENTER);
-        smooth();
-
         for (int i = 0; i < 100; i++) {
             mEntities.add(new Entity(this));
         }
@@ -39,25 +38,17 @@ public class SketchStateMachineWithObjects extends PApplet {
 
     public class Entity {
 
-        PVector position = new PVector();
-
-        int entity_color;
-
-        float speed;
-
-        float scale;
-
         static final float IDEAL_SCALE = 20.0f;
-
+        PVector position = new PVector();
+        int entity_color;
+        float speed;
+        float scale;
         private State mState;
 
-        private final PApplet p;
-
         public Entity(PApplet pPApplet) {
-            p = pPApplet;
-            switchState(new StateFollowMouse(this, p));
-            position.set(p.random(p.width), p.random(p.height));
-            speed = p.random(1, 5) * 20;
+            switchState(new StateFollowMouse(this, pPApplet));
+            position.set(pPApplet.random(pPApplet.width), pPApplet.random(pPApplet.height));
+            speed = pPApplet.random(1, 5) * 20;
             scale = IDEAL_SCALE;
         }
 
@@ -90,13 +81,13 @@ public class SketchStateMachineWithObjects extends PApplet {
 
     public abstract class State {
 
-        protected final Entity e;
+        protected final Entity entity;
 
-        protected final PApplet p;
+        protected final PApplet sketch;
 
         public State(Entity pParent, PApplet pPApplet) {
-            e = pParent;
-            p = pPApplet;
+            entity = pParent;
+            sketch = pPApplet;
         }
 
         public abstract void setup();
@@ -109,27 +100,25 @@ public class SketchStateMachineWithObjects extends PApplet {
     public class StateBrownianMotion
             extends State {
 
-        private float mStateTime;
-
         private static final float STATE_DURATION = 4.0f;
-
         private static final float BROWNIAN_SPEED = 15.0f;
+        private float mStateTime;
 
         public StateBrownianMotion(Entity pParent, PApplet pPApplet) {
             super(pParent, pPApplet);
         }
 
         public void setup() {
-            e.entity_color = p.color(255, 127, 0, 127);
+            entity.entity_color = color(255, 127, 0, 127);
         }
 
         public void update(final float pDelta) {
             mStateTime += pDelta;
             if (mStateTime > STATE_DURATION) {
-                e.switchState(new StateChangeRandomly(e, p));
+                entity.switchState(new StateChangeRandomly(entity, sketch));
             } else {
-                e.position.add(p.random(-BROWNIAN_SPEED, BROWNIAN_SPEED),
-                        p.random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
+                entity.position.add(sketch.random(-BROWNIAN_SPEED, BROWNIAN_SPEED),
+                                    sketch.random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
             }
         }
 
@@ -140,9 +129,8 @@ public class SketchStateMachineWithObjects extends PApplet {
     public class StateChangeRandomly
             extends State {
 
-        private float mStateTime;
-
         private static final float STATE_DURATION = 1.5f;
+        private float mStateTime;
 
         public StateChangeRandomly(Entity pParent, PApplet pPApplet) {
             super(pParent, pPApplet);
@@ -154,10 +142,10 @@ public class SketchStateMachineWithObjects extends PApplet {
         public void update(float pDelta) {
             mStateTime += pDelta;
             if (mStateTime > STATE_DURATION) {
-                e.switchState(new StateFollowMouse(e, p));
+                entity.switchState(new StateFollowMouse(entity, sketch));
             } else {
-                e.entity_color = p.color(p.random(127, 255), p.random(127, 255), 0, 127);
-                e.scale = p.random(50, 100);
+                entity.entity_color = color(sketch.random(127, 255), sketch.random(127, 255), 0, 127);
+                entity.scale = sketch.random(50, 100);
             }
         }
 
@@ -175,24 +163,24 @@ public class SketchStateMachineWithObjects extends PApplet {
         }
 
         public void setup() {
-            e.entity_color = p.color(0, 127, 255, 127);
+            entity.entity_color = color(0, 127, 255, 127);
         }
 
         public void update(float pDelta) {
-            PVector mDiff = PVector.sub(new PVector(p.mouseX, p.mouseY), e.position);
+            PVector mDiff = PVector.sub(new PVector(sketch.mouseX, sketch.mouseY), entity.position);
             if (mDiff.mag() < MIN_DISTANCE) {
-                e.switchState(new StateBrownianMotion(e, p));
+                entity.switchState(new StateBrownianMotion(entity, sketch));
             } else {
-                e.scale += (Entity.IDEAL_SCALE - e.scale) * pDelta;
+                entity.scale += (Entity.IDEAL_SCALE - entity.scale) * pDelta;
                 mDiff.normalize();
                 mDiff.mult(pDelta);
-                mDiff.mult(e.speed);
-                e.position.add(mDiff);
+                mDiff.mult(entity.speed);
+                entity.position.add(mDiff);
             }
         }
 
         public void done() {
-            e.scale = Entity.IDEAL_SCALE;
+            entity.scale = Entity.IDEAL_SCALE;
         }
     }
 

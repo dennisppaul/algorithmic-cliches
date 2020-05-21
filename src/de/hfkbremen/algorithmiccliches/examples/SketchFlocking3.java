@@ -13,7 +13,6 @@ import teilchen.behavior.Separation;
 import teilchen.behavior.Wander;
 import teilchen.constraint.Teleporter;
 import teilchen.force.ViscousDrag;
-import teilchen.util.Util;
 
 import java.util.ArrayList;
 
@@ -32,7 +31,7 @@ public class SketchFlocking3 extends PApplet {
 
     public void setup() {
         frameRate(60);
-rectMode(CENTER);
+        rectMode(CENTER);
         hint(DISABLE_DEPTH_TEST);
         textFont(createFont("Courier", 11));
 
@@ -139,7 +138,10 @@ rectMode(CENTER);
                 {
                     PMatrix3D p = new PMatrix3D();
 
-                    Util.pointAt(p, position(), new PVector(0, 1, 0), PVector.add(position(), velocity()));
+                    teilchen.util.Util.pointAt(p,
+                                               position(),
+                                               new PVector(0, 1, 0),
+                                               PVector.add(position(), velocity()));
                     applyMatrix(p);
 
                     pushMatrix();

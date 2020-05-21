@@ -2,33 +2,25 @@ package de.hfkbremen.algorithmiccliches.examples;
 
 import de.hfkbremen.algorithmiccliches.octree.Octree;
 import de.hfkbremen.algorithmiccliches.octree.OctreeEntity;
-
 import processing.core.PApplet;
 import processing.core.PVector;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/Octree
- */
 public class SketchOctree3D extends PApplet {
 
-    private final int NUMBER_OF_PARTICLES_ADDED = 10000;
+    /*
+     * http://en.wikipedia.org/wiki/Octree
+     */
 
-    private MVisibleOctree mOctree;
-
-    private final float mOctreeSize = 100;
-
-    private float mSelectRadius = 20;
-
-    private boolean showOctree = true;
-
-    private boolean useSphere = true;
-
-    private float mRotationZ = 0.1f;
-
+    private static final int NUMBER_OF_PARTICLES_ADDED = 10000;
+    private static final float OCTREE_SIZE = 100;
     private final PVector mPosition = new PVector();
-
+    private MVisibleOctree mOctree;
+    private float mSelectRadius = 20;
+    private boolean showOctree = true;
+    private boolean useSphere = true;
+    private float mRotationZ = 0.1f;
     private int numParticles = 1;
 
     public void settings() {
@@ -38,7 +30,7 @@ public class SketchOctree3D extends PApplet {
     public void setup() {
         textFont(createFont("Courier", 11));
 
-        mOctree = new MVisibleOctree(new PVector(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
+        mOctree = new MVisibleOctree(new PVector(-OCTREE_SIZE / 2, -OCTREE_SIZE / 2, -OCTREE_SIZE / 2), OCTREE_SIZE);
         mOctree.add(new MOctreeEntity());
 
         strokeWeight(0.25f);
@@ -48,27 +40,27 @@ public class SketchOctree3D extends PApplet {
         background(255);
         pushMatrix();
 
-        translate(width / 2, height / 2, 0);
+        translate(width / 2.0f, height / 2.0f, 0);
 
         /* rotate */
         if (mousePressed) {
             mRotationZ += (mouseX * 0.01f - mRotationZ) * 0.05f;
         } else {
-            mPosition.x = -(width * 0.5f - mouseX) / (width / 2) * mOctreeSize / 2;
-            mPosition.y = -(height * 0.5f - mouseY) / (height / 2) * mOctreeSize / 2;
+            mPosition.x = -(width * 0.5f - mouseX) / (width / 2.0f) * OCTREE_SIZE / 2;
+            mPosition.y = -(height * 0.5f - mouseY) / (height / 2.0f) * OCTREE_SIZE / 2;
         }
         rotateX(THIRD_PI);
         rotateZ(mRotationZ);
         scale(4);
 
         /* get entities from octree */
-        Vector<OctreeEntity> mEntities;
+        ArrayList<OctreeEntity> mEntities;
         if (useSphere) {
             mEntities = mOctree.getEntitesWithinSphere(mPosition, mSelectRadius);
         } else {
             mEntities = mOctree.getEntitiesWithinBox(mPosition, new PVector(mSelectRadius / 2,
-                    mSelectRadius / 2,
-                    mSelectRadius / 2));
+                                                                            mSelectRadius / 2,
+                                                                            mSelectRadius / 2));
         }
 
         /* draw entities */
@@ -95,10 +87,10 @@ public class SketchOctree3D extends PApplet {
         stroke(255, 0, 0, 63);
         noFill();
         beginShape(LINES);
-        vertex(mPosition.x, -mOctreeSize / 2, 0);
-        vertex(mPosition.x, mOctreeSize / 2, 0);
-        vertex(-mOctreeSize / 2, mPosition.y, 0);
-        vertex(mOctreeSize / 2, mPosition.y, 0);
+        vertex(mPosition.x, -OCTREE_SIZE / 2, 0);
+        vertex(mPosition.x, OCTREE_SIZE / 2, 0);
+        vertex(-OCTREE_SIZE / 2, mPosition.y, 0);
+        vertex(OCTREE_SIZE / 2, mPosition.y, 0);
         endShape();
 
         /* draw selection sphere */
@@ -117,20 +109,14 @@ public class SketchOctree3D extends PApplet {
         text("FPS      : " + frameRate, 10, 36);
     }
 
-    private void drawCross(PVector v, float pRadius) {
-        line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
-        line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
-        line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
-    }
-
     public void keyPressed() {
         switch (key) {
             case ' ':
                 for (int i = 0; i < NUMBER_OF_PARTICLES_ADDED; i++) {
                     MOctreeEntity mEntity = new MOctreeEntity();
-                    mEntity.position().x = random(-mOctreeSize / 2, mOctreeSize / 2);
-                    mEntity.position().y = random(-mOctreeSize / 2, mOctreeSize / 2);
-                    mEntity.position().z = random(-mOctreeSize / 2, mOctreeSize / 2);
+                    mEntity.position().x = random(-OCTREE_SIZE / 2, OCTREE_SIZE / 2);
+                    mEntity.position().y = random(-OCTREE_SIZE / 2, OCTREE_SIZE / 2);
+                    mEntity.position().z = random(-OCTREE_SIZE / 2, OCTREE_SIZE / 2);
                     mOctree.add(mEntity);
                 }
                 numParticles += NUMBER_OF_PARTICLES_ADDED;
@@ -145,7 +131,7 @@ public class SketchOctree3D extends PApplet {
                 mSelectRadius = max(mSelectRadius - 1, 2);
                 break;
             case '+':
-                mSelectRadius = min(mSelectRadius + 1, mOctreeSize);
+                mSelectRadius = min(mSelectRadius + 1, OCTREE_SIZE);
                 break;
             case 'c':
                 mOctree.auto_reduction(true);
@@ -156,6 +142,12 @@ public class SketchOctree3D extends PApplet {
             default:
                 break;
         }
+    }
+
+    private void drawCross(PVector v, float pRadius) {
+        line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
+        line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
+        line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
     }
 
     class MOctreeEntity

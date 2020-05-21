@@ -1,6 +1,6 @@
 LIB_NAME=algorithmiccliches
-IO_EXAMPLE_PATHS=( examples exporting )
+IO_EXAMPLE_PATHS=( examples )
 PROJECT_PACKAGE=de.hfkbremen.algorithmiccliches
-SKETCH_IMPORTS=( de.hfkbremen.algorithmiccliches.agents.* de.hfkbremen.algorithmiccliches.cellularautomata.* de.hfkbremen.algorithmiccliches.convexhull.* de.hfkbremen.algorithmiccliches.delaunaytriangulation2.* de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region de.hfkbremen.algorithmiccliches.exporting.* de.hfkbremen.algorithmiccliches.fluiddynamics.* de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.* de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.* de.hfkbremen.algorithmiccliches.laserline.* de.hfkbremen.algorithmiccliches.lindenmayersystems.* de.hfkbremen.algorithmiccliches.octree.* de.hfkbremen.algorithmiccliches.util.* de.hfkbremen.algorithmiccliches.util.ArcBall de.hfkbremen.algorithmiccliches.voronoidiagram.* oscP5.* netP5.* teilchen.* teilchen.constraint.* teilchen.force.* teilchen.behavior.* teilchen.cubicle.* teilchen.util.* teilchen.util.Vector3i teilchen.util.Util teilchen.util.Packing teilchen.util.Packing.PackingEntity de.hfkbremen.mesh.* java.util.* ddf.minim.* ddf.minim.analysis.* quickhull3d.* javax.swing.* )
-BASE_COLOR=54
-ADDITIONAL_LIBS=(  )
+SKETCH_IMPORTS=( de.hfkbremen.algorithmiccliches.agents.* de.hfkbremen.algorithmiccliches.cellularautomata.* de.hfkbremen.algorithmiccliches.convexhull.* de.hfkbremen.algorithmiccliches.delaunaytriangulation2.* de.hfkbremen.algorithmiccliches.fluiddynamics.* de.hfkbremen.algorithmiccliches.isosurface.* de.hfkbremen.algorithmiccliches.laserline.* de.hfkbremen.algorithmiccliches.lindenmayersystems.* de.hfkbremen.algorithmiccliches.octree.* de.hfkbremen.algorithmiccliches.util.* de.hfkbremen.algorithmiccliches.voronoidiagram.* teilchen.* teilchen.behavior.* teilchen.constraint.* teilchen.cubicle.* teilchen.integration.*  teilchen.util.* teilchen.force.* teilchen.force.flowfield.* teilchen.force.vectorfield.* de.hfkbremen.gewebe.* ddf.minim.* ddf.minim.analysis.* quickhull3d.* )
+BASE_COLOR=44
+ADDITIONAL_LIBS=( quickhull3d--COPYRIGHT quickhull3d-src+doc.zip quickhull3d.jar )

@@ -1,22 +1,28 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
-import processing.core.*;
-import teilchen.*;
-import teilchen.behavior.*;
-import teilchen.constraint.*;
-import teilchen.force.*;
-import teilchen.util.Util;
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PMatrix3D;
+import processing.core.PVector;
+import teilchen.BehaviorParticle;
+import teilchen.Physics;
+import teilchen.behavior.Alignment;
+import teilchen.behavior.Cohesion;
+import teilchen.behavior.Motor;
+import teilchen.behavior.Separation;
+import teilchen.behavior.Wander;
+import teilchen.constraint.Teleporter;
+import teilchen.force.ViscousDrag;
 
 import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/Flocking_(behavior)
- * http://de.wikipedia.org/wiki/Craig_Reynolds
- */
 public class SketchFlocking3 extends PApplet {
+    /*
+     * http://en.wikipedia.org/wiki/Flocking_(behavior)
+     * http://de.wikipedia.org/wiki/Craig_Reynolds
+     */
 
     private Physics mPhysics;
-
     private ArrayList<SwarmEntity> mSwarmEntities;
 
     public void settings() {
@@ -25,7 +31,6 @@ public class SketchFlocking3 extends PApplet {
 
     public void setup() {
         frameRate(60);
-        smooth();
         rectMode(CENTER);
         hint(DISABLE_DEPTH_TEST);
         textFont(createFont("Courier", 11));
@@ -35,20 +40,20 @@ public class SketchFlocking3 extends PApplet {
         mPhysics = new Physics();
 
         Teleporter mTeleporter = new Teleporter();
-        mTeleporter.min().set(0, 0, height / -2);
-        mTeleporter.max().set(width, height, height / 2);
+        mTeleporter.min().set(0, 0, height / -2.0f);
+        mTeleporter.max().set(width, height, height / 2.0f);
         mPhysics.add(mTeleporter);
 
         ViscousDrag myViscousDrag = new ViscousDrag();
         mPhysics.add(myViscousDrag);
 
         /* setup entities */
-        mSwarmEntities = new ArrayList<SwarmEntity>();
+        mSwarmEntities = new ArrayList<>();
         for (int i = 0; i < 80; i++) {
             SwarmEntity mSwarmEntity = new SwarmEntity();
             mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
-                    random(mTeleporter.min().y, mTeleporter.max().y),
-                    random(mTeleporter.min().z, mTeleporter.max().z));
+                                        random(mTeleporter.min().y, mTeleporter.max().y),
+                                        random(mTeleporter.min().z, mTeleporter.max().z));
             mSwarmEntities.add(mSwarmEntity);
             mPhysics.add(mSwarmEntity);
         }
@@ -81,15 +86,15 @@ public class SketchFlocking3 extends PApplet {
     private class SwarmEntity
             extends BehaviorParticle {
 
-        private Separation separation;
+        private final Separation separation;
 
-        private Alignment alignment;
+        private final Alignment alignment;
 
-        private Cohesion cohesion;
+        private final Cohesion cohesion;
 
-        private Wander wander;
+        private final Wander wander;
 
-        private Motor motor;
+        private final Motor motor;
 
         public SwarmEntity() {
             maximumInnerForce(random(100.0f, 1000.0f));
@@ -133,7 +138,10 @@ public class SketchFlocking3 extends PApplet {
                 {
                     PMatrix3D p = new PMatrix3D();
 
-                    Util.pointAt(p, position(), new PVector(0, 1, 0), PVector.add(position(), velocity()));
+                    teilchen.util.Util.pointAt(p,
+                                               position(),
+                                               new PVector(0, 1, 0),
+                                               PVector.add(position(), velocity()));
                     applyMatrix(p);
 
                     pushMatrix();

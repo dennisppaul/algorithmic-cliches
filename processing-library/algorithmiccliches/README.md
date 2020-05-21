@@ -1,18 +1,19 @@
-Algorithmic Clichés
-===================
+# Algorithmic Clichés
 
 this repository contains a collection of _algorithmic clichés_ and according simple examples.
+
+suggestions for _algorithmic clichés_ can be contributed via [issues tracking](https://github.com/dennisppaul/algorithmic-cliches/issues).
 
 ## Used Libraries
 
 * [Processing.org](http://www.processing.org/) ( updated to version 3.0++ ) including _PDF_, _DXF_, and _Minim_ libraries
-* [Teilchen](https://github.com/d3p/teilchen) on GitHub
+* [Teilchen](https://github.com/dennisppaul/teilchen)
 * [Qhull](http://www.qhull.org/) for ( 2D + ) 3D voronoi diagrams ( on OS X qhull is available via [homebrew](http://brew.sh) -› ```brew install qhull``` )
 * [QuickHull3D](http://www.cs.ubc.ca/~lloyd/java/quickhull3d.html) for 3D convex hulls in 3D voronoi
-* [ControlP5](http://www.sojamo.de/libraries/controlP5/) for GUIs
-* [Mesh]() ( currently unreleased )
+* [Gewebe](https://github.com/dennisppaul/gewebe/)
+* [Minim](http://code.compartmental.net/minim/)
 
-## Current Clichees
+## Current Algorithmic Clichés
 
 ### Agents
 
@@ -95,17 +96,3 @@ this repository contains a collection of _algorithmic clichés_ and according si
 ### Alpha Shapes
 
 [![SketchVoronoi3](./images/sketches/SketchAlphaShape3.png)](https://github.com/d3p/algorithmic-cliches/blob/master/src/de/hfkbremen/algorithmiccliches/examples/SketchAlphaShape3.java)
-
-## suggestions for CRB ( cliche review board )
-
-* [reaction diffusion](https://en.wikipedia.org/wiki/Reaction–diffusion_system)
-* [fractal](https://en.wikipedia.org/wiki/Fractal)
-
-### from [Architecture 27: Tooling](https://books.google.de/books?id=MG8xfIe55t0C&pg=PA53&redir_esc=y&hl=en#v=onepage&q&f=false)
-
-* spiraling
-* packing ( in addition to *circle packing* )
-* weaving
-* blending
-* cracking
-* tiling ( in addition to *voronoi* )

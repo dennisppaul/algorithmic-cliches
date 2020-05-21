@@ -4,14 +4,15 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/State_machine
- */
 public class SketchStateMachineSimple extends PApplet {
 
-    private final Vector<MEntity> mEntities = new Vector<MEntity>();
+    /*
+     * http://en.wikipedia.org/wiki/State_machine
+     */
+
+    private final ArrayList<MEntity> mEntities = new ArrayList<>();
 
     public void settings() {
         size(1024, 768, P3D);
@@ -19,8 +20,6 @@ public class SketchStateMachineSimple extends PApplet {
 
     public void setup() {
         rectMode(CENTER);
-        smooth();
-
         for (int i = 0; i < 100; i++) {
             mEntities.add(new MEntity());
         }
@@ -39,24 +38,15 @@ public class SketchStateMachineSimple extends PApplet {
 
     public class MEntity {
 
-        public int state;
-
         private static final int STATE_FOLLOW_MOUSE = 0;
-
         private static final int STATE_CHANGE_RANDOMLY = 1;
-
         private static final int STATE_BROWNIAN_MOTION = 2;
-
-        public PVector position = new PVector();
-
         public int entity_color;
-
-        public float speed;
-
-        public float state_time;
-
+        public PVector position = new PVector();
         public float scale;
-
+        public float speed;
+        public int state;
+        public float state_time;
         private final float IDEAL_SCALE = 20.0f;
 
         public MEntity() {
@@ -83,12 +73,12 @@ public class SketchStateMachineSimple extends PApplet {
         }
 
         public void draw(PGraphics g) {
-            noStroke();
-            fill(entity_color);
-            pushMatrix();
-            translate(position.x, position.y);
-            ellipse(0, 0, scale, scale);
-            popMatrix();
+            g.noStroke();
+            g.fill(entity_color);
+            g.pushMatrix();
+            g.translate(position.x, position.y);
+            g.ellipse(0, 0, scale, scale);
+            g.popMatrix();
         }
 
         private void update_brownian_motion(final float pDelta) {
@@ -100,7 +90,7 @@ public class SketchStateMachineSimple extends PApplet {
                 entity_color = color(255, 127, 0, 127);
                 final float BROWNIAN_SPEED = 15.0f;
                 position.add(random(-BROWNIAN_SPEED, BROWNIAN_SPEED),
-                        random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
+                             random(-BROWNIAN_SPEED, BROWNIAN_SPEED));
             }
         }
 

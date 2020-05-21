@@ -3,49 +3,48 @@ import de.hfkbremen.algorithmiccliches.agents.*;
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
-import de.hfkbremen.algorithmiccliches.exporting.*; 
 import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.*; 
 import de.hfkbremen.algorithmiccliches.laserline.*; 
 import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
 import de.hfkbremen.algorithmiccliches.octree.*; 
 import de.hfkbremen.algorithmiccliches.util.*; 
-import de.hfkbremen.algorithmiccliches.util.ArcBall; 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
-import oscP5.*; 
-import netP5.*; 
 import teilchen.*; 
-import teilchen.constraint.*; 
-import teilchen.force.*; 
 import teilchen.behavior.*; 
+import teilchen.constraint.*; 
 import teilchen.cubicle.*; 
+import teilchen.integration.*; 
 import teilchen.util.*; 
-import teilchen.util.Vector3i; 
-import teilchen.util.Util; 
-import teilchen.util.Packing; 
-import teilchen.util.Packing.PackingEntity; 
-import de.hfkbremen.mesh.*; 
-import java.util.*; 
+import teilchen.force.*; 
+import teilchen.force.flowfield.*; 
+import teilchen.force.vectorfield.*; 
+import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
-import javax.swing.*; 
 
 
+/*
+ * http://en.wikipedia.org/wiki/Fft
+ */
+static final float BAND_SCALE = 8.0f;
+static float mCurrentTime = 0.0f;
+final MBands[] mBands = new MBands[200];
 Minim mMinim;
 AudioInput mLiveAudioInput;
 FFT mFFT;
-static float mCurrentTime = 0.0f;
-final MBands[] mBands = new MBands[200];
 int mBandsPointer = 0;
-static final float BAND_SCALE = 8.0f;
 void settings() {
     size(1024, 768, P3D);
 }
+void stop() {
+    mLiveAudioInput.close();
+    mMinim.stop();
+    super.stop();
+}
 void setup() {
-    new ArcBall(this);
+    new ACArcBall(this);
     mMinim = new Minim(this);
     mLiveAudioInput = mMinim.getLineIn(Minim.STEREO, 1024);
     mFFT = new FFT(mLiveAudioInput.bufferSize(), mLiveAudioInput.sampleRate());
@@ -60,7 +59,7 @@ void draw() {
     background(255);
     directionalLight(126, 126, 126, 0, 0, -1);
     ambientLight(102, 102, 102);
-    translate(0, 0, -height / 2);
+    translate(0, 0, -height / 2.0f);
     fill(255, 127, 0);
     noStroke();
     drawFFTLandscape();
@@ -70,11 +69,6 @@ void draw() {
     drawBands(mBands[mBandsPointer]);
     mBandsPointer++;
     mBandsPointer %= mBands.length;
-}
-void stop() {
-    mLiveAudioInput.close();
-    mMinim.stop();
-    super.stop();
 }
 void handleFFT() {
     mFFT.forward(mLiveAudioInput.left);
@@ -89,7 +83,7 @@ void drawBands(MBands b) {
     for (int i = 0; i < b.bands.size(); i++) {
         final float x = width * (float) i / b.bands.size();
         final float myHeight = b.bands.get(i) * BAND_SCALE;
-        rect(x, height, width / b.bands.size(), -myHeight);
+        rect(x, height, (float) width / b.bands.size(), -myHeight);
     }
 }
 void drawFFTLandscape() {
@@ -125,7 +119,7 @@ void drawFFTLandscape() {
     }
     endShape();
 }
-class MBands {
-    Vector<Float> bands = new Vector<Float>();
+static class MBands {
+    ArrayList<Float> bands = new ArrayList();
     float time;
 }

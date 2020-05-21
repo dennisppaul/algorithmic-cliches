@@ -11,6 +11,7 @@ public class SketchAgents_Step02_MovingInADirection extends PApplet {
      *
      * import Vector2f
      */
+
     private Agent myAgent;
 
     public void settings() {
@@ -18,13 +19,12 @@ public class SketchAgents_Step02_MovingInADirection extends PApplet {
     }
 
     public void setup() {
-        smooth();
         noFill();
         ellipseMode(CENTER);
         frameRate(10);
 
         myAgent = new Agent();
-        myAgent.position.set(width / 2, height / 2);
+        myAgent.position.set(width / 2.0f, height / 2.0f);
         myAgent.velocity.set(5, 8);
         myAgent.radius = 15;
     }
@@ -39,9 +39,7 @@ public class SketchAgents_Step02_MovingInADirection extends PApplet {
     private class Agent {
 
         Vector2f position = new Vector2f();
-
         Vector2f velocity = new Vector2f();
-
         float radius = 0;
 
         void loop() {
@@ -53,9 +51,9 @@ public class SketchAgents_Step02_MovingInADirection extends PApplet {
             ellipse(position.x, position.y, radius * 2, radius * 2);
             stroke(255, 0, 0);
             line(position.x,
-                    position.y,
-                    position.x + velocity.x,
-                    position.y + velocity.y);
+                 position.y,
+                 position.x + velocity.x,
+                 position.y + velocity.y);
         }
     }
 

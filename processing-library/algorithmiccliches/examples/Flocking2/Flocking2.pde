@@ -3,37 +3,32 @@ import de.hfkbremen.algorithmiccliches.agents.*;
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
-import de.hfkbremen.algorithmiccliches.exporting.*; 
 import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.*; 
 import de.hfkbremen.algorithmiccliches.laserline.*; 
 import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
 import de.hfkbremen.algorithmiccliches.octree.*; 
 import de.hfkbremen.algorithmiccliches.util.*; 
-import de.hfkbremen.algorithmiccliches.util.ArcBall; 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
-import oscP5.*; 
-import netP5.*; 
 import teilchen.*; 
-import teilchen.constraint.*; 
-import teilchen.force.*; 
 import teilchen.behavior.*; 
+import teilchen.constraint.*; 
 import teilchen.cubicle.*; 
+import teilchen.integration.*; 
 import teilchen.util.*; 
-import teilchen.util.Vector3i; 
-import teilchen.util.Util; 
-import teilchen.util.Packing; 
-import teilchen.util.Packing.PackingEntity; 
-import de.hfkbremen.mesh.*; 
-import java.util.*; 
+import teilchen.force.*; 
+import teilchen.force.flowfield.*; 
+import teilchen.force.vectorfield.*; 
+import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
-import javax.swing.*; 
 
 
+/*
+ * http://en.wikipedia.org/wiki/Flocking_(behavior)
+ * http://de.wikipedia.org/wiki/Craig_Reynolds
+ */
 Physics mPhysics;
 ArrayList<SwarmEntity> mSwarmEntities;
 void settings() {
@@ -41,7 +36,6 @@ void settings() {
 }
 void setup() {
     frameRate(60);
-    smooth();
     rectMode(CENTER);
     hint(DISABLE_DEPTH_TEST);
     textFont(createFont("Courier", 11));
@@ -55,13 +49,13 @@ void setup() {
     mPhysics.add(myViscousDrag);
     for (int i = 0; i < 3; i++) {
         Attractor mAttractor = new Attractor();
-        mAttractor.position().set(i * width / 2, i * height / 2);
+        mAttractor.position().set(i * width / 2.0f, i * height / 2.0f);
         mAttractor.strength(-200);
         mAttractor.radius(350);
         mPhysics.add(mAttractor);
     }
     /* setup entities */
-    mSwarmEntities = new ArrayList<SwarmEntity>();
+    mSwarmEntities = new ArrayList();
 }
 void draw() {
     final float mDeltaTime = 1.0f / frameRate;

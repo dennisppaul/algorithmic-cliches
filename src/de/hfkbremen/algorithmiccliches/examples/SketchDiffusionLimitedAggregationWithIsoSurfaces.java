@@ -1,7 +1,7 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.Metaball;
-import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.MetaballManager;
+import de.hfkbremen.algorithmiccliches.isosurface.MetaBall;
+import de.hfkbremen.algorithmiccliches.isosurface.MetaBallManager;
 import de.hfkbremen.algorithmiccliches.octree.Octree;
 import de.hfkbremen.algorithmiccliches.octree.OctreeEntity;
 import processing.core.PApplet;
@@ -22,7 +22,7 @@ public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
     private final float mOctreeSize = 150;
     private Octree mOctree;
     private float mRotationZ = 0.1f;
-    private MetaballManager mMetaballManager;
+    private MetaBallManager mMetaBallManager;
 
     public void settings() {
         size(1024, 768, P3D);
@@ -34,11 +34,11 @@ public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
 
         mOctree = new Octree(new PVector(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
 
-        mMetaballManager = new MetaballManager();
-        mMetaballManager.dimension.set(mOctreeSize, mOctreeSize, mOctreeSize);
+        mMetaBallManager = new MetaBallManager();
+        mMetaBallManager.dimension.set(mOctreeSize, mOctreeSize, mOctreeSize);
         final int mIsoSurfaceResolution = 60;
-        mMetaballManager.resolution.set(mIsoSurfaceResolution, mIsoSurfaceResolution, mIsoSurfaceResolution);
-        mMetaballManager.position.set(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2);
+        mMetaBallManager.resolution.set(mIsoSurfaceResolution, mIsoSurfaceResolution, mIsoSurfaceResolution);
+        mMetaBallManager.position.set(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2);
 
         for (int i = 0; i < 270; i += 16) {
             float x = sin(radians(i)) * 50;
@@ -112,11 +112,11 @@ public class SketchDiffusionLimitedAggregationWithIsoSurfaces extends PApplet {
 
         /* metaball */
         if (keyPressed) {
-            mMetaballManager.clear();
+            mMetaBallManager.clear();
             for (BrownianParticle bp : mAttachedParticles) {
-                mMetaballManager.add(new Metaball(bp.position(), 5, bp.radius()));
+                mMetaBallManager.add(new MetaBall(bp.position(), 5, bp.radius()));
             }
-            final ArrayList<PVector> myData = mMetaballManager.createSurface();
+            final ArrayList<PVector> myData = mMetaBallManager.createSurface();
 
             /* draw */
             fill(255, 127, 0);

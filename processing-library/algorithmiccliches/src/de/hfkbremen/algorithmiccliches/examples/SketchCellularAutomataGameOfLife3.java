@@ -1,32 +1,23 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
-import de.hfkbremen.algorithmiccliches.util.ArcBall;
+import de.hfkbremen.algorithmiccliches.util.ACArcBall;
 import processing.core.PApplet;
 
-/**
- * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
- */
 public class SketchCellularAutomataGameOfLife3 extends PApplet {
+    /*
+     * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
+     */
 
     private static final int GRID_X = 64;
-
     private static final int GRID_Y = 32;
-
     private static final int GRID_Z = 32;
-
     private static final int GRID_WRITE = 0;
-
     private static final int GRID_READ = 1;
-
     private boolean[][][][] mCells;
-
     private int mB = 4;
-
-    private int mSmin = 4;
-
-    private int mSmax = 4;
-
-    private ArcBall mArcBall;
+    private int mSMin = 4;
+    private int mSMax = 4;
+    private ACArcBall mArcBall;
 
     public void settings() {
         size(1024, 768, P3D);
@@ -35,7 +26,7 @@ public class SketchCellularAutomataGameOfLife3 extends PApplet {
     public void setup() {
         rectMode(CENTER);
         textFont(createFont("Courier", 11));
-        mArcBall = new ArcBall(this, true);
+        mArcBall = new ACArcBall(this, true);
 
         mCells = new boolean[GRID_X][GRID_Y][GRID_Z][2];
         randomizeCells();
@@ -48,13 +39,13 @@ public class SketchCellularAutomataGameOfLife3 extends PApplet {
         /* draw info */
         fill(0);
         noStroke();
-        text("RULE     : " + "B" + mB + "/S" + mSmin + "" + mSmax, 10, 12);
+        text("RULE     : " + "B" + mB + "/S" + mSMin + "" + mSMax, 10, 12);
         text("FPS      : " + frameRate, 10, 24);
 
         mArcBall.update(mousePressed, mouseX, mouseY);
 
         /* evaluate cells */
-        evaluateCells(mB, mSmin, mSmax); // B3/S23
+        evaluateCells(mB, mSMin, mSMax); // B3/S23
 
         /* copy to back */
         copyCellStates();
@@ -64,6 +55,39 @@ public class SketchCellularAutomataGameOfLife3 extends PApplet {
         noStroke();
         drawCells();
 
+    }
+
+    public void keyPressed() {
+        switch (key) {
+            case ' ': {
+                randomizeCells(128 * 4);
+            }
+            break;
+            case '+': {
+                mB++;
+            }
+            break;
+            case '-': {
+                mB--;
+            }
+            break;
+            case 'q': {
+                mSMin++;
+            }
+            break;
+            case 'a': {
+                mSMin--;
+            }
+            break;
+            case 'Q': {
+                mSMax++;
+            }
+            break;
+            case 'A': {
+                mSMax--;
+            }
+            break;
+        }
     }
 
     private void randomizeCells() {
@@ -89,9 +113,9 @@ public class SketchCellularAutomataGameOfLife3 extends PApplet {
 
     private void drawCells() {
         pushMatrix();
-        translate(width / 2, height / 2, height / -2);
+        translate(width / 2.0f, height / 2.0f, height / -2.0f);
         scale(16);
-        translate(GRID_X / -2, GRID_Y / -2, GRID_Z / -2);
+        translate(GRID_X / -2.0f, GRID_Y / -2.0f, GRID_Z / -2.0f);
         for (int x = 0; x < GRID_X; x++) {
             for (int y = 0; y < GRID_Y; y++) {
                 for (int z = 0; z < GRID_Z; z++) {
@@ -108,8 +132,8 @@ public class SketchCellularAutomataGameOfLife3 extends PApplet {
     }
 
     private void evaluateCells(int pBirth,
-            int pMinSurvive,
-            int pMaxSurvive) {
+                               int pMinSurvive,
+                               int pMaxSurvive) {
         for (int x = 0; x < GRID_X; x++) {
             for (int y = 0; y < GRID_Y; y++) {
                 for (int z = 0; z < GRID_Z; z++) {
@@ -157,39 +181,6 @@ public class SketchCellularAutomataGameOfLife3 extends PApplet {
             }
         }
         return mNeighbors;
-    }
-
-    public void keyPressed() {
-        switch (key) {
-            case ' ': {
-                randomizeCells(128 * 4);
-            }
-            break;
-            case '+': {
-                mB++;
-            }
-            break;
-            case '-': {
-                mB--;
-            }
-            break;
-            case 'q': {
-                mSmin++;
-            }
-            break;
-            case 'a': {
-                mSmin--;
-            }
-            break;
-            case 'Q': {
-                mSmax++;
-            }
-            break;
-            case 'A': {
-                mSmax--;
-            }
-            break;
-        }
     }
 
     public static void main(String[] args) {

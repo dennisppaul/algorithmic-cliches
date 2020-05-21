@@ -3,42 +3,32 @@ import de.hfkbremen.algorithmiccliches.agents.*;
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
-import de.hfkbremen.algorithmiccliches.exporting.*; 
 import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.*; 
 import de.hfkbremen.algorithmiccliches.laserline.*; 
 import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
 import de.hfkbremen.algorithmiccliches.octree.*; 
 import de.hfkbremen.algorithmiccliches.util.*; 
-import de.hfkbremen.algorithmiccliches.util.ArcBall; 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
-import oscP5.*; 
-import netP5.*; 
 import teilchen.*; 
-import teilchen.constraint.*; 
-import teilchen.force.*; 
 import teilchen.behavior.*; 
+import teilchen.constraint.*; 
 import teilchen.cubicle.*; 
+import teilchen.integration.*; 
 import teilchen.util.*; 
-import teilchen.util.Vector3i; 
-import teilchen.util.Util; 
-import teilchen.util.Packing; 
-import teilchen.util.Packing.PackingEntity; 
-import de.hfkbremen.mesh.*; 
-import java.util.*; 
+import teilchen.force.*; 
+import teilchen.force.flowfield.*; 
+import teilchen.force.vectorfield.*; 
+import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
-import javax.swing.*; 
 
 
 float mIsoValue = 32.0f;
 MetaCircle[] mMetaCircles;
 void settings() {
     size(1024, 768, P3D);
-    noSmooth();
 }
 void setup() {
     textFont(createFont("Courier", 11));
@@ -68,9 +58,8 @@ void draw() {
         }
     }
     /* draw lines */
-    final Vector<Linef> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
-    stroke(0, 175);
-    stroke(255, 127, 0);
+    final ArrayList<Linef> mLines = IsoSurface2.getLines(mEnergyGrid, mIsoValue);
+    stroke(0, 127, 255);
     beginShape(LINES);
     for (Linef myLine : mLines) {
         vertex(myLine.p1.x * mSquareSizeX, myLine.p1.y * mSquareSizeY);
@@ -78,9 +67,9 @@ void draw() {
     }
     endShape();
     /* draw blobs */
-    ArrayList<ArrayList<PVector>> mBlobShapes = MarchingSquares.extractBlobs(mLines);
+    ArrayList<ArrayList<PVector>> mBlobShapes = IsoSurface2.extractBlobs(mLines);
     noStroke();
-    fill(0, 127);
+    fill(0, 127, 255, 127);
     for (ArrayList<PVector> mBlobShape : mBlobShapes) {
         beginShape();
         for (PVector p : mBlobShape) {
@@ -93,7 +82,7 @@ void draw() {
     drawMetaCenter();
     fill(0);
     noStroke();
-    text("ISOVALUE    : " + mIsoValue, 10, 12);
+    text("ISO VALUE   : " + mIsoValue, 10, 12);
     text("#BLOB_SHAPE : " + mBlobShapes.size(), 10, 24);
     text("FPS         : " + (int) frameRate, 10, 36);
 }
@@ -121,15 +110,15 @@ void drawGrid(int RES_X, int RES_Y) {
     }
 }
 void drawMetaCenter() {
-    stroke(0);
+    stroke(0, 127, 255, 192);
     beginShape(LINES);
     for (MetaCircle mMetaCircle : mMetaCircles) {
         final float mLength = 2.0f;
         final PVector p = mMetaCircle.position();
-        vertex(p.x, p.y - mLength);
-        vertex(p.x, p.y + mLength);
-        vertex(p.x - mLength, p.y);
-        vertex(p.x + mLength, p.y);
+        vertex(p.x + mLength, p.y + mLength);
+        vertex(p.x - mLength, p.y - mLength);
+        vertex(p.x + mLength, p.y - mLength);
+        vertex(p.x - mLength, p.y + mLength);
     }
     endShape();
 }

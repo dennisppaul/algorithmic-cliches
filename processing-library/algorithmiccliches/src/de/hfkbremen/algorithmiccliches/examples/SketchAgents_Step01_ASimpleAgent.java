@@ -23,13 +23,12 @@ public class SketchAgents_Step01_ASimpleAgent extends PApplet {
     }
 
     public void setup() {
-        smooth();
         noFill();
         ellipseMode(CENTER);
         frameRate(10);
 
         myAgent = new Agent();
-        myAgent.position.set(width / 2, height / 2);
+        myAgent.position.set(width / 2.0f, height / 2.0f);
         myAgent.velocity.set(14, 18);
         myAgent.radius = 15;
     }
@@ -42,9 +41,7 @@ public class SketchAgents_Step01_ASimpleAgent extends PApplet {
     private class Agent {
 
         PVector position = new PVector();
-
         PVector velocity = new PVector();
-
         float radius = 0;
 
         void draw() {
@@ -52,9 +49,9 @@ public class SketchAgents_Step01_ASimpleAgent extends PApplet {
             ellipse(position.x, position.y, radius * 2, radius * 2);
             stroke(255, 0, 0);
             line(position.x,
-                    position.y,
-                    position.x + velocity.x,
-                    position.y + velocity.y);
+                 position.y,
+                 position.x + velocity.x,
+                 position.y + velocity.y);
         }
     }
 

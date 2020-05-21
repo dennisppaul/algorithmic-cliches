@@ -1,4 +1,5 @@
 #!/bin/sh
+# v20180621
 
 source config.build
 

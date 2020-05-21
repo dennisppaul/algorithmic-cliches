@@ -3,32 +3,32 @@ package de.hfkbremen.algorithmiccliches.examples;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import ddf.minim.analysis.FFT;
-import java.util.ArrayList;
-import javax.swing.*;
 import processing.core.PApplet;
 
-/**
- * http://en.wikipedia.org/wiki/Fft
- */
 public class SketchFFTSimple extends PApplet {
+    /*
+     * http://en.wikipedia.org/wiki/Fft
+     */
 
     private Minim mMinim;
-
     private AudioPlayer mPlayer;
-
     private FFT mFFT;
-
-    private static float mCurrentTime = 0.0f;
 
     public void settings() {
         size(1024, 768, P3D);
     }
 
-    public void setup() {
+    public void stop() {
+        mPlayer.pause();
+        mMinim.stop();
+        super.stop();
+    }
 
-        JFileChooser mfileChooser = new JFileChooser();
-        mfileChooser.showOpenDialog(frame);
-        String mFileName = mfileChooser.getSelectedFile().getAbsolutePath();
+    public void setup() {
+        // @TODO `JFileChooser` crashes on macOS 10.15
+        javax.swing.JFileChooser mFileChooser = new javax.swing.JFileChooser();
+        mFileChooser.showOpenDialog(frame);
+        String mFileName = mFileChooser.getSelectedFile().getAbsolutePath();
 
         mMinim = new Minim(this);
         mPlayer = mMinim.loadFile(mFileName, 1024); // make sure the sketch can find the audio
@@ -39,12 +39,7 @@ public class SketchFFTSimple extends PApplet {
 
     public void draw() {
         mFFT.forward(mPlayer.left);
-        mCurrentTime = (float) mPlayer.position() / (float) mPlayer.length();
-
-        ArrayList<Float> mBands = new ArrayList<Float>(mFFT.avgSize()); // @todo revisit the diff between ```.getBand(i)```and ```.getAvg(i)```
-        for (int i = 0; i < mFFT.avgSize(); i++) {
-            mBands.add(i, mFFT.getBand(i));
-        }
+        float mCurrentTime = (float) mPlayer.position() / (float) mPlayer.length();
 
         /* draw bands */
         background(255);
@@ -53,15 +48,9 @@ public class SketchFFTSimple extends PApplet {
             final float myHeight = mFFT.getAvg(i) * 16;
             fill(0);
             stroke(0);
-            rect(x, height, width / mFFT.avgSize(), -myHeight);
+            rect(x, height, (float) width / mFFT.avgSize(), -myHeight);
         }
-        line(0, height / 2, (float) mCurrentTime * width, height / 2);
-    }
-
-    public void stop() {
-        mPlayer.pause();
-        mMinim.stop();
-        super.stop();
+        line(0, height / 2.0f, mCurrentTime * width, height / 2.0f);
     }
 
     public static void main(String[] args) {

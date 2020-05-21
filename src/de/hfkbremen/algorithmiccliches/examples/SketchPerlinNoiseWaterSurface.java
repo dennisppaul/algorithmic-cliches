@@ -1,6 +1,6 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
-import de.hfkbremen.algorithmiccliches.util.ArcBall;
+import de.hfkbremen.algorithmiccliches.util.ACArcBall;
 import processing.core.PApplet;
 
 public class SketchPerlinNoiseWaterSurface extends PApplet {
@@ -14,7 +14,7 @@ public class SketchPerlinNoiseWaterSurface extends PApplet {
     }
 
     public void setup() {
-        new ArcBall(this);
+        new ACArcBall(this);
 
         final int GRID_WIDTH = width / mGridScale;
         final int GRID_HEIGHT = height / mGridScale;

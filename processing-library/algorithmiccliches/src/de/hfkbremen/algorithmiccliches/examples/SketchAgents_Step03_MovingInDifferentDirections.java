@@ -4,6 +4,7 @@ import processing.core.PApplet;
 import processing.core.PVector;
 
 public class SketchAgents_Step03_MovingInDifferentDirections extends PApplet {
+
     /*
      * the agent
      * step 03 - moving in different directions.
@@ -18,13 +19,12 @@ public class SketchAgents_Step03_MovingInDifferentDirections extends PApplet {
     }
 
     public void setup() {
-        smooth();
         noFill();
         ellipseMode(CENTER);
         frameRate(10);
 
         myAgent = new Agent();
-        myAgent.position.set(width / 2, height / 2, 0);
+        myAgent.position.set(width / 2.0f, height / 2.0f, 0);
         myAgent.velocity.set(5, 8, 0);
         myAgent.radius = 15;
     }
@@ -40,9 +40,7 @@ public class SketchAgents_Step03_MovingInDifferentDirections extends PApplet {
     private class Agent {
 
         PVector position = new PVector();
-
         PVector velocity = new PVector();
-
         float radius = 0;
 
         void loop() {

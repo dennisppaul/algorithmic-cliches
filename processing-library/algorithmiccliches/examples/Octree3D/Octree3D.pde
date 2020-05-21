@@ -3,77 +3,71 @@ import de.hfkbremen.algorithmiccliches.agents.*;
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
-import de.hfkbremen.algorithmiccliches.exporting.*; 
 import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.*; 
 import de.hfkbremen.algorithmiccliches.laserline.*; 
 import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
 import de.hfkbremen.algorithmiccliches.octree.*; 
 import de.hfkbremen.algorithmiccliches.util.*; 
-import de.hfkbremen.algorithmiccliches.util.ArcBall; 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
-import oscP5.*; 
-import netP5.*; 
 import teilchen.*; 
-import teilchen.constraint.*; 
-import teilchen.force.*; 
 import teilchen.behavior.*; 
+import teilchen.constraint.*; 
 import teilchen.cubicle.*; 
+import teilchen.integration.*; 
 import teilchen.util.*; 
-import teilchen.util.Vector3i; 
-import teilchen.util.Util; 
-import teilchen.util.Packing; 
-import teilchen.util.Packing.PackingEntity; 
-import de.hfkbremen.mesh.*; 
-import java.util.*; 
+import teilchen.force.*; 
+import teilchen.force.flowfield.*; 
+import teilchen.force.vectorfield.*; 
+import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
-import javax.swing.*; 
 
 
-final int NUMBER_OF_PARTICLES_ADDED = 10000;
+/*
+ * http://en.wikipedia.org/wiki/Octree
+ */
+static final int NUMBER_OF_PARTICLES_ADDED = 10000;
+static final float OCTREE_SIZE = 100;
+final PVector mPosition = new PVector();
 MVisibleOctree mOctree;
-final float mOctreeSize = 100;
 float mSelectRadius = 20;
 boolean showOctree = true;
 boolean useSphere = true;
 float mRotationZ = 0.1f;
-final PVector mPosition = new PVector();
 int numParticles = 1;
 void settings() {
     size(1024, 768, P3D);
 }
 void setup() {
     textFont(createFont("Courier", 11));
-    mOctree = new MVisibleOctree(new PVector(-mOctreeSize / 2, -mOctreeSize / 2, -mOctreeSize / 2), mOctreeSize);
+    mOctree = new MVisibleOctree(new PVector(-OCTREE_SIZE / 2, -OCTREE_SIZE / 2, -OCTREE_SIZE / 2), OCTREE_SIZE);
     mOctree.add(new MOctreeEntity());
     strokeWeight(0.25f);
 }
 void draw() {
     background(255);
     pushMatrix();
-    translate(width / 2, height / 2, 0);
+    translate(width / 2.0f, height / 2.0f, 0);
     /* rotate */
     if (mousePressed) {
         mRotationZ += (mouseX * 0.01f - mRotationZ) * 0.05f;
     } else {
-        mPosition.x = -(width * 0.5f - mouseX) / (width / 2) * mOctreeSize / 2;
-        mPosition.y = -(height * 0.5f - mouseY) / (height / 2) * mOctreeSize / 2;
+        mPosition.x = -(width * 0.5f - mouseX) / (width / 2.0f) * OCTREE_SIZE / 2;
+        mPosition.y = -(height * 0.5f - mouseY) / (height / 2.0f) * OCTREE_SIZE / 2;
     }
     rotateX(THIRD_PI);
     rotateZ(mRotationZ);
     scale(4);
     /* get entities from octree */
-    Vector<OctreeEntity> mEntities;
+    ArrayList<OctreeEntity> mEntities;
     if (useSphere) {
         mEntities = mOctree.getEntitesWithinSphere(mPosition, mSelectRadius);
     } else {
         mEntities = mOctree.getEntitiesWithinBox(mPosition, new PVector(mSelectRadius / 2,
-                mSelectRadius / 2,
-                mSelectRadius / 2));
+                                                                        mSelectRadius / 2,
+                                                                        mSelectRadius / 2));
     }
     /* draw entities */
     int mNumberOfPointsSelected = 0;
@@ -97,10 +91,10 @@ void draw() {
     stroke(255, 0, 0, 63);
     noFill();
     beginShape(LINES);
-    vertex(mPosition.x, -mOctreeSize / 2, 0);
-    vertex(mPosition.x, mOctreeSize / 2, 0);
-    vertex(-mOctreeSize / 2, mPosition.y, 0);
-    vertex(mOctreeSize / 2, mPosition.y, 0);
+    vertex(mPosition.x, -OCTREE_SIZE / 2, 0);
+    vertex(mPosition.x, OCTREE_SIZE / 2, 0);
+    vertex(-OCTREE_SIZE / 2, mPosition.y, 0);
+    vertex(OCTREE_SIZE / 2, mPosition.y, 0);
     endShape();
     /* draw selection sphere */
     stroke(255, 0, 0, 63);
@@ -116,19 +110,14 @@ void draw() {
     text("SELECTED : " + mNumberOfPointsSelected, 10, 24);
     text("FPS      : " + frameRate, 10, 36);
 }
-void drawCross(PVector v, float pRadius) {
-    line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
-    line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
-    line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
-}
 void keyPressed() {
     switch (key) {
         case ' ':
             for (int i = 0; i < NUMBER_OF_PARTICLES_ADDED; i++) {
                 MOctreeEntity mEntity = new MOctreeEntity();
-                mEntity.position().x = random(-mOctreeSize / 2, mOctreeSize / 2);
-                mEntity.position().y = random(-mOctreeSize / 2, mOctreeSize / 2);
-                mEntity.position().z = random(-mOctreeSize / 2, mOctreeSize / 2);
+                mEntity.position().x = random(-OCTREE_SIZE / 2, OCTREE_SIZE / 2);
+                mEntity.position().y = random(-OCTREE_SIZE / 2, OCTREE_SIZE / 2);
+                mEntity.position().z = random(-OCTREE_SIZE / 2, OCTREE_SIZE / 2);
                 mOctree.add(mEntity);
             }
             numParticles += NUMBER_OF_PARTICLES_ADDED;
@@ -143,7 +132,7 @@ void keyPressed() {
             mSelectRadius = max(mSelectRadius - 1, 2);
             break;
         case '+':
-            mSelectRadius = min(mSelectRadius + 1, mOctreeSize);
+            mSelectRadius = min(mSelectRadius + 1, OCTREE_SIZE);
             break;
         case 'c':
             mOctree.auto_reduction(true);
@@ -154,6 +143,11 @@ void keyPressed() {
         default:
             break;
     }
+}
+void drawCross(PVector v, float pRadius) {
+    line(v.x - pRadius, v.y, v.z, v.x + pRadius, v.y, v.z);
+    line(v.x, v.y - pRadius, v.z, v.x, v.y + pRadius, v.z);
+    line(v.x, v.y, v.z - pRadius, v.x, v.y, v.z + pRadius);
 }
 class MOctreeEntity
         implements OctreeEntity {

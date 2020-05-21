@@ -3,37 +3,32 @@ import de.hfkbremen.algorithmiccliches.agents.*;
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
-import de.hfkbremen.algorithmiccliches.exporting.*; 
 import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.*; 
 import de.hfkbremen.algorithmiccliches.laserline.*; 
 import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
 import de.hfkbremen.algorithmiccliches.octree.*; 
 import de.hfkbremen.algorithmiccliches.util.*; 
-import de.hfkbremen.algorithmiccliches.util.ArcBall; 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
-import oscP5.*; 
-import netP5.*; 
 import teilchen.*; 
-import teilchen.constraint.*; 
-import teilchen.force.*; 
 import teilchen.behavior.*; 
+import teilchen.constraint.*; 
 import teilchen.cubicle.*; 
+import teilchen.integration.*; 
 import teilchen.util.*; 
-import teilchen.util.Vector3i; 
-import teilchen.util.Util; 
-import teilchen.util.Packing; 
-import teilchen.util.Packing.PackingEntity; 
-import de.hfkbremen.mesh.*; 
-import java.util.*; 
+import teilchen.force.*; 
+import teilchen.force.flowfield.*; 
+import teilchen.force.vectorfield.*; 
+import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
-import javax.swing.*; 
 
 
+/*
+ * http://en.wikipedia.org/wiki/Flocking_(behavior)
+ * http://de.wikipedia.org/wiki/Craig_Reynolds
+ */
 Physics mPhysics;
 ArrayList<SwarmEntity> mSwarmEntities;
 void settings() {
@@ -41,25 +36,24 @@ void settings() {
 }
 void setup() {
     frameRate(60);
-    smooth();
     rectMode(CENTER);
     hint(DISABLE_DEPTH_TEST);
     textFont(createFont("Courier", 11));
     /* physics */
     mPhysics = new Physics();
     Teleporter mTeleporter = new Teleporter();
-    mTeleporter.min().set(0, 0, height / -2);
-    mTeleporter.max().set(width, height, height / 2);
+    mTeleporter.min().set(0, 0, height / -2.0f);
+    mTeleporter.max().set(width, height, height / 2.0f);
     mPhysics.add(mTeleporter);
     ViscousDrag myViscousDrag = new ViscousDrag();
     mPhysics.add(myViscousDrag);
     /* setup entities */
-    mSwarmEntities = new ArrayList<SwarmEntity>();
+    mSwarmEntities = new ArrayList();
     for (int i = 0; i < 80; i++) {
         SwarmEntity mSwarmEntity = new SwarmEntity();
         mSwarmEntity.position().set(random(mTeleporter.min().x, mTeleporter.max().x),
-                random(mTeleporter.min().y, mTeleporter.max().y),
-                random(mTeleporter.min().z, mTeleporter.max().z));
+                                    random(mTeleporter.min().y, mTeleporter.max().y),
+                                    random(mTeleporter.min().z, mTeleporter.max().z));
         mSwarmEntities.add(mSwarmEntity);
         mPhysics.add(mSwarmEntity);
     }
@@ -85,11 +79,11 @@ void draw() {
 }
 class SwarmEntity
         extends BehaviorParticle {
-    Separation separation;
-    Alignment alignment;
-    Cohesion cohesion;
-    Wander wander;
-    Motor motor;
+    final Separation separation;
+    final Alignment alignment;
+    final Cohesion cohesion;
+    final Wander wander;
+    final Motor motor;
     SwarmEntity() {
         maximumInnerForce(random(100.0f, 1000.0f));
         radius(10f);
@@ -124,7 +118,10 @@ class SwarmEntity
             pushMatrix();
             {
                 PMatrix3D p = new PMatrix3D();
-                Util.pointAt(p, position(), new PVector(0, 1, 0), PVector.add(position(), velocity()));
+                teilchen.util.Util.pointAt(p,
+                                           position(),
+                                           new PVector(0, 1, 0),
+                                           PVector.add(position(), velocity()));
                 applyMatrix(p);
                 pushMatrix();
                 {

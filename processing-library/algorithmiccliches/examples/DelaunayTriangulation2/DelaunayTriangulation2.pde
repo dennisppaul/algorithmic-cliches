@@ -3,44 +3,38 @@ import de.hfkbremen.algorithmiccliches.agents.*;
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
 import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.*; 
-import de.hfkbremen.algorithmiccliches.delaunaytriangulation2.VoronoiDiagram.Region; 
-import de.hfkbremen.algorithmiccliches.exporting.*; 
 import de.hfkbremen.algorithmiccliches.fluiddynamics.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingcubes.*; 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.*; 
+import de.hfkbremen.algorithmiccliches.isosurface.*; 
 import de.hfkbremen.algorithmiccliches.laserline.*; 
 import de.hfkbremen.algorithmiccliches.lindenmayersystems.*; 
 import de.hfkbremen.algorithmiccliches.octree.*; 
 import de.hfkbremen.algorithmiccliches.util.*; 
-import de.hfkbremen.algorithmiccliches.util.ArcBall; 
 import de.hfkbremen.algorithmiccliches.voronoidiagram.*; 
-import oscP5.*; 
-import netP5.*; 
 import teilchen.*; 
-import teilchen.constraint.*; 
-import teilchen.force.*; 
 import teilchen.behavior.*; 
+import teilchen.constraint.*; 
 import teilchen.cubicle.*; 
+import teilchen.integration.*; 
 import teilchen.util.*; 
-import teilchen.util.Vector3i; 
-import teilchen.util.Util; 
-import teilchen.util.Packing; 
-import teilchen.util.Packing.PackingEntity; 
-import de.hfkbremen.mesh.*; 
-import java.util.*; 
+import teilchen.force.*; 
+import teilchen.force.flowfield.*; 
+import teilchen.force.vectorfield.*; 
+import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
-import javax.swing.*; 
 
 
-Vector<PVector> mVertices;
+/*
+ * http://en.wikipedia.org/wiki/Delaunay_Triangulation
+ */
+ArrayList<PVector> mVertices;
 void settings() {
     size(1024, 768, P3D);
 }
 void setup() {
     noFill();
-    mVertices = new Vector<PVector>();
+    mVertices = new ArrayList();
 }
 void draw() {
     background(255);
@@ -49,8 +43,8 @@ void draw() {
         v.x += random(-1.0f, 1.0f);
         v.y += random(-1.0f, 1.0f);
     }
-    Vector<DelaunayTriangle> mDelaunayTriangles = DelaunayTriangulation.triangulate(mVertices);
-    Vector<VoronoiDiagram.Region> mVoronoiRegions = VoronoiDiagram.getRegions(mVertices, mDelaunayTriangles);
+    ArrayList<DelaunayTriangle> mDelaunayTriangles = DelaunayTriangulation.triangulate(mVertices);
+    ArrayList<VoronoiDiagram.Region> mVoronoiRegions = VoronoiDiagram.getRegions(mVertices, mDelaunayTriangles);
     if (mousePressed) {
         addCrookedCircle(mouseX, mouseY, random(20, 100), random(2, 5));
     }
@@ -82,7 +76,7 @@ void addCrookedCircle(float pXOffset, float pYOffset, float pRadius, float pStep
         DelaunayTriangulation.addVertexSafely(mVertices, new PVector(x, y), 1.0f);
     }
 }
-void drawVoronoi(Vector<Region> mVoronoiRegions) {
+void drawVoronoi(ArrayList<VoronoiDiagram.Region> mVoronoiRegions) {
     /* draw voronoi diagrams */
     if (mVoronoiRegions != null) {
         for (VoronoiDiagram.Region mVoronoiRegion : mVoronoiRegions) {
@@ -94,7 +88,7 @@ void drawVoronoi(Vector<Region> mVoronoiRegions) {
         }
     }
 }
-void drawDelaunay(Vector<DelaunayTriangle> mDelaunayTriangles) {
+void drawDelaunay(ArrayList<DelaunayTriangle> mDelaunayTriangles) {
     /* draw delaunay triangles */
     if (mDelaunayTriangles != null) {
         beginShape(TRIANGLES);
@@ -108,8 +102,8 @@ void drawDelaunay(Vector<DelaunayTriangle> mDelaunayTriangles) {
 }
 void drawVertices(float pRadius) {
     /* draw vertices */
-    for (PVector mVertice : mVertices) {
-        cross(mVertice.x, mVertice.y, pRadius);
+    for (PVector mVertices : mVertices) {
+        cross(mVertices.x, mVertices.y, pRadius);
     }
 }
 void cross(float x, float y, float r) {

@@ -3,35 +3,36 @@ package de.hfkbremen.algorithmiccliches.examples;
 import ddf.minim.AudioInput;
 import ddf.minim.Minim;
 import ddf.minim.analysis.FFT;
-import de.hfkbremen.algorithmiccliches.util.ArcBall;
-import java.util.Vector;
+import de.hfkbremen.algorithmiccliches.util.ACArcBall;
 import processing.core.PApplet;
 
-/**
- * http://en.wikipedia.org/wiki/Fft
- */
+import java.util.ArrayList;
+
 public class SketchFFTLandscape extends PApplet {
-
-    private Minim mMinim;
-
-    private AudioInput mLiveAudioInput;
-
-    private FFT mFFT;
-
-    private static float mCurrentTime = 0.0f;
-
-    private final MBands[] mBands = new MBands[200];
-
-    private int mBandsPointer = 0;
+    /*
+     * http://en.wikipedia.org/wiki/Fft
+     */
 
     private static final float BAND_SCALE = 8.0f;
+    private static float mCurrentTime = 0.0f;
+    private final MBands[] mBands = new MBands[200];
+    private Minim mMinim;
+    private AudioInput mLiveAudioInput;
+    private FFT mFFT;
+    private int mBandsPointer = 0;
 
     public void settings() {
         size(1024, 768, P3D);
     }
 
+    public void stop() {
+        mLiveAudioInput.close();
+        mMinim.stop();
+        super.stop();
+    }
+
     public void setup() {
-        new ArcBall(this);
+        new ACArcBall(this);
 
         mMinim = new Minim(this);
 
@@ -51,7 +52,7 @@ public class SketchFFTLandscape extends PApplet {
         background(255);
         directionalLight(126, 126, 126, 0, 0, -1);
         ambientLight(102, 102, 102);
-        translate(0, 0, -height / 2);
+        translate(0, 0, -height / 2.0f);
 
         fill(255, 127, 0);
         noStroke();
@@ -64,12 +65,6 @@ public class SketchFFTLandscape extends PApplet {
 
         mBandsPointer++;
         mBandsPointer %= mBands.length;
-    }
-
-    public void stop() {
-        mLiveAudioInput.close();
-        mMinim.stop();
-        super.stop();
     }
 
     private void handleFFT() {
@@ -86,7 +81,7 @@ public class SketchFFTLandscape extends PApplet {
         for (int i = 0; i < b.bands.size(); i++) {
             final float x = width * (float) i / b.bands.size();
             final float myHeight = b.bands.get(i) * BAND_SCALE;
-            rect(x, height, width / b.bands.size(), -myHeight);
+            rect(x, height, (float) width / b.bands.size(), -myHeight);
         }
     }
 
@@ -128,12 +123,10 @@ public class SketchFFTLandscape extends PApplet {
         endShape();
     }
 
-    class MBands {
+    static class MBands {
 
-        Vector<Float> bands = new Vector<Float>();
-
+        ArrayList<Float> bands = new ArrayList<>();
         float time;
-
     }
 
     public static void main(String[] args) {

@@ -1,23 +1,20 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.MarchingSquares;
-import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.MetaCircle;
+import de.hfkbremen.algorithmiccliches.isosurface.IsoSurface2;
+import de.hfkbremen.algorithmiccliches.isosurface.MetaCircle;
 import processing.core.PApplet;
 import processing.core.PVector;
 import teilchen.util.Linef;
 
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class SketchIsoSurface2ExtractBlobs extends PApplet {
 
     private float mIsoValue = 32.0f;
-
     private MetaCircle[] mMetaCircles;
 
     public void settings() {
         size(1024, 768, P3D);
-        noSmooth();
     }
 
     public void setup() {
@@ -54,9 +51,8 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
         }
 
         /* draw lines */
-        final Vector<Linef> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
-        stroke(0, 175);
-        stroke(255, 127, 0);
+        final ArrayList<Linef> mLines = IsoSurface2.getLines(mEnergyGrid, mIsoValue);
+        stroke(0, 127, 255);
 
         beginShape(LINES);
         for (Linef myLine : mLines) {
@@ -66,9 +62,9 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
         endShape();
 
         /* draw blobs */
-        ArrayList<ArrayList<PVector>> mBlobShapes = MarchingSquares.extractBlobs(mLines);
+        ArrayList<ArrayList<PVector>> mBlobShapes = IsoSurface2.extractBlobs(mLines);
         noStroke();
-        fill(0, 127);
+        fill(0, 127, 255, 127);
         for (ArrayList<PVector> mBlobShape : mBlobShapes) {
             beginShape();
             for (PVector p : mBlobShape) {
@@ -83,7 +79,7 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
 
         fill(0);
         noStroke();
-        text("ISOVALUE    : " + mIsoValue, 10, 12);
+        text("ISO VALUE   : " + mIsoValue, 10, 12);
         text("#BLOB_SHAPE : " + mBlobShapes.size(), 10, 24);
         text("FPS         : " + (int) frameRate, 10, 36);
     }
@@ -116,15 +112,15 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
     }
 
     private void drawMetaCenter() {
-        stroke(0);
+        stroke(0, 127, 255, 192);
         beginShape(LINES);
         for (MetaCircle mMetaCircle : mMetaCircles) {
             final float mLength = 2.0f;
             final PVector p = mMetaCircle.position();
-            vertex(p.x, p.y - mLength);
-            vertex(p.x, p.y + mLength);
-            vertex(p.x - mLength, p.y);
-            vertex(p.x + mLength, p.y);
+            vertex(p.x + mLength, p.y + mLength);
+            vertex(p.x - mLength, p.y - mLength);
+            vertex(p.x + mLength, p.y - mLength);
+            vertex(p.x - mLength, p.y + mLength);
         }
         endShape();
     }

@@ -15,14 +15,13 @@ import teilchen.force.ViscousDrag;
 
 import java.util.ArrayList;
 
-/**
- * http://en.wikipedia.org/wiki/Flocking_(behavior)
- * http://de.wikipedia.org/wiki/Craig_Reynolds
- */
 public class SketchFlocking2 extends PApplet {
+    /*
+     * http://en.wikipedia.org/wiki/Flocking_(behavior)
+     * http://de.wikipedia.org/wiki/Craig_Reynolds
+     */
 
     private Physics mPhysics;
-
     private ArrayList<SwarmEntity> mSwarmEntities;
 
     public void settings() {
@@ -31,7 +30,6 @@ public class SketchFlocking2 extends PApplet {
 
     public void setup() {
         frameRate(60);
-        smooth();
         rectMode(CENTER);
         hint(DISABLE_DEPTH_TEST);
         textFont(createFont("Courier", 11));
@@ -49,14 +47,14 @@ public class SketchFlocking2 extends PApplet {
 
         for (int i = 0; i < 3; i++) {
             Attractor mAttractor = new Attractor();
-            mAttractor.position().set(i * width / 2, i * height / 2);
+            mAttractor.position().set(i * width / 2.0f, i * height / 2.0f);
             mAttractor.strength(-200);
             mAttractor.radius(350);
             mPhysics.add(mAttractor);
         }
 
         /* setup entities */
-        mSwarmEntities = new ArrayList<SwarmEntity>();
+        mSwarmEntities = new ArrayList<>();
     }
 
     public void draw() {
