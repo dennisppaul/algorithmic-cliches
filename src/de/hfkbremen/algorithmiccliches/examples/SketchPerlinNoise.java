@@ -19,14 +19,12 @@ public class SketchPerlinNoise extends PApplet {
     private int mCellsY;
     private PVector[][] mVectorField;
     private float mOffset = 0.0f;
-    private boolean mDrawGrid = false;
 
     public void settings() {
         size(1024, 768, P3D);
     }
 
     public void setup() {
-        smooth();
         rectMode(CENTER);
 
         mCellsX = width / GRID_SIZE;
@@ -48,14 +46,14 @@ public class SketchPerlinNoise extends PApplet {
     public void draw() {
         background(255);
 
-        /* update flowfield */
+        /* update flow field */
         final float mDeltaTime = 1.0f / frameRate;
         mOffset += 0.05f * mDeltaTime;
         populateField(mOffset);
 
 
         /* draw grid */
-        if (mDrawGrid) {
+        if (mousePressed) {
             noFill();
             for (int x = 0; x < mVectorField.length; x++) {
                 for (int y = 0; y < mVectorField[x].length; y++) {
@@ -66,6 +64,7 @@ public class SketchPerlinNoise extends PApplet {
                     translate(GRID_SIZE / 2.0f, GRID_SIZE / 2.0f);
                     rect(0, 0, GRID_SIZE, GRID_SIZE);
                     scale(10);
+                    strokeWeight(0.1f);
                     stroke(0, 31);
                     line(0, 0, v.x, v.y);
                     popMatrix();
@@ -88,9 +87,6 @@ public class SketchPerlinNoise extends PApplet {
         if (key == ' ') {
             mOffset += 0.1f;
             populateField(mOffset);
-        }
-        if (key == 'g') {
-            mDrawGrid = !mDrawGrid;
         }
     }
 
@@ -123,29 +119,16 @@ public class SketchPerlinNoise extends PApplet {
         }
 
         void update() {
-            /* teleport */
-            if (position.x < 0) {
-                position.x = width;
-            }
-            if (position.x > width) {
-                position.x = 0;
-            }
-            if (position.y < 0) {
-                position.y = height;
-            }
-            if (position.y > height) {
-                position.y = 0;
-            }
+            teleport();
+            setAccelerationFromForceField();
+            move();
+        }
 
-            /* set acceleration from forcefield */
-            final int mCellX = (int) (position.x / GRID_SIZE);
-            final int mCellY = (int) (position.y / GRID_SIZE);
-            if (withinBounds(mCellX, mCellY)) {
-                PVector v = mVectorField[mCellX][mCellY];
-                acceleration.set(v);
-            }
+        boolean withinBounds(int pCellX, int pCellY) {
+            return !(pCellX < 0 || pCellY < 0 || pCellX >= mCellsX || pCellY >= mCellsY);
+        }
 
-            /* move entity */
+        private void move() {
             final float mDeltaTime = 1.0f / frameRate;
             acceleration.mult(force);
             PVector mAcc = new PVector().set(acceleration);
@@ -158,8 +141,28 @@ public class SketchPerlinNoise extends PApplet {
             position.add(mVel);
         }
 
-        boolean withinBounds(int pCellX, int pCellY) {
-            return !(pCellX < 0 || pCellY < 0 || pCellX >= mCellsX || pCellY >= mCellsY);
+        private void setAccelerationFromForceField() {
+            final int mCellX = (int) (position.x / GRID_SIZE);
+            final int mCellY = (int) (position.y / GRID_SIZE);
+            if (withinBounds(mCellX, mCellY)) {
+                PVector v = mVectorField[mCellX][mCellY];
+                acceleration.set(v);
+            }
+        }
+
+        private void teleport() {
+            if (position.x < 0) {
+                position.x = width;
+            }
+            if (position.x > width) {
+                position.x = 0;
+            }
+            if (position.y < 0) {
+                position.y = height;
+            }
+            if (position.y > height) {
+                position.y = 0;
+            }
         }
     }
 

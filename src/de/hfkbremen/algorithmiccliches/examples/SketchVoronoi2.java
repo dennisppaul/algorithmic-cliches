@@ -22,23 +22,21 @@ public class SketchVoronoi2 extends PApplet {
     }
 
     public void setup() {
-        smooth();
-
-        final int NUMBER_OF_POINTS_ON_CIRLCE = 20;
-        for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRLCE; i++) {
-            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRLCE * TWO_PI;
+        final int NUMBER_OF_POINTS_ON_CIRCLE = 20;
+        for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRCLE; i++) {
+            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRCLE * TWO_PI;
             final float x = sin(r) * 50 + width / 2.0f;
             final float y = cos(r) * 50 + height / 2.0f;
             addPoint(x, y);
         }
-        for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRLCE; i++) {
-            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRLCE * TWO_PI + 0.3f;
+        for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRCLE; i++) {
+            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRCLE * TWO_PI + 0.3f;
             final float x = sin(r) * 100 + width / 2.0f;
             final float y = cos(r) * 100 + height / 2.0f;
             addPoint(x, y);
         }
-        for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRLCE; i++) {
-            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRLCE * TWO_PI + 1.1f;
+        for (int i = 0; i < NUMBER_OF_POINTS_ON_CIRCLE; i++) {
+            final float r = (float) i / NUMBER_OF_POINTS_ON_CIRCLE * TWO_PI + 1.1f;
             final float x = sin(r) * 150 + width / 2.0f;
             final float y = cos(r) * 150 + height / 2.0f;
             addPoint(x, y);

@@ -27,7 +27,7 @@ public class SketchFFTSimple extends PApplet {
     }
 
     public void setup() {
-
+        // @TODO `JFileChooser` crashes on macOS 10.15
         JFileChooser mFileChooser = new JFileChooser();
         mFileChooser.showOpenDialog(frame);
         String mFileName = mFileChooser.getSelectedFile().getAbsolutePath();

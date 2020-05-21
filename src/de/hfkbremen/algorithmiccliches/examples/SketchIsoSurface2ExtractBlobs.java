@@ -53,8 +53,7 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
 
         /* draw lines */
         final ArrayList<Linef> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
-        stroke(0, 175);
-        stroke(255, 127, 0);
+        stroke(0, 127, 255);
 
         beginShape(LINES);
         for (Linef myLine : mLines) {
@@ -66,7 +65,7 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
         /* draw blobs */
         ArrayList<ArrayList<PVector>> mBlobShapes = MarchingSquares.extractBlobs(mLines);
         noStroke();
-        fill(0, 127);
+        fill(0, 127, 255, 127);
         for (ArrayList<PVector> mBlobShape : mBlobShapes) {
             beginShape();
             for (PVector p : mBlobShape) {
@@ -114,15 +113,15 @@ public class SketchIsoSurface2ExtractBlobs extends PApplet {
     }
 
     private void drawMetaCenter() {
-        stroke(0);
+        stroke(0, 127, 255, 192);
         beginShape(LINES);
         for (MetaCircle mMetaCircle : mMetaCircles) {
             final float mLength = 2.0f;
             final PVector p = mMetaCircle.position();
-            vertex(p.x, p.y - mLength);
-            vertex(p.x, p.y + mLength);
-            vertex(p.x - mLength, p.y);
-            vertex(p.x + mLength, p.y);
+            vertex(p.x + mLength, p.y + mLength);
+            vertex(p.x - mLength, p.y - mLength);
+            vertex(p.x + mLength, p.y - mLength);
+            vertex(p.x - mLength, p.y + mLength);
         }
         endShape();
     }

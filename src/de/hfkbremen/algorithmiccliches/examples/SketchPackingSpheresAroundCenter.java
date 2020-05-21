@@ -22,7 +22,6 @@ public class SketchPackingSpheresAroundCenter extends PApplet {
     }
 
     public void setup() {
-        smooth();
         mEntities = createRandomEntities(50);
         mCenter.set(width / 2.0f, height / 2.0f, 0);
     }

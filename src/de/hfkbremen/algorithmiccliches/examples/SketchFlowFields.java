@@ -33,9 +33,9 @@ public class SketchFlowFields extends PApplet {
         float mDeltaTime = 1.0f / frameRate;
         mFlowField.populateVectorField(mOffset += mDeltaTime * 0.1f);
 
-        background(50);
+        background(255);
         noFill();
-        stroke(255, 64);
+        stroke(0, 64);
         mFlowField.draw(g);
 
         /* move particle in flow field */
@@ -46,7 +46,7 @@ public class SketchFlowFields extends PApplet {
         }
 
         /* draw particles */
-        stroke(255, 0, 127, 127);
+        stroke(255, 127, 0, 127);
         for (FlowFieldParticle p : mParticles) {
             p.draw(g);
         }

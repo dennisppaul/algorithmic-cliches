@@ -22,7 +22,6 @@ public class SketchAgents_Step04_MovingSmoothlyInDifferentDirections extends PAp
     }
 
     public void setup() {
-        smooth();
         noFill();
         ellipseMode(CENTER);
         frameRate(10);
@@ -44,11 +43,8 @@ public class SketchAgents_Step04_MovingSmoothlyInDifferentDirections extends PAp
     private class Agent {
 
         Vector2f position = new Vector2f();
-
         Vector2f velocity = new Vector2f();
-
         Vector2f acceleration = new Vector2f();
-
         float radius = 0;
 
         void loop() {

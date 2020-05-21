@@ -3,7 +3,6 @@ package de.hfkbremen.algorithmiccliches.examples;
 import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.MarchingSquares;
 import de.hfkbremen.algorithmiccliches.isosurface.marchingsquares.MetaCircle;
 import processing.core.PApplet;
-import processing.core.PVector;
 import teilchen.util.Linef;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ public class SketchIsoSurface2 extends PApplet {
     private float mIsoValue = 32.0f;
     private MetaCircle[] mMetaCircles;
     private boolean mDrawGrid = false;
-    private boolean mDrawCenter = false;
     private int mCurrentCircle = 0;
 
     public void settings() {
@@ -59,8 +57,7 @@ public class SketchIsoSurface2 extends PApplet {
 
         /* draw lines */
         final ArrayList<Linef> mLines = MarchingSquares.getLines(mEnergyGrid, mIsoValue);
-        stroke(0, 175);
-        stroke(255, 127, 0);
+        stroke(0, 127, 255);
 
         beginShape(LINES);
         for (Linef myLine : mLines) {
@@ -72,9 +69,6 @@ public class SketchIsoSurface2 extends PApplet {
         /* draw extra info */
         if (mDrawGrid) {
             drawGrid(mSquareSizeX, mSquareSizeY);
-        }
-        if (mDrawCenter) {
-            drawMetaCenter();
         }
 
         fill(0);
@@ -88,9 +82,6 @@ public class SketchIsoSurface2 extends PApplet {
         switch (key) {
             case 'g':
                 mDrawGrid = !mDrawGrid;
-                break;
-            case 'c':
-                mDrawCenter = !mDrawCenter;
                 break;
             case '+':
                 mIsoValue++;
@@ -119,20 +110,6 @@ public class SketchIsoSurface2 extends PApplet {
             int yp = x * RES_Y;
             line(0, yp, width, yp);
         }
-    }
-
-    private void drawMetaCenter() {
-        stroke(0);
-        beginShape(LINES);
-        for (MetaCircle mMetaCircle : mMetaCircles) {
-            final float mLength = 2.0f;
-            final PVector p = mMetaCircle.position();
-            vertex(p.x, p.y - mLength);
-            vertex(p.x, p.y + mLength);
-            vertex(p.x - mLength, p.y);
-            vertex(p.x + mLength, p.y);
-        }
-        endShape();
     }
 
     public static void main(String[] args) {

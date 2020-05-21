@@ -126,9 +126,7 @@ public class SketchFFTLandscape extends PApplet {
     static class MBands {
 
         ArrayList<Float> bands = new ArrayList<>();
-
         float time;
-
     }
 
     public static void main(String[] args) {

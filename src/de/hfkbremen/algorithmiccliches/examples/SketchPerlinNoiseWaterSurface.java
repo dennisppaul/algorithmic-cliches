@@ -15,7 +15,6 @@ public class SketchPerlinNoiseWaterSurface extends PApplet {
 
     public void setup() {
         new ArcBall(this);
-        smooth();
 
         final int GRID_WIDTH = width / mGridScale;
         final int GRID_HEIGHT = height / mGridScale;
@@ -55,6 +54,7 @@ public class SketchPerlinNoiseWaterSurface extends PApplet {
         fill(0, 127, 255);
         pushMatrix();
         scale(mGridScale, mGridScale, 1);
+        strokeWeight(1.0f / mGridScale);
         for (int x = 0; x < mWaterSurface.length - 1; x++) {
             for (int y = 0; y < mWaterSurface[x].length - 1; y++) {
                 pushMatrix();

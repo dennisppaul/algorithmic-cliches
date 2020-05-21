@@ -22,7 +22,6 @@ public class SketchAgents_Step06_TurningAtConstantSpeed extends PApplet {
     }
 
     public void setup() {
-        smooth();
         noFill();
         ellipseMode(CENTER);
         frameRate(10);
@@ -46,17 +45,11 @@ public class SketchAgents_Step06_TurningAtConstantSpeed extends PApplet {
     private class Agent {
 
         Vector2f position = new Vector2f();
-
         Vector2f velocity = new Vector2f();
-
         Vector2f acceleration = new Vector2f();
-
         float maxspeed = 0;
-
         float maxacceleration = 0;
-
         float radius = 0;
-
         void loop() {
             float myAccelerationSpeed = acceleration.length();
             if (myAccelerationSpeed > maxacceleration) {

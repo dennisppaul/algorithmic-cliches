@@ -7,10 +7,10 @@ import processing.core.PVector;
 
 public class SketchAlphaShape3 extends PApplet {
 
+    // @TODO("CGAL binding is currently broken (20200521)")
+
     private CGALAlphaShape3 cgal;
-
     private float[] mPoints3;
-
     private Mesh mMesh;
 
     public void settings() {

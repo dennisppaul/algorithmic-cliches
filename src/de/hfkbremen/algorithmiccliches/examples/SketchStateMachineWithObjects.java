@@ -20,8 +20,6 @@ public class SketchStateMachineWithObjects extends PApplet {
 
     public void setup() {
         rectMode(CENTER);
-        smooth();
-
         for (int i = 0; i < 100; i++) {
             mEntities.add(new Entity(this));
         }

@@ -19,7 +19,6 @@ public class SketchAgents_Step02_MovingInADirection extends PApplet {
     }
 
     public void setup() {
-        smooth();
         noFill();
         ellipseMode(CENTER);
         frameRate(10);
@@ -40,9 +39,7 @@ public class SketchAgents_Step02_MovingInADirection extends PApplet {
     private class Agent {
 
         Vector2f position = new Vector2f();
-
         Vector2f velocity = new Vector2f();
-
         float radius = 0;
 
         void loop() {

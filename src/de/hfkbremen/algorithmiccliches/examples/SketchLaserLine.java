@@ -48,5 +48,4 @@ public class SketchLaserLine extends PApplet {
     public static void main(String[] args) {
         PApplet.main(SketchLaserLine.class.getName());
     }
-
 }

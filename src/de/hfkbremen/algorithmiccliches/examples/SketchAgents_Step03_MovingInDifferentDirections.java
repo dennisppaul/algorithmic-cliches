@@ -19,7 +19,6 @@ public class SketchAgents_Step03_MovingInDifferentDirections extends PApplet {
     }
 
     public void setup() {
-        smooth();
         noFill();
         ellipseMode(CENTER);
         frameRate(10);
@@ -41,9 +40,7 @@ public class SketchAgents_Step03_MovingInDifferentDirections extends PApplet {
     private class Agent {
 
         PVector position = new PVector();
-
         PVector velocity = new PVector();
-
         float radius = 0;
 
         void loop() {

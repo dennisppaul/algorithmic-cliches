@@ -34,8 +34,8 @@ public class SketchFluidDynamics2 extends PApplet {
         mFluid.update(mDeltaTime);
 
         if (mousePressed) {
-            int x = (mouseX * mFluid.width()) / (width) + 1;
-            int y = (mouseY * mFluid.height()) / (height) + 1;
+            int x = (mouseX * mFluid.width()) / width + 1;
+            int y = (mouseY * mFluid.height()) / height + 1;
 
             if (mouseButton == LEFT) {
                 final float vX = (mouseX - pmouseX) * 0.01f;

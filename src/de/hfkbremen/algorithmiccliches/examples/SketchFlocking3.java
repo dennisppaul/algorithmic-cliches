@@ -32,8 +32,7 @@ public class SketchFlocking3 extends PApplet {
 
     public void setup() {
         frameRate(60);
-        smooth();
-        rectMode(CENTER);
+rectMode(CENTER);
         hint(DISABLE_DEPTH_TEST);
         textFont(createFont("Courier", 11));
 

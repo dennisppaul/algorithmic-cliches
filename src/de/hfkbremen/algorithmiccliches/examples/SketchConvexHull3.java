@@ -22,7 +22,6 @@ public class SketchConvexHull3 extends PApplet {
     }
 
     public void setup() {
-        frameRate(30);
         populatePointArray();
     }
 
@@ -46,7 +45,7 @@ public class SketchConvexHull3 extends PApplet {
         computeAndDrawHull(mGridPoints);
 
         /* draw points */
-        stroke(255, 0, 0, 127);
+        stroke(0, 127, 255, 127);
         for (PVector v : mGridPoints) {
             drawCross(v);
         }
