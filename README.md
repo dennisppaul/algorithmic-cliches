@@ -1,6 +1,6 @@
 # algorithmic clichés
 
-this repository contains a collection of *algorithmic clichés* and examples.
+*algorithmic clichés* are a collection of *algorithmic clichés* and examples.
 
 suggestions for *algorithmic clichés* can be contributed via [issues tracking](https://github.com/dennisppaul/algorithmic-cliches/issues) and will be reviewed by the *Cliche Review Board* (CRB).
 
@@ -13,7 +13,7 @@ CRB
 
 ## installation
 
-- download lastest release [`algorithmiccliches.zip`](https://github.com/dennisppaul/gewebe/releases/latest/download/algorithmiccliches.zip)
+- download lastest release [`algorithmiccliches.zip`](https://github.com/dennisppaul/algorithmic-cliches/releases/latest/download/algorithmiccliches.zip)
 - unpack `algorithmiccliches.zip` in processing library folder ( e.g `$HOME/Documents/Processing/libraries` on MacOS )
 - install `qhull`
     - on macOS `qhull` is available via [Homebrew](http://brew.sh) install with `$ brew install qhull`
