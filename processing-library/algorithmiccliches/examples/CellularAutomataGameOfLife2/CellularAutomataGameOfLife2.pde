@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
- */
 CellularAutomaton2 mCA;
 void settings() {
     size(1024, 768, P3D);

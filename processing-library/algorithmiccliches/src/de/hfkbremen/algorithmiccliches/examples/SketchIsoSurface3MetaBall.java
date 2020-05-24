@@ -9,9 +9,6 @@ import processing.core.PVector;
 import java.util.ArrayList;
 
 public class SketchIsoSurface3MetaBall extends PApplet {
-    /*
-     * http://en.wikipedia.org/wiki/Marching_cubes
-     */
 
     private MetaBallManager mMetaBallManager;
     private int mCurrentCircle = 0;

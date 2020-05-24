@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
- */
 static final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
 static final int NUMBER_OF_MAX_PARTICLES = 1000;
 static final int SPHERE_DETAIL = 8;

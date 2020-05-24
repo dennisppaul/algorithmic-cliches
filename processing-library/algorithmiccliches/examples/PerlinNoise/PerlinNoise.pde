@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Perlin_noise
- */
 static final int GRID_SIZE = 16;
 final float mNoiseScale = 0.024f;
 final ArrayList<MEntity> mEntities = new ArrayList();

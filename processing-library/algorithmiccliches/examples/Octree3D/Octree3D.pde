@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Octree
- */
 static final int NUMBER_OF_PARTICLES_ADDED = 10000;
 static final float OCTREE_SIZE = 100;
 final PVector mPosition = new PVector();

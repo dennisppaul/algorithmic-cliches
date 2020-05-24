@@ -4,9 +4,6 @@ import de.hfkbremen.algorithmiccliches.fluiddynamics.FluidDynamics;
 import processing.core.PApplet;
 
 public class SketchFluidDynamics2 extends PApplet {
-    /*
-     * http://en.wikipedia.org/wiki/Fluid_Dynamics
-     */
 
     private boolean showDensity = true;
     private boolean showVelocity = true;

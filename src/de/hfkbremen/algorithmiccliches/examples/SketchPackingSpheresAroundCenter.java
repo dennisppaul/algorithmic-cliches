@@ -8,10 +8,6 @@ import java.util.ArrayList;
 
 public class SketchPackingSpheresAroundCenter extends PApplet {
 
-    /*
-     * http://en.wikipedia.org/wiki/Circle_packing_theorem
-     */
-
     private final PVector mCenter = new PVector();
     private ArrayList<Packing.PackingEntity> mEntities;
 

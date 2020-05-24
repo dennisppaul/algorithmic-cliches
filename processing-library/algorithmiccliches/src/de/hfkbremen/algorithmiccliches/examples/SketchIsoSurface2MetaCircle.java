@@ -8,9 +8,6 @@ import teilchen.util.Linef;
 import java.util.ArrayList;
 
 public class SketchIsoSurface2MetaCircle extends PApplet {
-    /*
-     * http://en.wikipedia.org/wiki/Marching_squares
-     */
 
     private float mIsoValue = 32.0f;
     private MetaCircle[] mMetaCircles;

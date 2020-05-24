@@ -8,7 +8,7 @@ suggestions for *algorithmic clichés* can be contributed via [issues tracking](
 
 despite todays negative connotation of the term `cliché` this collection tries to advertise the intrinsic beauty of the collected examples, demistifying their technical complexity by making them accessible as open source code, and thereby encouraging the *intelligent and interesting* use of these clichés, quite aware of the ambiguous endeavor.
 
-yours faithfully
+yours faithfully   
 CRB 
 
 ## installation
@@ -30,57 +30,27 @@ CRB
 
 ## available algorithmic clichés
 
-### Agents
-
-[![Step07_IntroducingTime](./images/sketches/Agents.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchAgents_Step07_IntroducingTime.java)
-
-### Alpha Shapes
-
-[![Voronoi3](./images/sketches/AlphaShape3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchAlphaShape3.java)
-
-### Cellular Automaton, Game of Life
+### cellular automaton
 
 [![GameOfLife2](./images/sketches/CellularAutomataGameOfLife2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchCellularAutomataGameOfLife2.java)
 
 [![GameOfLife3](./images/sketches/CellularAutomataGameOfLife3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchCellularAutomataGameOfLife3.java)
 
-### Convex Hull
+[Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) + [Cellular automaton](https://en.wikipedia.org/wiki/Cellular_automaton) @wikipedia
 
-[![ConvexHull](./images/sketches/ConvexHull3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchConvexHull3.java)
+### delaunay triangulation
 
-### Delaunay Triangulation
+[![DelaunayTriangulation2](./images/sketches/DelaunayTriangulation2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchDelaunayTriangulation2.java)
 
-[![DelaunayTriangulation](./images/sketches/DelaunayTriangulation2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchDelaunayTriangulation2.java)
+[Delaunay triangulation](https://en.wikipedia.org/wiki/Delaunay_triangulation) @wikipedia
 
-### Diffusion-Limited Aggregation
+### convex hull
 
-[![DiffusionLimitedAggregation](./images/sketches/DiffusionLimitedAggregation.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchDiffusionLimitedAggregation.java)
+[![ConvexHull3](./images/sketches/ConvexHull3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchConvexHull3.java)
 
-[![DiffusionLimitedAggregation](./images/sketches/DiffusionLimitedAggregationWithIsoSurfaces.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchDiffusionLimitedAggregationWithIsoSurfaces.java)
+[Convex hull](http://en.wikipedia.org/wiki/Convex_hull) @wikipedia
 
-### Fast Fourier Transform
-
-[![SimpleFFT](./images/sketches/FFTSimple.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFFTSimple.java)
-
-[![FFTLandscape](./images/sketches/FFTLandscape.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFFTLandscape.java)
-
-### Flocking
-
-[![Flocking2](./images/sketches/Flocking2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFlocking2.java)
-
-[![Flocking3](./images/sketches/Flocking3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFlocking3.java)
-
-### Flow Fields
-
-[![FlowFields](./images/sketches/FlowFields.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFlowFields.java)
-
-### Fluid Dynamics
-
-[![FluidDynamics2](./images/sketches/FluidDynamics2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFluidDynamics2.java)
-
-[![FluidDynamicsWaterColumns](./images/sketches/FluidDynamicsWaterColumns.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFluidDynamicsWaterColumns.java)
-
-### Iso Surfaces
+### iso surfaces
 
 [![IsoSurface2MetaCircle](./images/sketches/IsoSurface2MetaCircle.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchIsoSurface2MetaCircle.java)
 
@@ -88,25 +58,9 @@ CRB
 
 [![IsoSurface3MetaBall](./images/sketches/IsoSurface3MetaBall.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchIsoSurface3MetaBall.java)
 
-### Laser Line
+[Isosurface](https://en.wikipedia.org/wiki/Isosurface) + [Marching squares](https://en.wikipedia.org/wiki/Marching_squares) + [Marching cubes](https://en.wikipedia.org/wiki/Marching_cubes) @wikipedia
 
-[![LaserLine](./images/sketches/LaserLine.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchLaserLine.java)
-
-### Lindenmayer System
-
-[![LindenmayerSystemBasic](./images/sketches/LindenmayerSystemBasic.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchLindenmayerSystemBasic.java)
-
-### Packing
-
-[![PackingSpheresAroundCenter](./images/sketches/PackingSpheresAroundCenter.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchPackingSpheresAroundCenter.java)
-
-### Perlin Noise
-
-[![PerlinNoise](./images/sketches/PerlinNoise.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchPerlinNoise.java)
-
-[![PerlinNoiseWaterSurface](./images/sketches/PerlinNoiseWaterSurface.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchPerlinNoiseWaterSurface.java)
-
-### Voronoi Diagram
+### voronoi diagram
 
 [![Voronoi2](./images/sketches/Voronoi2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchVoronoi2.java)
 
@@ -114,20 +68,100 @@ CRB
 
 [![Voronoi3](./images/sketches/Voronoi3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchVoronoi3.java)
 
+[Voronoi diagram](https://en.wikipedia.org/wiki/Voronoi_diagram) @wikipedia
+
+### alpha shapes
+
+[![AlphaShape3](./images/sketches/AlphaShape3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchAlphaShape3.java)
+
+[Alpha shape](https://en.wikipedia.org/wiki/Alpha_shape) @wikipedia
+
+### diffusion-limited aggregation
+
+[![DiffusionLimitedAggregation](./images/sketches/DiffusionLimitedAggregation.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchDiffusionLimitedAggregation.java)
+
+[![DiffusionLimitedAggregationWithIsoSurfaces](./images/sketches/DiffusionLimitedAggregationWithIsoSurfaces.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchDiffusionLimitedAggregationWithIsoSurfaces.java)
+
+[Diffusion-limited aggregation](https://en.wikipedia.org/wiki/Diffusion-limited_aggregation) @wikipedia
+
+### fast fourier transform
+
+[![FFTSimple](./images/sketches/FFTSimple.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFFTSimple.java)
+
+[![FFTLandscape](./images/sketches/FFTLandscape.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFFTLandscape.java)
+
+[Fast Fourier transform](https://en.wikipedia.org/wiki/Fast_Fourier_transform) @wikipedia
+
+### agents
+
+[![Step07_IntroducingTime](./images/sketches/Agents.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchAgents_Step07_IntroducingTime.java)
+
+[Agent-based model](https://en.wikipedia.org/wiki/Agent-based_model) @wikipedia
+
+### flocking
+
+[![Flocking2](./images/sketches/Flocking2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFlocking2.java)
+
+[![Flocking3](./images/sketches/Flocking3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFlocking3.java)
+
+[Flocking (behavior)](http://en.wikipedia.org/wiki/Flocking_(behavior)) @wikipedia
+
+### flow fields
+
+[![FlowFields](./images/sketches/FlowFields.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFlowFields.java)
+
+[Vector field](https://en.wikipedia.org/wiki/Vector_field) @wikipedia
+
+### perlin noise
+
+[![PerlinNoise](./images/sketches/PerlinNoise.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchPerlinNoise.java)
+
+[![PerlinNoiseWaterSurface](./images/sketches/PerlinNoiseWaterSurface.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchPerlinNoiseWaterSurface.java)
+
+[Perlin noise](https://en.wikipedia.org/wiki/Perlin_noise) @wikipedia
+
+### fluid dynamics
+
+[![FluidDynamics2](./images/sketches/FluidDynamics2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFluidDynamics2.java)
+
+[![FluidDynamicsWaterColumns](./images/sketches/FluidDynamicsWaterColumns.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchFluidDynamicsWaterColumns.java)
+
+[Fluid dynamics](https://en.wikipedia.org/wiki/Fluid_dynamics) @wikipedia
+
+### laser line
+
+[![LaserLine](./images/sketches/LaserLine.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchLaserLine.java)
+
+### lindenmayer system
+
+[![LindenmayerSystemBasic](./images/sketches/LindenmayerSystemBasic.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchLindenmayerSystemBasic.java)
+
+[Lindenmayer system](https://en.wikipedia.org/wiki/L-system) @wikipedia
+
+### packing
+
+[![PackingSpheresAroundCenter](./images/sketches/PackingSpheresAroundCenter.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchPackingSpheresAroundCenter.java)
+
+[Circle packing theorem](https://en.wikipedia.org/wiki/Circle_packing_theorem) @wikipedia
+
 ## tools for algorithmic cliches
 
 this is a collection of tools to facilitate some of the *algorithmic cliches*. these tools themselves are not considered *algorithmic cliches*.
 
-### Cubicle
+### cubicle
 
 [![Cubicle](./images/sketches/Cubicle.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchCubicle.java)
 
-### Octree
+### octree
 
 [![Octree3D](./images/sketches/Octree3D.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchOctree3D.java)
 
-### State Machine
+[Octree](https://en.wikipedia.org/wiki/Octree) @wikipedia
+
+### state machine
 
 [![StateMachineSimple](./images/sketches/StateMachineSimple.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchStateMachineSimple.java)
 
 [![StateMachineWithObjects](./images/sketches/StateMachineWithObjects.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchStateMachineWithObjects.java)
+
+[Finite-state machine](https://en.wikipedia.org/wiki/Finite-state_machine) @wikipedia

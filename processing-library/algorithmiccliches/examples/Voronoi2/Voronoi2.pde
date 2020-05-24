@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Voronoi_diagram
- */
 final Qvoronoi mQvoronoi = new Qvoronoi();
 final ArrayList<PVector> mPoints = new ArrayList();
 PVector[][] mRegions;

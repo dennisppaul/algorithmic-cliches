@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Marching_cubes
- */
 MetaBallManager mMetaBallManager;
 int mCurrentCircle = 0;
 ACArcBall mArcBall;

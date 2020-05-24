@@ -8,10 +8,6 @@ import quickhull3d.QuickHull3D;
 
 public class SketchVoronoi3 extends PApplet {
 
-    /*
-     * http://en.wikipedia.org/wiki/Voronoi_diagram
-     */
-
     private final static int GRID_SIZE = 4;
     private final static float GRID_SPACE = 50;
     private final Qvoronoi mQvoronoi = new Qvoronoi();

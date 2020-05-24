@@ -4,6 +4,8 @@ import de.hfkbremen.algorithmiccliches.fluiddynamics.FluidDynamicsBuoyancyVortic
 import processing.core.PApplet;
 
 public class SketchFluidDynamics2Alt extends PApplet {
+
+    // @TODO("clean up")
     /*
      * Applet display interface for fluid solver.
      *

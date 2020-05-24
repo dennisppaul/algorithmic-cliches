@@ -8,7 +8,6 @@ import processing.core.PVector;
 public class SketchFluidDynamicsWaterColumns extends PApplet {
 
     private static final int X_SIZE = 1024 / 32;
-
     private static final int Y_SIZE = 768 / 32;
     private final Quad[][] mQuads = new Quad[X_SIZE][Y_SIZE];
     private ACArcBall mArcBall;

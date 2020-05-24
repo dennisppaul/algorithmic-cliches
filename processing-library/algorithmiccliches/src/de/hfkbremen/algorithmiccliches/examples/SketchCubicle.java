@@ -10,10 +10,6 @@ import java.util.ArrayList;
 
 public class SketchCubicle extends PApplet {
 
-    /*
-     * @TOOL
-     */
-
     private static final int NUMBER_OF_PARTICLES_ADDED = 100;
     private static final int WORLD_NUMBER_OF_CUBICLES_X = 1024 / 64;
     private static final int WORLD_NUMBER_OF_CUBICLES_Y = 768 / 64;

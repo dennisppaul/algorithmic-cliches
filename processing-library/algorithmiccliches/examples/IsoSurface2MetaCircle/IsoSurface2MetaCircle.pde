@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Marching_squares
- */
 float mIsoValue = 32.0f;
 MetaCircle[] mMetaCircles;
 boolean mDrawGrid = false;

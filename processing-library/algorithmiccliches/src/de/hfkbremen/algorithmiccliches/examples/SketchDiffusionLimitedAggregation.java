@@ -10,9 +10,6 @@ import teilchen.util.Overlap;
 import java.util.ArrayList;
 
 public class SketchDiffusionLimitedAggregation extends PApplet {
-    /*
-     * https://en.wikipedia.org/wiki/Diffusion-limited_aggregation
-     */
 
     private static final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
     private static final int NUMBER_OF_MAX_PARTICLES = 1000;

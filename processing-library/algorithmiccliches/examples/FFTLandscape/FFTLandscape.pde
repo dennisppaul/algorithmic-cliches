@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Fft
- */
 static final float BAND_SCALE = 8.0f;
 static float mCurrentTime = 0.0f;
 final MBands[] mBands = new MBands[200];

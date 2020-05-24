@@ -6,9 +6,6 @@ import ddf.minim.analysis.FFT;
 import processing.core.PApplet;
 
 public class SketchFFTSimple extends PApplet {
-    /*
-     * http://en.wikipedia.org/wiki/Fft
-     */
 
     private Minim mMinim;
     private AudioPlayer mPlayer;

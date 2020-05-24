@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Fft
- */
 Minim mMinim;
 AudioPlayer mPlayer;
 FFT mFFT;

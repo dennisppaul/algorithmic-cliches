@@ -25,10 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Flocking_(behavior)
- * http://de.wikipedia.org/wiki/Craig_Reynolds
- */
 Physics mPhysics;
 ArrayList<SwarmEntity> mSwarmEntities;
 void settings() {

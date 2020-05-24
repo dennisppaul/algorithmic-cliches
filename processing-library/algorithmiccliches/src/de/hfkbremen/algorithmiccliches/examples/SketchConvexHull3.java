@@ -8,9 +8,6 @@ import processing.core.PVector;
 import java.util.ArrayList;
 
 public class SketchConvexHull3 extends PApplet {
-    /*
-     * http://en.wikipedia.org/wiki/Convex_hull
-     */
 
     private static final int GRID_SIZE = 4;
     private static final float GRID_SPACE = 50;

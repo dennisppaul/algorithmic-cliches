@@ -16,10 +16,6 @@ import teilchen.force.ViscousDrag;
 import java.util.ArrayList;
 
 public class SketchFlocking2 extends PApplet {
-    /*
-     * http://en.wikipedia.org/wiki/Flocking_(behavior)
-     * http://de.wikipedia.org/wiki/Craig_Reynolds
-     */
 
     private Physics mPhysics;
     private ArrayList<SwarmEntity> mSwarmEntities;

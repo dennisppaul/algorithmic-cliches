@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/State_machine
- */
 final ArrayList<MEntity> mEntities = new ArrayList();
 void settings() {
     size(1024, 768, P3D);

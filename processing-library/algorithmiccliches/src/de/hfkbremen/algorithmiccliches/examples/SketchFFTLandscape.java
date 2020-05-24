@@ -9,9 +9,6 @@ import processing.core.PApplet;
 import java.util.ArrayList;
 
 public class SketchFFTLandscape extends PApplet {
-    /*
-     * http://en.wikipedia.org/wiki/Fft
-     */
 
     private static final float BAND_SCALE = 8.0f;
     private static float mCurrentTime = 0.0f;

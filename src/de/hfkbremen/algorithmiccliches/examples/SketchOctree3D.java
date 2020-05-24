@@ -9,10 +9,6 @@ import java.util.ArrayList;
 
 public class SketchOctree3D extends PApplet {
 
-    /*
-     * http://en.wikipedia.org/wiki/Octree
-     */
-
     private static final int NUMBER_OF_PARTICLES_ADDED = 10000;
     private static final float OCTREE_SIZE = 100;
     private final PVector mPosition = new PVector();

@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
- */
 static final int GRID_X = 64;
 static final int GRID_Y = 32;
 static final int GRID_Z = 32;

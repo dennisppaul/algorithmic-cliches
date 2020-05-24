@@ -9,10 +9,6 @@ import java.util.ArrayList;
 
 public class SketchVoronoi2RoundRegions extends PApplet {
 
-    /*
-     * http://en.wikipedia.org/wiki/Voronoi_diagram
-     */
-
     private final Qvoronoi mQvoronoi = new Qvoronoi();
     private final ArrayList<PVector> mPoints = new ArrayList<>();
     private PVector[][] mRegions;

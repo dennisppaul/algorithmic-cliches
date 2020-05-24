@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Fluid_Dynamics
- */
 boolean showDensity = true;
 boolean showVelocity = true;
 FluidDynamics mFluid;

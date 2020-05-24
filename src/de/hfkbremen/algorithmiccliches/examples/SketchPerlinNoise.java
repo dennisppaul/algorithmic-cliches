@@ -8,12 +8,8 @@ import java.util.ArrayList;
 
 public class SketchPerlinNoise extends PApplet {
 
-    /*
-     * http://en.wikipedia.org/wiki/Perlin_noise
-     */
-
     private static final int GRID_SIZE = 16;
-    final float mNoiseScale = 0.024f;
+    private final float mNoiseScale = 0.024f;
     private final ArrayList<MEntity> mEntities = new ArrayList<>();
     private int mCellsX;
     private int mCellsY;

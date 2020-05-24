@@ -4,9 +4,6 @@ import de.hfkbremen.algorithmiccliches.util.ACArcBall;
 import processing.core.PApplet;
 
 public class SketchCellularAutomataGameOfLife3 extends PApplet {
-    /*
-     * http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life
-     */
 
     private static final int GRID_X = 64;
     private static final int GRID_Y = 32;

@@ -9,9 +9,6 @@ import processing.core.PVector;
 import java.util.ArrayList;
 
 public class SketchDelaunayTriangulation2 extends PApplet {
-    /*
-     * http://en.wikipedia.org/wiki/Delaunay_Triangulation
-     */
 
     public ArrayList<PVector> mVertices;
 

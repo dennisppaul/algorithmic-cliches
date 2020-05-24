@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * @TOOL
- */
 static final int NUMBER_OF_PARTICLES_ADDED = 100;
 static final int WORLD_NUMBER_OF_CUBICLES_X = 1024 / 64;
 static final int WORLD_NUMBER_OF_CUBICLES_Y = 768 / 64;

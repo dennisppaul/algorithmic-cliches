@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Voronoi_diagram
- */
 final static int GRID_SIZE = 4;
 final static float GRID_SPACE = 50;
 final Qvoronoi mQvoronoi = new Qvoronoi();

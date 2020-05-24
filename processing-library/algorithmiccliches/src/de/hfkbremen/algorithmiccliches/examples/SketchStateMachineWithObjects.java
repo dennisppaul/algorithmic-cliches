@@ -8,10 +8,6 @@ import java.util.ArrayList;
 
 public class SketchStateMachineWithObjects extends PApplet {
 
-    /*
-     * http://en.wikipedia.org/wiki/State_machine
-     */
-
     private final ArrayList<Entity> mEntities = new ArrayList<>();
 
     public void settings() {

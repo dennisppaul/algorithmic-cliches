@@ -25,9 +25,6 @@ import ddf.minim.analysis.*;
 import quickhull3d.*; 
 
 
-/*
- * http://en.wikipedia.org/wiki/Circle_packing_theorem
- */
 final PVector mCenter = new PVector();
 ArrayList<Packing.PackingEntity> mEntities;
 void settings() {
