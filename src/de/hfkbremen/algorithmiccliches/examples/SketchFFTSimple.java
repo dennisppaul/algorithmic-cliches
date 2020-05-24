@@ -7,7 +7,7 @@ import processing.core.PApplet;
 
 public class SketchFFTSimple extends PApplet {
     /*
-     * http://en.wikipedia.org/wiki/Fft
+     * https://en.wikipedia.org/wiki/Fast_Fourier_transform
      */
 
     private Minim mMinim;
