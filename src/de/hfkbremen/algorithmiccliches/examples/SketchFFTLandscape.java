@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class SketchFFTLandscape extends PApplet {
     /*
-     * http://en.wikipedia.org/wiki/Fft
+     * https://en.wikipedia.org/wiki/Fast_Fourier_transform
      */
 
     private static final float BAND_SCALE = 8.0f;
