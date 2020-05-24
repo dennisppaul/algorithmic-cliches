@@ -1,19 +1,34 @@
-# Algorithmic Clichés
+# algorithmic clichés
 
-this repository contains a collection of _algorithmic clichés_ and according simple examples.
+this repository contains a collection of *algorithmic clichés* and examples.
 
-suggestions for _algorithmic clichés_ can be contributed via [issues tracking](https://github.com/dennisppaul/algorithmic-cliches/issues).
+suggestions for *algorithmic clichés* can be contributed via [issues tracking](https://github.com/dennisppaul/algorithmic-cliches/issues) and will be reviewed by the *Cliche Review Board* (CRB).
 
-## Used Libraries
+> "A cliché […] is an expression, idea, or element of an artistic work that has become overused to the point of losing its original meaning or effect, even to the point of being trite or irritating, especially when at some earlier time it was considered meaningful or novel.[1]" from [Wikipedia(EN) Cliché](https://en.wikipedia.org/wiki/Clich%C3%A9)
 
-* [Processing.org](http://www.processing.org/) ( updated to version 3.0++ ) including _PDF_, _DXF_, and _Minim_ libraries
-* [Teilchen](https://github.com/dennisppaul/teilchen)
-* [Qhull](http://www.qhull.org/) for ( 2D + ) 3D voronoi diagrams ( on OS X qhull is available via [homebrew](http://brew.sh) -› ```brew install qhull``` )
-* [QuickHull3D](http://www.cs.ubc.ca/~lloyd/java/quickhull3d.html) for 3D convex hulls in 3D voronoi
-* [Gewebe](https://github.com/dennisppaul/gewebe/)
-* [Minim](http://code.compartmental.net/minim/)
+despite todays negative connotation of the term `cliché` this collection tries to advertise the intrinsic beauty of the collected examples, demistifying their technical complexity by making them accessible as open source code, and thereby encouraging the *intelligent and interesting* use of these clichés, quite aware of the ambiguous endeavor.
 
-## Current Algorithmic Clichés
+yours faithfully
+CRB 
+
+## installation
+
+- download lastest release [`algorithmiccliches.zip`](https://github.com/dennisppaul/gewebe/releases/latest/download/algorithmiccliches.zip)
+- unpack `algorithmiccliches.zip` in processing library folder ( e.g `$HOME/Documents/Processing/libraries` on MacOS )
+- install `qhull`
+    - on macOS `qhull` is available via [Homebrew](http://brew.sh) install with `$ brew install qhull`
+- run *examples*
+
+## used libraries
+
+- [Processing.org](http://www.processing.org/) ( updated to version 3.0++ ) including _PDF_, _DXF_, and _Minim_ libraries
+- [Minim](http://code.compartmental.net/minim/)
+- [Qhull](http://www.qhull.org/) for ( 2D + ) 3D voronoi diagrams 
+- [QuickHull3D](http://www.cs.ubc.ca/~lloyd/java/quickhull3d.html) for 3D convex hulls in 3D voronoi
+- [Gewebe](https://github.com/dennisppaul/gewebe/)
+- [Teilchen](https://github.com/dennisppaul/teilchen)
+
+## available algorithmic clichés
 
 ### Agents
 
@@ -32,10 +47,6 @@ suggestions for _algorithmic clichés_ can be contributed via [issues tracking](
 ### Convex Hull
 
 [![ConvexHull](./images/sketches/ConvexHull3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchConvexHull3.java)
-
-### Cubicle
-
-[![Cubicle](./images/sketches/Cubicle.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchCubicle.java)
 
 ### Delaunay Triangulation
 
@@ -85,10 +96,6 @@ suggestions for _algorithmic clichés_ can be contributed via [issues tracking](
 
 [![LindenmayerSystemBasic](./images/sketches/LindenmayerSystemBasic.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchLindenmayerSystemBasic.java)
 
-### Octree
-
-[![Octree3D](./images/sketches/Octree3D.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchOctree3D.java)
-
 ### Packing
 
 [![PackingSpheresAroundCenter](./images/sketches/PackingSpheresAroundCenter.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchPackingSpheresAroundCenter.java)
@@ -99,12 +106,6 @@ suggestions for _algorithmic clichés_ can be contributed via [issues tracking](
 
 [![PerlinNoiseWaterSurface](./images/sketches/PerlinNoiseWaterSurface.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchPerlinNoiseWaterSurface.java)
 
-### State Machine
-
-[![StateMachineSimple](./images/sketches/StateMachineSimple.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchStateMachineSimple.java)
-
-[![StateMachineWithObjects](./images/sketches/StateMachineWithObjects.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchStateMachineWithObjects.java)
-
 ### Voronoi Diagram
 
 [![Voronoi2](./images/sketches/Voronoi2.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchVoronoi2.java)
@@ -113,3 +114,20 @@ suggestions for _algorithmic clichés_ can be contributed via [issues tracking](
 
 [![Voronoi3](./images/sketches/Voronoi3.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchVoronoi3.java)
 
+## tools for algorithmic cliches
+
+this is a collection of tools to facilitate some of the *algorithmic cliches*. these tools themselves are not considered *algorithmic cliches*.
+
+### Cubicle
+
+[![Cubicle](./images/sketches/Cubicle.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchCubicle.java)
+
+### Octree
+
+[![Octree3D](./images/sketches/Octree3D.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchOctree3D.java)
+
+### State Machine
+
+[![StateMachineSimple](./images/sketches/StateMachineSimple.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchStateMachineSimple.java)
+
+[![StateMachineWithObjects](./images/sketches/StateMachineWithObjects.png)](./src/de/hfkbremen/algorithmiccliches/examples/SketchStateMachineWithObjects.java)
