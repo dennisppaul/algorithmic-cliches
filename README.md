@@ -6,7 +6,7 @@ suggestions for *algorithmic clichés* can be contributed via [issues tracking](
 
 > "A cliché […] is an expression, idea, or element of an artistic work that has become overused to the point of losing its original meaning or effect, even to the point of being trite or irritating, especially when at some earlier time it was considered meaningful or novel.[1]" from [Wikipedia(EN) Cliché](https://en.wikipedia.org/wiki/Clich%C3%A9)
 
-despite todays negative connotation of the term `cliché` this collection tries to advertise the intrinsic beauty of the collected examples, demistifying their technical complexity by making them accessible as open source code, and thereby encouraging the *intelligent and interesting* use of these clichés, quite aware of the ambiguous endeavor.
+despite todays negative connotation of the term `cliché` this collection tries to advertise the intrinsic beauty of the collected examples, demistifying their technical complexity by making them accessible as open source code, and thereby encouraging the *intelligent, interesting, and relevant* use of these clichés, quite aware of the ambiguous endeavor.
 
 yours faithfully   
 CRB 
