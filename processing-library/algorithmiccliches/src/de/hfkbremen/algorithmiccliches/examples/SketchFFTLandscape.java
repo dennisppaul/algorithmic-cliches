@@ -9,6 +9,9 @@ import processing.core.PApplet;
 import java.util.ArrayList;
 
 public class SketchFFTLandscape extends PApplet {
+    /*
+     * https://en.wikipedia.org/wiki/Fast_Fourier_transform
+     */
 
     private static final float BAND_SCALE = 8.0f;
     private static float mCurrentTime = 0.0f;

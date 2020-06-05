@@ -17,8 +17,6 @@ import teilchen.cubicle.*;
 import teilchen.integration.*; 
 import teilchen.util.*; 
 import teilchen.force.*; 
-import teilchen.force.flowfield.*; 
-import teilchen.force.vectorfield.*; 
 import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
@@ -32,6 +30,7 @@ void settings() {
     size(1024, 768, P3D);
 }
 void setup() {
+    frameRate(120);
     noiseSeed(System.currentTimeMillis());
     mFlowField = new FlowField(32);
     mFlowField.populateVectorField(mOffset);
@@ -47,12 +46,13 @@ void draw() {
     mFlowField.populateVectorField(mOffset += mDeltaTime * 0.1f);
     background(255);
     noFill();
-    stroke(0, 64);
+    stroke(0, 31);
     mFlowField.draw(g);
     /* move particle in flow field */
     for (FlowFieldParticle p : mParticles) {
         /* teleport particle to screen */
-        p.teleport(33, width - 33, 33, height - 33);
+        final float mPadding = 2;
+        p.teleport(mPadding, width - mPadding, mPadding, height - mPadding);
         p.move(mDeltaTime);
     }
     /* draw particles */
@@ -102,7 +102,7 @@ class FlowField {
 class FlowFieldParticle {
     final PVector position = new PVector();
     final FlowField mFlowField;
-    float speed = 10;
+    float speed = 7;
     FlowFieldParticle(FlowField pFlowField) {
         mFlowField = pFlowField;
     }

@@ -17,14 +17,15 @@ import teilchen.cubicle.*;
 import teilchen.integration.*; 
 import teilchen.util.*; 
 import teilchen.force.*; 
-import teilchen.force.flowfield.*; 
-import teilchen.force.vectorfield.*; 
 import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
 
 
+/*
+ * https://en.wikipedia.org/wiki/Fast_Fourier_transform
+ */
 static final float BAND_SCALE = 8.0f;
 static float mCurrentTime = 0.0f;
 final MBands[] mBands = new MBands[200];

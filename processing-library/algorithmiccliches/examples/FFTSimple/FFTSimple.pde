@@ -17,8 +17,6 @@ import teilchen.cubicle.*;
 import teilchen.integration.*; 
 import teilchen.util.*; 
 import teilchen.force.*; 
-import teilchen.force.flowfield.*; 
-import teilchen.force.vectorfield.*; 
 import de.hfkbremen.gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 

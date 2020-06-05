@@ -17,6 +17,7 @@ public class SketchFlowFields extends PApplet {
     }
 
     public void setup() {
+        frameRate(120);
         noiseSeed(System.currentTimeMillis());
         mFlowField = new FlowField(32);
         mFlowField.populateVectorField(mOffset);
@@ -35,13 +36,14 @@ public class SketchFlowFields extends PApplet {
 
         background(255);
         noFill();
-        stroke(0, 64);
+        stroke(0, 31);
         mFlowField.draw(g);
 
         /* move particle in flow field */
         for (FlowFieldParticle p : mParticles) {
             /* teleport particle to screen */
-            p.teleport(33, width - 33, 33, height - 33);
+            final float mPadding = 2;
+            p.teleport(mPadding, width - mPadding, mPadding, height - mPadding);
             p.move(mDeltaTime);
         }
 
@@ -101,7 +103,7 @@ public class SketchFlowFields extends PApplet {
 
         final PVector position = new PVector();
         final FlowField mFlowField;
-        float speed = 10;
+        float speed = 7;
 
         FlowFieldParticle(FlowField pFlowField) {
             mFlowField = pFlowField;
