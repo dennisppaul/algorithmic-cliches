@@ -1,4 +1,4 @@
-import de.hfkbremen.algorithmiccliches.*; 
+			 import de.hfkbremen.algorithmiccliches.*; 
 import de.hfkbremen.algorithmiccliches.agents.*; 
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
@@ -17,13 +17,13 @@ import teilchen.cubicle.*;
 import teilchen.integration.*; 
 import teilchen.util.*; 
 import teilchen.force.*; 
-import de.hfkbremen.gewebe.*; 
+import gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
 
-
-final PVector mCenter = new PVector();
+			 
+		final PVector mCenter = new PVector();
 ArrayList<Packing.PackingEntity> mEntities;
 void settings() {
     size(1024, 768, P3D);

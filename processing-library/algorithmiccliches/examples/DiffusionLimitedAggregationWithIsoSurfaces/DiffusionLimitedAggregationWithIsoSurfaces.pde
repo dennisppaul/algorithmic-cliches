@@ -1,4 +1,4 @@
-import de.hfkbremen.algorithmiccliches.*; 
+			 import de.hfkbremen.algorithmiccliches.*; 
 import de.hfkbremen.algorithmiccliches.agents.*; 
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
@@ -17,13 +17,13 @@ import teilchen.cubicle.*;
 import teilchen.integration.*; 
 import teilchen.util.*; 
 import teilchen.force.*; 
-import de.hfkbremen.gewebe.*; 
+import gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
 
-
-static final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
+			 
+		static final int NUMBER_OF_PARTICLES_UNATTACHED = 200;
 static final int NUMBER_OF_MAX_PARTICLES = 1000;
 static final int SPHERE_DETAIL = 8;
 final float mOctreeSize = 150;

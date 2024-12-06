@@ -1,4 +1,4 @@
-import de.hfkbremen.algorithmiccliches.*; 
+			 import de.hfkbremen.algorithmiccliches.*; 
 import de.hfkbremen.algorithmiccliches.agents.*; 
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
@@ -17,13 +17,13 @@ import teilchen.cubicle.*;
 import teilchen.integration.*; 
 import teilchen.util.*; 
 import teilchen.force.*; 
-import de.hfkbremen.gewebe.*; 
+import gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
 
-
-static final int X_SIZE = 1024 / 32;
+			 
+		static final int X_SIZE = 1024 / 32;
 static final int Y_SIZE = 768 / 32;
 final Quad[][] mQuads = new Quad[X_SIZE][Y_SIZE];
 ACArcBall mArcBall;

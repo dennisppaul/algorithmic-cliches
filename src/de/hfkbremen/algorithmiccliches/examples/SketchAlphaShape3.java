@@ -1,17 +1,14 @@
 package de.hfkbremen.algorithmiccliches.examples;
 
-import de.hfkbremen.gewebe.CGALAlphaShape3;
-import de.hfkbremen.gewebe.Mesh;
+import gewebe.CGALAlphaShape3;
+import gewebe.Mesh;
 import processing.core.PApplet;
 import processing.core.PVector;
 
 public class SketchAlphaShape3 extends PApplet {
-
-    // @TODO("CGAL binding is currently broken (20200521)")
-
     private CGALAlphaShape3 cgal;
-    private float[] mPoints3;
-    private Mesh mMesh;
+    private Mesh            mMesh;
+    private float[]         mPoints3;
 
     public void settings() {
         size(1024, 768, P3D);

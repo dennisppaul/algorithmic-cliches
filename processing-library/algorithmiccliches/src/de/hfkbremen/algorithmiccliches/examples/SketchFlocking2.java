@@ -2,6 +2,7 @@ package de.hfkbremen.algorithmiccliches.examples;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
+import teilchen.BasicBehaviorParticle;
 import teilchen.BehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Alignment;
@@ -12,12 +13,13 @@ import teilchen.behavior.Wander;
 import teilchen.constraint.Teleporter;
 import teilchen.force.Attractor;
 import teilchen.force.ViscousDrag;
+import teilchen.util.Overlap;
 
 import java.util.ArrayList;
 
 public class SketchFlocking2 extends PApplet {
 
-    private Physics mPhysics;
+    private Physics                mPhysics;
     private ArrayList<SwarmEntity> mSwarmEntities;
 
     public void settings() {
@@ -61,7 +63,12 @@ public class SketchFlocking2 extends PApplet {
         }
 
         /* physics */
-        mPhysics.step(mDeltaTime);
+        final int mIterations = 6;
+        for (int i = 0; i < mIterations; i++) {
+            float mDeltaTimeStep = mDeltaTime / mIterations;
+            mPhysics.step(mDeltaTimeStep);
+            Overlap.resolveOverlap(mPhysics.particles());
+        }
 
         /* entities */
         for (SwarmEntity s : mSwarmEntities) {
@@ -89,13 +96,13 @@ public class SketchFlocking2 extends PApplet {
     }
 
     private class SwarmEntity
-            extends BehaviorParticle {
+            extends BasicBehaviorParticle {
 
-        private final Separation separation;
+        private final Separation<SwarmEntity> separation;
 
-        private final Alignment alignment;
+        private final Alignment<SwarmEntity> alignment;
 
-        private final Cohesion cohesion;
+        private final Cohesion<SwarmEntity> cohesion;
 
         private final Wander wander;
 
@@ -103,19 +110,19 @@ public class SketchFlocking2 extends PApplet {
 
         public SwarmEntity() {
             maximumInnerForce(random(100.0f, 1000.0f));
-            radius(10f);
+            radius(9f);
 
-            separation = new Separation();
+            separation = new Separation<>();
             separation.proximity(30);
             separation.weight(100.0f);
             behaviors().add(separation);
 
-            alignment = new Alignment();
+            alignment = new Alignment<>();
             alignment.proximity(40);
             alignment.weight(60.0f);
             behaviors().add(alignment);
 
-            cohesion = new Cohesion();
+            cohesion = new Cohesion<>();
             cohesion.proximity(200);
             cohesion.weight(5.0f);
             behaviors().add(cohesion);

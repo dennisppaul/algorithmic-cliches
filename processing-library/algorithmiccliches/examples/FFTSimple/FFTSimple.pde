@@ -1,4 +1,4 @@
-import de.hfkbremen.algorithmiccliches.*; 
+			 import de.hfkbremen.algorithmiccliches.*; 
 import de.hfkbremen.algorithmiccliches.agents.*; 
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
@@ -17,13 +17,13 @@ import teilchen.cubicle.*;
 import teilchen.integration.*; 
 import teilchen.util.*; 
 import teilchen.force.*; 
-import de.hfkbremen.gewebe.*; 
+import gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
 
-
-Minim mMinim;
+			 
+		Minim mMinim;
 AudioPlayer mPlayer;
 FFT mFFT;
 void settings() {
@@ -35,10 +35,11 @@ void stop() {
     super.stop();
 }
 void setup() {
-    // @TODO `JFileChooser` crashes on macOS 10.15
-    javax.swing.JFileChooser mFileChooser = new javax.swing.JFileChooser();
-    mFileChooser.showOpenDialog(frame);
-    String mFileName = mFileChooser.getSelectedFile().getAbsolutePath();
+//    // @TODO `JFileChooser` crashes on macOS 10.15
+//    javax.swing.JFileChooser mFileChooser = new javax.swing.JFileChooser();
+//    mFileChooser.showOpenDialog(frame);
+//    String mFileName = mFileChooser.getSelectedFile().getAbsolutePath();
+    String mFileName = "/path/to/sound/file";
     mMinim = new Minim(this);
     mPlayer = mMinim.loadFile(mFileName, 1024); // make sure the sketch can find the audio
     mPlayer.play();

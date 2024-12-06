@@ -3,14 +3,16 @@ package de.hfkbremen.algorithmiccliches.examples;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
+import teilchen.util.Overlap;
+import teilchen.util.SpatialEntity;
 
 import java.util.ArrayList;
 
 public class SketchFlowFields extends PApplet {
 
     private final ArrayList<FlowFieldParticle> mParticles = new ArrayList<>();
-    private float mOffset = 10;
-    private FlowField mFlowField;
+    private       float                        mOffset    = 10;
+    private       FlowField                    mFlowField;
 
     public void settings() {
         size(1024, 768, P3D);
@@ -46,6 +48,7 @@ public class SketchFlowFields extends PApplet {
             p.teleport(mPadding, width - mPadding, mPadding, height - mPadding);
             p.move(mDeltaTime);
         }
+        Overlap.resolveOverlap(mParticles);
 
         /* draw particles */
         stroke(255, 127, 0, 127);
@@ -56,12 +59,12 @@ public class SketchFlowFields extends PApplet {
 
     class FlowField {
 
-        private final int CELL_SIZE;
+        private final int         CELL_SIZE;
         private final PVector[][] mField;
 
         FlowField(int pCellSize) {
             CELL_SIZE = pCellSize;
-            mField = new PVector[width / CELL_SIZE][height / CELL_SIZE];
+            mField    = new PVector[width / CELL_SIZE][height / CELL_SIZE];
         }
 
         PVector[][] field() {
@@ -99,9 +102,9 @@ public class SketchFlowFields extends PApplet {
         }
     }
 
-    class FlowFieldParticle {
+    class FlowFieldParticle implements SpatialEntity {
 
-        final PVector position = new PVector();
+        final PVector   position = new PVector();
         final FlowField mFlowField;
         float speed = 7;
 
@@ -124,8 +127,8 @@ public class SketchFlowFields extends PApplet {
 
         public void move(float pDeltaTime) {
             /* find position in flow field */
-            int x = (int) (position.x / mFlowField.cell_size());
-            int y = (int) (position.y / mFlowField.cell_size());
+            int     x = (int) (position.x / mFlowField.cell_size());
+            int     y = (int) (position.y / mFlowField.cell_size());
             PVector v = mFlowField.field()[x][y];
             /* add a fraction of flow field vector to particle position */
             position.add(PVector.mult(v, pDeltaTime * speed));
@@ -135,6 +138,16 @@ public class SketchFlowFields extends PApplet {
             final float mSize = 2;
             g.line(position.x - mSize, position.y - mSize, position.x + mSize, position.y + mSize);
             g.line(position.x + mSize, position.y - mSize, position.x - mSize, position.y + mSize);
+        }
+
+        @Override
+        public float radius() {
+            return 2;
+        }
+
+        @Override
+        public PVector position() {
+            return position;
         }
     }
 

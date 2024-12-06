@@ -1,4 +1,4 @@
-import de.hfkbremen.algorithmiccliches.*; 
+			 import de.hfkbremen.algorithmiccliches.*; 
 import de.hfkbremen.algorithmiccliches.agents.*; 
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
@@ -17,13 +17,13 @@ import teilchen.cubicle.*;
 import teilchen.integration.*; 
 import teilchen.util.*; 
 import teilchen.force.*; 
-import de.hfkbremen.gewebe.*; 
+import gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
 
-
-static final int NUMBER_OF_PARTICLES_ADDED = 100;
+			 
+		static final int NUMBER_OF_PARTICLES_ADDED = 100;
 static final int WORLD_NUMBER_OF_CUBICLES_X = 1024 / 64;
 static final int WORLD_NUMBER_OF_CUBICLES_Y = 768 / 64;
 static final int WORLD_NUMBER_OF_CUBICLES_Z = 768 / 64;

@@ -1,4 +1,4 @@
-import de.hfkbremen.algorithmiccliches.*; 
+			 import de.hfkbremen.algorithmiccliches.*; 
 import de.hfkbremen.algorithmiccliches.agents.*; 
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
@@ -17,15 +17,15 @@ import teilchen.cubicle.*;
 import teilchen.integration.*; 
 import teilchen.util.*; 
 import teilchen.force.*; 
-import de.hfkbremen.gewebe.*; 
+import gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
 
-
-final ArrayList<FlowFieldParticle> mParticles = new ArrayList();
-float mOffset = 10;
-FlowField mFlowField;
+			 
+		final ArrayList<FlowFieldParticle> mParticles = new ArrayList();
+      float                        mOffset    = 10;
+      FlowField                    mFlowField;
 void settings() {
     size(1024, 768, P3D);
 }
@@ -55,6 +55,7 @@ void draw() {
         p.teleport(mPadding, width - mPadding, mPadding, height - mPadding);
         p.move(mDeltaTime);
     }
+    Overlap.resolveOverlap(mParticles);
     /* draw particles */
     stroke(255, 127, 0, 127);
     for (FlowFieldParticle p : mParticles) {
@@ -62,11 +63,11 @@ void draw() {
     }
 }
 class FlowField {
-    final int CELL_SIZE;
+    final int         CELL_SIZE;
     final PVector[][] mField;
     FlowField(int pCellSize) {
         CELL_SIZE = pCellSize;
-        mField = new PVector[width / CELL_SIZE][height / CELL_SIZE];
+        mField    = new PVector[width / CELL_SIZE][height / CELL_SIZE];
     }
     PVector[][] field() {
         return mField;
@@ -99,8 +100,8 @@ class FlowField {
         }
     }
 }
-class FlowFieldParticle {
-    final PVector position = new PVector();
+class FlowFieldParticle implements SpatialEntity {
+    final PVector   position = new PVector();
     final FlowField mFlowField;
     float speed = 7;
     FlowFieldParticle(FlowField pFlowField) {
@@ -120,8 +121,8 @@ class FlowFieldParticle {
     }
     void move(float pDeltaTime) {
         /* find position in flow field */
-        int x = (int) (position.x / mFlowField.cell_size());
-        int y = (int) (position.y / mFlowField.cell_size());
+        int     x = (int) (position.x / mFlowField.cell_size());
+        int     y = (int) (position.y / mFlowField.cell_size());
         PVector v = mFlowField.field()[x][y];
         /* add a fraction of flow field vector to particle position */
         position.add(PVector.mult(v, pDeltaTime * speed));
@@ -130,5 +131,13 @@ class FlowFieldParticle {
         final float mSize = 2;
         g.line(position.x - mSize, position.y - mSize, position.x + mSize, position.y + mSize);
         g.line(position.x + mSize, position.y - mSize, position.x - mSize, position.y + mSize);
+    }
+    @Override
+    float radius() {
+        return 2;
+    }
+    @Override
+    PVector position() {
+        return position;
     }
 }

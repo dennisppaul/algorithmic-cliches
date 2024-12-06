@@ -1,4 +1,4 @@
-import de.hfkbremen.algorithmiccliches.*; 
+			 import de.hfkbremen.algorithmiccliches.*; 
 import de.hfkbremen.algorithmiccliches.agents.*; 
 import de.hfkbremen.algorithmiccliches.cellularautomata.*; 
 import de.hfkbremen.algorithmiccliches.convexhull.*; 
@@ -17,13 +17,13 @@ import teilchen.cubicle.*;
 import teilchen.integration.*; 
 import teilchen.util.*; 
 import teilchen.force.*; 
-import de.hfkbremen.gewebe.*; 
+import gewebe.*; 
 import ddf.minim.*; 
 import ddf.minim.analysis.*; 
 import quickhull3d.*; 
 
-
-Physics mPhysics;
+			 
+		Physics                mPhysics;
 ArrayList<SwarmEntity> mSwarmEntities;
 void settings() {
     size(1024, 768, P3D);
@@ -57,7 +57,12 @@ void draw() {
         spawnEntity();
     }
     /* physics */
-    mPhysics.step(mDeltaTime);
+    final int mIterations = 6;
+    for (int i = 0; i < mIterations; i++) {
+        float mDeltaTimeStep = mDeltaTime / mIterations;
+        mPhysics.step(mDeltaTimeStep);
+        Overlap.resolveOverlap(mPhysics.particles());
+    }
     /* entities */
     for (SwarmEntity s : mSwarmEntities) {
         s.update(mDeltaTime);
@@ -80,24 +85,24 @@ void spawnEntity() {
     mPhysics.add(mSwarmEntity);
 }
 class SwarmEntity
-        extends BehaviorParticle {
-    final Separation separation;
-    final Alignment alignment;
-    final Cohesion cohesion;
+        extends BasicBehaviorParticle {
+    final Separation<SwarmEntity> separation;
+    final Alignment<SwarmEntity> alignment;
+    final Cohesion<SwarmEntity> cohesion;
     final Wander wander;
     final Motor motor;
     SwarmEntity() {
         maximumInnerForce(random(100.0f, 1000.0f));
-        radius(10f);
-        separation = new Separation();
+        radius(9f);
+        separation = new Separation<>();
         separation.proximity(30);
         separation.weight(100.0f);
         behaviors().add(separation);
-        alignment = new Alignment();
+        alignment = new Alignment<>();
         alignment.proximity(40);
         alignment.weight(60.0f);
         behaviors().add(alignment);
-        cohesion = new Cohesion();
+        cohesion = new Cohesion<>();
         cohesion.proximity(200);
         cohesion.weight(5.0f);
         behaviors().add(cohesion);

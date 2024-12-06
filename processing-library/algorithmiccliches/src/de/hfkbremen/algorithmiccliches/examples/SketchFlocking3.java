@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PMatrix3D;
 import processing.core.PVector;
-import teilchen.BehaviorParticle;
+import teilchen.BasicBehaviorParticle;
 import teilchen.Physics;
 import teilchen.behavior.Alignment;
 import teilchen.behavior.Cohesion;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class SketchFlocking3 extends PApplet {
 
-    private Physics mPhysics;
+    private Physics                mPhysics;
     private ArrayList<SwarmEntity> mSwarmEntities;
 
     public void settings() {
@@ -30,7 +30,6 @@ public class SketchFlocking3 extends PApplet {
         rectMode(CENTER);
         hint(DISABLE_DEPTH_TEST);
         textFont(createFont("Courier", 11));
-
 
         /* physics */
         mPhysics = new Physics();
@@ -80,13 +79,13 @@ public class SketchFlocking3 extends PApplet {
     }
 
     private class SwarmEntity
-            extends BehaviorParticle {
+            extends BasicBehaviorParticle {
 
-        private final Separation separation;
+        private final Separation<SwarmEntity> separation;
 
-        private final Alignment alignment;
+        private final Alignment<SwarmEntity> alignment;
 
-        private final Cohesion cohesion;
+        private final Cohesion<SwarmEntity> cohesion;
 
         private final Wander wander;
 
@@ -96,17 +95,17 @@ public class SketchFlocking3 extends PApplet {
             maximumInnerForce(random(100.0f, 1000.0f));
             radius(10f);
 
-            separation = new Separation();
+            separation = new Separation<>();
             separation.proximity(20);
             separation.weight(50.0f);
             behaviors().add(separation);
 
-            alignment = new Alignment();
+            alignment = new Alignment<>();
             alignment.proximity(60);
             alignment.weight(30.0f);
             behaviors().add(alignment);
 
-            cohesion = new Cohesion();
+            cohesion = new Cohesion<>();
             cohesion.proximity(200);
             cohesion.weight(5.0f);
             behaviors().add(cohesion);

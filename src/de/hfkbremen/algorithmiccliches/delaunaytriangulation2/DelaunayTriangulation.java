@@ -282,7 +282,7 @@ public class DelaunayTriangulation {
         pBc.add(pB);
         pB.add(v1);
 
-        Intersection.lineLineIntersect(pA, pAc, pB, pBc, myCenter, new PVector());
+        Intersection.intersect_line_line(pA, pAc, pB, pBc, myCenter, new PVector());
         return myCenter;
     }
 

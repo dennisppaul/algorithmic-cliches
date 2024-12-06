@@ -22,10 +22,11 @@ public class SketchFFTSimple extends PApplet {
     }
 
     public void setup() {
-        // @TODO `JFileChooser` crashes on macOS 10.15
-        javax.swing.JFileChooser mFileChooser = new javax.swing.JFileChooser();
-        mFileChooser.showOpenDialog(frame);
-        String mFileName = mFileChooser.getSelectedFile().getAbsolutePath();
+//        // @TODO `JFileChooser` crashes on macOS 10.15
+//        javax.swing.JFileChooser mFileChooser = new javax.swing.JFileChooser();
+//        mFileChooser.showOpenDialog(frame);
+//        String mFileName = mFileChooser.getSelectedFile().getAbsolutePath();
+        String mFileName = "/path/to/sound/file";
 
         mMinim = new Minim(this);
         mPlayer = mMinim.loadFile(mFileName, 1024); // make sure the sketch can find the audio

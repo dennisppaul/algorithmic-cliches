@@ -16,14 +16,15 @@ public class Qvoronoi {
      */
 
     private static final float VERTEX_AT_INFINITY = -10.101f;
-    public static String QVORONOI_APP = "/usr/local/bin/qvoronoi";
+    public static String QVORONOI_APP = "/opt/homebrew/bin/qvoronoi";
     public static boolean VERBOSE = false;
 
     public String computeDiagram(int pDimensions, PVector[] pPoints) {
 
         File f = new File(QVORONOI_APP);
         if (!f.exists()) {
-            System.err.println("### ERROR @" + Qvoronoi.class.getCanonicalName() + " / couldn t find qvoronoi at '" + QVORONOI_APP + "'");
+            System.err.println("### ERROR @" + Qvoronoi.class.getCanonicalName() + " / couldn t find *qvoronoi* at '" + QVORONOI_APP + "' from Qhull ( http://www.qhull.org/ ).");
+            System.err.println("### on macOS try installing Qhull via homebrew ( http://brew.sh ) e.g `$: brew install qhull`");
             System.exit(-1);
         }
         try {

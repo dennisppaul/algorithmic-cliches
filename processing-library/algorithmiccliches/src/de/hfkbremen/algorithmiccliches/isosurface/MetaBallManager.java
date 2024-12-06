@@ -52,13 +52,13 @@ public class MetaBallManager {
             mForceField = new float[resolution.x][resolution.y][resolution.z];
         }
 
-        final PVector myDimension = new PVector(dimension.x, dimension.y, dimension.z);
-        myDimension.x /= resolution.x;
-        myDimension.y /= resolution.y;
-        myDimension.z /= resolution.z;
+        final PVector mDimension = new PVector(dimension.x, dimension.y, dimension.z);
+        mDimension.x /= resolution.x;
+        mDimension.y /= resolution.y;
+        mDimension.z /= resolution.z;
 
         /* update field */
-        updateGrid(mForceField, myDimension);
+        updateGrid(mForceField, mDimension);
     }
 
     public ArrayList<PVector> createSurface() {
@@ -66,25 +66,24 @@ public class MetaBallManager {
             mForceField = new float[resolution.x][resolution.y][resolution.z];
         }
 
-        final PVector myDimension = new PVector(dimension.x, dimension.y, dimension.z);
-        myDimension.x /= resolution.x;
-        myDimension.y /= resolution.y;
-        myDimension.z /= resolution.z;
+        final PVector mDimension = new PVector(dimension.x, dimension.y, dimension.z);
+        mDimension.x /= resolution.x;
+        mDimension.y /= resolution.y;
+        mDimension.z /= resolution.z;
 
         /* update field */
-        updateGrid(mForceField, myDimension);
+        updateGrid(mForceField, mDimension);
 
         /* polygonize field */
-//        final ArrayList<PVector> myTrianglesVertices = Polygonizer.polygonizeField(mForceField, mIsoValue);
-        final ArrayList<PVector> myTrianglesVertices = IsoSurface3.polygonizeField(mForceField, mIsoValue);
+        final ArrayList<PVector> mTrianglesVertices = IsoSurface3.polygonizeField(mForceField, mIsoValue);
 
         /* apply scale */
-        for (PVector myVertex : myTrianglesVertices) {
-            Util.mult(myVertex, myDimension, myVertex);
+        for (PVector myVertex : mTrianglesVertices) {
+            Util.mult(myVertex, mDimension, myVertex);
             myVertex.add(position);
         }
 
-        return myTrianglesVertices;
+        return mTrianglesVertices;
     }
 
     protected void updateGrid(float[][][] theForceField, PVector dimension) {
